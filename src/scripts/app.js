@@ -27,14 +27,14 @@ const middleware = {
 					}, false);
 
 					// If the user is a regular 'user', we can access anything!
-					if(userHasType && ctx.user.type === 'user') {
+					if(userHasType && ctx.user.type === 'standard') {
 						return next();
 					}
 
 					// If the user is a guest, we need to make sure he or she
 					// has access to the resource being accessed. Guests only
 					// have access to a specific board.
-					if(userHasType && ctx.user.type === 'guest') {
+					if(userHasType && ctx.user.type === 'temporary') {
 						if(ctx.params.hasOwnProperty('id')) {
 							if(ctx.params.id === ctx.user.access) {
 								return next();
@@ -49,7 +49,7 @@ const middleware = {
 
 		notGuest: (ctx, next) => {
 			if(ctx.user = UserStore.getUser()) {
-				if(ctx.user.type === 'guest') {
+				if(ctx.user.type === 'temporary') {
 					if(ctx.params.hasOwnProperty('id')) {
 						if(ctx.params.id === ctx.user.access) {
 							return page.redirect(`/boards/${ctx.user.access}`);
@@ -62,7 +62,7 @@ const middleware = {
 
 		loggedOut: (ctx, next) => {
 			if(ctx.user = UserStore.getUser()) {
-				if(ctx.user.type === 'guest') {
+				if(ctx.user.type === 'temporary') {
 					// If the logged in user a 'guest', he or she is redirected
 					// to the board the guest has access to.
 					return page.redirect(`/boards/${ctx.user.access}`);
@@ -126,7 +126,7 @@ page('/boards/:id/access/:code',
 	});
 
 page('/boards',
-	middleware.user.is('user'),
+	middleware.user.is('standard'),
 	middleware.socket.connect,
 	(ctx) => {
 		return React.render(
@@ -136,7 +136,7 @@ page('/boards',
 	});
 
 page('/boards/:id',
-	middleware.user.is('user', 'guest'),
+	middleware.user.is('standard', 'temporary'),
 	middleware.socket.connect,
 	(ctx) => {
 		return React.render(
