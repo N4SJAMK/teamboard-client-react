@@ -41,7 +41,6 @@ function login(opts = {}) {
 		payload: opts.payload
 	}
 	return request.post(options).then((res) => {
-		console.log(User.fromJS(res.body).toJS());
 		return {
 			user:  User.fromJS(res.body).toJS(),
 			token: res.headers['x-access-token']
@@ -63,9 +62,6 @@ function register(opts = {}) {
 		payload: opts.payload
 	}
 	return request.post(options).then((res) => {
-
-
-		console.log(User.fromJS(res.body).toJS());
 		return {
 			user: User.fromJS(res.body).toJS()
 		}
