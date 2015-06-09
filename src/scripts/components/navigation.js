@@ -66,7 +66,12 @@ export default React.createClass({
 			);
 
 		let items = [
-			{ icon: 'user',     content: 'Profile',      disabled: true  },
+			{ 
+				onClick: () => {
+					return page.show('/profile')
+				},
+				icon: 'user',     content: 'Profile' 
+			},
 			{ icon: 'language', content: 'Localization', disabled: true  },
 			{
 				content: (
