@@ -16,13 +16,14 @@
     "hammerjs": "2.0.4",
     "immutable": "3.6.2",
     "iscroll": "5.1.3",
+    "nuka-carousel": "0.0.12",
     "page": "1.6.0",
+    "query-string": "^2.3.0",
     "react": "0.13.1",
     "react-tween-state": "0.0.4",
     "socket.io-client": "1.3.3",
     "superagent": "1.1.0",
-    "utf8": "2.1.0",
-    "nuka-carousel": "0.0.12"
+    "utf8": "2.1.0"
   },
   "devDependencies": {
     "babel-eslint": "2.0.2",

@@ -13,6 +13,8 @@ import LoginView      from './views/form/login';
 import RegisterView   from './views/form/register';
 import GuestLoginView from './views/form/guest-login';
 
+import qs from 'query-string';
+
 // This should fix some of the issues with clicking and touch enabled devices.
 fastclick(document.body);
 
@@ -92,6 +94,27 @@ UserStore.addChangeListener(() => {
 	if(!UserStore.getUser() || !UserStore.getToken()) {
 		return page.redirect('/login');
 	}
+});
+
+function authenticate(ctx, next) {
+		if(ctx.token = localStorage.getItem('access_token')) {
+			ctx.user = user;
+			return next();
+		}
+		
+}
+
+page((ctx, next) => {
+	console.log(ctx);
+ 
+	if(ctx.querystring.length > 0) {
+		let access_token = qs.parse(ctx.querystring).access_token;
+			if(access_token && access_token.length > 0) {
+				localStorage.setItem('access_token', access_token);
+			}
+			return page.redirect(ctx.pathname)
+        }
+    return next();
 });
 
 page('/login',

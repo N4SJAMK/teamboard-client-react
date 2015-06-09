@@ -34,14 +34,14 @@ export default {
 
 const API_URL = process.env.API_URL || 'http://localhost:9002/api';
 
-function login(opts = {}) {
 
+
+function login(opts = {}) {
 	let options = {
 		url:     `${API_URL}/auth/login`,
-		payload: opts.payload
+		headers: opts.payload
 	}
-	return request.post(options).then((res) => {
-		console.log(User.fromJS(res.body).toJS());
+	return request.get(options).then((res) => {
 		return {
 			user:  User.fromJS(res.body).toJS(),
 			token: res.headers['x-access-token']
@@ -75,9 +75,9 @@ function register(opts = {}) {
 function loginGuest(opts = {}) {
 	let options = {
 		url:     `${API_URL}/boards/${opts.id.board}/access/${opts.id.code}`,
-		payload: opts.payload
+		headers: opts.payload
 	}
-	return request.post(options).then((res) => {
+	return request.get(options).then((res) => {
 		return {
 			user:  User.fromJS(res.body).toJS(),
 			token: res.headers['x-access-token']
