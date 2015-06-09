@@ -41,6 +41,7 @@ function login(opts = {}) {
 		url:     `${API_URL}/auth/login`,
 		headers: opts.payload
 	}
+
 	return request.get(options).then((res) => {
 		return {
 			user:  User.fromJS(res.body).toJS(),
@@ -63,9 +64,6 @@ function register(opts = {}) {
 		payload: opts.payload
 	}
 	return request.post(options).then((res) => {
-
-
-		console.log(User.fromJS(res.body).toJS());
 		return {
 			user: User.fromJS(res.body).toJS()
 		}
