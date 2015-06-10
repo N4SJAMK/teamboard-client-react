@@ -163,6 +163,17 @@ function createTicket(opts = {}) {
 	});
 }
 
+function updateUser(opts = {}) {
+	let options = {
+		url:     `${API_URL}/user/edit`,
+		token:   opts.token
+		payload: opts.payload
+	}
+	return request.put(options).then((res) => {
+		return User.fromJS(res.body).toJS();
+	});
+}
+
 function updateBoard(opts = {}) {
 	let options = {
 		url:     `${API_URL}/boards/${opts.id.board}`,

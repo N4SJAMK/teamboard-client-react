@@ -95,4 +95,19 @@ export default flux.actionCreator({
 				return Promise.reject();
 			});
 	}
+
+	/**
+	 *
+	 */
+	update(name, password) {
+		return api.updateUser({ payload: { name: name, password: password } })
+			.then((user) => {
+				this.dispatch(Action.User.Update, { user });
+				return Promise.resolve();
+			})
+			.catch((err) => {
+				BroadcastAction.add(err, Action.User.Update);
+				return Promise.reject();
+			});
+	}
 });
