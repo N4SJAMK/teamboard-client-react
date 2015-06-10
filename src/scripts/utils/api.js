@@ -166,7 +166,7 @@ function createTicket(opts = {}) {
 function updateUser(opts = {}) {
 	let options = {
 		url:     `${API_URL}/user/edit`,
-		token:   opts.token
+		token:   opts.token,
 		payload: opts.payload
 	}
 	return request.put(options).then((res) => {

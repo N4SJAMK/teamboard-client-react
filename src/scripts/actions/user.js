@@ -94,7 +94,7 @@ export default flux.actionCreator({
 				BroadcastAction.add(err, Action.User.Register);
 				return Promise.reject();
 			});
-	}
+	},
 
 	/**
 	 *
