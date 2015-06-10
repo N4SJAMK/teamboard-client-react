@@ -1,27 +1,11 @@
 import page  from 'page';
 import React from 'react/addons';
 import User  from '../models/user';
-import Board from '../models/board';
 
 import UserStore     from '../stores/user';
-import BoardStore    from '../stores/board';
-import SettingsStore from '../stores/settings';
 
-import BoardAction    from '../actions/board';
-import TicketAction   from '../actions/ticket';
-import SettingsAction from '../actions/settings';
-
-import listener from '../mixins/listener';
-
-import Control         from '../components/control';
-import Scrollable      from '../components/scrollable';
 import Navigation      from '../components/navigation';
 import Broadcaster     from '../components/broadcaster';
-import BoardComponent  from '../components/board';
-
-import EditBoardDialog   from '../components/dialog/edit-board';
-import ExportBoardDialog from '../components/dialog/export-board.js';
-import ShareBoardDialog  from '../components/dialog/share-board';
 
 /**
  * Fix issues with iOS and IScroll not working together too well...
