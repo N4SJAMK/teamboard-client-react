@@ -19,7 +19,7 @@ function request(to, options = {}) {
 		let request = to(options.url)
 			.set('Accept',        'application/json')
 			.set('Content-Type',  'application/json')
-			.set('Authorization', `Bearer ${options.token}`);
+			.set('Authorization', options.auth || `Bearer ${options.token}`)
 		if(options.payload) {
 			request = request.send(options.payload)
 		}

@@ -35,13 +35,14 @@ export default {
 const API_URL = process.env.API_URL || 'http://localhost:9002/api';
 
 
-
 function login(opts = {}) {
+	let provider = 'basic';
+	let auth = "basic " + new Buffer(opts.payload.email + ":" + opts.payload.password).toString("base64");
 	let options = {
-		url:     `${API_URL}/auth/login`,
-		headers: opts.payload
+		url:  `${API_URL}/auth/`+ provider + `/login`,
+		auth: auth
 	}
-
+		
 	return request.get(options).then((res) => {
 		return {
 			user:  User.fromJS(res.body).toJS(),
