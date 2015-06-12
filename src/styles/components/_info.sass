@@ -35,9 +35,9 @@
 	width:100%
 	position: relative
 
-	@include dialogImage("Info", 45%, 180px)
-	@include dialogImage("Ticket", 54%, 147px)
-	@include dialogImage("EditTicket", 45%, 350px)
+	@include dialogImage("Info", 45%, 90px)
+	@include dialogImage("Ticket", 54%, 90px)
+	@include dialogImage("EditTicket", 45%, 260px)
 
 //Tooltip postioning
 
@@ -62,7 +62,7 @@
 			width: 53px
 			right: 54px
 			top: 26px
-			transform: rotate(-6deg)
+			@include transform( rotate(-6deg))
 
 	&.pos-edit
 		top: 134px
@@ -75,7 +75,7 @@
 			width: 70px
 			right: 71px
 			top: 20px
-			transform: rotate(-3deg)
+			@include transform( rotate(-3deg))
 
 	&.pos-share
 		top: 189px
@@ -88,7 +88,7 @@
 			width: 84px
 			right: 85px
 			top: 12px
-			transform: rotate(1deg)
+			@include transform( rotate(1deg))
 
 	&.pos-export
 		top: 241px
@@ -101,7 +101,7 @@
 			width: 85px
 			right: 86px
 			top: 10px
-			transform: rotate(5deg)
+			@include transform( rotate(5deg))
 
 	&.pos-magnet
 		top: 301px
@@ -114,7 +114,7 @@
 			width: 58px
 			right: 59px
 			top: 10px
-			transform: rotate(16deg)
+			@include transform( rotate(16deg))
 
 	&.pos-minimap
 		top: 355px
@@ -127,7 +127,7 @@
 			width: 56px
 			right: 54px
 			top: 2px
-			transform: rotate(30deg)
+			@include transform( rotate(30deg))
 
 	&.pos-profile
 		right: 266px
@@ -142,7 +142,7 @@
 			right: -85px
 			width: 84px
 			top: -11px
-			transform: rotate(10deg)
+			@include transform( rotate(10deg))
 
 	&.pos-localization
 		top: 128px
@@ -157,7 +157,7 @@
 			right: -70px;
 			width: 69px;
 			top: -7px;
-			transform: rotate(4deg);
+			@include transform( rotate(4deg))
 
 	&.pos-feedback
 		top: 187px
@@ -172,7 +172,7 @@
 			right: -61px
 			width: 59px
 			top: -23px
-			transform: rotate(-7deg)
+			@include transform( rotate(-7deg))
 
 	&.pos-logout
 		position: absolute
@@ -187,12 +187,12 @@
 			right: -85px
 			width: 86px
 			top: -34px
-			transform: rotate(-9deg)
+			@include transform( rotate(-9deg))
 
 	&.pos-boardname
 		position: 	absolute
-		top: 		234px
-		right: 		58%
+		top: 		144px
+		right: 		57%
 		&:after
 			border-top: 2px solid $affair
 			content: ' '
@@ -202,12 +202,12 @@
 			right: -85px
 			width: 86px
 			top: -7px
-			transform: rotate(13deg)
+			@include transform( rotate(13deg))
 
 	&.pos-boardpreview
 		position: 	absolute
-		top: 		330px
-		right: 		58%
+		top: 		240px
+		right: 		57%
 		&:after
 			border-top: 2px solid $affair
 			content: ' '
@@ -217,12 +217,13 @@
 			right: -170px
 			width: 170px
 			top: -7px
-			transform: rotate(10deg)
+			@include transform( rotate(10deg))
 
 	&.pos-boardbg
+		max-width: 	270px
 		position: 	absolute
-		top: 		448px
-		right:  	58%
+		top: 		340px
+		right:  	57%
 		&:after
 			border-top: 2px solid $affair
 			content: ' '
@@ -232,12 +233,12 @@
 			right: -88px
 			width: 89px
 			top: -7px
-			transform: rotate(13deg)
+			@include transform( rotate(13deg))
 
 	&.pos-boardmeasures
 		position: 	absolute
-		top: 		520px
-		right:  	58%
+		top: 		430px
+		right:  	57%
 		&:after
 			border-top: 2px solid $affair
 			content: ' '
@@ -247,12 +248,12 @@
 			right: -88px
 			width: 89px
 			top: -7px
-			transform: rotate(13deg)
+			@include transform( rotate(13deg))
 
 	&.pos-format
 		position: 	absolute
-		top: 		205px
-		right:  	58%
+		top: 		115px
+		right:  	57%
 		max-width: 	254px
 		&:after
 			border-top: 2px solid $affair
@@ -263,10 +264,11 @@
 			right: -88px
 			width: 89px
 			top: -7px
-			transform: rotate(13deg)
+			@include transform( rotate(13deg))
+
 	&.pos-click
 		position: 	absolute
-		top: 		122px
+		top: 		100px
 		right:  	58%
 		max-width: 	254px
 		background-color: $neptune
@@ -280,10 +282,11 @@
 			right: 177px
 			width: 60px
 			top: 27px
-			transform: rotate(61deg)
+			@include transform( rotate(61deg))
+
 	&.pos-ticket
 		position: 	absolute
-		top: 		247px
+		top: 		200px
 		right:  	48%
 		max-width: 	254px
 		&:after
@@ -295,10 +298,11 @@
 			right: -87px
 			width: 89px
 			top: -43px
-			transform: rotate(-20deg)
+			@include transform( rotate(-20deg))
+
 	&.pos-color
 		position: 	absolute
-		top: 		350px
+		top: 		290px
 		right:  	57%
 		max-width: 	254px
 		&:after
@@ -309,11 +313,12 @@
 			float: right
 			right: -88px
 			width: 89px
-			top: -7px
-			transform: rotate(13deg)
+			top: -27px
+			@include transform( rotate(-13deg))
+
 	&.pos-content
 		position: 	absolute
-		top: 		450px
+		top: 		420px
 		right:  	58%
 		max-width: 	254px
 		&:after
@@ -325,7 +330,7 @@
 			right: -159px
 			width: 159px
 			top: -27px
-			transform: rotate(-8deg)
+			@include transform( rotate(-8deg))
 
 // Carousel styling
 .info

@@ -38,8 +38,7 @@ export default flux.actionCreator({
 					board: credentials.boardID
 				},
 				payload: {
-					username: credentials.username,
-					type:     'temporary'
+					username: credentials.username
 				}
 			})
 			: api.login({ payload: credentials });

@@ -15,9 +15,12 @@ export default React.createClass({
 	},
 
 	componentDidMount() {
+		localStorage.setItem('infovisited', true);
 		this.el = document.getElementById('application');
 		this.el.className = 'info-view-active';
 		this.avatar = document.getElementById('avatar');
+		this.infobutton = document.getElementById('info');
+		this.infobutton.className = 'infobutton active';
 	},
 
 	componentWillUnmount() {

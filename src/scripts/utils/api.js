@@ -37,7 +37,6 @@ export default {
 const API_URL = process.env.API_URL || 'http://localhost:9002/api';
 
 function login(opts = {}) {
-
     let options = {
         url:     `${API_URL}/auth/login`,
         payload: opts.payload
