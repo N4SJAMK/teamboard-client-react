@@ -99,14 +99,33 @@ export default flux.actionCreator({
 	/**
 	 *
 	 */
-	update(name, password) {
-		return api.updateUser({ payload: { name: name, password: password } })
+	updateName(name, email) {
+		let token = UserStore.getToken();
+
+		return api.updateUserName({ token: token, payload: { name: name, email: email }})
 			.then((user) => {
-				this.dispatch(Action.User.Update, { user });
+				this.dispatch(Action.User.UpdateName, { user });
 				return Promise.resolve();
 			})
 			.catch((err) => {
-				BroadcastAction.add(err, Action.User.Update);
+				BroadcastAction.add(err, Action.User.UpdateName);
+				return Promise.reject();
+			});
+	},
+
+	/**
+	 *
+	 */
+	updatePassword(newPassword, oldPassword) {
+		let token = UserStore.getToken();
+
+		return api.updateUserPassword({ token: token, payload: { new_password: newPassword, old_password: oldPassword } })
+			.then((user) => {
+				this.dispatch(Action.User.UpdatePassword, { user });
+				return Promise.resolve();
+			})
+			.catch((err) => {
+				BroadcastAction.add(err, Action.User.UpdatePassword);
 				return Promise.reject();
 			});
 	}
