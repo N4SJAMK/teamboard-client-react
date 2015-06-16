@@ -28,12 +28,28 @@
 		border-top-left-radius:  2px
 		border-top-right-radius: 2px
 
+	.count-icon
+		float: 			  right
+		display:          inline-block
+		position: absolute !important
+		@include position(70% null null 84% absolute)
+		@include transform(scale(0.8))
+
+		.comment
+			color: $silver-chalice
+
+		.count
+			height: 16px
+			width: 16px
+			text-align: center
+			color: $white
+			@include position(null 16px 8px null absolute)
+
 	.heading
 		margin:      8px
 		overflow:    hidden
 		white-space: pre-wrap
 		font-weight: bold
-
 	.content
 		height:      76px
 		margin:      8px
