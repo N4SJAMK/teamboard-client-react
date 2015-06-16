@@ -1,19 +1,16 @@
 import page            from 'page';
 import UserAction      from '../../actions/user';
 import BroadcastAction from '../../actions/broadcast';
-
 /*
  *
  */
 
 export default {
 		fieldNames: [
-			'oldEmail',
-			'newEmail',
 			'oldPassword',
 			'newPassword',
-			'name',
-			'uploadfile'
+			'newPasswordAgain',
+			'name'
 		],
 		loginSettings: {
 			title: 'Login information',
@@ -33,6 +30,13 @@ export default {
 					required: true
 				},
 				{
+					name:     'newPasswordAgain',
+					type:     'password',
+					label:    'Confirm new password',
+					pattern:  '.{8,}',
+					required: true
+				},
+				{
 					name:     'submitPassword',
 					type:     'submit',
 					className: 'btn-primary',
@@ -40,12 +44,7 @@ export default {
 				}
 			],
 			submit: (state) => {
-				return UserAction.updatePassword(state.newPassword, state.oldPassword).then(() => {
-					BroadcastAction.add({
-						type:    'broadcast',
-						content: 'Successfully updated account information'
-					});
-				});
+				return UserAction.updatePassword(state.newPassword, state.oldPassword)
 			},
 			action: 'Save changes'
 		},
@@ -59,10 +58,8 @@ export default {
 					required: true
 				},
 				{
-					name:     'newEmail',
 					type:     'email',
-					label:    'Enter a new Email',
-					required: true
+					title:    'Your username:'
 				},
 				{
 					name:     'submitProfile',
@@ -72,12 +69,7 @@ export default {
 				}
 			],
 			submit: (state) => {
-				return UserAction.updateName(state.name, state.newEmail).then(() => {
-					BroadcastAction.add({
-						type:    'broadcast',
-						content: 'Successfully updated account information'
-					});
-				});
+				return UserAction.updateName(state.name)
 			},
 			action: 'Save changes'
 		},

@@ -166,7 +166,7 @@ function createTicket(opts = {}) {
 
 function updateUserName(opts = {}) {
     let options = {
-        url:     `${API_URL}/user/edit/name`,
+        url:     `${API_URL}/user/edit`,
         token:   opts.token,
         payload: opts.payload
     }
@@ -177,7 +177,7 @@ function updateUserName(opts = {}) {
 
 function updateUserPassword(opts = {}) {
     let options = {
-        url:     `${API_URL}/user/edit/password`,
+        url:     `${API_URL}/user/changepw`,
         token:   opts.token,
         payload: opts.payload
     }

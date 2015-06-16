@@ -6,13 +6,14 @@ import fastclick from 'fastclick';
 
 import socket    from './utils/socket';
 import UserStore from './stores/user';
+import User      from './models/user';
 
 import BoardView      from './views/board';
 import WorkspaceView  from './views/workspace';
 import LoginView      from './views/form/';
 import RegisterView   from './views/form/';
 import GuestLoginView from './views/form/';
-import ProfileView from './views/profile';
+import ProfileView    from './views/profile';
 
 // This should fix some of the issues with clicking and touch enabled devices.
 fastclick(document.body);
@@ -28,14 +29,14 @@ const middleware = {
 					}, false);
 
 					// If the user is a regular 'user', we can access anything!
-					if(userHasType && ctx.user.type === 'user') {
+					if(userHasType && ctx.user.type === User.Type.User) {
 						return next();
 					}
 
 					// If the user is a guest, we need to make sure he or she
 					// has access to the resource being accessed. Guests only
 					// have access to a specific board.
-					if(userHasType && ctx.user.type === 'guest') {
+					if(userHasType && ctx.user.type === User.Type.Guest) {
 						if(ctx.params.hasOwnProperty('id')) {
 							if(ctx.params.id === ctx.user.access) {
 								return next();
@@ -50,7 +51,7 @@ const middleware = {
 
 		notGuest: (ctx, next) => {
 			if(ctx.user = UserStore.getUser()) {
-				if(ctx.user.type === 'guest') {
+				if(ctx.user.type === User.Type.Guest) {
 					if(ctx.params.hasOwnProperty('id')) {
 						if(ctx.params.id === ctx.user.access) {
 							return page.redirect(`/boards/${ctx.user.access}`);
@@ -63,7 +64,7 @@ const middleware = {
 
 		loggedOut: (ctx, next) => {
 			if(ctx.user = UserStore.getUser()) {
-				if(ctx.user.type === 'guest') {
+				if(ctx.user.type === User.Type.Guest) {
 					// If the logged in user a 'guest', he or she is redirected
 					// to the board the guest has access to.
 					return page.redirect(`/boards/${ctx.user.access}`);
@@ -116,7 +117,7 @@ page('/register',
 	});
 
 page('/profile',
-	middleware.user.is('user', 'guest'),
+	middleware.user.is(User.Type.User, User.Type.Guest),
 	middleware.socket.connect,
 	() => {
 		return React.render(
@@ -125,7 +126,7 @@ page('/profile',
 		);
 	});
 page('/profile/login',
-	middleware.user.is('user', 'guest'),
+	middleware.user.is(User.Type.User, User.Type.Guest),
 	middleware.socket.connect,
 	() => {
 		return React.render(
@@ -146,7 +147,7 @@ page('/boards/:id/access/:code',
 	});
 
 page('/boards',
-	middleware.user.is('user'),
+	middleware.user.is(User.Type.User),
 	middleware.socket.connect,
 	(ctx) => {
 		return React.render(
@@ -156,7 +157,7 @@ page('/boards',
 	});
 
 page('/boards/:id',
-	middleware.user.is('user', 'guest'),
+	middleware.user.is(User.Type.User, User.Type.Guest),
 	middleware.socket.connect,
 	(ctx) => {
 		return React.render(

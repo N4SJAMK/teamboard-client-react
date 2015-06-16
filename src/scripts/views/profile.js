@@ -15,25 +15,42 @@ export default React.createClass({
 	},
 	getInitialState() {
 		return ProfileForms.fieldNames.reduce((state, field) => {
-			state[field.name] = '';
+			state[field] = '';
 			return state;
 		}, {});
 	},
 
-	getInputType(field, index, ...controlattrs){
+	getFieldType(field, index, controlattrs) {
+		let userNameContent = this.state.name === '' || !this.state.name ?
+		UserStore.getUser().username :
+		this.state.name;
 		switch(field.type){
 			case 'submit': return (
-					<input name={field.name} className={field.className}
-					type='submit' {...controlattrs} value={field.action}/>
-				); break;
+					<input name={field.name} type='submit'
+					value={field.action} {...controlattrs} />
+				);
 			case 'text':
 			case 'password':
-			case 'email':
 			case 'file': return (
 					<input autoFocus={index === 0} name={field.name}
 					type={field.type} {...controlattrs}
 					valueLink={this.linkState(field.name)} />
-				); break;	
+				);
+			case 'email': return (
+				<section>
+				<h4>{field.title}</h4>
+				<h5>{userNameContent}</h5>
+				</section>
+			);
+		}
+	},
+
+	checkPasswords(){
+		if(this.props.formProfile === 'loginSettings' &&
+			this.state.newPasswordAgain.length > 7) {
+			return this.state.newPasswordAgain !== this.state.newPassword ?
+				<span className="fa fa-times mismatch">Password mismatch!</span>
+				: <span className="fa fa-check match">Passwords match!</span>;
 		}
 	},
 
@@ -44,20 +61,33 @@ export default React.createClass({
 				pattern:   field.pattern,
 				required:  field.required,
 				className: field.className,
-				value:     field.buttonaction
+				value:     field.buttonaction,
+				onChange:  field.onChange
 			}
 			return (
 				<section key={field.name} className="input">
 					<label htmlFor={field.name}>{field.label}</label>
-					{this.getInputType(field, index, controlattrs)}
+					{this.getFieldType(field, index, controlattrs)}
 				</section>
 			);
 		});
 	},
 
+	//submit will execute in all cases other than when
+	//passwords given do not match
 	submitPrimary(currentForm) {
-		return (event) => {
-			currentForm.submit(this.state);
+		if(this.props.formProfile !== 'loginSettings' ||
+			this.state.newPasswordAgain === this.state.newPassword) {
+			return (event) => {
+				currentForm.submit(this.state);
+				return event.preventDefault();
+			}
+		}
+		else return (event) => {
+			BroadcastAction.add({
+				type:    'Error',
+				content: 'Password mismatch!'
+			});
 			return event.preventDefault();
 		}
 	},
@@ -87,6 +117,7 @@ export default React.createClass({
 						{this.renderFields(formType.fields)}
 						<article className="help">{formType.help}</article>
 						<section className="secondary-content">
+							{this.checkPasswords()}
 						</section>
 					</form>
 				</div>
