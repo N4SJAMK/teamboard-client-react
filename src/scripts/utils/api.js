@@ -24,6 +24,7 @@ export default {
 
 	createBoard:  createBoard,
 	createTicket: createTicket,
+	createComment: createComment,
 	updateBoard:  updateBoard,
 	updateTicket: updateTicket,
 	deleteBoard:  deleteBoard,
@@ -164,6 +165,18 @@ function createTicket(opts = {}) {
 	}
 	return request.post(options).then((res) => {
 		return Ticket.fromJS(res.body).toJS();
+	});
+}
+
+function createComment(opts = {}) {
+	let options = {
+		url:     `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}/comments`,
+		token:   opts.token,
+		payload: opts.payload
+	}
+
+	return request.post(options).then((res) => {
+		console.log(res.body);
 	});
 }
 

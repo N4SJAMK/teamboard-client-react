@@ -25,10 +25,11 @@ export default React.createClass({
 
 	getInitialState() {
 		return {
-			color:     this.props.ticket.color,
-			content:   this.props.ticket.content,
-			heading:   this.props.ticket.heading,
-			isEditing: this.props.ticket.content === ''
+			color:      this.props.ticket.color,
+			content:    this.props.ticket.content,
+			heading:    this.props.ticket.heading,
+			isEditing:  this.props.ticket.content === '',
+			newComment: ''
 		}
 	},
 
@@ -58,8 +59,11 @@ export default React.createClass({
 
 	comment(event) {
 		event.preventDefault();
-
-		alert('ad');
+		TicketAction.comment({ id: this.props.board }, {
+			id:      this.props.ticket.id,
+		}, this.state.newComment);
+		this.setState({newComment:''});
+		return event.stopPropagation();
 	},
 
 	toggleEdit(event) {
@@ -118,8 +122,9 @@ export default React.createClass({
 							{editDialogContent}
 						</section>
 						<section className="dialog-comments">
-							<input className="comment-input" placeholder="Your comment" />
-							<button className="btn-primary" onClick={this.comment}>New comment</button>
+							<input className="comment-input"
+								   valueLink={this.linkState('newComment')} placeholder="Your comment" />
+							<button className="btn-primary" onClick={this.comment}>Add comment</button>
 						</section>
 						<section className="dialog-footer">
 							<button className="btn-neutral" onClick={this.cancel}

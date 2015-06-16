@@ -71,6 +71,21 @@ export default flux.actionCreator({
 	},
 
 	/**
+	 * Posts a new comment to the ticket.
+	 */
+	comment(board, ticket, newcomment) {
+		let token = UserStore.getToken();
+		let payload  = Object.assign(ticket, { ua: Date.now(), comment:newcomment});
+
+		api.createComment({
+			token, payload, id: { board: board.id, ticket: payload.id }
+		}).catch((err) => {
+			console.log('ERROR');
+			console.log(err);
+		});
+	},
+
+	/**
 	 * Update the given ticket, persisting the changes to the server.
 	 */
 	update(board, ticket) {
