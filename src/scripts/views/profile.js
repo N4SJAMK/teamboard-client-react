@@ -3,6 +3,7 @@ import UserStore  from '../stores/user';
 import Navigation   from '../components/navigation';
 import Broadcaster  from '../components/broadcaster';
 import ProfileForms from '../views/form/profile-forms';
+import BroadcastAction from '../actions/broadcast';
 
 /**
  *

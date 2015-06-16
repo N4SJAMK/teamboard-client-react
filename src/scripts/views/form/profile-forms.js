@@ -54,7 +54,7 @@ export default {
 				{
 					name:     'name',
 					type:     'text',
-					label:    'name',
+					label:    'Enter a username',
 					required: true
 				},
 				{
