@@ -56,6 +56,12 @@ export default React.createClass({
 		return this.props.onDismiss();
 	},
 
+	comment(event) {
+		event.preventDefault();
+
+		alert('ad');
+	},
+
 	toggleEdit(event) {
 		// This handler is a no-op if we are clicking on the text-area or text input.
 		// Also, don't exit editing mode if we click a link or if ticket has no content
@@ -110,6 +116,10 @@ export default React.createClass({
 				</section>
 						<section className="dialog-content">
 							{editDialogContent}
+						</section>
+						<section className="dialog-comments">
+							<input className="comment-input" placeholder="Your comment" />
+							<button className="btn-primary" onClick={this.comment}>New comment</button>
 						</section>
 						<section className="dialog-footer">
 							<button className="btn-neutral" onClick={this.cancel}
