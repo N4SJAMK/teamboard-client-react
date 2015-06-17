@@ -6,6 +6,7 @@ import BoardStore      from '../stores/board';
 import BoardAction     from '../actions/board';
 import TicketAction    from '../actions/ticket';
 import BroadcastAction from '../actions/broadcast';
+import UserAction      from '../actions/user';
 
 export default {
 	connect:    connect,
@@ -41,15 +42,26 @@ function connect(opts = {}) {
 		'force new connection': true,
 		'path':                 IO_URL_PATH
 	}
-	return new Promise((resolve) => {
+	return new Promise((resolve, reject) => {
 		if(socket && socket.connected) {
 			return resolve();
 		}
 
 		socket = io(IO_URL, options);
 
+		// Don't log out if IO is down, simply spam error msgs...
+		socket.on('connect_error', (err) => {
+			BroadcastAction.add(err, Action.Socket.ConnectFail);
+		});
+
+		// Way to handle invalid token and other funkyness by logging out
 		socket.on('error', (err) => {
-			BroadcastAction.add(err, Action.Socket.Connect);
+			UserAction.logout()
+				.then(() => {
+					return page.show('/login');
+				});
+			BroadcastAction.add(err, Action.Socket.Error);
+			return reject();
 		});
 
 		socket.on('connect', () => {

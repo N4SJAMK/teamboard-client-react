@@ -3,6 +3,7 @@ import Board  from '../models/board';
 import Ticket from '../models/ticket';
 
 import request from '../utils/request';
+import page    from 'page';
 
 /**
  * NOTE We use a lot of Model.fromJS.toJS conversion here, this is so that we
@@ -104,6 +105,10 @@ function getBoard(opts = {}) {
 		// Remove the empty 'tickets' collection to prevent overwriting.
 		delete board.tickets;
 		return board;
+	}, (err) => {
+		if (err.statusCode === 404 || err.statusCode === 400 || err.statusCode === 500) {
+			page.redirect('/workspace');
+	}
 	});
 }
 

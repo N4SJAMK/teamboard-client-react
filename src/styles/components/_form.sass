@@ -56,3 +56,24 @@
 	button
 		width:  100%
 		margin: 16px 0px
+
+	span
+		display: table
+		margin: auto
+		&.mismatch
+			color: $burnt-sienna
+
+		&.match
+			color: $neptune
+
+	.secondary
+		@include align-items(stretch)
+		@include display(flex)
+		@include flex-direction(row)
+		@include justify-content(flex-start)
+		p
+			font-size: 12px
+			@include flex(1)
+		.btn-secondary
+			@include flex(1)
+			margin-top: 12px

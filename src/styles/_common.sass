@@ -2,7 +2,10 @@
  * Common shenanigans, resets and such.
  */
 
-ul, li
+/*
+
+/*
+ul, ol, li
 	margin:          0px
 	padding:         0px
 	list-style-type: none
@@ -130,9 +133,10 @@ a, button, input[type="submit"]
 		background-color: $white
 
 	.caret
-		margin: 0px !important
-		color:  $silver-chalice
-		@include position(absolute, 10px 14px null null)
+		margin:         0px !important
+		color:          $silver-chalice
+		pointer-events: none
+		@include        position(absolute, 10px 14px null null)
 
 	&:hover
 		.caret

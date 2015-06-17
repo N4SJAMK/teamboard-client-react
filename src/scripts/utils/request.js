@@ -1,5 +1,6 @@
 import superagent from 'superagent/lib/client';
-
+import page       from 'page';
+import BroadcastAction from '../actions/broadcast';
 /**
  * Simple helper module to make HTTP requests.
  */
@@ -12,7 +13,7 @@ export default {
 
 /**
  * Simple helper function to make HTTP requests. Note that you don't call this
- * directly but instead use one of the pre-bound methods above.
+ * directly but instead use one of the pre-bound methods above.a
  */
 function request(to, options = {}) {
 	return new Promise((resolve, reject) => {
