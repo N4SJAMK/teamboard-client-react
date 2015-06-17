@@ -12,6 +12,7 @@ import WorkspaceView  from './views/workspace';
 import LoginView      from './views/form/login';
 import RegisterView   from './views/form/register';
 import GuestLoginView from './views/form/guest-login';
+import UserAction     from './actions/user';
 
 import qs from 'query-string';
 
@@ -98,24 +99,11 @@ UserStore.addChangeListener(() => {
 
 function authenticate(ctx, next) {
 		if(ctx.token = localStorage.getItem('access_token')) {
-			ctx.user = user;
+			
 			return next();
 		}
-		
-}
 
-page((ctx, next) => {
-	console.log(ctx);
- 
-	if(ctx.querystring.length > 0) {
-		let access_token = qs.parse(ctx.querystring).access_token;
-			if(access_token && access_token.length > 0) {
-				localStorage.setItem('access_token', access_token);
-			}
-			return page.redirect(ctx.pathname)
-        }
-    return next();
-});
+}
 
 page('/login',
 	middleware.user.loggedOut,
@@ -125,7 +113,19 @@ page('/login',
 			<LoginView />,
 			document.getElementById('application')
 		);
-	});
+});
+
+page('/login/callback',
+	(ctx, next) => { 
+	if(ctx.querystring.length > 0) {
+		UserAction.load(qs.parse(ctx.querystring).access_token);
+			if(access_token && access_token.length > 0) {
+				localStorage.setItem('access_token', access_token);
+			}
+			return page.redirect(ctx.pathname)
+        }
+    return next();
+});
 
 page('/register',
 	middleware.user.loggedOut,
