@@ -1,6 +1,7 @@
 import React     from 'react/addons';
 import immutable from 'immutable';
 import TextArea  from 'react-textarea-autosize';
+import TimeAgo   from 'react-timeago';
 import markdown  from 'markdown';
 
 import Ticket       from '../../models/ticket';
@@ -134,11 +135,12 @@ export default React.createClass({
 						<section className="dialog-comments">
 							<section className="comment-wrapper">
 							{this.props.ticket.comments.map((comment, index) => {
-								console.log(comment.user);
+								let timeProps = {date: comment.created_at};
+
 								return (
 									<div className="comment">
 										<section>
-											<span className="comment-timestamp">{comment.created_at}</span>
+											<span className="comment-timestamp">{React.createElement(TimeAgo,timeProps)}</span>
 											<p className="comment-username">{comment.user.username}</p>
 										</section>
 										<p className="comment-message">{comment.content}</p>

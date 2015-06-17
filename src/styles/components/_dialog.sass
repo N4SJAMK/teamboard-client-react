@@ -40,16 +40,20 @@
 			.comment-wrapper
 				@include display(flex)
 				@include flex-direction(column)
+				overflow: hidden
+				overflow-y: auto
+				max-height: 200px
 				border-radius: 5px
 				background-color: $gallery
-				width: 100%
 				.comment
+					height: 50px
+					min-height: 50px
 					.comment-username
-						margin-left: 4px
+						@include margin(5 0 0 4)
 					.comment-message
-						margin-left: 4px
+						@include margin(5 0 0 4)
 					.comment-timestamp
-						margin-right: 4px
+						@include margin(4 4 0 0)
 						float: right
 
 				.comment:not(:last-child)
