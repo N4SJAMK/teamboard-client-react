@@ -176,7 +176,7 @@ function createComment(opts = {}) {
 	}
 
 	return request.post(options).then((res) => {
-		console.log(res.body);
+		return Ticket.fromJS(res.body).toJS();
 	});
 }
 

@@ -108,9 +108,6 @@ export default React.createClass({
 	},
 
 	toggleEditDialog() {
-
-		console.log(this.props.ticket.comments);
-
 		if(!this.props.ticket.id.startsWith('dirty_')) {
 			this.setState({ showEditDialog: !this.state.showEditDialog });
 		}

@@ -49,7 +49,6 @@ export default flux.actionCreator({
 	create(board, ticket) {
 		let token   = UserStore.getToken();
 		let payload = Object.assign(ticket, { id: uid(), ua: Date.now() });
-
 		this.dispatch(Action.Ticket.Add, { board, ticket: payload });
 
 		api.createTicket({ token, payload, id: { board: board.id } })
@@ -58,7 +57,7 @@ export default flux.actionCreator({
 				// because why the hell not! This is not good... But what is?
 				let dirty = { id: payload.id }
 				let clean = Object.assign(payload, { id: ticket.id });
-
+				clean.comments = [];
 				this.dispatch(Action.Ticket.Add, { board, ticket: clean }, {
 					silent: true
 				});
@@ -74,8 +73,9 @@ export default flux.actionCreator({
 	 * Posts a new comment to the ticket.
 	 */
 	comment(board, ticket, newcomment) {
+		this.dispatch(Action.Ticket.Edit, { board, ticket: ticket });
 		let token = UserStore.getToken();
-		let payload  = Object.assign(ticket, { ua: Date.now(), comment:newcomment});
+		let payload  = Object.assign(ticket, { ua: Date.now(), comment: newcomment});
 
 		api.createComment({
 			token, payload, id: { board: board.id, ticket: payload.id }

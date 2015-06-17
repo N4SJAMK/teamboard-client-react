@@ -61,19 +61,23 @@ export default React.createClass({
 
 	comment(event) {
 		event.preventDefault();
-		TicketAction.comment({ id: this.props.board }, {
-			id:      this.props.ticket.id,
-		}, this.state.newComment);
+		if (this.state.newComment !== '') {
+			TicketAction.comment({id: this.props.board}, {
+				id: this.props.ticket.id,
+			}, this.state.newComment);
 
-		let currentUser = UserStore.getUser();
+			let currentUser = UserStore.getUser();
 
-		this.props.ticket.comments.push( {content: this.state.newComment,
-						created_at: Date.now(),
-						user: {
-						username: currentUser.username}
-						});
+			this.props.ticket.comments.push({
+				content: this.state.newComment,
+				created_at: Date.now(),
+				user: {
+					username: currentUser.username
+				}
+			});
 
-		this.setState({newComment:''});
+			this.setState({newComment: ''});
+		}
 		return event.stopPropagation();
 	},
 
@@ -150,6 +154,7 @@ export default React.createClass({
 							</section>
 							<section className="new-comment-section">
 								<input className="comment-input"
+									   maxLength={40}
 									   valueLink={this.linkState('newComment')} placeholder="Your comment" />
 								<button className="btn-primary" onClick={this.comment}>Add comment</button>
 							</section>
