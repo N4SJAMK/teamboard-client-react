@@ -137,6 +137,12 @@ export default React.createClass({
 							{editDialogContent}
 						</section>
 						<section className="dialog-comments">
+							<section className="new-comment-section">
+								<input className="comment-input"
+									   maxLength={40}
+									   valueLink={this.linkState('newComment')} placeholder="Your comment" />
+								<button className="btn-primary" onClick={this.comment}>Add comment</button>
+							</section>
 							<section className="comment-wrapper">
 							{this.props.ticket.comments.map((comment, index) => {
 								let timeProps = {date: comment.created_at};
@@ -151,12 +157,6 @@ export default React.createClass({
 									</div>
 								);
 							})}
-							</section>
-							<section className="new-comment-section">
-								<input className="comment-input"
-									   maxLength={40}
-									   valueLink={this.linkState('newComment')} placeholder="Your comment" />
-								<button className="btn-primary" onClick={this.comment}>Add comment</button>
 							</section>
 						</section>
 						<section className="dialog-footer">

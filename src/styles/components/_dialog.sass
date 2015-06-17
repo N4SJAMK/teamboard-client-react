@@ -44,16 +44,20 @@
 				overflow-y: auto
 				max-height: 200px
 				border-radius: 5px
-				background-color: $gallery
+				background-color: $white
 				.comment
 					height: 50px
 					min-height: 50px
 					.comment-username
 						@include margin(5 0 0 4)
+						font-size: smaller
+						color: $dove-gray
 					.comment-message
 						@include margin(5 0 0 4)
 					.comment-timestamp
 						@include margin(4 4 0 0)
+						font-size: smaller
+						color: $dove-gray
 						float: right
 
 				.comment:nth-child(even)
