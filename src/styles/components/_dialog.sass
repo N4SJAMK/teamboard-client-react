@@ -36,12 +36,34 @@
 
 		.dialog-comments
 			padding: 8px 16px 16px 16px
-			@include display(flex)
-			@include flex-direction(row)
-			input
-				margin-right: 6px
-			button
-				width: 40%
+
+			.comment-wrapper
+				@include display(flex)
+				@include flex-direction(column)
+				border-radius: 5px
+				background-color: $gallery
+				width: 100%
+				.comment
+					.comment-username
+						margin-left: 4px
+					.comment-message
+						margin-left: 4px
+					.comment-timestamp
+						margin-right: 4px
+						float: right
+
+				.comment:not(:last-child)
+					border-bottom: 1px solid
+					border-color:  $silver-chalice
+
+			.new-comment-section
+				margin-top: 6px
+				@include display(flex)
+				@include flex-direction(row)
+				input
+					margin-right: 6px
+				button
+					width: 40%
 
 		.dialog-content
 			padding:    8px 16px

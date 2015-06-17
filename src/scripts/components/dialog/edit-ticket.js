@@ -5,6 +5,7 @@ import markdown  from 'markdown';
 
 import Ticket       from '../../models/ticket';
 import TicketAction from '../../actions/ticket';
+import UserStore    from '../../stores/user';
 
 import Dialog      from '../../components/dialog';
 import ColorSelect from '../../components/color-select';
@@ -62,6 +63,15 @@ export default React.createClass({
 		TicketAction.comment({ id: this.props.board }, {
 			id:      this.props.ticket.id,
 		}, this.state.newComment);
+
+		let currentUser = UserStore.getUser();
+
+		this.props.ticket.comments.push( {content: this.state.newComment,
+						created_at: Date.now(),
+						user: {
+						username: currentUser.username}
+						});
+
 		this.setState({newComment:''});
 		return event.stopPropagation();
 	},
@@ -122,9 +132,25 @@ export default React.createClass({
 							{editDialogContent}
 						</section>
 						<section className="dialog-comments">
-							<input className="comment-input"
-								   valueLink={this.linkState('newComment')} placeholder="Your comment" />
-							<button className="btn-primary" onClick={this.comment}>Add comment</button>
+							<section className="comment-wrapper">
+							{this.props.ticket.comments.map((comment, index) => {
+								console.log(comment.user);
+								return (
+									<div className="comment">
+										<section>
+											<span className="comment-timestamp">{comment.created_at}</span>
+											<p className="comment-username">{comment.user.username}</p>
+										</section>
+										<p className="comment-message">{comment.content}</p>
+									</div>
+								);
+							})}
+							</section>
+							<section className="new-comment-section">
+								<input className="comment-input"
+									   valueLink={this.linkState('newComment')} placeholder="Your comment" />
+								<button className="btn-primary" onClick={this.comment}>Add comment</button>
+							</section>
 						</section>
 						<section className="dialog-footer">
 							<button className="btn-neutral" onClick={this.cancel}

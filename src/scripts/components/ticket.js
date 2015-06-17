@@ -108,6 +108,9 @@ export default React.createClass({
 	},
 
 	toggleEditDialog() {
+
+		console.log(this.props.ticket.comments);
+
 		if(!this.props.ticket.id.startsWith('dirty_')) {
 			this.setState({ showEditDialog: !this.state.showEditDialog });
 		}
@@ -123,6 +126,7 @@ export default React.createClass({
 			return this.tweenState(axis, tweeningOpts);
 		});
 	},
+
 
 	render() {
 		let style = {
@@ -158,7 +162,7 @@ export default React.createClass({
 					<span dangerouslySetInnerHTML={{__html: markupContent}} />
 					<span className="count-icon">
 						<span className="fa fa-2x fa-comment comment"></span>
-						<span className="count">0</span>
+						<span className="count">{this.props.ticket.comments.length}</span>
 					</span>
 				</div>
 				{editTicketDialog}
