@@ -3,6 +3,7 @@ import immutable from 'immutable';
 import TextArea  from 'react-textarea-autosize';
 import TimeAgo   from 'react-timeago';
 import markdown  from 'markdown';
+import IScroll   from 'iscroll';
 
 import Ticket       from '../../models/ticket';
 import TicketAction from '../../actions/ticket';
@@ -34,7 +35,6 @@ export default React.createClass({
 			newComment: ''
 		}
 	},
-
 	remove(event) {
 		event.preventDefault();
 		TicketAction.delete({ id: this.props.board }, {
@@ -122,7 +122,6 @@ export default React.createClass({
                                       placeholder={'Ticket heading'}
                                       tabIndex={1}/>
 		}
-
 		return (
 			<Dialog className="edit-ticket-dialog"
 					onDismiss={this.props.onDismiss}>
@@ -145,15 +144,31 @@ export default React.createClass({
 							</section>
 							<section className="comment-wrapper">
 							{this.props.ticket.comments.map((comment, index) => {
-								let timeProps = {date: comment.created_at};
+								let username  = null;
+								let timestamp = null;
+								let msg       = null;
+
+								if(comment.user) {
+									username  = comment.user.username;
+									timestamp = comment.created_at;
+									msg       = comment.content;
+								}
+
+								else {
+									username  = comment._root.entries[3][1]._root.entries[1][1];
+									timestamp = comment._root.entries[1][1];
+									msg       = comment._root.entries[2][1];
+								}
+
+								let timeProps = {date: timestamp};
 
 								return (
 									<div className="comment">
 										<section>
 											<span className="comment-timestamp">{React.createElement(TimeAgo,timeProps)}</span>
-											<p className="comment-username">{comment.user.username}</p>
+											<p className="comment-username">{username}</p>
 										</section>
-										<p className="comment-message">{comment.content}</p>
+										<p className="comment-message">{msg}</p>
 									</div>
 								);
 							})}
