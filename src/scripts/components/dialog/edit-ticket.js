@@ -68,7 +68,7 @@ export default React.createClass({
 
 			let currentUser = UserStore.getUser();
 
-			this.props.ticket.comments.push({
+			this.props.ticket.comments.unshift({
 				content: this.state.newComment,
 				created_at: Date.now(),
 				user: {
