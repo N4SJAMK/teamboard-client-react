@@ -155,7 +155,6 @@ export default React.createClass({
 										username = comment._root.entries[3][1]._root.entries[1][1];
 									} else {
 										username = comment._root.entries[3][1]._root.entries[0][1];
-										console.log(username);
 									}
 									timestamp = comment._root.entries[1][1];
 									msg       = comment._root.entries[2][1];
