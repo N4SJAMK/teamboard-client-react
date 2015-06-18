@@ -73,9 +73,9 @@ export default flux.actionCreator({
 	 * Posts a new comment to the ticket.
 	 */
 	comment(board, ticket, newcomment) {
-		this.dispatch(Action.Ticket.Edit, { board, ticket: ticket });
 		let token = UserStore.getToken();
 		let payload  = Object.assign(ticket, { ua: Date.now(), comment: newcomment});
+		//this.dispatch(Action.Ticket.Edit, { board, ticket: ticket });
 
 		api.createComment({
 			token, payload, id: { board: board.id, ticket: payload.id }

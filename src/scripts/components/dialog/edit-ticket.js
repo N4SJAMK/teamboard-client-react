@@ -66,16 +66,6 @@ export default React.createClass({
 				id: this.props.ticket.id,
 			}, this.state.newComment);
 
-			let currentUser = UserStore.getUser();
-
-			this.props.ticket.comments.unshift({
-				content: this.state.newComment,
-				created_at: Date.now(),
-				user: {
-					username: currentUser.username
-				}
-			});
-
 			this.setState({newComment: ''});
 		}
 		return event.stopPropagation();
@@ -122,6 +112,8 @@ export default React.createClass({
                                       placeholder={'Ticket heading'}
                                       tabIndex={1}/>
 		}
+		let tempComments = this.props.ticket.comments;
+
 		return (
 			<Dialog className="edit-ticket-dialog"
 					onDismiss={this.props.onDismiss}>
@@ -143,7 +135,11 @@ export default React.createClass({
 								<button className="btn-primary" onClick={this.comment}>Add comment</button>
 							</section>
 							<section className="comment-wrapper">
-							{this.props.ticket.comments.map((comment, index) => {
+							{
+								tempComments.map((comment) => {
+								/*
+								 * TODO: Fix this awful crap, add proper comment events etc...
+								 */
 								let username  = null;
 								let timestamp = null;
 								let msg       = null;
@@ -152,10 +148,15 @@ export default React.createClass({
 									username  = comment.user.username;
 									timestamp = comment.created_at;
 									msg       = comment.content;
-								}
-
-								else {
-									username  = comment._root.entries[3][1]._root.entries[1][1];
+								} else {
+									// Dank hotfix so guest users can comment on old api versions that don't
+									// register them to the database...
+									if (comment._root.entries[3][1]._root.entries[1]) {
+										username = comment._root.entries[3][1]._root.entries[1][1];
+									} else {
+										username = comment._root.entries[3][1]._root.entries[0][1];
+										console.log(username);
+									}
 									timestamp = comment._root.entries[1][1];
 									msg       = comment._root.entries[2][1];
 								}
