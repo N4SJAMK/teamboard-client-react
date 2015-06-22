@@ -87,9 +87,6 @@ export default React.createClass({
 			{
 				onClick: () => {
 					UserAction.logout()
-						.then(() => {
-							return page.show('/');
-						})
 						.catch((err) => {
 							BroadcastAction.add(err, Action.User.Logout);
 						});
