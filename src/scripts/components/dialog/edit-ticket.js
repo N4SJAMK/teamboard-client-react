@@ -128,7 +128,8 @@ export default React.createClass({
 							<section className="new-comment-section">
 								<input className="comment-input"
                                        maxLength={40}
-                                       valueLink={this.linkState('newComment')} placeholder="Your comment" />
+                                       valueLink={this.linkState('newComment')} placeholder="Your comment"
+										tabIndex={2}/>
 								<button className="btn-primary" onClick={this.comment}>Add comment</button>
 							</section>
 							<section className="comment-wrapper">
