@@ -142,7 +142,7 @@ export default React.createClass({
 								// a plain JS object. If so, we convert it to one! There's
 								// probably a better way of handling this...
 								if(!comment.user) {
-									comment = comment.toObject();
+									comment      = comment.toObject();
 									comment.user = comment.user.toObject();
 								}
 								username  = comment.user.username;
@@ -152,7 +152,7 @@ export default React.createClass({
 								let timeProps = {date: timestamp};
 
 								return (
-									<div className="comment">
+									<div className="comment" key={comment.id}>
 										<section>
 											<span className="comment-timestamp">{React.createElement(TimeAgo, timeProps)}</span>
 											<p className="comment-username">{username}</p>

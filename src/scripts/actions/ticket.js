@@ -76,7 +76,7 @@ export default flux.actionCreator({
 		let token    = UserStore.getToken();
 		let payload  = Object.assign(ticket, { ua: Date.now(), comment: newcomment});
 		let previous = BoardStore.getTicket(board.id, ticket.id).toJS();
-		
+
 		api.createComment({ token, payload, id: { board: board.id, ticket: payload.id }})
 			.catch((err) => {
 			this.dispatch(Action.Ticket.Edit, { board, ticket: previous });
