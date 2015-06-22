@@ -28,12 +28,31 @@
 		border-top-left-radius:  2px
 		border-top-right-radius: 2px
 
+	.count-icon
+		float:            right
+		display:          inline-block
+		position:         absolute !important
+		@include position(75% null null 80% fixed)
+		@include transform(scale(0.8))
+
+		.comment
+			color: $silver-chalice
+			overflow: visible
+			.count
+				@include     position(26% 23% null null fixed)
+				width:       14px
+				height:      14px
+				text-align:  center
+				position:    fixed !important
+				color:       $white
+				font-family: Lato
+				font-size:   small
+
 	.heading
 		margin:      8px
 		overflow:    hidden
 		white-space: pre-wrap
 		font-weight: bold
-
 	.content
 		height:      76px
 		margin:      8px

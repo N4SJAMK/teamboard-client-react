@@ -150,12 +150,17 @@ export default React.createClass({
 
 		return (
 			<div className="ticket" style={style.ticket}>
-				<div className="color" style={style.color} />
+				<div className="color" style={style.color}></div>
 				<div className="heading">
 					{this.props.ticket.heading}
 				</div>
 				<div className="content">
 					<span dangerouslySetInnerHTML={{__html: markupContent}} />
+					<span className="count-icon">
+						<span className="fa fa-2x fa-comment comment">
+							<span className="count">{this.props.ticket.comments.size || this.props.ticket.comments.length}</span>
+						</span>
+					</span>
 				</div>
 				{editTicketDialog}
 			</div>

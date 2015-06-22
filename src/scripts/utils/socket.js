@@ -173,6 +173,12 @@ const PayloadHandler = {
 		let ticket = Object.assign({ id: payload.data.id },
 			payload.data.newAttributes);
 		ticket.content = utf8.decode(ticket.content);
+		ticket.heading = utf8.decode(ticket.heading);
+		if(ticket.comments) {
+			ticket.comments.map(function (comment) {
+				comment.content = utf8.decode(comment.content)
+			});
+		}
 		return TicketAction.edit(board, ticket);
 	},
 	[Event.Ticket.Delete](payload) {
