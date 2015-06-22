@@ -36,7 +36,6 @@ export default React.createClass({
 	},
 
 	toggleAboutView() {
-		console.log('toogle');
 		this.setState({ aboutActive: !this.state.aboutActive });
 	},
 
@@ -99,7 +98,7 @@ export default React.createClass({
 				onClick: () => {
 					this.toggleAboutView();
 				},
-				icon: 'info-circle', content: 'About'
+				icon: 'question-circle', content: 'About'
 			},
 			{
 				onClick: () => {
@@ -127,8 +126,6 @@ export default React.createClass({
 				{infoDialog}
 				{aboutDialog}
 			</nav>
-			
-
 		);
 	}
 });
