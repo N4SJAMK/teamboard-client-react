@@ -1,7 +1,7 @@
 import React     from 'react/addons';
 import immutable from 'immutable';
-import TextArea  from 'react-textarea-autosize';
 import TimeAgo   from 'react-timeago';
+import TextArea  from 'react-autosize-textarea';
 import markdown  from 'markdown';
 
 import Ticket       from '../../models/ticket';
