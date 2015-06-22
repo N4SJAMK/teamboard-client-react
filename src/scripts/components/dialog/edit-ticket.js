@@ -1,10 +1,12 @@
 import React     from 'react/addons';
 import immutable from 'immutable';
+import TimeAgo   from 'react-timeago';
 import TextArea  from 'react-autosize-textarea';
 import markdown  from 'markdown';
 
 import Ticket       from '../../models/ticket';
 import TicketAction from '../../actions/ticket';
+import UserStore    from '../../stores/user';
 
 import Dialog      from '../../components/dialog';
 import ColorSelect from '../../components/color-select';
@@ -25,13 +27,13 @@ export default React.createClass({
 
 	getInitialState() {
 		return {
-			color:     this.props.ticket.color,
-			content:   this.props.ticket.content,
-			heading:   this.props.ticket.heading,
-			isEditing: this.props.ticket.content === ''
+			color:      this.props.ticket.color,
+			content:    this.props.ticket.content,
+			heading:    this.props.ticket.heading,
+			isEditing:  this.props.ticket.content === '',
+			newComment: ''
 		}
 	},
-
 	remove(event) {
 		event.preventDefault();
 		TicketAction.delete({ id: this.props.board }, {
@@ -56,14 +58,26 @@ export default React.createClass({
 		return this.props.onDismiss();
 	},
 
+	comment(event) {
+		event.preventDefault();
+		if (this.state.newComment !== '') {
+			TicketAction.comment({id: this.props.board}, {
+				id: this.props.ticket.id
+			}, this.state.newComment);
+
+			this.setState({newComment: ''});
+		}
+		return event.stopPropagation();
+	},
+
 	toggleEdit(event) {
 		// This handler is a no-op if we are clicking on the text-area or text input.
 		// Also, don't exit editing mode if we click a link or if ticket has no content
-		if(     event.target instanceof HTMLTextAreaElement ||
-			event.target instanceof HTMLInputElement ||
-			event.target instanceof HTMLAnchorElement ||
-			this.state.content === '')  {
-			return;
+		if( event.target instanceof HTMLTextAreaElement ||
+            event.target instanceof HTMLInputElement ||
+            event.target instanceof HTMLAnchorElement ||
+            this.state.content === '')  {
+            return;
 		}
 
 		this.setState({ isEditing: !this.state.isEditing });
@@ -97,7 +111,6 @@ export default React.createClass({
                                       placeholder={'Ticket heading'}
                                       tabIndex={1}/>
 		}
-
 		return (
 			<Dialog className="edit-ticket-dialog"
 					onDismiss={this.props.onDismiss}>
@@ -111,6 +124,45 @@ export default React.createClass({
 						<section className="dialog-content">
 							{editDialogContent}
 						</section>
+						<section className="dialog-comments">
+							<section className="new-comment-section">
+								<input className="comment-input"
+                                       maxLength={40}
+                                       valueLink={this.linkState('newComment')} placeholder="Your comment" />
+								<button className="btn-primary" onClick={this.comment}>Add comment</button>
+							</section>
+							<section className="comment-wrapper">
+							{
+								this.props.ticket.comments.map((comment) => {
+
+								let username  = null;
+								let timestamp = null;
+								let msg       = null;
+								// Sometimes the comment is a ImmutableJS Map instead of
+								// a plain JS object. If so, we convert it to one! There's
+								// probably a better way of handling this...
+								if(!comment.user) {
+									comment      = comment.toObject();
+									comment.user = comment.user.toObject();
+								}
+								username  = comment.user.username;
+								timestamp = comment.created_at;
+								msg       = comment.content;
+
+								let timeProps = {date: timestamp};
+
+								return (
+									<div className="comment" key={comment.id}>
+										<section>
+											<span className="comment-timestamp">{React.createElement(TimeAgo, timeProps)}</span>
+											<p className="comment-username">{username}</p>
+										</section>
+										<p className="comment-message">{msg}</p>
+									</div>
+								);
+							})}
+							</section>
+						</section>
 						<section className="dialog-footer">
 							<button className="btn-neutral" onClick={this.cancel}
 									tabIndex={3}>
@@ -121,7 +173,7 @@ export default React.createClass({
 								Save
 							</button>
 						</section>
-					<i className="deleteicon fa fa-trash-o" onClick={this.remove}> Delete</i>
+					<span className="deleteicon fa fa-trash-o" onClick={this.remove}> Delete</span>
 
 					</section>
 			</Dialog>

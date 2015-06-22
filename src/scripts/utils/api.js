@@ -22,12 +22,13 @@ export default {
 	getTicket:  getTicket,
 	getTickets: getTickets,
 
-	createBoard:  createBoard,
-	createTicket: createTicket,
-	updateBoard:  updateBoard,
-	updateTicket: updateTicket,
-	deleteBoard:  deleteBoard,
-	deleteTicket: deleteTicket,
+	createBoard:   createBoard,
+	createTicket:  createTicket,
+	createComment: createComment,
+	updateBoard:   updateBoard,
+	updateTicket:  updateTicket,
+	deleteBoard:   deleteBoard,
+	deleteTicket:  deleteTicket,
 
 	revokeAccessCode:   revokeAccessCode,
 	generateAccessCode: generateAccessCode
@@ -162,6 +163,18 @@ function createTicket(opts = {}) {
 		token:   opts.token,
 		payload: opts.payload
 	}
+	return request.post(options).then((res) => {
+		return Ticket.fromJS(res.body).toJS();
+	});
+}
+
+function createComment(opts = {}) {
+	let options = {
+		url:     `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}/comments`,
+		token:   opts.token,
+		payload: opts.payload
+	}
+
 	return request.post(options).then((res) => {
 		return Ticket.fromJS(res.body).toJS();
 	});
