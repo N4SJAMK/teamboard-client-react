@@ -62,7 +62,7 @@ export default React.createClass({
 		event.preventDefault();
 		if (this.state.newComment !== '') {
 			TicketAction.comment({id: this.props.board}, {
-				id: this.props.ticket.id,
+				id: this.props.ticket.id
 			}, this.state.newComment);
 
 			this.setState({newComment: ''});
@@ -127,8 +127,8 @@ export default React.createClass({
 						<section className="dialog-comments">
 							<section className="new-comment-section">
 								<input className="comment-input"
-									   maxLength={40}
-									   valueLink={this.linkState('newComment')} placeholder="Your comment" />
+                                       maxLength={40}
+                                       valueLink={this.linkState('newComment')} placeholder="Your comment" />
 								<button className="btn-primary" onClick={this.comment}>Add comment</button>
 							</section>
 							<section className="comment-wrapper">
@@ -154,7 +154,7 @@ export default React.createClass({
 								return (
 									<div className="comment">
 										<section>
-											<span className="comment-timestamp">{React.createElement(TimeAgo,timeProps)}</span>
+											<span className="comment-timestamp">{React.createElement(TimeAgo, timeProps)}</span>
 											<p className="comment-username">{username}</p>
 										</section>
 										<p className="comment-message">{msg}</p>
