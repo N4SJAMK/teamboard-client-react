@@ -14,10 +14,10 @@ export default React.createClass({
 		formProfile: React.PropTypes.string.isRequired
 	},
 	getInitialState() {
-		return ProfileForms.fieldNames.reduce((state, field) => {
-			state[field] = '';
-			return state;
-		}, {});
+		return 	ProfileForms.fieldNames.reduce((state, field) => {
+					state[field] = '';
+					return state;
+				}, {});
 	},
 
 	getFieldType(field, index, controlattrs) {
@@ -39,7 +39,7 @@ export default React.createClass({
 			case 'email': return (
 				<section>
 				<h4>{field.title}</h4>
-				<h5>{userNameContent}</h5>
+				<p>{userNameContent}</p>
 				</section>
 			);
 		}
@@ -92,11 +92,19 @@ export default React.createClass({
 		}
 	},
 
+	toggleNav() {
+		document.getElementById("menu").classList.toggle('active');
+	},
+
 	renderSidelinks() {
 		return ProfileForms.linkItems.map((field, index) => {
+			let className = field.activeWhile === this.props.formProfile ? 'active' : null;
 			return (
-				<li>
-					<button onClick={field.onClick}>{field.name}</button>
+				<li className={className}>
+					<p  onClick={field.onClick}>
+					<span className={`fa fa-${field.icon}`}></span>
+					{field.name}
+					</p>
 				</li>
 			);
 		});
@@ -104,22 +112,29 @@ export default React.createClass({
 
 	renderForm(formType){
 		return (
-			<div className="view view-workspace">
+			<div className="view-settings">
 				<Navigation showHelp={false} title="Contriboard" />
 				<Broadcaster />
-				<div className="content">
-				<ul>
-				{this.renderSidelinks()}
-				</ul>
-					<form className="form"
-						onSubmit={this.submitPrimary(formType)}>
-						<h3>{formType.title}</h3>
-						{this.renderFields(formType.fields)}
-						<article className="help">{formType.help}</article>
-						<section className="secondary-content">
-							{this.checkPasswords()}
-						</section>
-					</form>
+				<div className="content-settings">
+					<div className="settings-nav">
+						<span className="menu-link fa fa-bars" onClick={this.toggleNav} />
+						<nav id="menu" className="navigation">
+							<ul>
+								{this.renderSidelinks()}
+							</ul>
+						</nav>
+					</div>
+					<div className="form-container">
+						<form className="login-info"
+							onSubmit={this.submitPrimary(formType)}>
+							<h3>{formType.title}</h3>
+							{this.renderFields(formType.fields)}
+							<article className="help">{formType.help}</article>
+							<section className="secondary-content">
+								{this.checkPasswords()}
+							</section>
+						</form>
+					</div>
 				</div>
 			</div>
 		);
