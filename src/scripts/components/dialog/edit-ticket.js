@@ -3,7 +3,6 @@ import immutable from 'immutable';
 import TextArea  from 'react-textarea-autosize';
 import TimeAgo   from 'react-timeago';
 import markdown  from 'markdown';
-import IScroll   from 'iscroll';
 
 import Ticket       from '../../models/ticket';
 import TicketAction from '../../actions/ticket';
@@ -112,8 +111,6 @@ export default React.createClass({
                                       placeholder={'Ticket heading'}
                                       tabIndex={1}/>
 		}
-		let tempComments = this.props.ticket.comments;
-
 		return (
 			<Dialog className="edit-ticket-dialog"
 					onDismiss={this.props.onDismiss}>
@@ -136,29 +133,21 @@ export default React.createClass({
 							</section>
 							<section className="comment-wrapper">
 							{
-								tempComments.map((comment) => {
-								/*
-								 * TODO: Fix this awful crap, add proper comment events etc...
-								 */
+								this.props.ticket.comments.map((comment) => {
+
 								let username  = null;
 								let timestamp = null;
 								let msg       = null;
-
-								if(comment.user) {
-									username  = comment.user.username;
-									timestamp = comment.created_at;
-									msg       = comment.content;
-								} else {
-									// Dank hotfix so guest users can comment on old api versions that don't
-									// register them to the database...
-									if (comment._root.entries[3][1]._root.entries[1]) {
-										username = comment._root.entries[3][1]._root.entries[1][1];
-									} else {
-										username = comment._root.entries[3][1]._root.entries[0][1];
-									}
-									timestamp = comment._root.entries[1][1];
-									msg       = comment._root.entries[2][1];
+								// Sometimes the comment is a ImmutableJS Map instead of
+								// a plain JS object. If so, we convert it to one! There's
+								// probably a better way of handling this...
+								if(!comment.user) {
+									comment = comment.toObject();
+									comment.user = comment.user.toObject();
 								}
+								username  = comment.user.username;
+								timestamp = comment.created_at;
+								msg       = comment.content;
 
 								let timeProps = {date: timestamp};
 
