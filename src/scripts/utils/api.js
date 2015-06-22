@@ -37,7 +37,7 @@ const API_URL = process.env.API_URL || 'http://localhost:9002/api';
 
 
 function login(opts = {}) {
-	let provider = 'basic';
+	let provider = 'basic'; // add dynamic provider
 	let auth = "basic " + new Buffer(opts.payload.email + ":" + opts.payload.password).toString("base64");
 	let options = {
 		url:  `${API_URL}/auth/`+ provider + `/login`,
