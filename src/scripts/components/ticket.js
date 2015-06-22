@@ -124,7 +124,6 @@ export default React.createClass({
 		});
 	},
 
-
 	render() {
 		let style = {
 			ticket: {

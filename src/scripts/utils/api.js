@@ -22,13 +22,13 @@ export default {
 	getTicket:  getTicket,
 	getTickets: getTickets,
 
-	createBoard:  createBoard,
-	createTicket: createTicket,
+	createBoard:   createBoard,
+	createTicket:  createTicket,
 	createComment: createComment,
-	updateBoard:  updateBoard,
-	updateTicket: updateTicket,
-	deleteBoard:  deleteBoard,
-	deleteTicket: deleteTicket,
+	updateBoard:   updateBoard,
+	updateTicket:  updateTicket,
+	deleteBoard:   deleteBoard,
+	deleteTicket:  deleteTicket,
 
 	revokeAccessCode:   revokeAccessCode,
 	generateAccessCode: generateAccessCode
