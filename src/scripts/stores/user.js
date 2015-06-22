@@ -23,6 +23,7 @@ export default flux.store({
 			try {
 				storedUser = JSON.parse(localStorage.getItem('user'));
 			} catch(err) {
+				console.log(err);
 				localStorage.removeItem('user');
 				localStorage.removeItem('token');
 				return null;
@@ -60,7 +61,9 @@ export default flux.store({
 				type:     payload.user.type,
 				access:   payload.user.access,
 				username: payload.user.username,
-				boards:   storedUser.boards
+				boards:   payload.user.boards
+
+				//boards:   storedUser.boards
 			}
 			localStorage.setItem('user', JSON.stringify(user));
 		},
@@ -71,7 +74,8 @@ export default flux.store({
 				type:     payload.user.type,
 				access:   payload.user.access,
 				username: payload.user.username,
-				boards:   storedUser.boards
+				boards:   payload.user.boards
+				//boards:   storedUser.boards
 			}
 			localStorage.setItem('user',  JSON.stringify(user));
 			localStorage.setItem('token', payload.token);

@@ -9,7 +9,8 @@ const User = immutable.Record({
 	id:       '',
 	type:     UserType.Guest,
 	access:   '',
-	username: ''
+	username: '',
+	boards:   []
 });
 
 User.Type = UserType;
