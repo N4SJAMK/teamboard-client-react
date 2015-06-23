@@ -1,7 +1,7 @@
-import React 		from 'react/addons';
-import Dialog 		from '../../components/dialog';
-import UserStore    from '../../stores/user';
-import api  		from '../../utils/api';
+import Reac		from 'react/addons';
+import Dialo		from '../../components/dialog';
+import UserStore	from '../../stores/user';
+import ap		from '../../utils/api';
 
 export default React.createClass({
     propTypes: {
@@ -9,13 +9,13 @@ export default React.createClass({
     },
 
     getInitialState() {
-		return { 
-			infoReceived:   false,
-			clientVersion:  process.env.VERSION || 'unknown',
-    		apiVersion:     null,
-    		imgVersion:     null
-    	}
-	},
+	return { 
+	    infoReceived:   false,
+	    clientVersion:  process.env.VERSION || 'unknown',
+    	    apiVersion:     null,
+    	    imgVersion:     null
+    	    }
+    },
 
     componentWillMount(){
     	let token = UserStore.getToken();
@@ -29,7 +29,7 @@ export default React.createClass({
         });
 		
     	api.queryImgVersion({ token }).then((res) => {
-			this.state.imgVersion = res.version || 'unknown';
+	    this.state.imgVersion = res.version || 'unknown';
             this.setState({infoReceived : true});
     	}, (err) => {
             this.state.imgVersion = 'error';
