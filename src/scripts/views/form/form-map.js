@@ -148,7 +148,9 @@ export default {
 					return page.show(`/boards/${boardID}`);
 				}, (err) => {console.log(err)});
 
-			}, (err) => {console.log(err)});
+			}, (err) => {
+				return page.redirect(`/boards/${boardID}/access/${accessCode}`)
+			});
 
 		},
 		action: 'Login'

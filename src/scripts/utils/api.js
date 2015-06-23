@@ -87,9 +87,6 @@ function loginGuest(opts = {}) {
 }
 
 function giveBoardAccess(opts = {}) {
-
-	console.log(opts);
-
 	let options = {
 		url:     `${API_URL}/boards/${opts.id.board}/access/${opts.id.code}/grantaccess`,
 		token: opts.token
