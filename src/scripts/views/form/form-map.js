@@ -3,6 +3,7 @@ import Action          from '../../actions';
 import UserAction      from '../../actions/user';
 import BroadcastAction from '../../actions/broadcast';
 
+import UserStore       from '../../stores/user';
 /**
  *
  */
@@ -102,10 +103,18 @@ export default {
 		],
 		secondary: {
 			submit: (formType, boardID, accessCode) => {
-				return page.show(`/userlogin/boards/${boardID}/access/${accessCode}`);
+
+				if(UserStore.getToken()) {
+					return UserAction.giveBoardAccess(boardID, accessCode).then(() => {
+						return page.show(`/boards/${boardID}`);
+					}, (err) => {console.log(err)});
+				}
+				else {
+					return page.show(`/userlogin/boards/${boardID}/access/${accessCode}`);
+				}
 			},
 			action:      'Log in',
-			description: 'Already registered?'
+			description: 'Got an account?'
 		},
 		submit: (state, boardID, accessCode) => {
 			let credentials = Object.assign(state, {
@@ -140,6 +149,7 @@ export default {
 				}, (err) => {console.log(err)});
 
 			}, (err) => {console.log(err)});
+
 		},
 		action: 'Login'
 	},

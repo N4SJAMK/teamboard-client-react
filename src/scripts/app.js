@@ -151,10 +151,8 @@ page('/boards/:id/access/:code',
 		);
 	});
 page('/userlogin/boards/:id/access/:code',
-	middleware.user.loggedOut,
 	middleware.socket.disconnect,
 	(ctx) => {
-		console.log(ctx);
 		return React.render(
 			<UserAccessView formProfile="userAccessForm" boardID={ctx.params.id}
 							accessCode={ctx.params.code} />,
