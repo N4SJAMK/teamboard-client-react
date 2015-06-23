@@ -52,7 +52,6 @@ export default flux.actionCreator({
 				return Promise.resolve();
 			})
 			.catch((err) => {
-				console.log(err);
 				BroadcastAction.add(err, Action.User.Login);
 				return Promise.reject();
 			});
@@ -68,7 +67,7 @@ export default flux.actionCreator({
 				return Promise.resolve();
 			})
 			.catch((err) => {
-				console.log(err);
+				BroadcastAction.add(err, Action.User.GiveBoardAccess);
 				return Promise.reject();
 			});
 	},
