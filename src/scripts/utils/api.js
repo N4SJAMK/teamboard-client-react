@@ -3,6 +3,7 @@ import Board  from '../models/board';
 import Ticket from '../models/ticket';
 
 import request from '../utils/request';
+import page    from 'page';
 
 /**
  * NOTE We use a lot of Model.fromJS.toJS conversion here, this is so that we
@@ -21,12 +22,13 @@ export default {
 	getTicket:  getTicket,
 	getTickets: getTickets,
 
-	createBoard:  createBoard,
-	createTicket: createTicket,
-	updateBoard:  updateBoard,
-	updateTicket: updateTicket,
-	deleteBoard:  deleteBoard,
-	deleteTicket: deleteTicket,
+	createBoard:   createBoard,
+	createTicket:  createTicket,
+	createComment: createComment,
+	updateBoard:   updateBoard,
+	updateTicket:  updateTicket,
+	deleteBoard:   deleteBoard,
+	deleteTicket:  deleteTicket,
 
 	revokeAccessCode:   revokeAccessCode,
 	generateAccessCode: generateAccessCode
@@ -104,6 +106,10 @@ function getBoard(opts = {}) {
 		// Remove the empty 'tickets' collection to prevent overwriting.
 		delete board.tickets;
 		return board;
+	}, (err) => {
+		if (err.statusCode === 404 || err.statusCode === 400 || err.statusCode === 500) {
+			page.redirect('/workspace');
+	}
 	});
 }
 
@@ -161,6 +167,18 @@ function createTicket(opts = {}) {
 		token:   opts.token,
 		payload: opts.payload
 	}
+	return request.post(options).then((res) => {
+		return Ticket.fromJS(res.body).toJS();
+	});
+}
+
+function createComment(opts = {}) {
+	let options = {
+		url:     `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}/comments`,
+		token:   opts.token,
+		payload: opts.payload
+	}
+
 	return request.post(options).then((res) => {
 		return Ticket.fromJS(res.body).toJS();
 	});

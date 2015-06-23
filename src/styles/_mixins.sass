@@ -12,7 +12,8 @@
 			.controls
 				z-index: 10000
 				.#{$icon}
-					transition-duration: 	0.5s;
+					border-radius: 			2px
+					transition-duration: 	0.5s
 					color: 					$neptune
 					background-color: 		$patina
 					box-shadow: 			0px 0px 8px 1px $white
@@ -23,3 +24,50 @@
 		position: absolute
 		left: $left
 		top: $top
+
+@mixin animate($name, $duration, $iteration, $direction)
+	-webkit-animation-duration: $duration
+	-moz-animation-duration: $duration
+	-o-animation-duration: $duration
+	animation-duration: $duration
+
+	-webkit-animation-iteration-count: $iteration
+	-moz-animation-iteration-count: $iteration
+	-o-animation-iteration-count: $iteration
+	animation-iteration-count: $iteration
+
+	-webkit-animation-name: $name
+	-moz-animation-name: $name
+	-o-animation-name: $name
+	animation-name: $name
+
+	-webkit-animation-direction: $direction
+	-moz-animation-direction: $direction
+	-o-animation-direction: $direction
+	animation-direction: $direction
+
+@mixin keyframes($animationName)
+	@-webkit-keyframes #{$animationName}
+		@content;
+
+	@-moz-keyframes #{$animationName}
+		@content;
+
+	@-o-keyframes #{$animationName}
+		@content;
+
+	@keyframes #{$animationName}
+		@content;
+
+
+@include keyframes(pulsate)
+	from
+		background-color: $affair
+		transform: scale(1)
+		opacity: 1
+	to
+		transform: scale(1.5)
+		opacity: 0
+
+@mixin pulsate
+	@include animate(pulsate, 0.9s, infinite, normal)

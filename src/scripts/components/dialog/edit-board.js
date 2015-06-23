@@ -59,7 +59,7 @@ export default React.createClass({
 	render() {
 		let board = this.props.board;
 
-		if(this.state.width != "" && this.state.height != "") {
+		if(this.state.width !== "" && this.state.height !== "") {
 			board = this.props.board.set('size',
 				new Board.Size({width: this.state.width, height: this.state.height}));
 		}
@@ -68,7 +68,7 @@ export default React.createClass({
 			board = board.set('background', this.state.background);
 		}
 
-		if(this.state.customBackground && this.state.background == "CUSTOM") {
+		if(this.state.customBackground && this.state.background === "CUSTOM") {
 			board = board.set('customBackground', this.state.customBackground);
 		}
 

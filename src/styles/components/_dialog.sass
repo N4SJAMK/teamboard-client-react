@@ -27,14 +27,109 @@
 			font-size:      18px
 			letter-spacing: 1px
 
-		.dialog-content
-			padding: 8px 16px
+		.dialog-heading
+			font-weight: bold
+			padding:     8px 16px
+			span
+				cursor: pointer
+				cursor: hand
 
-			p
-				text-align: center
+		.dialog-comments
+			padding: 8px 16px 16px 16px
+
+			.comment-wrapper
+				@include display(flex)
+				@include flex-direction(column)
+				overflow:         hidden
+				overflow-y:       auto
+				max-height:       200px
+				border-radius:    5px
+				background-color: $white
+
+				.comment
+					height:     50px
+					min-height: 50px
+
+					.comment-username
+						@include   margin(5 0 0 4)
+						font-size: smaller
+						color:     $dove-gray
+
+					.comment-message
+						@include margin(5 0 0 4)
+
+					.comment-timestamp
+						@include margin(4 4 0 0)
+						font-size: smaller
+						color:     $dove-gray
+						float:     right
+
+				.comment:not(:last-child)
+					border-bottom: 1px solid
+					border-color:  $silver-chalice
+
+			.new-comment-section
+				margin-top: 6px
+				@include display(flex)
+				@include flex-direction(row)
+				input
+					margin-right:  6px
+					margin-bottom: 6px
+				button
+					width: 40%
+
+		.dialog-content
+			padding:    8px 16px
+			overflow:   hidden
+			max-height: 50vh
+			overflow-y: auto
+
+			textarea
+				max-height: 50vh
 
 			input
 				margin-bottom: 8px
+
+			span
+				cursor:        pointer
+				cursor:        hand
+				overflow-wrap: break-word
+
+				p
+					white-space: pre-wrap
+
+				h1, h2, h3, h4
+					@include margin(0px 0px 0px 0px)
+
+				img
+					display: block
+
+				code
+					display: block
+
+				a
+					font-size:    13pt
+					padding:      0
+					display:      inline
+					color:        $neptune
+					border-width: 0px
+
+				blockquote
+					margin: 10px
+
+				ul
+					list-style-type: disc
+
+					li
+						margin-left:     20px
+						list-style-type: disc
+
+				ol
+					list-style-type: decimal
+
+					li
+						margin-left:     20px
+						list-style-type: decimal
 
 			@include display(flex)
 			@include flex-direction(column)
@@ -54,8 +149,8 @@
 
 			border-radius:    5px
 			background-color: $gallery
-			margin-top: 4px
-			width:      100%
+			margin-top:       4px
+			width:            100%
 
 			.dialog-size
 				padding-top:   4px
@@ -67,7 +162,7 @@
 				input
 					background-color: $white
 					width:            100%
-					-moz-appearance: textfield
+					-moz-appearance:  textfield
 				input[type="number"]::-webkit-inner-spin-button
 					-webkit-appearance: none
 					margin:             0
@@ -79,6 +174,19 @@
 				font-size:  130%
 				width:      10%
 
+		.deleteicon
+			@include transition(color, 0.2s)
+			padding:     10px 16px 16px 16px
+			color:       $dove-gray
+			font-size:   10pt
+			cursor:      hand
+			cursor:      pointer
+			font-family: Lato
+		  
+			&:before
+				font-family: FontAwesome
+			&:hover
+				color: $burnt-sienna
 
 		.dialog-footer
 			padding: 8px 16px 16px 16px
@@ -87,7 +195,7 @@
 			@include flex-direction(row)
 
 			button
-				@include flex(1)
+				@include flex(2)
 
 				margin: 0px 8px
 
