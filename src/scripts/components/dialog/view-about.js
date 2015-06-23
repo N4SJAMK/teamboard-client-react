@@ -21,12 +21,12 @@ export default React.createClass({
     	let token = UserStore.getToken();
 
     	api.queryApiVersion({ token }).then((res) => {
-    		this.state.apiVersion = res.version;
+    		this.state.apiVersion = res.version  || 'unknown';
             this.setState({infoGet : true});
     	}, (err) => { this.state.apiVersion = 'Error'; this.setState({infoGet : true}); });
 		
     	api.queryImgVersion({ token }).then((res) => {
-			this.state.imgVersion = res.version;
+			this.state.imgVersion = res.version || 'unknown';
             this.setState({infoGet : true});
     	}, (err) => { this.state.imgVersion = 'Error'; this.setState({infoGet : true}); });
     },
