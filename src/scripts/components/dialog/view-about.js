@@ -10,10 +10,10 @@ export default React.createClass({
 
     getInitialState() {
 		return { 
-			infoGet: 		false,
-			clientVersion: 	process.env.VERSION || 'unknown',
-    		apiVersion: 	null,
-    		imgVersion: 	null
+			infoReceived:   false,
+			clientVersion:  process.env.VERSION || 'unknown',
+    		apiVersion:     null,
+    		imgVersion:     null
     	}
 	},
 
@@ -21,14 +21,20 @@ export default React.createClass({
     	let token = UserStore.getToken();
 
     	api.queryApiVersion({ token }).then((res) => {
-    		this.state.apiVersion = res.version  || 'unknown';
-            this.setState({infoGet : true});
-    	}, (err) => { this.state.apiVersion = 'Error'; this.setState({infoGet : true}); });
+            this.state.apiVersion = res.version  || 'unknown';
+            this.setState({infoReceived : true});
+    	}, (err) => { 
+            this.state.apiVersion = 'error'; 
+            this.setState({infoReceived : true}); 
+        });
 		
     	api.queryImgVersion({ token }).then((res) => {
 			this.state.imgVersion = res.version || 'unknown';
-            this.setState({infoGet : true});
-    	}, (err) => { this.state.imgVersion = 'Error'; this.setState({infoGet : true}); });
+            this.setState({infoReceived : true});
+    	}, (err) => {
+            this.state.imgVersion = 'error';
+            this.setState({infoReceived : true});
+        });
     },
 
     shouldComponentUpdate(){
