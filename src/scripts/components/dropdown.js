@@ -57,8 +57,9 @@ export default React.createClass({
 	},
 
 	render() {
+		let additionalClass = !this.props.className ? null : this.props.className
 		return !this.props.show ? null : (
-			<ul className={`dropdown ${this.props.className}`}>
+			<ul className={`dropdown ${additionalClass}`}>
 				{this.props.items.map((item, index) => {
 					return <DropdownItem key={index} {...item} />;
 				})}

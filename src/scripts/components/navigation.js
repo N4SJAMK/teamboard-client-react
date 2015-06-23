@@ -80,7 +80,7 @@ export default React.createClass({
 			);
 
 		let items = [
-			{ icon: 'user',     content: 'Profile',
+			{ icon: 'user', content: 'Profile',
 			onClick: () => {
 				return page.show('/profile')
 			}
@@ -110,19 +110,23 @@ export default React.createClass({
 		];
 		let locales = [
 			{flag: 'fi', content: 'Suomi', onClick: () => {
-					SettingsAction.setSetting('locale', 'fi')
+					SettingsAction.setSetting('locale', 'fi');
+					this.toggleDropdown();
 				}
 			},
 			{flag: 'se', content: 'Svenska', onClick: () => {
-					SettingsAction.setSetting('locale', 'se')
+					SettingsAction.setSetting('locale', 'se');
+					this.toggleDropdown();
 				}
 			},
 			{flag: 'ru', content: 'ruskibou9000', onClick: () => {
-					SettingsAction.setSetting('locale', 'ru')
+					SettingsAction.setSetting('locale', 'ru');
+					this.toggleDropdown();
 				}
 			},
 			{flag: 'gb', content: 'English', onClick: () => {
-					SettingsAction.setSetting('locale', 'en')
+					SettingsAction.setSetting('locale', 'en');
+					this.toggleDropdown();
 				}
 			}
 		]
