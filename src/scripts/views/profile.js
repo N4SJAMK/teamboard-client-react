@@ -95,9 +95,12 @@ export default React.createClass({
 
 	renderSidelinks() {
 		return ProfileForms.linkItems.map((field, index) => {
+			let className = field.class === this.props.formProfile ? 'active' : null
 			return (
 				<li>
-					<button onClick={field.onClick}>{field.name}</button>
+					<button className={className} onClick={field.onClick}>
+						{field.name}
+					</button>
 				</li>
 			);
 		});

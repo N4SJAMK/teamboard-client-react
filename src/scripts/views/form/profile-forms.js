@@ -10,7 +10,8 @@ export default {
 			'oldPassword',
 			'newPassword',
 			'newPasswordAgain',
-			'name'
+			'name',
+			'currentView'
 		],
 		loginSettings: {
 			title: 'Login information',
@@ -75,12 +76,14 @@ export default {
 		},
 	linkItems: [
 			{
+				class: 'profileSettings',
 				name: 'Change your account information',
 				onClick: () => {
 					return page.show('/profile');
 				}
 			},
 			{
+				class: 'loginSettings',
 				name: 'Change your login settings',
 				onClick: () => {
 					return page.show('/profile/login');

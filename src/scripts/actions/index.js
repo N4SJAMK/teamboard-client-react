@@ -19,7 +19,7 @@ export default flux.actions({
 		Disconnect: null
 	},
 	Settings: {
-		Edit: null
+		Edit: null,
 	},
 	Broadcast: {
 		Add:    null,

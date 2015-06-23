@@ -3,6 +3,10 @@ import React from 'react';
 
 import Action          from '../actions';
 import UserAction      from '../actions/user';
+import SettingsAction from '../actions/settings';
+
+import settings from '../mixins/locale';
+
 import BroadcastAction from '../actions/broadcast';
 
 import Dropdown  from '../components/dropdown';
@@ -13,13 +17,17 @@ import InfoView  from  './dialog/view-info';
  *
  */
 export default React.createClass({
+	mixins: [settings('locale')],
 	propTypes: {
 		title: React.PropTypes.string.isRequired,
 		showHelp: React.PropTypes.bool
 	},
 
 	getInitialState() {
-		return { dropdown: false, feedback: false, infoActive: false }
+		return { 
+			dropdown: false, localesDropdown: false,
+			feedback: false, infoActive: false
+		}
 	},
 
 	showWorkspace() {
@@ -28,6 +36,8 @@ export default React.createClass({
 
 	toggleDropdown() {
 		this.setState({ dropdown: !this.state.dropdown });
+		if(this.state.localesDropdown)
+			this.setState({ localesDropdown: !this.state.localesDropdown });
 	},
 
 	toggleInfoView() {
@@ -75,7 +85,11 @@ export default React.createClass({
 				return page.show('/profile')
 			}
 			},
-			{ icon: 'language', content: 'Localization', disabled: true  },
+			{ icon: 'language', content: 'Localization',
+				onClick: () => {
+					this.setState({ localesDropdown: !this.state.localesDropdown });
+				}
+			},
 			{
 				content: (
 					<UserVoice>
@@ -94,6 +108,24 @@ export default React.createClass({
 				icon: 'sign-out', content: 'Logout'
 			}
 		];
+		let locales = [
+			{icon: 'train', content: 'Suomi', onClick: () => {
+					SettingsAction.setSetting('locale', 'fi')
+				}
+			},
+			{icon: 'ice-cream', content: 'Svenska', onClick: () => {
+					SettingsAction.setSetting('locale', 'se')
+				}
+			},
+			{icon: 'car', content: 'ruskibou9000', onClick: () => {
+					SettingsAction.setSetting('locale', 'ru')
+				}
+			},
+			{icon: 'man', content: 'English', onClick: () => {
+					SettingsAction.setSetting('locale', 'en')
+				}
+			}
+		]
 		return (
 			<nav id="nav" className="nav">
 				<img className="logo" src="/dist/assets/img/logo.svg"
@@ -104,6 +136,7 @@ export default React.createClass({
 					<span className="fa fa-fw fa-user"></span>
 				</div>
 				<Dropdown show={this.state.dropdown} items={items} />
+				<Dropdown className='locales' show={this.state.localesDropdown} items={locales} />
 				{infoDialog}
 			</nav>
 
