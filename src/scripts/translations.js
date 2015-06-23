@@ -1,5 +1,5 @@
 export default {
-	'en-US': {
+	en: {
 		'AUTH_HEADER_REGISTER': 'Register',
 		'AUTH_HEADER_LOGIN': 'Login',
 		'AUTH_MESSAGE_EMPTYFIELDS': 'Please enter your email and password.',
