@@ -2,6 +2,7 @@ import React from 'react';
 
 const DropdownItem = React.createClass({
 	propTypes: {
+		flag:     React.PropTypes.string,
 		icon:     React.PropTypes.string,
 		onClick:  React.PropTypes.func,
 		disabled: React.PropTypes.bool
@@ -23,12 +24,15 @@ const DropdownItem = React.createClass({
 			item:     true,
 			disabled: this.props.disabled
 		});
+		let flag = !this.props.flag ? null : (
+			<img className='fa fa-fw' src={`/dist/assets/img/${this.props.flag}.png`} alt="flag"/>
+		);
 		let icon = !this.props.icon ? null : (
 			<span className={`fa fa-fw fa-${this.props.icon}`} />
 		);
 		return (
 			<li className={itemClasses} onClick={this.props.onClick}>
-				{icon}{this.props.content}
+				{flag}{icon}{this.props.content}
 			</li>
 		);
 	}

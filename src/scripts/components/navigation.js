@@ -109,19 +109,19 @@ export default React.createClass({
 			}
 		];
 		let locales = [
-			{icon: 'train', content: 'Suomi', onClick: () => {
+			{flag: 'fi', content: 'Suomi', onClick: () => {
 					SettingsAction.setSetting('locale', 'fi')
 				}
 			},
-			{icon: 'ice-cream', content: 'Svenska', onClick: () => {
+			{flag: 'se', content: 'Svenska', onClick: () => {
 					SettingsAction.setSetting('locale', 'se')
 				}
 			},
-			{icon: 'car', content: 'ruskibou9000', onClick: () => {
+			{flag: 'ru', content: 'ruskibou9000', onClick: () => {
 					SettingsAction.setSetting('locale', 'ru')
 				}
 			},
-			{icon: 'man', content: 'English', onClick: () => {
+			{flag: 'gb', content: 'English', onClick: () => {
 					SettingsAction.setSetting('locale', 'en')
 				}
 			}
