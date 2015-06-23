@@ -1,7 +1,7 @@
 import Reac		from 'react/addons';
 import Dialo		from '../../components/dialog';
 import UserStore	from '../../stores/user';
-import ap		from '../../utils/api';
+import api		from '../../utils/api';
 
 export default React.createClass({
     propTypes: {
