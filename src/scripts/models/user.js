@@ -1,8 +1,8 @@
 import immutable from 'immutable';
 
 const UserType = {
-	User:  'user',
-	Guest: 'guest'
+	User:  'standard',
+	Guest: 'temporary'
 }
 
 const User = immutable.Record({
@@ -18,6 +18,7 @@ User.Type = UserType;
  * Simple factoryish function to make sure we get a properly formatted record.
  */
 User.fromJS = function fromJS(user) {
+	user.type = user.type || user.account_type;
 	user.type = user.type === UserType.User
 		? UserType.User
 		: UserType.Guest;
