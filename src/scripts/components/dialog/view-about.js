@@ -1,5 +1,5 @@
-import Reac		from 'react/addons';
-import Dialo		from '../../components/dialog';
+import React		from 'react/addons';
+import Dialog		from '../../components/dialog';
 import UserStore	from '../../stores/user';
 import api		from '../../utils/api';
 
