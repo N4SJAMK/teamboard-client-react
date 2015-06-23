@@ -1,0 +1,66 @@
+
+.view-settings
+	height: 100%
+	padding: 0
+	background-color: #f2f2f2
+	overflow-y: scroll
+	.content-settings
+		@include display(flex)
+		@include flex-direction(row)
+		@include justify-content(center)
+		margin: 40px auto
+		max-width: 600px
+		.settings-nav
+			@include flex(2)
+			.menu-link
+				display: none
+				cursor: pointer
+			ul
+				margin-right: 10px
+				li
+					cursor: pointer
+					&.active
+						font-weight: bold
+						&:hover
+							color: black
+					&:hover
+						color: $silver-chalice
+					span
+						display: inline-block
+						margin-right: 5px
+
+		.form-container
+			@include flex(5)
+			padding: 20px
+			background-color: $white
+			border-radius: 3px
+			border: 1px solid #d3d3d3
+			box-shadow: 1px 1px 5px #e5e5e5
+			overflow-y: auto
+		.login-info
+			h3
+				border-bottom: 1px solid #c5c5c5
+				padding-bottom: 5px
+			section
+				margin-bottom: 20px
+
+	@media screen and (max-width: 600px)
+		.content-settings
+			@include flex-direction(column)
+			@include margin(10 10 10 10)
+			.settings-nav
+				span.menu-link
+					display: block
+					@include margin(10 15 15 5)
+				nav
+					overflow: hidden
+					max-height: 0
+					@include transition(all 0.5s ease-in-out)
+					ul
+						margin-right: 0px
+						li
+							border-top: 1px solid #c5c5c5
+				nav.active
+					@include margin(0 0 0 0)
+					max-height: 15em
+

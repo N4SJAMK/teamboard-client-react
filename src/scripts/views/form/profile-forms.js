@@ -13,12 +13,12 @@ export default {
 			'name'
 		],
 		loginSettings: {
-			title: 'Login information',
+			title: 'Change password',
 			fields: [
 				{
 					name:     'oldPassword',
 					type:     'password',
-					label:    'Enter your old password',
+					label:    'Enter current password',
 					pattern:  '.{8,}',
 					required: true
 				},
@@ -85,13 +85,23 @@ export default {
 		},
 	linkItems: [
 			{
-				name: 'Change your account information',
+				activeWhile: '',
+				icon: 'arrow-left',
+				name: 'Workspace',
+				onClick: () => {
+					return page.show('/boards');
+				}
+			},
+			{
+				activeWhile: 'profileSettings',
+				name: 'Profile settings',
 				onClick: () => {
 					return page.show('/profile');
 				}
 			},
 			{
-				name: 'Change your login settings',
+				activeWhile: 'loginSettings',
+				name: 'Password',
 				onClick: () => {
 					return page.show('/profile/login');
 				}
