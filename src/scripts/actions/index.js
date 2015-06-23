@@ -13,10 +13,12 @@ export default flux.actions({
 		UpdatePassword: null
 	},
 	Socket: {
-		Join:       null,
-		Leave:      null,
-		Connect:    null,
-		Disconnect: null
+		Join:        null,
+		Leave:       null,
+		Connect:     null,
+		ConnectFail: null,
+		Error:       null,
+		Disconnect:  null
 	},
 	Settings: {
 		Edit: null,

@@ -7,7 +7,7 @@ import BroadcastAction from '../../actions/broadcast';
  *
  */
 
-export default
+export default 
 	{
 		registerForm: {
 			fields: [

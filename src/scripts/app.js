@@ -10,10 +10,9 @@ import User      from './models/user';
 
 import BoardView      from './views/board';
 import WorkspaceView  from './views/workspace';
-import LoginView      from './views/form/';
-import RegisterView   from './views/form/';
-import GuestLoginView from './views/form/';
-import ProfileView    from './views/profile';
+
+import FormView    from './views/form/';
+import ProfileView from './views/profile';
 
 // This should fix some of the issues with clicking and touch enabled devices.
 fastclick(document.body);
@@ -101,7 +100,7 @@ page('/login',
 	middleware.socket.disconnect,
 	() => {
 		return React.render(
-			<LoginView formProfile="loginForm" />,
+			<FormView formProfile="loginForm" />,
 			document.getElementById('application')
 		);
 	});
@@ -111,7 +110,7 @@ page('/register',
 	middleware.socket.disconnect,
 	() => {
 		return React.render(
-			<RegisterView formProfile="registerForm" />,
+			<FormView formProfile="registerForm" />,
 			document.getElementById('application')
 		);
 	});
@@ -140,7 +139,7 @@ page('/boards/:id/access/:code',
 	middleware.socket.disconnect,
 	(ctx) => {
 		return React.render(
-			<GuestLoginView formProfile="guestLoginForm" boardID={ctx.params.id}
+			<FormView formProfile="guestLoginForm" boardID={ctx.params.id}
 				accessCode={ctx.params.code} />,
 			document.getElementById('application')
 		);

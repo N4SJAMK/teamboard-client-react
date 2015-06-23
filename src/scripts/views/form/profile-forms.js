@@ -41,11 +41,16 @@ export default {
 					name:     'submitPassword',
 					type:     'submit',
 					className: 'btn-primary',
-					action:    'Change Password'
+					action:    'Update Password'
 				}
 			],
 			submit: (state) => {
-				return UserAction.updatePassword(state.newPassword, state.oldPassword)
+				return UserAction.updatePassword(state.newPassword, state.oldPassword).then(() => {
+					BroadcastAction.add({
+						type:    'broadcast',
+						content: 'Success!'
+					});
+				}).catch(() => {});
 			},
 			action: 'Save changes'
 		},
@@ -70,7 +75,12 @@ export default {
 				}
 			],
 			submit: (state) => {
-				return UserAction.updateName(state.name)
+				return UserAction.updateName(state.name).then(() => {
+					BroadcastAction.add({
+						type:    'broadcast',
+						content: 'Success!'
+					});
+				}).catch(() => {});
 			},
 			action: 'Save changes'
 		},

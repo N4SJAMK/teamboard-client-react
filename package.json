@@ -16,13 +16,15 @@
     "hammerjs": "2.0.4",
     "immutable": "3.6.2",
     "iscroll": "5.1.3",
+    "markdown": "0.5.0",
+    "nuka-carousel": "0.0.12",
     "page": "1.6.0",
     "react": "0.13.1",
+    "react-autosize-textarea": "0.2.2",
     "react-tween-state": "0.0.4",
     "socket.io-client": "1.3.3",
     "superagent": "1.1.0",
-    "utf8": "2.1.0",
-    "nuka-carousel": "0.0.12"
+    "utf8": "2.1.0"
   },
   "devDependencies": {
     "babel-eslint": "2.0.2",
@@ -46,6 +48,7 @@
     "karma-mocha-reporter": "1.0.2",
     "karma-phantomjs-launcher": "0.1.4",
     "minimist": "1.1.1",
+    "react-timeago": "2.0.2",
     "should": "4.6.1",
     "vinyl-buffer": "1.0.0",
     "vinyl-source-stream": "1.0.0",

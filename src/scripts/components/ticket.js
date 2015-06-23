@@ -2,6 +2,7 @@ import React      from 'react/addons';
 import Hammer     from 'hammerjs';
 import immutable  from 'immutable';
 import TweenState from 'react-tween-state';
+import markdown   from 'markdown';
 
 import gridify   from '../utils/gridify';
 import doubletap from '../utils/doubletap';
@@ -115,8 +116,8 @@ export default React.createClass({
 	tween(to, from, duration) {
 		[ 'x', 'y' ].map((axis) => {
 			let tweeningOpts = {
-				duration: duration || 500,
-				endValue: to[axis],
+				duration:   duration || 500,
+				endValue:   to[axis],
 				beginValue: from ? from[axis] : null
 			}
 			return this.tweenState(axis, tweeningOpts);
@@ -139,11 +140,27 @@ export default React.createClass({
 				ticket={this.props.ticket}
 				onDismiss={this.toggleEditDialog} />
 		);
+
+		let markupContent = markdown.markdown.toHTML(this.props.ticket.content);
+
+		// Add target="_blank" attribute to links
+		if (markupContent.includes('<a href=')) {
+			markupContent = markupContent.replace(/<a href="/g, '<a target="_blank" href="');
+		}
+
 		return (
 			<div className="ticket" style={style.ticket}>
-				<div className="color" style={style.color} />
+				<div className="color" style={style.color}></div>
+				<div className="heading">
+					{this.props.ticket.heading}
+				</div>
 				<div className="content">
-					{this.props.ticket.content}
+					<span dangerouslySetInnerHTML={{__html: markupContent}} />
+					<span className="count-icon">
+						<span className="fa fa-2x fa-comment comment">
+							<span className="count">{this.props.ticket.comments.size || this.props.ticket.comments.length}</span>
+						</span>
+					</span>
 				</div>
 				{editTicketDialog}
 			</div>

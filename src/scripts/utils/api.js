@@ -3,6 +3,7 @@ import Board  from '../models/board';
 import Ticket from '../models/ticket';
 
 import request from '../utils/request';
+import page    from 'page';
 
 /**
  * NOTE We use a lot of Model.fromJS.toJS conversion here, this is so that we
@@ -184,6 +185,18 @@ function updateUserPassword(opts = {}) {
     return request.put(options).then((res) => {
         return User.fromJS(res.body).toJS();
     });
+}
+
+function createComment(opts = {}) {
+	let options = {
+		url:     `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}/comments`,
+		token:   opts.token,
+		payload: opts.payload
+	}
+
+	return request.post(options).then((res) => {
+		return Ticket.fromJS(res.body).toJS();
+	});
 }
 
 function updateBoard(opts = {}) {

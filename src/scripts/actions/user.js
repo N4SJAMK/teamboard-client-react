@@ -103,10 +103,6 @@ export default flux.actionCreator({
 
 		return api.updateUserName({ token: token, payload: { name: name }})
 			.then((user) => {
-			BroadcastAction.add({
-				type:    'broadcast',
-				content: 'Success!'
-			});
 				this.dispatch(Action.User.UpdateName, { user });
 				return Promise.resolve();
 			})
@@ -124,10 +120,6 @@ export default flux.actionCreator({
 
 		return api.updateUserPassword({ token: token, payload: { new_password: newPassword, old_password: oldPassword } })
 			.then((user) => {
-			BroadcastAction.add({
-				type:    'broadcast',
-				content: 'Success!'
-			});
 				this.dispatch(Action.User.UpdatePassword, { user });
 				return Promise.resolve();
 			})
