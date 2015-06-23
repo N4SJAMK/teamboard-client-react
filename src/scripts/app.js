@@ -13,6 +13,7 @@ import WorkspaceView  from './views/workspace';
 import LoginView      from './views/form';
 import RegisterView   from './views/form';
 import GuestLoginView from './views/form';
+import UserAccessView from './views/form';
 
 import UserAction     from './actions/user';
 
@@ -149,6 +150,18 @@ page('/boards/:id/access/:code',
 			document.getElementById('application')
 		);
 	});
+page('/userlogin/boards/:id/access/:code',
+	middleware.user.loggedOut,
+	middleware.socket.disconnect,
+	(ctx) => {
+		console.log(ctx);
+		return React.render(
+			<UserAccessView formProfile="userAccessForm" boardID={ctx.params.id}
+							accessCode={ctx.params.code} />,
+			document.getElementById('application')
+		);
+	});
+
 
 page('/boards',
 	middleware.user.is('standard'),

@@ -100,6 +100,13 @@ export default {
 				required: true
 			}
 		],
+		secondary: {
+			submit: (formType, boardID, accessCode) => {
+				return page.show(`/userlogin/boards/${boardID}/access/${accessCode}`);
+			},
+			action:      'Log in',
+			description: 'Already registered?'
+		},
 		submit: (state, boardID, accessCode) => {
 			let credentials = Object.assign(state, {
 				boardID:    boardID,
@@ -110,5 +117,27 @@ export default {
 			}, (err) => {});
 		},
 		action: 'Login as Guest'
-	}
+	},
+	userAccessForm: {
+		fields: [
+			{
+				name:     'email',
+				type:     'email',
+				label:    'Email',
+				required: true
+			},
+			{
+				name:     'password',
+				type:     'password',
+				label:    'Password',
+				required: true
+			}
+		],
+		submit: (state) => {
+			return UserAction.login(state).then(() => {
+				return page.show(`/boards/${boardID}`);
+			}, (err) => {});
+		},
+		action: 'Login'
+	},
 }

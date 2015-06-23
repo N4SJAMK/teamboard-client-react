@@ -79,7 +79,12 @@ export default React.createClass({
 
 	submitSecondary(currentForm) {
 		return (event) => {
-			currentForm.secondary.submit(this.state);
+			if (this.props.formProfile !== 'guestLoginForm') {
+				currentForm.secondary.submit(this.state);
+			}
+			else {
+				currentForm.secondary.submit(this.state, this.props.boardID, this.props.accessCode);
+			}
 			return event.preventDefault();
 		}
 	},
@@ -89,7 +94,8 @@ export default React.createClass({
 			<section className="secondary">
 				<p>{formType.secondary.description}</p>
 				<button className="btn-secondary"
-						onClick={this.submitSecondary(formType)}>
+						onClick={this.submitSecondary(formType, this.props.boardID,
+							this.props.accessCode)}>
 					{formType.secondary.action}
 				</button>
 			</section>
