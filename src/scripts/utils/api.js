@@ -11,16 +11,16 @@ import page    from 'page';
  *      necessarily the most clean way, but it will do for now.
  */
 export default {
-	login:      login,
-	loginGuest: loginGuest,
-	logout:     logout,
-	register:   register,
-
-	getUser:    getUser,
-	getBoard:   getBoard,
-	getBoards:  getBoards,
-	getTicket:  getTicket,
-	getTickets: getTickets,
+	login:           login,
+	loginGuest:      loginGuest,
+	logout:          logout,
+	register:        register,
+	giveBoardAccess: giveBoardAccess,
+	getUser:         getUser,
+	getBoard:        getBoard,
+	getBoards:       getBoards,
+	getTicket:       getTicket,
+	getTickets:      getTickets,
 
 	createBoard:   createBoard,
 	createTicket:  createTicket,
@@ -83,6 +83,19 @@ function loginGuest(opts = {}) {
 			user:  User.fromJS(res.body).toJS(),
 			token: res.headers['x-access-token']
 		}
+	});
+}
+
+function giveBoardAccess(opts = {}) {
+
+	console.log(opts);
+
+	let options = {
+		url:     `${API_URL}/boards/${opts.id.board}/access/${opts.id.code}/grantaccess`,
+		token: opts.token
+	}
+	return request.put(options).then((res) => {
+		return Board.fromJS(res.body).toJS();
 	});
 }
 

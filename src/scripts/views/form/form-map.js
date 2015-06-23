@@ -133,10 +133,13 @@ export default {
 				required: true
 			}
 		],
-		submit: (state) => {
+		submit: (state, boardID, accessCode) => {
 			return UserAction.login(state).then(() => {
-				return page.show(`/boards/${boardID}`);
-			}, (err) => {});
+				return UserAction.giveBoardAccess(boardID, accessCode).then(() => {
+					return page.show(`/boards/${boardID}`);
+				}, (err) => {console.log(err)});
+
+			}, (err) => {console.log(err)});
 		},
 		action: 'Login'
 	},
