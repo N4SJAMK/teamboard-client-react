@@ -25,6 +25,7 @@ const middleware = {
 	user: {
 		is: (...types) => {
 			return function(ctx, next) {
+				console.log(ctx);
 				if((ctx.user = UserStore.getUser())) {
 					let userHasType = types.reduce((has, type) => {
 						return has || ctx.user.type === type;
@@ -47,6 +48,7 @@ const middleware = {
 						return page.redirect(`/boards/${ctx.user.access}`);
 					}
 				}
+				console.log('mee mario');
 				return page.redirect('/login');
 			}
 		},
@@ -98,14 +100,6 @@ UserStore.addChangeListener(() => {
 	}
 });
 
-function authenticate(ctx, next) {
-		if(ctx.token = localStorage.getItem('access_token')) {
-			
-			return next();
-		}
-
-}
-
 page('/login',
 	middleware.user.loggedOut,
 	middleware.socket.disconnect,
@@ -118,12 +112,12 @@ page('/login',
 
 page('/login/callback',
 	(ctx, next) => { 
+	let access_token = qs.parse(ctx.querystring).access_token;
 	if(ctx.querystring.length > 0) {
-		UserAction.load(qs.parse(ctx.querystring).access_token);
 			if(access_token && access_token.length > 0) {
-				localStorage.setItem('access_token', access_token);
+				localStorage.setItem('token', access_token);
 			}
-			return page.redirect(ctx.pathname)
+			UserAction.load().then(() => { page.redirect('/boards'); });
         }
     return next();
 });

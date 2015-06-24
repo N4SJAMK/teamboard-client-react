@@ -85,6 +85,8 @@ export default React.createClass({
 	},
 
 	renderForm(formType) {
+		let width = {width: 180};
+		let border = {border: 0};
 		let secondaryContent = !formType.secondary ? null : (
 			<section className="secondary">
 				<p>{formType.secondary.description}</p>
@@ -109,6 +111,9 @@ export default React.createClass({
 						{this.checkPasswords()}
 						<input type="submit" className="btn-primary"
 							value={formType.action} />
+						<a style={border} href="https://accounts.google.com/ServiceLogin?passive=1209600&continue=https://accounts.google.com/o/oauth2/auth?scope%3Dhttps://www.googleapis.com/auth/plus.login%2Bhttps://www.googleapis.com/auth/plus.profile.emails.read%26response_type%3Dcode%26redirect_uri%3Dhttp://localhost:9002/api/auth/google/callback%26client_id%3D161571982407-o698t9ofu4nl56efcu3dkl2f2nftb5du.apps.googleusercontent.com%26hl%3Dfi%26from_login%3D1%26as%3D5834cadbea55cda1&ltmpl=popup&oauth=1&sarp=1&scc=1#identifier">
+							<img style={width} src="https://developers.google.com/accounts/images/sign-in-with-google.png" />
+						</a>
 						<article className="help">{formType.help}</article>
 						<section className="secondary-content">
 							{secondaryContent}
