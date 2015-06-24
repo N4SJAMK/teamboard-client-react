@@ -74,11 +74,7 @@ export default flux.store({
 			localStorage.setItem('token', payload.token);
 		},
 
-		[Action.User.UpdateName](payload) {
-			localStorage.setItem('user', JSON.stringify(payload.user));
-		},
-
-		[Action.User.UpdatePassword](payload) {
+		[Action.User.Update](payload) {
 			localStorage.setItem('user', JSON.stringify(payload.user));
 		},
 
