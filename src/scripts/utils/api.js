@@ -30,9 +30,10 @@ export default {
     updateUserPassword: updateUserPassword,
     deleteBoard:        deleteBoard,
     deleteTicket:       deleteTicket,
-
-    revokeAccessCode:   revokeAccessCode,
-    generateAccessCode: generateAccessCode
+	revokeAccessCode:   revokeAccessCode,
+	generateAccessCode: generateAccessCode,
+	queryApiVersion: queryApiVersion,
+	queryImgVersion: queryImgVersion 
 }
 
 const API_URL = process.env.API_URL || 'http://localhost:9002/api';
@@ -266,4 +267,24 @@ function revokeAccessCode(opts = {}) {
         token: opts.token
     }
     return request.del(options);
+}
+
+function queryApiVersion(opts = {}) {
+	let options = {
+		url:   `${API_URL}/version/api`,
+		token: opts.token
+	}
+	return request.get(options).then((res) => {
+		return res.body;
+	});
+}
+
+function queryImgVersion(opts = {}) {
+	let options = {
+		url:   `${API_URL}/version/img`,
+		token: opts.token
+	}
+	return request.get(options).then((res) => {
+		return res.body;
+	});
 }
