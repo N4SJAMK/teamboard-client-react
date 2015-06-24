@@ -1,8 +1,8 @@
 import immutable from 'immutable';
 
 const UserType = {
-	User:  'standard',
-	Guest: 'temporary'
+	User:  'user',
+	Guest: 'guest'
 }
 
 const User = immutable.Record({
