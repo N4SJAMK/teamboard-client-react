@@ -76,9 +76,9 @@ function register(opts = {}) {
 function loginGuest(opts = {}) {
 	let options = {
 		url:     `${API_URL}/boards/${opts.id.board}/access/${opts.id.code}`,
-		headers: opts.payload
+		payload: opts.payload
 	}
-	return request.get(options).then((res) => {
+	return request.post(options).then((res) => {
 		return {
 			user:  User.fromJS(res.body).toJS(),
 			token: res.headers['x-access-token']

@@ -52,7 +52,8 @@ const Board = immutable.Record({
 	tickets:          immutable.List(),
 	background:       'NONE',
 	accessCode:       null,
-	customBackground: null
+	customBackground: null,
+	members: []
 });
 
 Board.Size       = Size;
@@ -66,7 +67,7 @@ Board.Background = Background;
 Board.fromJS = function fromJS(board) {
 	board.size    = new Board.Size(board.size);
 	board.tickets = board.tickets || [ ];
-
+	board.members = board.members || [ ];
 	board.tickets = board.tickets.reduce((collection, record) => {
 		return collection.push(Ticket.fromJS(record));
 	}, immutable.List());
@@ -74,7 +75,7 @@ Board.fromJS = function fromJS(board) {
 	if(!Board.Background.hasOwnProperty(board.background)) {
 		board.background = 'NONE';
 	}
-
+	console.log(new Board(board));
 	return new Board(board);
 }
 
