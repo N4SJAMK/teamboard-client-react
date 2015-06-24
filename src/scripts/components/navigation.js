@@ -5,7 +5,8 @@ import Action          from '../actions';
 import UserAction      from '../actions/user';
 import BroadcastAction from '../actions/broadcast';
 
-import Dropdown  from '../components/dropdown';
+import Dropdown     from '../components/dropdown';
+import MemberDialog from '../components/dialog/board-members';
 import UserVoice from '../components/user-voice';
 import InfoView  from  './dialog/view-info';
 
@@ -14,16 +15,24 @@ import InfoView  from  './dialog/view-info';
  */
 export default React.createClass({
 	propTypes: {
-		title: React.PropTypes.string.isRequired,
-		showHelp: React.PropTypes.bool
+		title:            React.PropTypes.string.isRequired,
+		showHelp:         React.PropTypes.bool,
+		showBoardMembers: React.PropTypes.bool,
+		board: (props) => {
+			if(!props.board instanceof Board) throw new Error();
+		}
 	},
 
 	getInitialState() {
-		return { dropdown: false, feedback: false, infoActive: false }
+		return { dropdown: false, feedback: false, infoActive: false, membersActive: false }
 	},
 
 	showWorkspace() {
 		return page.show('/boards');
+	},
+
+	toggleMembersDialog() {
+		this.setState({ membersActive: !this.state.membersActive });
 	},
 
 	toggleDropdown() {
@@ -35,6 +44,7 @@ export default React.createClass({
 	},
 
 	render: function() {
+		console.log(this.props.board);
 		let infoDialog = null;
 		let activeClick = null;
 		let infoIcon = null;
@@ -62,6 +72,29 @@ export default React.createClass({
 				avatar: true,
 				active: this.state.dropdown
 			});
+
+		let membersButtonClass =
+			React.addons.classSet({
+				members: true,
+				active: this.state.membersActive
+			});
+
+		let boardMembersDialog = null;
+
+		if (this.state.membersActive) {
+			console.log('asd');
+			boardMembersDialog = <MemberDialog board={this.props.board} onDismiss={this.toggleMembersDialog}/>
+		}
+
+		let showBoardMembers = !this.props.showBoardMembers ? null : (
+			<div id="members" onClick={this.toggleMembersDialog} className={membersButtonClass}>
+				<span className="fa fa-fw fa-users">
+					<span className="user-amount">
+						{this.props.board.members.length}
+					</span>
+				</span>
+			</div>
+		);
 
 		let showInfo = !this.props.showHelp ? null : (
 			<div id="info" onClick={this.toggleInfoView} className={infoButtonClass}>
@@ -98,12 +131,14 @@ export default React.createClass({
 				<img className="logo" src="/dist/assets/img/logo.svg"
 					onClick={this.showWorkspace} />
 				<h1 className="title">{this.props.title}</h1>
+				{showBoardMembers}
 				{showInfo}
 				<div id="avatar" onClick={activeClick} className={userButtonClass}>
 					<span className="fa fa-fw fa-user"></span>
 				</div>
 				<Dropdown show={this.state.dropdown} items={items} />
 				{infoDialog}
+				{boardMembersDialog}
 			</nav>
 
 		);
