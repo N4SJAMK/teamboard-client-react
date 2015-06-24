@@ -29,18 +29,35 @@ export default React.createClass({
         let board = this.props.board;
 
         return (
-            <Dialog className="dialog-edit-board"
+            <Dialog className="dialog-board-members"
                     onDismiss={this.props.onDismiss}>
                 <section className="dialog-header">
-                    Board Members
+                    Board members
                 </section>
                 <section className="dialog-content">
+                    <section className="dialog-members">
+                        <section className="dialog-header">
+                            Online
+                        </section>
+                        <section className="dialog-member-list">
+                            {board.members.map(function(member) {
+                                return (
+                                    <div className="member-info-online">{member.user.username}</div>
+                                );
+                            })}
+                        </section>
+                        <section className="dialog-header">
+                            Offline
+                        </section>
+                        <section className="dialog-member-list">
 
-                </section>
-                <section className="dialog-footer">
-                    <button className="btn-primary" onClick={this.submit}>
-                        Done
-                    </button>
+                        </section>
+                    </section>
+                    <section className="dialog-footer">
+                        <button className="btn-primary" onClick={this.submit}>
+                            Done
+                        </button>
+                    </section>
                 </section>
             </Dialog>
         );

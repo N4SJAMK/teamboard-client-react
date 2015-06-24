@@ -204,3 +204,25 @@
 
 				&:last-child
 					margin-right: 0px
+
+	.dialog-board-members
+		.dialog-header
+			font-size: 20px
+
+		.dialog-members
+			overflow-y: auto
+			max-height: 400px
+
+		.dialog-member-list
+			@include display(flex)
+			@include flex-wrap(wrap)
+			padding-left: 16px
+			overflow-y: auto
+
+			.member-info-online
+				@include margin(null 16px 16px null)
+				overflow: hidden
+				height: 32px
+				width: 40%
+				border-bottom: 1px solid
+				border-color: $silver-chalice

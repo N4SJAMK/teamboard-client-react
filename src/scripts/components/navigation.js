@@ -82,7 +82,6 @@ export default React.createClass({
 		let boardMembersDialog = null;
 
 		if (this.state.membersActive) {
-			console.log('asd');
 			boardMembersDialog = <MemberDialog board={this.props.board} onDismiss={this.toggleMembersDialog}/>
 		}
 
