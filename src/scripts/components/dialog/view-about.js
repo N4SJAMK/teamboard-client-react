@@ -9,29 +9,29 @@ export default React.createClass({
     },
 
     getInitialState() {
-	return { 
-	    infoReceived:   false,
-	    clientVersion:  process.env.VERSION || 'unknown',
-    	    apiVersion:     null,
-    	    imgVersion:     null
-    	    }
+	return {
+        infoReceived:   false,
+        clientVersion:  process.env.VERSION || 'unknown',
+        apiVersion:     null,
+        imgVersion:     null
+        }
     },
 
     componentWillMount(){
-    	let token = UserStore.getToken();
+        let token = UserStore.getToken();
 
-    	api.queryApiVersion({ token }).then((res) => {
-            this.state.apiVersion = res.version  || 'unknown';
+        api.queryApiVersion({ token }).then((res) => {
+            this.state.apiVersion = res.version || 'unknown';
             this.setState({infoReceived : true});
-    	}, (err) => { 
-            this.state.apiVersion = 'error'; 
-            this.setState({infoReceived : true}); 
+        }, (err) => {
+            this.state.apiVersion = 'error';
+            this.setState({infoReceived : true});
         });
-		
-    	api.queryImgVersion({ token }).then((res) => {
-	    this.state.imgVersion = res.version || 'unknown';
+
+        api.queryImgVersion({ token }).then((res) => {
+        this.state.imgVersion = res.version || 'unknown';
             this.setState({infoReceived : true});
-    	}, (err) => {
+        }, (err) => {
             this.state.imgVersion = 'error';
             this.setState({infoReceived : true});
         });
@@ -50,7 +50,7 @@ export default React.createClass({
     },
 
     render() {
-       	return(
+        return (
             <Dialog className="dialog-about"
                     onDismiss={this.props.onDismiss}>
                 <section className="dialog-header">
@@ -91,7 +91,7 @@ export default React.createClass({
                     </div>
                 </section>
                 <section className="dialog-footer">
-                	<button className="btn-primary" onClick={this.close}>
+                    <button className="btn-primary" onClick={this.close}>
 						Close
 					</button>
                 </section>
