@@ -80,4 +80,15 @@
 		opacity: 1
 
 @mixin slurppis
-	@include animate(slurppis, 0.12s, 1, normal)
+	@include animate(slurppis, 0.05s, 1, normal)
+
+@include keyframes(fadein)
+	0%
+		opacity: 0
+	50%
+		opacity: 0
+	100%
+		opacity: 1
+
+@mixin fadein
+	@include animate(fadein, 0.2s, 1, normal)
