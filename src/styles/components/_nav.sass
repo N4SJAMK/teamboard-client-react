@@ -67,8 +67,9 @@
 			color:            $white
 			border-color:     $affair
 			background-color: $voodoo
-
-	.dropdown
+	.options
+		@include position(absolute, 80px 4px null null)
+		@include slurppis
 		&::before
 			content: ""
 
@@ -81,11 +82,26 @@
 			border-right:  8px solid transparent
 			border-bottom: 8px solid $bastille
 
-		@include position(absolute, 80px 4px null null)
+	.locales
+		@include position(absolute, 80px 195px null null)
+		@include slurppis
+		&::before
+			content: ""
 
-		&.locales
-			@include position(absolute, 80px 180px null null)
-				
+			width:  0
+			height: 0
+
+			@include position(absolute, 60px -8px null null)
+
+			border-left:   8px solid $bastille
+			border-top:  8px solid transparent
+			border-bottom: 8px solid transparent
+
+		@media screen and (max-width: 450px)
+			span
+				display: none
+			width: 50px
+
 	.infobutton
 		@include flex-grow(0)
 		@include flex-shrink(0)

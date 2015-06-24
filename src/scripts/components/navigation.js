@@ -160,7 +160,7 @@ export default React.createClass({
 				<div id="avatar" onClick={activeClick} className={userButtonClass}>
 					<span className="fa fa-fw fa-user"></span>
 				</div>
-				<Dropdown show={this.state.dropdown} items={items} />
+				<Dropdown className='options' show={this.state.dropdown} items={items} />
 				<Dropdown className='locales' show={this.state.localesDropdown} items={locales} />
 				{infoDialog}
 				{aboutDialog}
