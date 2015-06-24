@@ -11,7 +11,8 @@ import BroadcastAction from '../actions/broadcast';
 
 import Dropdown  from '../components/dropdown';
 import UserVoice from '../components/user-voice';
-import InfoView  from  './dialog/view-info';
+import InfoView  from './dialog/view-info';
+import AboutView from './dialog/view-about';
 
 /**
  *
@@ -26,7 +27,8 @@ export default React.createClass({
 	getInitialState() {
 		return { 
 			dropdown: false, localesDropdown: false,
-			feedback: false, infoActive: false
+			feedback: false, infoActive: false,
+			aboutActive: false
 		}
 	},
 
@@ -44,8 +46,13 @@ export default React.createClass({
 		this.setState({ infoActive: !this.state.infoActive });
 	},
 
+	toggleAboutView() {
+		this.setState({ aboutActive: !this.state.aboutActive });
+	},
+
 	render: function() {
 		let infoDialog = null;
+		let aboutDialog = null;
 		let activeClick = null;
 		let infoIcon = null;
 
@@ -55,7 +62,15 @@ export default React.createClass({
 			activeClick = this.toggleDropdown;
 		} else {
 			infoIcon = 'times';
-			infoDialog = <InfoView onDismiss = { this.toggleInfoView} />;
+			infoDialog = <InfoView onDismiss = { this.toggleInfoView } />;
+			activeClick = () => {};
+		}
+
+		if(!this.state.aboutActive) {
+			aboutDialog = null;
+			activeClick = this.toggleDropdown;
+		} else {
+			aboutDialog = <AboutView onDismiss = { this.toggleAboutView } />;
 			activeClick = () => {};
 		}
 
@@ -97,6 +112,12 @@ export default React.createClass({
 						Feedback
 					</UserVoice>
 				)
+			},
+			{
+				onClick: () => {
+					this.toggleAboutView();
+				},
+				icon: 'question-circle', content: 'About'
 			},
 			{
 				onClick: () => {
@@ -142,8 +163,8 @@ export default React.createClass({
 				<Dropdown show={this.state.dropdown} items={items} />
 				<Dropdown className='locales' show={this.state.localesDropdown} items={locales} />
 				{infoDialog}
+				{aboutDialog}
 			</nav>
-
 		);
 	}
 });
