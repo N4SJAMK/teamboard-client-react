@@ -1,6 +1,7 @@
 import api  from '../utils/api';
 import flux from '../utils/flux';
 
+import User            from '../models/user';
 import Action          from '../actions';
 import UserStore       from '../stores/user';
 import Broadcast       from '../models/broadcast';
@@ -62,8 +63,7 @@ export default flux.actionCreator({
 	logout() {
 		let user  = UserStore.getUser();
 		let token = UserStore.getToken();
-
-		if(user.type === 'guest') {
+		if(user.type === User.Type.Guest) {
 			return new Promise((resolve) => {
 				this.dispatch(Action.User.Logout);
 				return resolve();
@@ -91,6 +91,40 @@ export default flux.actionCreator({
 			})
 			.catch((err) => {
 				BroadcastAction.add(err, Action.User.Register);
+				return Promise.reject();
+			});
+	},
+
+	/**
+	 *
+	 */
+	updateName(name) {
+		let token = UserStore.getToken();
+
+		return api.updateUserName({ token: token, payload: { name: name }})
+			.then((user) => {
+				this.dispatch(Action.User.Update, { user });
+				return Promise.resolve();
+			})
+			.catch((err) => {
+				BroadcastAction.add(err, Action.User.Update);
+				return Promise.reject();
+			});
+	},
+
+	/**
+	 *
+	 */
+	updatePassword(newPassword, oldPassword) {
+		let token = UserStore.getToken();
+
+		return api.updateUserPassword({ token: token, payload: { new_password: newPassword, old_password: oldPassword } })
+			.then((user) => {
+				this.dispatch(Action.User.Update, { user });
+				return Promise.resolve();
+			})
+			.catch((err) => {
+				BroadcastAction.add(err, Action.User.Update);
 				return Promise.reject();
 			});
 	}
