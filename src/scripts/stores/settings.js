@@ -7,7 +7,7 @@ import Translations from '../translations';
 export default flux.store({
 	getSetting(name) {
 		if(name !== 'locale')
-			return localStorage.getItem(name);
+			return JSON.parse(localStorage.getItem(name));
 
 		else if(name === 'locale' && localStorage.getItem(name))
 			return Translations[localStorage.getItem(name)];

@@ -140,6 +140,7 @@ export default React.createClass({
 				onClick: () => {
 					SettingsAction.setSetting('snap-to-grid',
 						!this.state.snapToGrid);
+					console.log(this.state.snapToGrid)
 				},
 				icon:   'magnet',
 				active: this.state.snapToGrid
