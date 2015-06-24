@@ -106,12 +106,12 @@ export default React.createClass({
 			<Dialog className="dialog-edit-board"
 					onDismiss={this.props.onDismiss}>
 				<section className="dialog-header">
-					{this.settingArray['locale']['MODAL_HEADER_BOARDEDIT']}
+					{this.settingArray.locale.MODAL_HEADER_BOARDEDIT}
 				</section>
 				<section className="dialog-content">
 
 					<label htmlFor="board-name">
-						{this.settingArray['locale']['MODAL_LABEL_BOARDNAME']}
+						{this.settingArray.locale.MODAL_LABEL_BOARDNAME}
 					</label>
 					<input name="board-name" placeholder="Board Name"
 						valueLink={this.linkState('name')} autoFocus={true} />

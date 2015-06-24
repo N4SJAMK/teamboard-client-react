@@ -5,7 +5,7 @@ import Action          from '../actions';
 import UserAction      from '../actions/user';
 import SettingsAction from '../actions/settings';
 
-import settings from '../mixins/locale';
+import settings from '../mixins/settings';
 
 import BroadcastAction from '../actions/broadcast';
 
@@ -25,7 +25,7 @@ export default React.createClass({
 	},
 
 	getInitialState() {
-		return { 
+		return {
 			dropdown: false, localesDropdown: false,
 			feedback: false, infoActive: false,
 			aboutActive: false
@@ -140,7 +140,7 @@ export default React.createClass({
 					this.toggleDropdown();
 				}
 			},
-			{flag: 'ru', content: 'ruskibou9000', onClick: () => {
+			{flag: 'ru', content: 'русский', onClick: () => {
 					SettingsAction.setSetting('locale', 'ru');
 					this.toggleDropdown();
 				}
