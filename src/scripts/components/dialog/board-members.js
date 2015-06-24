@@ -42,7 +42,13 @@ export default React.createClass({
                         <section className="dialog-member-list">
                             {board.members.map(function(member) {
                                 return (
-                                    <div className="member-info-online">{member.user.username}</div>
+                                    <div className="member-info-online">
+                                        <img src="http://placehold.it/32x32"
+                                            className="profile-picture"></img>
+                                        <div className="user-name">
+                                            {member.user.username}
+                                        </div>
+                                    </div>
                                 );
                             })}
                         </section>
