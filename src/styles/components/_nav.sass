@@ -85,6 +85,9 @@
 	.locales
 		@include position(absolute, 80px 195px null null)
 		@include slurppis
+		@include transition(width 0.2s ease-out)
+		span
+			@include fadein
 		&::before
 			content: ""
 
@@ -94,14 +97,14 @@
 			@include position(absolute, 60px -8px null null)
 
 			border-left:   8px solid $bastille
-			border-top:  8px solid transparent
+			border-top:    8px solid transparent
 			border-bottom: 8px solid transparent
 
 		@media screen and (max-width: 450px)
-			span
-				display: none
 			width: 50px
 
+			span
+				display: none
 	.infobutton
 		@include flex-grow(0)
 		@include flex-shrink(0)
