@@ -27,7 +27,7 @@ export default React.createClass({
 		this.state.name;
 		switch(field.type){
 			case 'submit': return (
-					<input name={field.name} type='submit'
+					<input name={field.name} type="submit"
 					value={field.action} {...controlattrs} />
 				);
 			case 'text':
@@ -98,7 +98,7 @@ export default React.createClass({
 	},
 
 	renderSidelinks() {
-		return ProfileForms.linkItems.map((field, index) => {
+		return ProfileForms.linkItems.map((field) => {
 			let className = field.activeWhile === this.props.formProfile ? 'active' : null;
 			return (
 				<li className={className}>
