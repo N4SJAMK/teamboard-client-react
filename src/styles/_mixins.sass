@@ -59,7 +59,6 @@
 	@keyframes #{$animationName}
 		@content;
 
-
 @include keyframes(pulsate)
 	from
 		background-color: $affair
@@ -71,3 +70,14 @@
 
 @mixin pulsate
 	@include animate(pulsate, 0.9s, infinite, normal)
+
+@include keyframes(slurppis)
+	from
+		transform: scale(0.5)
+		opacity: 0.5
+	to
+		transform: scale(1)
+		opacity: 1
+
+@mixin slurppis
+	@include animate(slurppis, 0.12s, 1, normal)
