@@ -25,7 +25,6 @@ const middleware = {
 	user: {
 		is: (...types) => {
 			return function(ctx, next) {
-				console.log(ctx);
 				if((ctx.user = UserStore.getUser())) {
 					let userHasType = types.reduce((has, type) => {
 						return has || ctx.user.type === type;
@@ -48,7 +47,6 @@ const middleware = {
 						return page.redirect(`/boards/${ctx.user.access}`);
 					}
 				}
-				console.log('mee mario');
 				return page.redirect('/login');
 			}
 		},
