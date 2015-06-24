@@ -5,12 +5,11 @@ import flux from '../utils/flux';
  */
 export default flux.actions({
 	User: {
-		Load:           null,
-		Login:          null,
-		Logout:         null,
-		Register:       null,
-		UpdateName:     null,
-		UpdatePassword: null
+		Load:     null,
+		Login:    null,
+		Logout:   null,
+		Register: null,
+		Update:   null
 	},
 	Socket: {
 		Join:        null,

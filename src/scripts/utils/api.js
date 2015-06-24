@@ -28,13 +28,14 @@ export default {
     updateTicket:       updateTicket,
     updateUserName:     updateUserName,
     updateUserPassword: updateUserPassword,
+    createComment:      createComment,
     deleteBoard:        deleteBoard,
     deleteTicket:       deleteTicket,
-	revokeAccessCode:   revokeAccessCode,
-	generateAccessCode: generateAccessCode,
 
-	queryApiVersion: queryApiVersion,
-	queryImgVersion: queryImgVersion
+    revokeAccessCode:   revokeAccessCode,
+    generateAccessCode: generateAccessCode,
+    queryApiVersion:    queryApiVersion,
+    queryImgVersion:    queryImgVersion
 }
 
 const API_URL = process.env.API_URL || 'http://localhost:9002/api';
