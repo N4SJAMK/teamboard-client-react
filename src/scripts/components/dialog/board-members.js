@@ -35,7 +35,6 @@ export default React.createClass({
         if(board.members.constructor.name == 'List') {
             members = board.members.toJS();
         }
-
         return (
             <Dialog className="dialog-board-members"
                     onDismiss={this.props.onDismiss}>
@@ -48,24 +47,37 @@ export default React.createClass({
                             Active
                         </section>
                         <section className="dialog-member-list">
-                            {members.map(function(member) {
-                                console.log(member);
+                            {(members.filter((member) => member.isActive === true)).map(function(member) {
+                                console.log(member.user);
                                 return (
                                     <div className="member-info-online">
                                         <img src="http://placehold.it/32x32"
-                                            className="profile-picture"></img>
+                                             className="profile-picture"></img>
                                         <div className="user-name">
                                             {member.user.username}
                                         </div>
                                     </div>
                                 );
-                            })}
+                            })
+                            }
                         </section>
                         <section className="dialog-header">
                             Away
                         </section>
                         <section className="dialog-member-list">
-
+                            {(members.filter((member) => member.isActive === false)).map(function(member) {
+                                console.log(member.user);
+                                return (
+                                    <div className="member-info-online">
+                                        <img src="http://placehold.it/32x32"
+                                             className="profile-picture"></img>
+                                        <div className="user-name">
+                                            {member.user.username}
+                                        </div>
+                                    </div>
+                                );
+                            })
+                            }
                         </section>
                     </section>
                     <section className="dialog-footer">
