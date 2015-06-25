@@ -9,6 +9,7 @@ import BroadcastAction from '../actions/broadcast';
 import Dropdown  from '../components/dropdown';
 import UserVoice from '../components/user-voice';
 import InfoView  from './dialog/view-info';
+import ReviewView  from './dialog/review-view';
 import AboutView from './dialog/view-about';
 
 /**
@@ -24,7 +25,7 @@ export default React.createClass({
 		return {
 			dropdown: false, localesDropdown: false,
 			feedback: false, infoActive: false,
-			aboutActive: false
+			aboutActive: false, reviewActive: false,
 		}
 	},
 
@@ -42,12 +43,18 @@ export default React.createClass({
 		this.setState({ infoActive: !this.state.infoActive });
 	},
 
+	toggleReview() {
+		this.setState({ reviewActive: !this.state.reviewActive });
+	},
+
 	toggleAboutView() {
 		this.setState({ aboutActive: !this.state.aboutActive });
 	},
 
 	render: function() {
+		console.log(this.props.tickets)
 		let infoDialog = null;
+		let reviewDialog = null;
 		let aboutDialog = null;
 		let activeClick = null;
 		let infoIcon = null;
@@ -55,19 +62,23 @@ export default React.createClass({
 		if(!this.state.infoActive) {
 			infoIcon = 'info';
 			infoDialog = null;
-			activeClick = this.toggleDropdown;
 		} else {
 			infoIcon = 'times';
 			infoDialog = <InfoView onDismiss = { this.toggleInfoView } />;
-			activeClick = () => {};
 		}
+
+		if(!this.state.reviewActive) {
+			reviewDialog = null;
+		} else {
+			reviewDialog = <ReviewView tickets = {this.props.tickets}
+			onDismiss = { this.toggleReview } />;
+		}
+
 
 		if(!this.state.aboutActive) {
 			aboutDialog = null;
-			activeClick = this.toggleDropdown;
 		} else {
 			aboutDialog = <AboutView onDismiss = { this.toggleAboutView } />;
-			activeClick = () => {};
 		}
 
 		let infoButtonClass =
@@ -76,6 +87,12 @@ export default React.createClass({
 				pulsate: localStorage.getItem('infovisited') === null
 					? true : false,
 				active: this.state.infoActive
+			});
+
+		let reviewButtonClass =
+			React.addons.classSet({
+				infobutton: true,
+				active: this.state.reviewActive
 			});
 
 		let userButtonClass =
@@ -89,6 +106,7 @@ export default React.createClass({
 				<span className={`fa fa-fw fa-${infoIcon}`}></span>
 			</div>
 			);
+
 
 		let items = [
 			{ icon: 'user', content: 'Profile',
@@ -153,11 +171,15 @@ export default React.createClass({
 					onClick={this.showWorkspace} />
 				<h1 className="title">{this.props.title}</h1>
 				{showInfo}
-				<div id="avatar" onClick={activeClick} className={userButtonClass}>
+				<div id="avatar" onClick={this.toggleDropdown} className={userButtonClass}>
 					<span className="fa fa-fw fa-user"></span>
+				</div>
+				<div id="review" onClick={this.toggleReview} className={reviewButtonClass}>
+					<span className="fa fa-fw fa-eye"></span>
 				</div>
 				<Dropdown className='options' show={this.state.dropdown} items={items} />
 				<Dropdown className='locales' show={this.state.localesDropdown} items={locales} />
+				{reviewDialog}
 				{infoDialog}
 				{aboutDialog}
 			</nav>

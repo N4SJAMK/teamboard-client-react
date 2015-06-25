@@ -12,7 +12,6 @@ import TicketAction   from '../actions/ticket';
 import SettingsAction from '../actions/settings';
 
 import listener from '../mixins/listener';
-import settingsMixin from '../mixins/settings';
 
 import Control         from '../components/control';
 import Scrollable      from '../components/scrollable';
@@ -44,7 +43,6 @@ export default React.createClass({
 
 	mixins: [
 		listener(UserStore, BoardStore, SettingsStore),
-		settingsMixin('locale', 'snap-to-grid', 'show-minimap')
 	],
 
 	onChange() {
@@ -113,7 +111,8 @@ export default React.createClass({
 		return (
 			<div className="view view-board">
 				<Broadcaster />
-				<Navigation showHelp={true} title={this.state.board.name} />
+				<Navigation showHelp={true} title={this.state.board.name}
+				tickets={BoardStore.getTickets(this.props.id).toJS()} />
 				<div className="content">
 					<Scrollable board={this.state.board}
 							minimap={this.state.showMinimap}>
