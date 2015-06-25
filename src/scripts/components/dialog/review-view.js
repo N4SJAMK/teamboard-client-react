@@ -1,6 +1,7 @@
 import React		from 'react/addons';
 import Carousel		from 'nuka-carousel';
 import Dialog		from '../../components/dialog';
+import markdown     from 'markdown';
 
 /**
  *
@@ -17,7 +18,6 @@ export default React.createClass({
 	},
 
 	render() {
-
 		/*
 		Second layer arrays represent the slides. First one of the
 		third layer arrays contain anything other than textbox-components
@@ -30,10 +30,16 @@ export default React.createClass({
 					data={this.setCarouselData.bind(this, 'carousel')}>
 
 					{this.props.tickets.map((item) => {
+
+						let markupContent = markdown.markdown.toHTML(item.content);
+						if (markupContent.includes('<a href='))
+							markupContent =
+								markupContent.replace(/<a href="/g, '<a target="_blank" href="');
+
 					return (
-					<div>
+					<div className="review-field">
 						<div>
-							{item.content}
+							<span dangerouslySetInnerHTML={{__html: markupContent}}/>
 						</div>
 						<div>
 							{item.comments}
