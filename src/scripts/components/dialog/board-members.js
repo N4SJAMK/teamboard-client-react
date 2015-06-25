@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React     from 'react/addons';
+import TimeAgo   from 'react-timeago';
 
 import Dialog from '../../components/dialog';
 /**
@@ -34,7 +35,13 @@ export default React.createClass({
         // if it's an immutableJS, for easier handling later on...
         if(board.members.constructor.name == 'List') {
             members = board.members.toJS();
+            console.log("ImmutableJS list!")
         }
+        else {
+            console.log("Regular JS object")
+        }
+        members.map(function (member) {console.log(member.isActive + " " + member.user.username)});
+
         return (
             <Dialog className="dialog-board-members"
                     onDismiss={this.props.onDismiss}>
@@ -48,7 +55,6 @@ export default React.createClass({
                         </section>
                         <section className="dialog-member-list">
                             {(members.filter((member) => member.isActive === true)).map(function(member) {
-                                console.log(member.user);
                                 return (
                                     <div className="member-info-online">
                                         <img src="http://placehold.it/32x32"
@@ -66,14 +72,16 @@ export default React.createClass({
                         </section>
                         <section className="dialog-member-list">
                             {(members.filter((member) => member.isActive === false)).map(function(member) {
-                                console.log(member.user);
                                 return (
-                                    <div className="member-info-online">
+                                    <div className="member-info-offline">
                                         <img src="http://placehold.it/32x32"
                                              className="profile-picture"></img>
-                                        <div className="user-name">
-                                            {member.user.username}
-                                        </div>
+                                            <div className="user-name">
+                                                {member.user.username}
+                                            </div>
+                                            <div className="user-last-seen">
+                                                  Seen {React.createElement(TimeAgo, {date: member.lastSeen})}
+                                            </div>
                                     </div>
                                 );
                             })

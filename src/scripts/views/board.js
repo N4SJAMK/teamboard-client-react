@@ -1,5 +1,6 @@
-import page  from 'page';
-import React from 'react/addons';
+import page         from 'page';
+import React        from 'react/addons';
+import WindowMixins from 'react-window-mixins';
 import User  from '../models/user';
 import Board from '../models/board';
 
@@ -23,6 +24,9 @@ import EditBoardDialog   from '../components/dialog/edit-board';
 import ExportBoardDialog from '../components/dialog/export-board.js';
 import ShareBoardDialog  from '../components/dialog/share-board';
 
+
+var OnUnload = require("react-window-mixins").OnUnload;
+
 /**
  * Fix issues with iOS and IScroll not working together too well...
  */
@@ -42,7 +46,8 @@ export default React.createClass({
 	},
 
 	mixins: [
-		listener(UserStore, BoardStore, SettingsStore)
+		listener(UserStore, BoardStore, SettingsStore),
+		WindowMixins.OnUnload
 	],
 
 	onChange() {
@@ -65,13 +70,23 @@ export default React.createClass({
 		});
 	},
 
+	componentWillMount() {
+		this.setUserActivity(true);
+	},
+
 	componentDidMount() {
 		BoardAction.load(this.props.id);
 		document.addEventListener('touchmove', preventDefault);
 	},
 
 	componentWillUnmount() {
+		this.setUserActivity(false);
 		document.removeEventListener('touchmove', preventDefault);
+	},
+	// The componentWillUnmount handles exiting the board via the back button.
+	// onBeforeUnload handles user closing his/her browser or tab.
+	onBeforeUnload: function() {
+		this.setUserActivity(false);
 	},
 
 	toggleEditBoardDialog() {
@@ -91,7 +106,10 @@ export default React.createClass({
 			showShareBoardDialog: !this.state.showShareBoardDialog
 		});
 	},
+	setUserActivity(isActive) {
+		BoardAction.setUserBoardActivity(this.props.id, isActive);
 
+	},
 	render() {
 
 		let boardDialog = null;
