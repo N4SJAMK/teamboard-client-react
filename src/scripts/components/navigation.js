@@ -4,9 +4,6 @@ import React from 'react';
 import Action          from '../actions';
 import UserAction      from '../actions/user';
 import SettingsAction from '../actions/settings';
-
-import settings from '../mixins/settings';
-
 import BroadcastAction from '../actions/broadcast';
 
 import Dropdown  from '../components/dropdown';
@@ -18,7 +15,6 @@ import AboutView from './dialog/view-about';
  *
  */
 export default React.createClass({
-	mixins: [settings('locale')],
 	propTypes: {
 		title: React.PropTypes.string.isRequired,
 		showHelp: React.PropTypes.bool

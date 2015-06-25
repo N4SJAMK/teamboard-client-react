@@ -12,6 +12,7 @@ import TicketAction   from '../actions/ticket';
 import SettingsAction from '../actions/settings';
 
 import listener from '../mixins/listener';
+import settingsMixin from '../mixins/settings';
 
 import Control         from '../components/control';
 import Scrollable      from '../components/scrollable';
@@ -42,7 +43,8 @@ export default React.createClass({
 	},
 
 	mixins: [
-		listener(UserStore, BoardStore, SettingsStore)
+		listener(UserStore, BoardStore, SettingsStore),
+		settingsMixin('locale', 'snap-to-grid', 'show-minimap')
 	],
 
 	onChange() {
@@ -140,7 +142,6 @@ export default React.createClass({
 				onClick: () => {
 					SettingsAction.setSetting('snap-to-grid',
 						!this.state.snapToGrid);
-					console.log(this.state.snapToGrid)
 				},
 				icon:   'magnet',
 				active: this.state.snapToGrid

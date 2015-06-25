@@ -3,7 +3,7 @@ import React from 'react/addons';
 import Board       from '../../models/board';
 import BoardAction from '../../actions/board';
 
-import settings from '../../mixins/settings';
+import SettingsStore from '../../stores/settings';
 
 import Dialog           from '../../components/dialog';
 import BackgroundSelect from '../../components/background-select';
@@ -15,7 +15,6 @@ export default React.createClass({
 	mixins: [
 		React.addons.PureRenderMixin,
 		React.addons.LinkedStateMixin,
-		settings('locale')
 	],
 
 	propTypes: {
@@ -101,17 +100,16 @@ export default React.createClass({
 				}
 			}
 		}
-
 		return (
 			<Dialog className="dialog-edit-board"
 					onDismiss={this.props.onDismiss}>
 				<section className="dialog-header">
-					{this.settingArray.locale.MODAL_HEADER_BOARDEDIT}
+					{SettingsStore.getSetting('locale').MODAL_HEADER_BOARDEDIT}
 				</section>
 				<section className="dialog-content">
 
 					<label htmlFor="board-name">
-						{this.settingArray.locale.MODAL_LABEL_BOARDNAME}
+						{console.dir(SettingsStore.getSetting('locale'))}
 					</label>
 					<input name="board-name" placeholder="Board Name"
 						valueLink={this.linkState('name')} autoFocus={true} />
