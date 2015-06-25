@@ -44,7 +44,6 @@ export default React.createClass({
 	},
 
 	render: function() {
-		console.log(this.props.board);
 		let infoDialog = null;
 		let activeClick = null;
 		let infoIcon = null;
@@ -89,7 +88,7 @@ export default React.createClass({
 			<div id="members" onClick={this.toggleMembersDialog} className={membersButtonClass}>
 				<span className="fa fa-fw fa-users">
 					<span className="user-amount">
-						{this.props.board.members.length}
+						{this.props.board.members.size || this.props.board.members.length}
 					</span>
 				</span>
 			</div>

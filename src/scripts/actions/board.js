@@ -127,6 +127,23 @@ export default flux.actionCreator({
 	},
 
 	/**
+	 * Sets the user either active or away in a board
+	 */
+	setUserBoardActivity(boardId, isActive) {
+		let token = UserStore.getToken();
+
+		return api.setUserBoardActivity({ token: token, id: {
+			board:    boardId},
+			payload: {isActive: isActive}})
+			.then(() => {
+				return Promise.resolve();
+			})
+			.catch((err) => {
+				BroadcastAction.add(err, Action.User.setUserBoardActivity);
+				return Promise.reject();
+			});
+	},
+	/**
 	 * Generate an 'access-code' for the given board, allowing the board to be
 	 * shared to ther users.
 	 */

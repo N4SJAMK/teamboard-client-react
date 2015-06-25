@@ -30,8 +30,9 @@ export default {
 	deleteBoard:   deleteBoard,
 	deleteTicket:  deleteTicket,
 
-	revokeAccessCode:   revokeAccessCode,
-	generateAccessCode: generateAccessCode
+	revokeAccessCode:     revokeAccessCode,
+	generateAccessCode:   generateAccessCode,
+	setUserBoardActivity: setUserBoardActivity
 }
 
 const API_URL = process.env.API_URL || 'http://localhost:9002/api';
@@ -241,6 +242,21 @@ function deleteTicket(opts = {}) {
 		return Ticket.fromJS(res.body).toJS();
 	});
 }
+
+function setUserBoardActivity(opts = {}) {
+	let options = {
+		url:   `${API_URL}/boards/${opts.id.board}/setactivity`,
+		token: opts.token,
+		payload: opts.payload
+	}
+	return request.post(options).then((res) => {
+		let board = Board.fromJS(res.body).toJS();
+		// Remove the empty 'tickets' collection to prevent overwriting.
+		delete board.tickets;
+		return board;
+	});
+}
+
 
 function generateAccessCode(opts = {}) {
 	let options = {
