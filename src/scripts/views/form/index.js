@@ -111,7 +111,7 @@ export default React.createClass({
 						{this.checkPasswords()}
 						<input type="submit" className="btn-primary"
 							value={formType.action} />
-						<a style={border} href="https://localhost:9002/api/auth/google/login">
+						<a style={border} href="http://localhost:9002/api/auth/google/login">
 							<img style={width} src="/src/assets/img/providers/google.png" />
 						</a>
 						<a style={border} href="http://localhost:9002/api/auth/github/login">
