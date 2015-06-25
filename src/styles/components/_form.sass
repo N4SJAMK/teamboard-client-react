@@ -49,6 +49,7 @@
 	input
 		margin-bottom:    8px
 		background-color: $white
+		background-image: ()
 
 	input[type="submit"]
 		margin: 16px 0px
@@ -57,23 +58,18 @@
 		width:  100%
 		margin: 16px 0px
 
-	span
-		display: table
-		margin: auto
-		&.mismatch
-			color: $burnt-sienna
+	.mismatch
+		color: $burnt-sienna
 
-		&.match
-			color: $neptune
+	.match
+		color: $neptune
 
 	.secondary
-		@include align-items(stretch)
-		@include display(flex)
-		@include flex-direction(row)
-		@include justify-content(flex-start)
 		p
+			display: inline-block
 			font-size: 12px
-			@include flex(1)
 		.btn-secondary
-			@include flex(1)
+			display: inline-block
+			float: right
+			max-width: 90px
 			margin-top: 12px

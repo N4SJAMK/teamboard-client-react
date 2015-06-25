@@ -7,7 +7,8 @@ import BroadcastAction from '../actions/broadcast';
 
 import Dropdown  from '../components/dropdown';
 import UserVoice from '../components/user-voice';
-import InfoView  from  './dialog/view-info';
+import InfoView  from './dialog/view-info';
+import AboutView from './dialog/view-about';
 
 /**
  *
@@ -19,7 +20,7 @@ export default React.createClass({
 	},
 
 	getInitialState() {
-		return { dropdown: false, feedback: false, infoActive: false }
+		return { dropdown: false, feedback: false, infoActive: false, aboutActive: false }
 	},
 
 	showWorkspace() {
@@ -34,8 +35,13 @@ export default React.createClass({
 		this.setState({ infoActive: !this.state.infoActive });
 	},
 
+	toggleAboutView() {
+		this.setState({ aboutActive: !this.state.aboutActive });
+	},
+
 	render: function() {
 		let infoDialog = null;
+		let aboutDialog = null;
 		let activeClick = null;
 		let infoIcon = null;
 
@@ -45,7 +51,15 @@ export default React.createClass({
 			activeClick = this.toggleDropdown;
 		} else {
 			infoIcon = 'times';
-			infoDialog = <InfoView onDismiss = { this.toggleInfoView} />;
+			infoDialog = <InfoView onDismiss = { this.toggleInfoView } />;
+			activeClick = () => {};
+		}
+
+		if(!this.state.aboutActive) {
+			aboutDialog = null;
+			activeClick = this.toggleDropdown;
+		} else {
+			aboutDialog = <AboutView onDismiss = { this.toggleAboutView } />;
 			activeClick = () => {};
 		}
 
@@ -70,8 +84,12 @@ export default React.createClass({
 			);
 
 		let items = [
-			{ icon: 'user', content: 'Profile', disabled: true },
-			{ icon: 'language', content: 'Localization', disabled: true },
+			{ icon: 'user',     content: 'Profile',
+			onClick: () => {
+				return page.show('/profile')
+			}
+			},
+			{ icon: 'language', content: 'Localization', disabled: true  },
 			{
 				content: (
 					<UserVoice>
@@ -82,10 +100,13 @@ export default React.createClass({
 			},
 			{
 				onClick: () => {
+					this.toggleAboutView();
+				},
+				icon: 'question-circle', content: 'About'
+			},
+			{
+				onClick: () => {
 					UserAction.logout()
-						.then(() => {
-							return page.show('/');
-						})
 						.catch((err) => {
 							BroadcastAction.add(err, Action.User.Logout);
 						});
@@ -104,8 +125,8 @@ export default React.createClass({
 				</div>
 				<Dropdown show={this.state.dropdown} items={items} />
 				{infoDialog}
+				{aboutDialog}
 			</nav>
-
 		);
 	}
 });
