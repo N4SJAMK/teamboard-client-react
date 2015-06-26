@@ -1,6 +1,5 @@
 import page         from 'page';
 import React        from 'react/addons';
-import WindowMixins from 'react-window-mixins';
 import User  from '../models/user';
 import Board from '../models/board';
 
@@ -24,7 +23,6 @@ import EditBoardDialog   from '../components/dialog/edit-board';
 import ExportBoardDialog from '../components/dialog/export-board.js';
 import ShareBoardDialog  from '../components/dialog/share-board';
 
-var OnUnload = require("react-window-mixins").OnUnload;
 
 /**
  * Fix issues with iOS and IScroll not working together too well...
@@ -44,10 +42,7 @@ export default React.createClass({
 		}
 	},
 
-	mixins: [
-		listener(UserStore, BoardStore, SettingsStore),
-		WindowMixins.OnUnload
-	],
+	mixins: [ listener(UserStore, BoardStore, SettingsStore)	],
 
 	onChange() {
 		return this.setState(this.getState());
@@ -65,40 +60,36 @@ export default React.createClass({
 		return Object.assign(this.getState(), {
 			showEditBoardDialog:   false,
 			showExportBoardDialog: false,
-			showShareBoardDialog:  false
+			showShareBoardDialog:  false,
+			pollHandle:            null
 		});
 	},
 
 	componentWillMount() {
-		this.setUserActivity(true);
+		this.setUserActivity(true, false);
 	},
 
 	componentDidMount() {
-
-		navigator.sendBeacon = navigator.sendBeacon || function() {this.setUserActivity(false)}
-
 		BoardAction.load(this.props.id);
 		document.addEventListener('touchmove', preventDefault);
+
+		// Poll server every 5 seconds to indicate we're still alive!
+		let self = this;
+		let handle = setInterval(function() {
+			      self.setUserActivity(true,true)
+			    }, 3000);
+		this.setState({pollHandle: handle});
 	},
 
 	// The componentWillUnmount handles exiting the board via the back button.
-	// onBeforeUnload handles user closing his/her browser or tab.
-	// the sendBeacon function is the preferred way of sending small requests on document unload
-	// however, it's not supported on every browser, so we're hedging our bets here by also using
-	// onBeforeUnload...
 	componentWillUnmount() {
-		this.setUserActivity(false);
+		if (this.state.pollHandle) {
+			clearInterval(this.state.pollHandle);
+		}
+		this.setUserActivity(false, false);
 		document.removeEventListener('touchmove', preventDefault);
 	},
 	
-	onBeforeUnload: function() {
-		this.setUserActivity(false);
-	},
-
-	onUnload: function() {
-		this.setUserActivity(false);
-	},
-
 	toggleEditBoardDialog() {
 		this.setState({
 			showEditBoardDialog: !this.state.showEditBoardDialog
@@ -116,8 +107,8 @@ export default React.createClass({
 			showShareBoardDialog: !this.state.showShareBoardDialog
 		});
 	},
-	setUserActivity(isActive) {
-		BoardAction.setUserBoardActivity(this.props.id, isActive);
+	setUserActivity(isActive, isPoll) {
+		BoardAction.setUserBoardActivity(this.props.id, isActive, isPoll);
 
 	},
 	render() {

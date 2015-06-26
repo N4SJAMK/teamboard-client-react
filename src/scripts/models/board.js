@@ -77,7 +77,6 @@ Board.fromJS = function fromJS(board) {
 		board.background = 'NONE';
 	}
 
-	console.log(new Board(board));
 	return new Board(board);
 }
 

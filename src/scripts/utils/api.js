@@ -284,12 +284,16 @@ function setUserBoardActivity(opts = {}) {
 		token: opts.token,
 		payload: opts.payload
 	}
-	return request.post(options).then((res) => {
-		let board = Board.fromJS(res.body).toJS();
-		// Remove the empty 'tickets' collection to prevent overwriting.
-		delete board.tickets;
-		return board;
-	});
+
+    if(opts.isPoll) {
+
+	   return request.put(options);
+
+    } else {
+
+        return request.post(options);
+    }
+
 }
 
 

@@ -129,17 +129,18 @@ export default flux.actionCreator({
 	/**
 	 * Sets the user either active or away in a board
 	 */
-	setUserBoardActivity(boardId, isActive) {
+	setUserBoardActivity(boardId, isActive, isPoll) {
 		let token = UserStore.getToken();
 
-		return api.setUserBoardActivity({ token: token, id: {
-			board:    boardId},
+		return api.setUserBoardActivity({ token: token,
+			isPoll:       isPoll,
+			id: { board:  boardId},
 			payload: {isActive: isActive}})
 			.then(() => {
 				return Promise.resolve();
 			})
 			.catch((err) => {
-				BroadcastAction.add(err, Action.User.setUserBoardActivity);
+				BroadcastAction.add(err, Action.Board.setUserBoardActivity);
 				return Promise.reject();
 			});
 	},
