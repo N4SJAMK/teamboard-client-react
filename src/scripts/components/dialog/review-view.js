@@ -24,7 +24,7 @@ export default React.createClass({
 		while the second ones contain the textboxes' props.
 		*/
 		return (
-			<Dialog className="aapeli info" infoView={true}
+			<Dialog className="dialog info" infoView={true}
 					onDismiss={this.props.onDismiss}>
 				<Carousel ref="carousel" className="infocarousel"
 					data={this.setCarouselData.bind(this, 'carousel')}>
@@ -38,15 +38,26 @@ export default React.createClass({
 
 					return (
 					<div className="infospace">
-							<section className="dialog-header">
+						<section className="dialog-header">
 							{item.heading}
+						</section>
+						<section className="dialog-content">
+							<span dangerouslySetInnerHTML={{__html: markupContent}}/>
+						</section>
+						<section className="dialog-comments">
+							<section className="comment-wrapper">
+								{item.comments.map((comment) => {
+									return (
+										<div className="comment" key={comment.id}>
+											<section>
+												<p className="comment-username">{comment.user.username}</p>
+											</section>
+											<p className="comment-message">{comment.content}</p>
+										</div>
+									);
+								})}
 							</section>
-							<section className="dialog-content">
-								<span dangerouslySetInnerHTML={{__html: markupContent}}/>
-							</section>
-							<section className="dialog-footer">
-							{item.comments}
-							</section>
+						</section>
 					</div>
 					);
 				})}
