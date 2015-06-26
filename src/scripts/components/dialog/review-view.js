@@ -24,7 +24,7 @@ export default React.createClass({
 		while the second ones contain the textboxes' props.
 		*/
 		return (
-			<Dialog className="dialog info" infoView={true}
+			<Dialog className="info" infoView={true}
 					onDismiss={this.props.onDismiss}>
 				<Carousel ref="carousel" className="infocarousel"
 					data={this.setCarouselData.bind(this, 'carousel')}>
@@ -37,7 +37,7 @@ export default React.createClass({
 								markupContent.replace(/<a href="/g, '<a target="_blank" href="');
 
 					return (
-					<div className="infospace">
+					<div className="dialog">
 						<section className="dialog-header">
 							{item.heading}
 						</section>
