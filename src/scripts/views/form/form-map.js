@@ -82,7 +82,8 @@ export default
 				return UserAction.login(state).then(() => {
 					return page.show('/boards');
 				});
-			},
+			}
+		},
 	guestLoginForm: {
 		fields: [
 			{
@@ -148,6 +149,5 @@ export default
 		},
 		action: 'Login'
 	}
-}
 	}
 
