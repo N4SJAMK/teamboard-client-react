@@ -24,7 +24,6 @@ import EditBoardDialog   from '../components/dialog/edit-board';
 import ExportBoardDialog from '../components/dialog/export-board.js';
 import ShareBoardDialog  from '../components/dialog/share-board';
 
-
 var OnUnload = require("react-window-mixins").OnUnload;
 
 /**
@@ -75,17 +74,28 @@ export default React.createClass({
 	},
 
 	componentDidMount() {
+
+		navigator.sendBeacon = navigator.sendBeacon || function() {this.setUserActivity(false)}
+
 		BoardAction.load(this.props.id);
 		document.addEventListener('touchmove', preventDefault);
 	},
 
+	// The componentWillUnmount handles exiting the board via the back button.
+	// onBeforeUnload handles user closing his/her browser or tab.
+	// the sendBeacon function is the preferred way of sending small requests on document unload
+	// however, it's not supported on every browser, so we're hedging our bets here by also using
+	// onBeforeUnload...
 	componentWillUnmount() {
 		this.setUserActivity(false);
 		document.removeEventListener('touchmove', preventDefault);
 	},
-	// The componentWillUnmount handles exiting the board via the back button.
-	// onBeforeUnload handles user closing his/her browser or tab.
+	
 	onBeforeUnload: function() {
+		this.setUserActivity(false);
+	},
+
+	onUnload: function() {
 		this.setUserActivity(false);
 	},
 
