@@ -119,12 +119,6 @@ export default React.createClass({
 						<a style={border} href="http://localhost:9002/api/auth/github/login">
 							<img style={width} src="/src/assets/img/providers/github.png" />
 						</a>
-						<a style={border} href="http://localhost:9002/api/auth/github/login">
-							<img style={width} src="/src/assets/img/providers/github.png" />
-						</a>
-						<a style={border} href="http://localhost:9002/api/auth/github/login">
-							<img style={width} src="/src/assets/img/providers/github.png" />
-						</a>
 						<article className="help">{formType.help}</article>
 						<section className="secondary-content">
 							{secondaryContent}
