@@ -24,7 +24,7 @@ export default React.createClass({
 		while the second ones contain the textboxes' props.
 		*/
 		return (
-			<Dialog className="info" infoView={true}
+			<Dialog className="aapeli info" infoView={true}
 					onDismiss={this.props.onDismiss}>
 				<Carousel ref="carousel" className="infocarousel"
 					data={this.setCarouselData.bind(this, 'carousel')}>
@@ -37,13 +37,16 @@ export default React.createClass({
 								markupContent.replace(/<a href="/g, '<a target="_blank" href="');
 
 					return (
-					<div className="review-field">
-						<div>
-							<span dangerouslySetInnerHTML={{__html: markupContent}}/>
-						</div>
-						<div>
+					<div className="infospace">
+							<section className="dialog-header">
+							{item.heading}
+							</section>
+							<section className="dialog-content">
+								<span dangerouslySetInnerHTML={{__html: markupContent}}/>
+							</section>
+							<section className="dialog-footer">
 							{item.comments}
-						</div>
+							</section>
 					</div>
 					);
 				})}
