@@ -34,11 +34,8 @@ export default React.createClass({
         // if it's an immutableJS, for easier handling later on...
         if(board.members.constructor.name == 'List') {
             members = board.members.toJS();
-            console.log("ImmutableJS list!")
         }
-        else {
-            console.log("Regular JS object")
-        }
+
 
         /*members.sort(function(x, y) {
             return new Date(y.lastSeen) - new Date(x.lastSeen);
@@ -58,6 +55,7 @@ export default React.createClass({
                     <section className="dialog-members">
                         <section className="dialog-member-list">
                             {members.map(function(member) {
+                                var name = member.user.username || member.user.name;
                                 if(member.isActive === true) {
                                     return (
                                         <div className="member-info-online">
@@ -65,7 +63,7 @@ export default React.createClass({
                                                  className="profile-picture"></img>
 
                                             <div className="user-name">
-                                                {member.user.username}
+                                                {name}
                                             </div>
                                         </div>
                                     );
@@ -76,7 +74,7 @@ export default React.createClass({
                                             <img src="http://placehold.it/32x32"
                                                  className="profile-picture"></img>
                                             <div className="user-name">
-                                                {member.user.username}
+                                                {name}
                                             </div>
                                             <div className="user-last-seen">
                                                 Seen {React.createElement(TimeAgo, {date: member.lastSeen})}
