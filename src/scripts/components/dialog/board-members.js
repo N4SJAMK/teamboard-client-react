@@ -1,6 +1,5 @@
 import React     from 'react/addons';
 import TimeAgo   from 'react-timeago';
-
 import Dialog from '../../components/dialog';
 /**
  *
@@ -40,7 +39,14 @@ export default React.createClass({
         else {
             console.log("Regular JS object")
         }
-        members.map(function (member) {console.log(member.isActive + " " + member.user.username)});
+
+        /*members.sort(function(x, y) {
+            return new Date(y.lastSeen) - new Date(x.lastSeen);
+        });*/
+
+        members.sort(function(x, y) {
+            return (x.isActive === y.isActive)? 0 : x.isActive? -1 : 1;
+        });
 
         return (
             <Dialog className="dialog-board-members"
@@ -50,40 +56,34 @@ export default React.createClass({
                 </section>
                 <section className="dialog-content">
                     <section className="dialog-members">
-                        <section className="dialog-header">
-                            Active
-                        </section>
                         <section className="dialog-member-list">
-                            {(members.filter((member) => member.isActive === true)).map(function(member) {
-                                return (
-                                    <div className="member-info-online">
-                                        <img src="http://placehold.it/32x32"
-                                             className="profile-picture"></img>
-                                        <div className="user-name">
-                                            {member.user.username}
+                            {members.map(function(member) {
+                                if(member.isActive === true) {
+                                    return (
+                                        <div className="member-info-online">
+                                            <img src="http://placehold.it/32x32"
+                                                 className="profile-picture"></img>
+
+                                            <div className="user-name">
+                                                {member.user.username}
+                                            </div>
                                         </div>
-                                    </div>
-                                );
-                            })
-                            }
-                        </section>
-                        <section className="dialog-header">
-                            Away
-                        </section>
-                        <section className="dialog-member-list">
-                            {(members.filter((member) => member.isActive === false)).map(function(member) {
-                                return (
-                                    <div className="member-info-offline">
-                                        <img src="http://placehold.it/32x32"
-                                             className="profile-picture"></img>
+                                    );
+                                }
+                                else if(member.isActive === false) {
+                                    return (
+                                        <div className="member-info-offline">
+                                            <img src="http://placehold.it/32x32"
+                                                 className="profile-picture"></img>
                                             <div className="user-name">
                                                 {member.user.username}
                                             </div>
                                             <div className="user-last-seen">
-                                                  Seen {React.createElement(TimeAgo, {date: member.lastSeen})}
+                                                Seen {React.createElement(TimeAgo, {date: member.lastSeen})}
                                             </div>
-                                    </div>
-                                );
+                                        </div>
+                                    );
+                                }
                             })
                             }
                         </section>
