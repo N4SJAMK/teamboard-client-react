@@ -18,17 +18,16 @@ export default React.createClass({
 	},
 
 	getInitialState() {
-		return FormData.fieldNames.reduce((state, field) => {
-			state[field] = '';
+		return FormData.registerForm.fields.reduce((state, field) => {
+			state[field.name] = '';
 			return state;
 		}, {});
 	},
 
 	checkPasswords(){
-		if(this.props.formProfile === 'registerForm' &&
-			this.state.passwordAgain.length > 7) {
-			return this.state.passwordAgain !== this.state.passwordRegister
-				? <span className="fa fa-times mismatch">Password mismatch!</span>
+		if(this.props.formProfile === 'registerForm' && this.state.passwordAgain !== '') {
+			return this.state.passwordAgain !== this.state.passwordRegister ?
+				<span className="fa fa-times mismatch">Password mismatch!</span>
 				: <span className="fa fa-check match">Passwords match!</span>;
 		}
 	},
@@ -50,22 +49,16 @@ export default React.createClass({
 			);
 		});
 	},
-
 	//submit will execute in all cases other than when
-	//passwords given in registration do not match.
-	submitPrimary(currentForm, ...rest) {
+	//passwords given in registration do not match
+	submitPrimary(currentForm) {
 		if(this.props.formProfile !== 'registerForm' ||
 			this.state.passwordAgain === this.state.passwordRegister) {
-		let fields = currentForm.fields.reduce((fields, field) => {
-			fields[field.name] = this.state[field.name];
-			return fields;
-		}, {});
 			return (event) => {
 				if(this.props.formProfile === 'registerForm')
-					fields.password = fields.passwordRegister;
-					let submitParams = [ fields ].concat(rest);
-					currentForm.submit.apply(null, submitParams);
-					return event.preventDefault();
+					this.state.password = this.state.passwordRegister;
+				currentForm.submit(this.state);
+				return event.preventDefault();
 			}
 		}
 		else return (event) => {
@@ -89,6 +82,13 @@ export default React.createClass({
 		}
 	},
 
+	submitGuest(currentForm, accessCode, boardID){
+		return (event) => {
+			currentForm.submit(this.state, boardID, accessCode);
+			return event.preventDefault();
+		}
+	},
+
 	renderForm(formType) {
 		let secondaryContent = !formType.secondary ? null : (
 			<section className="secondary">
@@ -100,13 +100,15 @@ export default React.createClass({
 				</button>
 			</section>
 		);
+		let primarySubmit = this.props.formProfile !== 'guestLoginForm' ?
+			this.submitPrimary(formType) :
+			this.submitGuest(formType, this.props.accessCode, this.props.boardID)
 		return (
 			<div className="view view-form">
 				<Broadcaster />
 				<div className="content">
 					<form className="form"
-						onSubmit={this.submitPrimary(formType, this.props.boardID,
-							this.props.accessCode)}>
+						onSubmit={primarySubmit}>
 						<div className="logo">
 							<img src="/dist/assets/img/logo.svg" />
 							<h1>Contriboard</h1>

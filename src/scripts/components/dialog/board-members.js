@@ -1,6 +1,6 @@
 import React     from 'react/addons';
 import TimeAgo   from 'react-timeago';
-import Dialog from '../../components/dialog';
+import Dialog    from '../../components/dialog';
 /**
  *
  */
@@ -36,10 +36,10 @@ export default React.createClass({
             members = board.members.toJS();
         }
 
-
-        /*members.sort(function(x, y) {
+        // Sort by last seen date, online users first...
+        members.sort(function(x, y) {
             return new Date(y.lastSeen) - new Date(x.lastSeen);
-        });*/
+        });
 
         members.sort(function(x, y) {
             return (x.isActive === y.isActive)? 0 : x.isActive? -1 : 1;
@@ -61,7 +61,6 @@ export default React.createClass({
                                         <div className="member-info-online">
                                             <img src="http://placehold.it/32x32"
                                                  className="profile-picture"></img>
-
                                             <div className="user-name">
                                                 {name}
                                             </div>
