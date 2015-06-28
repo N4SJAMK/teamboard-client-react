@@ -112,7 +112,6 @@ export default React.createClass({
 
 	},
 	render() {
-
 		let boardDialog = null;
 
 		if(this.state.showEditBoardDialog) {
@@ -172,13 +171,17 @@ export default React.createClass({
 				active: this.state.showMinimap
 			}
 		];
+
 		let userOnlyControls = [
 			{
 				onClick: () => {
 					return page.show('/boards')
 				},
 				icon: 'arrow-left'
-			},
+			}
+			];
+
+			let adminOnlyControls= [
 			{
 				icon:    'pencil',
 				active:  this.state.showEditBoardDialog,
@@ -192,9 +195,16 @@ export default React.createClass({
 
 		];
 		if(this.props.user.type === User.Type.User) {
-			controls = userOnlyControls.concat(controls);
-		}
 
+			let currentRole = BoardStore.getUserRole(this.state.board.id, this.props.user.id);
+
+			if (currentRole === "admin") {
+				controls = adminOnlyControls.concat(controls);
+			}
+
+			controls = userOnlyControls.concat(controls);
+
+		}
 		return (
 			<div className="controls">
 				{controls.map((control) => {
