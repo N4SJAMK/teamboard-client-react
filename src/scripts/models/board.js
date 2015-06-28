@@ -84,7 +84,6 @@ Board.fromJS = function fromJS(board) {
 
 	if (board.members) {
 		board.members = board.members.reduce((collection, record) => {
-			console.log(record.user);
 			if (record.user !== null && typeof record.user === 'object') {
 				record.user  = new User(record.user);
 			}

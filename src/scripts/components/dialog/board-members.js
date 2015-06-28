@@ -56,7 +56,7 @@ export default React.createClass({
                                 if (user.constructor.name === 'Map') {
                                     user = user.toJS();
                                 }
-                                var name = user.username;
+                                var name = user.username || user.name;
                                 if(member.get('isActive') === true) {
                                     return (
                                         <div className="member-info-online">

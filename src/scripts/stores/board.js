@@ -54,6 +54,20 @@ export default flux.store({
 		return role;
 	},
 
+	getBoardAdmin(boardID) {
+		let board = this.getBoard(boardID);
+
+		let adminUser = null;
+		if (board) {
+			if (board.members) {
+				let members = board.members;
+				adminUser = members.find(function(obj){return obj.get('role') === 'admin';});
+			}
+		}
+
+		return adminUser;
+	},
+
 	handlers: {
 		[Action.User.Logout]() {
 			boards = immutable.List();
@@ -80,7 +94,7 @@ export default flux.store({
 			if(has(boards, payload.board)) {
 				return boards = remove(boards, payload.board);
 			}
-			throw new Error('Board not found!');
+			//throw new Error('Board not found!');
 		},
 
 		[Action.Ticket.Add](payload) {
