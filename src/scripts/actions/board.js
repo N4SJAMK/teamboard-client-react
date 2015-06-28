@@ -80,7 +80,6 @@ export default flux.actionCreator({
 	create(board) {
 		let token   = UserStore.getToken();
 		let payload = Object.assign(board, { id: uid() });
-
 		this.dispatch(Action.Board.Add, { board: payload });
 
 		api.createBoard({ token, payload })
@@ -100,7 +99,6 @@ export default flux.actionCreator({
 	update(board) {
 		let token    = UserStore.getToken();
 		let previous = BoardStore.getBoard(board.id).toJS();
-
 		this.dispatch(Action.Board.Edit, { board });
 
 		api.updateBoard({ token, payload: board, id: { board: board.id } })

@@ -27,23 +27,18 @@ export default React.createClass({
 
     render() {
         let board = this.props.board;
-
         let members = board.members;
 
-        // Dumb hack for immutableJS. We convert the members to a regular JS object
-        // if it's an immutableJS, for easier handling later on...
-        if(board.members.constructor.name == 'List') {
-            members = board.members.toJS();
-        }
-
+        //members = board.members.toJS();
+        
         // Sort by last seen date, online users first...
-        members.sort(function(x, y) {
+       /* members.sort(function(x, y) {
             return new Date(y.lastSeen) - new Date(x.lastSeen);
         });
 
         members.sort(function(x, y) {
             return (x.isActive === y.isActive)? 0 : x.isActive? -1 : 1;
-        });
+        });*/
 
         return (
             <Dialog className="dialog-board-members"
@@ -55,8 +50,14 @@ export default React.createClass({
                     <section className="dialog-members">
                         <section className="dialog-member-list">
                             {members.map(function(member) {
-                                var name = member.user.username || member.user.name;
-                                if(member.isActive === true) {
+                                let user = member.get('user');
+                                // Sort of dumb fix for user sometimes being a Map
+                                // instead of a Record. Should investigate further...
+                                if (user.constructor.name === 'Map') {
+                                    user = user.toJS();
+                                }
+                                var name = user.username;
+                                if(member.get('isActive') === true) {
                                     return (
                                         <div className="member-info-online">
                                             <img src="http://placehold.it/32x32"
@@ -67,7 +68,7 @@ export default React.createClass({
                                         </div>
                                     );
                                 }
-                                else if(member.isActive === false) {
+                                else if(member.get('isActive') === false) {
                                     return (
                                         <div className="member-info-offline">
                                             <img src="http://placehold.it/32x32"
@@ -76,7 +77,7 @@ export default React.createClass({
                                                 {name}
                                             </div>
                                             <div className="user-last-seen">
-                                                Seen {React.createElement(TimeAgo, {date: member.lastSeen})}
+                                                Seen {React.createElement(TimeAgo, {date: member.get('lastSeen')})}
                                             </div>
                                         </div>
                                     );

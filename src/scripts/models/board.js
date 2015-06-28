@@ -1,5 +1,6 @@
 import immutable from 'immutable'
 import Ticket    from '../models/ticket';
+import User      from '../models/user';
 
 const Background = {
 	NONE: {
@@ -45,8 +46,17 @@ const Size = immutable.Record({
 	height: 0
 });
 
+
+const Member = immutable.Record({
+	_id:      '',
+	isActive: null,
+	role:     '',
+	lastSeen: null,
+	user:     new User()
+});
+
 const Board = immutable.Record({
-	id:               '',
+	id:               '', 
 	name:             '',
 	size:             new Size(),
 	tickets:          immutable.List(),
@@ -67,11 +77,21 @@ Board.Background = Background;
 Board.fromJS = function fromJS(board) {
 	board.size    = new Board.Size(board.size);
 	board.tickets = board.tickets || [ ];
-	board.members = board.members || [ ];
 
 	board.tickets = board.tickets.reduce((collection, record) => {
 		return collection.push(Ticket.fromJS(record));
 	}, immutable.List());
+
+	if (board.members) {
+		board.members = board.members.reduce((collection, record) => {
+			console.log(record.user);
+			if (record.user !== null && typeof record.user === 'object') {
+				record.user  = new User(record.user);
+			}
+			let member = new Member(record);
+			return collection.push(member);
+		}, immutable.List());
+	}
 
 	if(!Board.Background.hasOwnProperty(board.background)) {
 		board.background = 'NONE';

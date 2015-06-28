@@ -4,6 +4,7 @@ import immutable from 'immutable';
 
 import Board        from '../models/board';
 import BoardStore   from '../stores/board';
+import UserStore    from '../stores/user';
 import TicketAction from '../actions/ticket';
 
 import Control           from '../components/control';

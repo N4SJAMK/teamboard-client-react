@@ -35,6 +35,7 @@ export default flux.store({
 
 	getUserRole(boardID, userID) {
 		let board = this.getBoard(boardID);
+
 		let role = null;
 		if (board) {
 			let members = board.members;
