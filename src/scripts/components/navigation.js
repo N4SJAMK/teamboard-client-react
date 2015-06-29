@@ -52,7 +52,7 @@ export default React.createClass({
 	},
 
 	render: function() {
-		console.log(this.props.tickets)
+
 		let infoDialog = null;
 		let reviewDialog = null;
 		let aboutDialog = null;

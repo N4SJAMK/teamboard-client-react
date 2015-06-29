@@ -7,14 +7,16 @@
 
 	margin:        8px
 	border-radius: 2px
-
+	overflow: hidden
 	box-shadow:       0px 0px 2px 2px $silver-chalice
 	background-color: $gallery
+
+	@include pussaus
 
 	&.new-board
 		color:            $white
 		background-color: $neptune
-
+		z-index: 1000
 		cursor: pointer
 
 		span
