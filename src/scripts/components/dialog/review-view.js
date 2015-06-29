@@ -14,7 +14,6 @@ export default React.createClass({
 	},
 
 	componentWillUpdate() {
-		console.log(this.state.carousels.carousel.state.currentSlide)
 		this.currentSlide = this.state.carousels.carousel.state.currentSlide;
 	},
 
