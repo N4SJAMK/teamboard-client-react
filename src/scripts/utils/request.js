@@ -20,17 +20,13 @@ function request(to, options = {}) {
 		let request = to(options.url)
 			.set('Accept',        'application/json')
 			.set('Content-Type',  'application/json')
-			.set('Access-Control-Allow-Origin', '*')
 			.set('Authorization', `Bearer ${options.token}`);
 
-		if(options.type){
-			request.set('Access-Control-Request-Method', options.type);
-		}
-
 		if(options.payload) {
-			request = request.send(options.payload);
+			request = request.send(options.payload)
 		} else {
-			request = request.send({});
+			// Prevents IE returning bad request message
+			request = request.send({})
 		}
 
 		return request.end((err, res) => {
