@@ -39,14 +39,19 @@ export default flux.store({
 		let role = null;
 		if (board) {
 			let members = board.members;
-
 			if (members.constructor.name === "List")
 			 {
 			 	members = members.toJS();
 			 }
-
 			members.map(function(member) {
-				if(member.user.id === userID) {
+				// Sometimes the member is not yet populated
+				if(typeof member.user._id === 'undefined') {
+					if (member.user === userID) {
+						role = member.role;
+					}
+				}
+
+				else if(member.user._id === userID) {
 					role = member.role;
 				}
 			})

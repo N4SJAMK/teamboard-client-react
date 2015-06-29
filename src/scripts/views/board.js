@@ -66,7 +66,7 @@ export default React.createClass({
 	},
 
 	componentWillMount() {
-		this.setUserActivity(true, false);
+		this.setUserActivity({isActive: true, isPoll: false});
 	},
 
 	componentDidMount() {
@@ -76,8 +76,8 @@ export default React.createClass({
 		// Poll server every 5 seconds to indicate we're still alive!
 		let self = this;
 		let handle = setInterval(function() {
-			      self.setUserActivity(true,true)
-			    }, 3000);
+			      self.setUserActivity({isActive:true, isPoll:true})
+			    }, 10000);
 		this.setState({pollHandle: handle});
 	},
 
@@ -86,7 +86,7 @@ export default React.createClass({
 		if (this.state.pollHandle) {
 			clearInterval(this.state.pollHandle);
 		}
-		this.setUserActivity(false, false);
+		this.setUserActivity({isActive: false, isPoll: false});
 		document.removeEventListener('touchmove', preventDefault);
 	},
 	
@@ -197,10 +197,6 @@ export default React.createClass({
 		if(this.props.user.type === User.Type.User) {
 			let currentRole    = BoardStore.getUserRole(this.state.board.id, this.props.user.id);
 			
-			/*if (userInfo) {
-				let currentRole = userInfo.role
-			}*/
-
 			if (currentRole === "admin") {
 				controls = adminOnlyControls.concat(controls);
 			}
