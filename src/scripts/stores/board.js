@@ -92,7 +92,7 @@ export default flux.store({
 			if(has(boards, payload.board)) {
 				return boards = remove(boards, payload.board);
 			}
-			//throw new Error('Board not found!');
+			throw new Error('Board not found!');
 		},
 
 		[Action.Ticket.Add](payload) {

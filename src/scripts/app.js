@@ -18,7 +18,7 @@ import UserAccessView from './views/form';
 
 import UserAction     from './actions/user';
 
-import qs from 'query-string';
+import qs          from 'query-string';
 import FormView    from './views/form/';
 import ProfileView from './views/profile';
 
@@ -105,10 +105,8 @@ UserStore.addChangeListener(() => {
 
 function authenticate(ctx, next) {
 		if(ctx.token = localStorage.getItem('access_token')) {
-			
 			return next();
 		}
-
 }
 
 page('/login',

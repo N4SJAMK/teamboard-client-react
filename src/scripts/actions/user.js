@@ -59,7 +59,6 @@ export default flux.actionCreator({
 
 	giveBoardAccess(boardId, accessCode) {
 		let token = UserStore.getToken();
-
 		return api.giveBoardAccess({ token: token, id: {
 			                         board:    boardId,
 								     code: accessCode} })
@@ -85,7 +84,6 @@ export default flux.actionCreator({
 				return resolve();
 			});
 		}
-
 		return api.logout({ token })
 			.then(() => {
 				this.dispatch(Action.User.Logout);

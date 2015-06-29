@@ -23,7 +23,6 @@ export default flux.store({
 			try {
 				storedUser = JSON.parse(localStorage.getItem('user'));
 			} catch(err) {
-				console.log(err);
 				localStorage.removeItem('user');
 				localStorage.removeItem('token');
 				return null;

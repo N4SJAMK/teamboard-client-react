@@ -1,5 +1,6 @@
-import page         from 'page';
-import React        from 'react/addons';
+import page from 'page';
+import React from 'react/addons';
+
 import User  from '../models/user';
 import Board from '../models/board';
 
@@ -23,7 +24,6 @@ import EditBoardDialog   from '../components/dialog/edit-board';
 import ExportBoardDialog from '../components/dialog/export-board.js';
 import ShareBoardDialog  from '../components/dialog/share-board';
 
-
 /**
  * Fix issues with iOS and IScroll not working together too well...
  */
@@ -42,7 +42,9 @@ export default React.createClass({
 		}
 	},
 
-	mixins: [ listener(UserStore, BoardStore, SettingsStore)	],
+	mixins: [
+		    listener(UserStore, BoardStore, SettingsStore)
+	],
 
 	onChange() {
 		return this.setState(this.getState());
@@ -73,7 +75,7 @@ export default React.createClass({
 		BoardAction.load(this.props.id);
 		document.addEventListener('touchmove', preventDefault);
 
-		// Poll server every 5 seconds to indicate we're still alive!
+		// Poll server every 10 seconds to indicate we're still alive!
 		let self = this;
 		let handle = setInterval(function() {
 			      self.setUserActivity({isActive:true, isPoll:true})

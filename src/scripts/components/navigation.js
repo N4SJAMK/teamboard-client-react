@@ -7,6 +7,7 @@ import BroadcastAction from '../actions/broadcast';
 
 import Dropdown     from '../components/dropdown';
 import MemberDialog from '../components/dialog/board-members';
+
 import UserVoice from '../components/user-voice';
 import InfoView  from './dialog/view-info';
 import AboutView from './dialog/view-about';

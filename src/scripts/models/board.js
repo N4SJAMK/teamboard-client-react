@@ -46,7 +46,6 @@ const Size = immutable.Record({
 	height: 0
 });
 
-
 const Member = immutable.Record({
 	_id:      '',
 	isActive: null,

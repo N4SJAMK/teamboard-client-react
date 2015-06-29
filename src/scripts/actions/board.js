@@ -133,8 +133,11 @@ export default flux.actionCreator({
 		return api.setUserBoardActivity({
 			          token:    token,
                       isPoll:   payload.isPoll,
-			id: {     board:    boardId},
-			payload: {isActive: payload.isActive}})
+			          id: {
+						  board:boardId
+					  },
+			          payload: { isActive: payload.isActive }
+		   })
 			.then(() => {
 				return Promise.resolve();
 			})

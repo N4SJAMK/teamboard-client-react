@@ -57,19 +57,6 @@ function login(opts = {}) {
         }
     });
 }
-/*
-function login(opts = {}) {
-    let options = {
-        url:     `${API_URL}/auth/login`,
-        payload: opts.payload
-    }
-    return request.post(options).then((res) => {
-        return {
-            user:  User.fromJS(res.body).toJS(),
-            token: res.headers['x-access-token']
-        }
-    });
-}*/
 
 function logout(opts = {}) {
     let options = {

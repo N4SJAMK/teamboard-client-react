@@ -31,18 +31,9 @@ export default React.createClass({
             return new Date(y.lastSeen) - new Date(x.lastSeen);
         });
 
-        //members = board.members.toJS();
-        
-        // Sort by last seen date, online users first...
-       /* members.sort(function(x, y) {
-            return new Date(y.lastSeen) - new Date(x.lastSeen);
-        });*/
-
         members = members.sort(function(x, y) {
             return (x.isActive === y.isActive)? 0 : x.isActive? -1 : 1;
         });
-
-
 
         return (
             <Dialog className="dialog-board-members"
