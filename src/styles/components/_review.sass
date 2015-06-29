@@ -9,10 +9,25 @@
 	@include position(fixed, 0px null null 0px)
 	background-color: rgba($ebony, 0.8)
 	overflow: scroll
+	.dialog.info
+
+		.slider.infocarousel
+			height: 100%
+			.slider-decorator-0,
+			.slider-decorator-1
+				visibility: visible
+				font-size: 4em
+				&:hover
+					color: #c4c4c4
+
+			.slider-decorator-2
+				display: none
+			.slider-frame
+				height: 100% !important
 
 	.review-dialog
 		width:     80%
-		max-width: 400px
+		max-width: 700px
 		margin:        64px auto
 		border-radius: 8px
 
