@@ -18,7 +18,8 @@ export default React.createClass({
 	propTypes: {
 		title: React.PropTypes.string.isRequired,
 		showHelp: React.PropTypes.bool,
-		reviewActive: React.PropTypes.bool
+		reviewActive: React.PropTypes.bool,
+		killReview: React.PropTypes.func
 	},
 
 	getInitialState() {
@@ -27,9 +28,6 @@ export default React.createClass({
 			feedback: false, infoActive: false,
 			aboutActive: false
 		}
-	},
-	componentDidUpdate(){
-
 	},
 
 	showWorkspace() {
@@ -50,7 +48,20 @@ export default React.createClass({
 		this.setState({ aboutActive: !this.state.aboutActive });
 	},
 
-	render: function() {
+	handleClick(){
+		
+	},
+
+	CancelReview(){
+		return !this.props.reviewActive ? null : (
+			<div onClick={() => {this.props.killReview(false)}}
+			className="review active">
+				<span className="fa fa-fw fa-times"></span>
+			</div>
+		);
+	},
+
+	render() {
 		let infoDialog = null;
 		let aboutDialog = null;
 		let activeClick = null;
@@ -89,7 +100,6 @@ export default React.createClass({
 				<span className={`fa fa-fw fa-${infoIcon}`}></span>
 			</div>
 			);
-
 
 		let items = [
 			{ icon: 'user', content: 'Profile',
@@ -153,6 +163,7 @@ export default React.createClass({
 				<img className="logo" src="/dist/assets/img/logo.svg"
 					onClick={this.showWorkspace} />
 				<h1 className="title">{this.props.title}</h1>
+				{this.CancelReview()}
 				{showInfo}
 				<div id="avatar" onClick={this.toggleDropdown} className={userButtonClass}>
 					<span className="fa fa-fw fa-user"></span>
