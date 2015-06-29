@@ -10,15 +10,15 @@ export default React.createClass({
 	//is active and dictates whether a form gets rendered within the dialog
 	//or not.
 	propTypes: {
-		infoView: React.PropTypes.bool,
+		viewProfile: React.PropTypes.string,
 		className: React.PropTypes.string,
 		onDismiss: React.PropTypes.func
 	},
 
 	getDefaultProps() {
 		return {
+			viewProfile: '',
 			className: '',
-			infoView: false,
 			onDismiss: () => {}
 		}
 	},
@@ -62,19 +62,21 @@ export default React.createClass({
 	},
 
 	renderDialog() {
-		let form = !this.props.infoView ?
-			<form className={`dialog ${this.props.className}`}
-					onSubmit={this.onSubmit}>
-				{this.props.children}
-			</form> :
-			<div className={`${this.props.className}`}
-					onSubmit={this.onSubmit}>
-				{this.props.children}
-			</div>
-		;
+		let form = this.props.viewProfile !== 'info' ?
+				<form className={`dialog ${this.props.className}`}
+						onSubmit={this.onSubmit}>
+					{this.props.children}
+				</form> :
+				<div className={`${this.props.className}`}
+						onSubmit={this.onSubmit}>
+					{this.props.children}
+				</div>
+			;
 
+			let className = this.props.viewProfile !== 'review' ?
+				'dialog-overlay' : 'review-overlay';
 		return (
-			<div className="dialog-overlay">
+			<div className={className}>
 				{form}
 			</div>
 		);

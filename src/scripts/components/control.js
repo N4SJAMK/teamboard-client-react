@@ -30,7 +30,7 @@ export default React.createClass({
 		});
 		let iconClasses = `fa fa-fw fa-${this.props.icon}`;
 		return (
-			<div className={controlClasses}>
+			<div id={this.props.icon} className={controlClasses}>
 				<span className={iconClasses}></span>
 			</div>
 		);

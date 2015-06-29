@@ -9,7 +9,6 @@ import BroadcastAction from '../actions/broadcast';
 import Dropdown  from '../components/dropdown';
 import UserVoice from '../components/user-voice';
 import InfoView  from './dialog/view-info';
-import ReviewView  from './dialog/review-view';
 import AboutView from './dialog/view-about';
 
 /**
@@ -18,15 +17,19 @@ import AboutView from './dialog/view-about';
 export default React.createClass({
 	propTypes: {
 		title: React.PropTypes.string.isRequired,
-		showHelp: React.PropTypes.bool
+		showHelp: React.PropTypes.bool,
+		reviewActive: React.PropTypes.bool
 	},
 
 	getInitialState() {
 		return {
 			dropdown: false, localesDropdown: false,
 			feedback: false, infoActive: false,
-			aboutActive: false, reviewActive: false,
+			aboutActive: false
 		}
+	},
+	componentDidUpdate(){
+
 	},
 
 	showWorkspace() {
@@ -43,18 +46,12 @@ export default React.createClass({
 		this.setState({ infoActive: !this.state.infoActive });
 	},
 
-	toggleReview() {
-		this.setState({ reviewActive: !this.state.reviewActive });
-	},
-
 	toggleAboutView() {
 		this.setState({ aboutActive: !this.state.aboutActive });
 	},
 
 	render: function() {
-		console.log(this.props.tickets)
 		let infoDialog = null;
-		let reviewDialog = null;
 		let aboutDialog = null;
 		let activeClick = null;
 		let infoIcon = null;
@@ -66,14 +63,6 @@ export default React.createClass({
 			infoIcon = 'times';
 			infoDialog = <InfoView onDismiss = { this.toggleInfoView } />;
 		}
-
-		if(!this.state.reviewActive) {
-			reviewDialog = null;
-		} else {
-			reviewDialog = <ReviewView tickets = {this.props.tickets}
-			onDismiss = { this.toggleReview } />;
-		}
-
 
 		if(!this.state.aboutActive) {
 			aboutDialog = null;
@@ -87,12 +76,6 @@ export default React.createClass({
 				pulsate: localStorage.getItem('infovisited') === null
 					? true : false,
 				active: this.state.infoActive
-			});
-
-		let reviewButtonClass =
-			React.addons.classSet({
-				infobutton: true,
-				active: this.state.reviewActive
 			});
 
 		let userButtonClass =
@@ -174,12 +157,8 @@ export default React.createClass({
 				<div id="avatar" onClick={this.toggleDropdown} className={userButtonClass}>
 					<span className="fa fa-fw fa-user"></span>
 				</div>
-				<div id="review" onClick={this.toggleReview} className={reviewButtonClass}>
-					<span className="fa fa-fw fa-eye"></span>
-				</div>
 				<Dropdown className='options' show={this.state.dropdown} items={items} />
 				<Dropdown className='locales' show={this.state.localesDropdown} items={locales} />
-				{reviewDialog}
 				{infoDialog}
 				{aboutDialog}
 			</nav>

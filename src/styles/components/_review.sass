@@ -1,0 +1,108 @@
+.review-active
+	.controls
+		z-index: 9002 !important
+
+.review-overlay
+	width:   100%
+	z-index: 9001
+	height:  100%
+	@include position(fixed, 0px null null 0px)
+	background-color: rgba($ebony, 0.8)
+	overflow: scroll
+
+	.review-dialog
+		width:     80%
+		max-width: 400px
+		margin:        64px auto
+		border-radius: 8px
+
+		color:            $bastille
+		background-color: $white
+
+		.review-dialog-header
+			padding: 16px
+
+			font-size:      18px
+			letter-spacing: 1px
+
+		.review-dialog-heading
+			font-weight: bold
+			padding:     8px 16px
+			span
+				cursor: pointer
+				cursor: hand
+
+		.review-dialog-comments
+			padding: 8px 16px 16px 16px
+
+			.review-comment-wrapper
+				@include display(flex)
+				@include flex-direction(column)
+				border-top: 2px solid $silver-chalice
+				overflow-y:       visible
+				background-color: $white
+
+				.review-comment
+					height:     50px
+					min-height: 50px
+
+					.review-comment-username
+						@include   margin(5 0 0 4)
+						font-size: smaller
+						color:     $dove-gray
+
+					.review-comment-message
+						@include margin(5 0 0 4)
+
+				.review-comment:not(:last-child)
+					border-bottom: 1px solid
+					border-color:  $silver-chalice
+
+		.review-dialog-content
+			padding:    8px 16px
+			overflow:   hidden
+			overflow-y: visible
+
+			span
+				cursor:        pointer
+				cursor:        hand
+				overflow-wrap: break-word
+
+				p
+					white-space: pre-wrap
+
+				h1, h2, h3, h4
+					@include margin(0px 0px 0px 0px)
+
+				img
+					display: block
+
+				code
+					display: block
+
+				a
+					font-size:    13pt
+					padding:      0
+					display:      inline
+					color:        $neptune
+					border-width: 0px
+
+				blockquote
+					margin: 10px
+
+				ul
+					list-style-type: disc
+
+					li
+						margin-left:     20px
+						list-style-type: disc
+
+				ol
+					list-style-type: decimal
+
+					li
+						margin-left:     20px
+						list-style-type: decimal
+
+			@include display(flex)
+			@include flex-direction(column)
