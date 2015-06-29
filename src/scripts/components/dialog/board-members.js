@@ -27,18 +27,22 @@ export default React.createClass({
 
     render() {
         let board = this.props.board;
-        let members = board.members;
+        let members = board.members.sort(function(x, y) {
+            return new Date(y.lastSeen) - new Date(x.lastSeen);
+        });
 
         //members = board.members.toJS();
         
         // Sort by last seen date, online users first...
        /* members.sort(function(x, y) {
             return new Date(y.lastSeen) - new Date(x.lastSeen);
+        });*/
+
+        members = members.sort(function(x, y) {
+            return (x.isActive === y.isActive)? 0 : x.isActive? -1 : 1;
         });
 
-        members.sort(function(x, y) {
-            return (x.isActive === y.isActive)? 0 : x.isActive? -1 : 1;
-        });*/
+
 
         return (
             <Dialog className="dialog-board-members"

@@ -196,7 +196,6 @@ export default React.createClass({
 		];
 		if(this.props.user.type === User.Type.User) {
 			let currentRole    = BoardStore.getUserRole(this.state.board.id, this.props.user.id);
-			
 			if (currentRole === "admin") {
 				controls = adminOnlyControls.concat(controls);
 			}

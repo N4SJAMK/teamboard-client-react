@@ -44,14 +44,7 @@ export default flux.store({
 			 	members = members.toJS();
 			 }
 			members.map(function(member) {
-				// Sometimes the member is not yet populated
-				if(typeof member.user._id === 'undefined') {
-					if (member.user === userID) {
-						role = member.role;
-					}
-				}
-
-				else if(member.user._id === userID) {
+				if (member.user.id == userID) {
 					role = member.role;
 				}
 			})
