@@ -95,7 +95,7 @@ export default React.createClass({
 		];
 
 		return (
-			<Dialog className="info" infoView={true}
+			<Dialog className="info" viewProfile="info"
 					onDismiss={this.props.onDismiss}>
 				<Carousel ref="carousel" className="infocarousel"
 					data={this.setCarouselData.bind(this, 'carousel')}>

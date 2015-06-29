@@ -22,6 +22,7 @@ import BoardComponent  from '../components/board';
 import EditBoardDialog   from '../components/dialog/edit-board';
 import ExportBoardDialog from '../components/dialog/export-board.js';
 import ShareBoardDialog  from '../components/dialog/share-board';
+import ReviewView        from '../components/dialog/review-view';
 
 /**
  * Fix issues with iOS and IScroll not working together too well...
@@ -61,7 +62,8 @@ export default React.createClass({
 		return Object.assign(this.getState(), {
 			showEditBoardDialog:   false,
 			showExportBoardDialog: false,
-			showShareBoardDialog:  false
+			showShareBoardDialog:  false,
+			reviewActive:          false
 		});
 	},
 
@@ -86,6 +88,10 @@ export default React.createClass({
 		});
 	},
 
+	toggleReview() {
+		this.setState({ reviewActive: !this.state.reviewActive });
+	},
+
 	toggleShareBoardDialog() {
 		this.setState({
 			showShareBoardDialog: !this.state.showShareBoardDialog
@@ -95,6 +101,7 @@ export default React.createClass({
 	render() {
 
 		let boardDialog = null;
+		let reviewDialog = null;
 
 		if(this.state.showEditBoardDialog) {
 			boardDialog = <EditBoardDialog board={this.state.board}
@@ -108,11 +115,17 @@ export default React.createClass({
                                     onDismiss={this.toggleShareBoardDialog} />
 		}
 
+		if(!this.state.reviewActive) {
+			reviewDialog = null;
+		} else {
+			reviewDialog = <ReviewView tickets = {BoardStore.getTickets(this.props.id).toJS()}
+			onDismiss = { this.toggleReview } />;
+		}
+
 		return (
 			<div className="view view-board">
 				<Broadcaster />
-				<Navigation showHelp={true} title={this.state.board.name}
-				tickets={BoardStore.getTickets(this.props.id).toJS()} />
+				<Navigation reviewActive={this.state.reviewActive} showHelp={true} title={this.state.board.name} />
 				<div className="content">
 					<Scrollable board={this.state.board}
 							minimap={this.state.showMinimap}>
@@ -121,6 +134,7 @@ export default React.createClass({
 					</Scrollable>
 				</div>
 				{boardDialog}
+				{reviewDialog}
 				{this.renderControls()}
 			</div>
 		);
@@ -132,6 +146,11 @@ export default React.createClass({
 	 */
 	renderControls() {
 		let controls = [
+			{
+				icon:    'eye',
+				active:  this.state.reviewActive,
+				onClick: this.toggleReview
+			},
 			{
 				icon:    'download',
 				active:  this.state.showExportBoardDialog,
@@ -171,6 +190,7 @@ export default React.createClass({
 				active:  this.state.showShareBoardDialog,
 				onClick: this.toggleShareBoardDialog
 			}
+
 
 		];
 		if(this.props.user.type === User.Type.User) {

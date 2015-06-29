@@ -17,42 +17,45 @@ export default React.createClass({
 		return { currentSlide: null }
 	},
 
+	componentWillMount() {
+		this.el = document.getElementById('application');
+		this.el.className = 'review-active';
+	},
+
+	componentWillUnmount(){
+		this.el.className = '';
+	},
+
 	render() {
-		/*
-		Second layer arrays represent the slides. First one of the
-		third layer arrays contain anything other than textbox-components
-		while the second ones contain the textboxes' props.
-		*/
 		return (
-			<Dialog className="dialog info" infoView={true}
+			<Dialog className="info" viewProfile="review"
 					onDismiss={this.props.onDismiss}>
 				<Carousel ref="carousel" className="infocarousel"
 					data={this.setCarouselData.bind(this, 'carousel')}>
 
 					{this.props.tickets.map((item) => {
-
 						let markupContent = markdown.markdown.toHTML(item.content);
 						if (markupContent.includes('<a href='))
 							markupContent =
 								markupContent.replace(/<a href="/g, '<a target="_blank" href="');
 
 					return (
-					<div className="infospace">
-						<section className="dialog-header">
+					<div className="review-dialog">
+						<section className="review-dialog-header">
 							{item.heading}
 						</section>
-						<section className="dialog-content">
+						<section className="review-dialog-content">
 							<span dangerouslySetInnerHTML={{__html: markupContent}}/>
 						</section>
-						<section className="dialog-comments">
-							<section className="comment-wrapper">
+						<section className="review-dialog-comments">
+							<section className="review-comment-wrapper">
 								{item.comments.map((comment) => {
 									return (
-										<div className="comment" key={comment.id}>
+										<div className="review-comment" key={comment.id}>
 											<section>
-												<p className="comment-username">{comment.user.username}</p>
+												<p className="review-comment-username">{comment.user.username}</p>
 											</section>
-											<p className="comment-message">{comment.content}</p>
+											<p className="review-comment-message">{comment.content}</p>
 										</div>
 									);
 								})}
