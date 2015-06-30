@@ -113,13 +113,17 @@ export default React.createClass({
 							<img src="/dist/assets/img/logo.svg" />
 							<h1>Contriboard</h1>
 						</div>
+						<section className="social">
+						<h2>Login</h2>
+						<a className="provider" href="http://localhost:9002/api/auth/google/login">
+							<img className="provider" src="/src/assets/img/providers/google.png" />
+						</a>
+						</section>
+						<h3 className ="basic-login">or</h3>
 						{this.renderFields(formType.fields)}
 						{this.checkPasswords()}
 						<input type="submit" className="btn-primary"
 							value={formType.action} />
-						<a className="provider" href="http://localhost:9002/api/auth/google/login">
-							<img className="provider" src="/src/assets/img/providers/google.png" />
-						</a>
 						<article className="help">{formType.help}</article>
 						<section className="secondary-content">
 							{secondaryContent}
