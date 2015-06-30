@@ -98,6 +98,12 @@ export default React.createClass({
 		});
 	},
 
+	setReviewClosingButton(mode){
+		this.setState({
+			reviewActive: mode
+		})
+	},
+
 	render() {
 
 		let boardDialog = null;
@@ -125,7 +131,9 @@ export default React.createClass({
 		return (
 			<div className="view view-board">
 				<Broadcaster />
-				<Navigation reviewActive={this.state.reviewActive} showHelp={true} title={this.state.board.name} />
+				<Navigation reviewActive={this.state.reviewActive}
+					killReview={this.setReviewClosingButton}
+					showHelp={true} title={this.state.board.name} />
 				<div className="content">
 					<Scrollable board={this.state.board}
 							minimap={this.state.showMinimap}>

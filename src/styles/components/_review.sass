@@ -24,6 +24,13 @@
 				display: none
 			.slider-frame
 				height: 100% !important
+				.slider-slide
+
+					.review-dialog
+						@include transform(scale(0.9))
+						@include transition(0.3s linear)
+					.active
+						@include transform(scale(1.2))
 
 	.review-dialog
 		width:     80%

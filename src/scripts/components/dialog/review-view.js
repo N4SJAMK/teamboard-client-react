@@ -13,25 +13,8 @@ export default React.createClass({
 		tickets: React.PropTypes.array
 	},
 
-	getInitialState(){
-		return { currentSlide: null }
-	},
-
-	componentWillMount() {
-		this.el = document.getElementById('application');
-		this.el.className = 'review-active';
-	},
-
 	componentWillUpdate() {
-		//console.log(this.state.carousels.carousel.state.currentSlide);
-	},
-
-	componentDidMount() {
-		//console.log(this.state.currentSlide);
-	},
-
-	componentWillUnmount(){
-		this.el.className = '';
+		this.currentSlide = this.state.carousels.carousel.state.currentSlide;
 	},
 
 	render() {
@@ -71,18 +54,19 @@ export default React.createClass({
 			<Dialog className="info" viewProfile="review"
 					onDismiss={this.props.onDismiss}>
 				<Carousel ref="carousel" className="infocarousel" decorators={Decorators}
-					data={this.setCarouselData.bind(this, 'carousel')} slideWidth={0.50} cellAlign="center">
+					data={this.setCarouselData.bind(this, 'carousel')} slideWidth={0.70} cellAlign="center">
 
-					{this.props.tickets.map((item) => {
+					{this.props.tickets.map((item, index) => {
 						let markupContent = markdown.markdown.toHTML(item.content);
-						let style = "pillu";
-						console.log(Carousel);
 						if (markupContent.includes('<a href='))
 							markupContent =
 								markupContent.replace(/<a href="/g, '<a target="_blank" href="');
-
+						let dialogClasses = index !== this.currentSlide ?
+							'review-dialog'
+							: 'review-dialog active';
+							console.log(this.currentSlide)
 					return (
-					<div className="review-dialog">
+					<div className={dialogClasses}>
 						<section className="review-dialog-header">
 							{item.heading}
 						</section>
