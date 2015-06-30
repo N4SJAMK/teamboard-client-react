@@ -77,7 +77,7 @@
 					margin-right:  6px
 					margin-bottom: 6px
 				button
-					width: 40%
+					width: 46%
 
 		.dialog-content
 			padding:    8px 16px
@@ -205,3 +205,73 @@
 
 				&:last-child
 					margin-right: 0px
+
+	.dialog-board-members
+
+		.dialog-header
+			font-size: 20px
+
+		.dialog-members
+			@include padding(0)
+			font-size: 15px
+			overflow-y: auto
+			max-height: 400px
+			.dialog-header
+				padding-left: 0
+
+		.dialog-member-list
+			@include display(flex)
+			@include flex-wrap(wrap)
+			padding-left: 8px
+			overflow-y: auto
+
+
+			.member-info-online
+				@include margin(null 16px null null)
+				padding-top: 8px
+				padding-bottom: 8px
+				overflow: hidden
+				height: 36px
+				width: 45%
+				border-bottom: 1px solid
+				border-color: $gallery
+
+				.user-name
+					width: 60%
+					float: left
+					margin-top: 5%
+					margin-left: 5%
+
+				.profile-picture
+					float: left
+
+			.member-info-offline
+				@include margin(null 16px null null)
+				padding-top: 8px
+				padding-bottom: 8px
+				overflow: hidden
+				height: 36px
+				width: 45%
+				border-bottom: 1px solid
+				border-color: $gallery
+				color: $silver-chalice
+
+				.user-name
+					width: 60%
+					float: left
+					margin-left: 5%
+
+				.user-last-seen
+					span
+						font-size: 11px
+					span:first-child
+						margin-left: 5%
+
+
+				.profile-picture
+					float: left
+					-webkit-filter: grayscale(1)
+					filter: grayscale(1)
+					opacity: 0.5
+
+

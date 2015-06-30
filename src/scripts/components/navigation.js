@@ -6,7 +6,9 @@ import UserAction      from '../actions/user';
 import SettingsAction from '../actions/settings';
 import BroadcastAction from '../actions/broadcast';
 
-import Dropdown  from '../components/dropdown';
+import Dropdown     from '../components/dropdown';
+import MemberDialog from '../components/dialog/board-members';
+
 import UserVoice from '../components/user-voice';
 import InfoView  from './dialog/view-info';
 import AboutView from './dialog/view-about';
@@ -19,19 +21,26 @@ export default React.createClass({
 		title: React.PropTypes.string.isRequired,
 		showHelp: React.PropTypes.bool,
 		reviewActive: React.PropTypes.bool,
-		killReview: React.PropTypes.func
+		killReview: React.PropTypes.func,
+		board: (props) => {
+			if(!props.board instanceof Board) throw new Error();
+		}
 	},
 
 	getInitialState() {
 		return {
 			dropdown: false, localesDropdown: false,
 			feedback: false, infoActive: false,
-			aboutActive: false
+			aboutActive: false, membersActive: false
 		}
 	},
 
 	showWorkspace() {
 		return page.show('/boards');
+	},
+
+	toggleMembersDialog() {
+		this.setState({ membersActive: !this.state.membersActive });
 	},
 
 	toggleDropdown() {
@@ -90,6 +99,28 @@ export default React.createClass({
 				avatar: true,
 				active: this.state.dropdown
 			});
+
+		let membersButtonClass =
+			React.addons.classSet({
+				members: true,
+				active: this.state.membersActive
+			});
+
+		let boardMembersDialog = null;
+
+		if (this.state.membersActive) {
+			boardMembersDialog = <MemberDialog board={this.props.board} onDismiss={this.toggleMembersDialog}/>
+		}
+
+		let showBoardMembers = !this.props.showBoardMembers ? null : (
+			<div id="members" onClick={this.toggleMembersDialog} className={membersButtonClass}>
+				<span className="fa fa-fw fa-users">
+					<span className="user-amount">
+						{this.props.board.members.size}
+					</span>
+				</span>
+			</div>
+		);
 
 		let showInfo = !this.props.showHelp ? null : (
 			<div id="info" onClick={this.toggleInfoView} className={infoButtonClass}>
@@ -160,6 +191,7 @@ export default React.createClass({
 					onClick={this.showWorkspace} />
 				<h1 className="title">{this.props.title}</h1>
 				{this.CancelReview()}
+				{showBoardMembers}
 				{showInfo}
 				<div id="avatar" onClick={this.toggleDropdown} className={userButtonClass}>
 					<span className="fa fa-fw fa-user"></span>
@@ -167,6 +199,7 @@ export default React.createClass({
 				<Dropdown className='options' show={this.state.dropdown} items={items} />
 				<Dropdown className='locales' show={this.state.localesDropdown} items={locales} />
 				{infoDialog}
+				{boardMembersDialog}
 				{aboutDialog}
 			</nav>
 		);

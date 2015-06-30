@@ -1,14 +1,9 @@
-.review-active
-	.controls
-		z-index: 9002 !important
-
 .review-overlay
 	width:   100%
 	z-index: 9001
 	height:  100%
 	@include position(fixed, 0px null null 0px)
 	background-color: rgba($ebony, 0.8)
-	overflow: scroll
 	.dialog.info
 
 		.slider.infocarousel
@@ -19,27 +14,23 @@
 				font-size: 4em
 				&:hover
 					color: #c4c4c4
-
 			.slider-decorator-2
 				display: none
 			.slider-frame
 				height: 100% !important
-				.slider-slide
-
-					.review-dialog
-						@include transform(scale(0.9))
-						@include transition(0.3s linear)
-					.active
-						@include transform(scale(1.2))
 
 	.review-dialog
-		width:     80%
 		max-width: 700px
 		margin:        64px auto
 		border-radius: 8px
+		@include transform(scale(0.9))
+		@include transition(0.3s linear)
 
 		color:            $bastille
 		background-color: $white
+		overflow-y: scroll
+	.active
+		@include transform(scale(1))
 
 		.review-dialog-header
 			padding: 16px

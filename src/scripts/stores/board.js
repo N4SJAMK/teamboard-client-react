@@ -33,6 +33,39 @@ export default flux.store({
 		return tickets.find((ticket) => ticket.id === ticketID);
 	},
 
+	getUserRole(boardID, userID) {
+		let board = this.getBoard(boardID);
+
+		let role = null;
+		if (board) {
+			let members = board.members;
+			if (members.constructor.name === "List")
+			 {
+			 	members = members.toJS();
+			 }
+			members.map(function(member) {
+				if (member.user.id == userID) {
+					role = member.role;
+				}
+			})
+		}
+		return role;
+	},
+
+	getBoardAdmin(boardID) {
+		let board = this.getBoard(boardID);
+
+		let adminUser = null;
+		if (board) {
+			if (board.members) {
+				let members = board.members;
+				adminUser = members.find(function(obj){return obj.get('role') === 'admin';});
+			}
+		}
+
+		return adminUser;
+	},
+
 	handlers: {
 		[Action.User.Logout]() {
 			boards = immutable.List();

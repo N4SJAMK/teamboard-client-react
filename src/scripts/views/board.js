@@ -1,5 +1,6 @@
-import page  from 'page';
+import page from 'page';
 import React from 'react/addons';
+
 import User  from '../models/user';
 import Board from '../models/board';
 
@@ -63,16 +64,33 @@ export default React.createClass({
 			showEditBoardDialog:   false,
 			showExportBoardDialog: false,
 			showShareBoardDialog:  false,
-			reviewActive:          false
+			reviewActive:          false,
+			pollHandle:            null
 		});
+	},
+
+	componentWillMount() {
+		this.setUserActivity({isActive: true, isPoll: false});
 	},
 
 	componentDidMount() {
 		BoardAction.load(this.props.id);
 		document.addEventListener('touchmove', preventDefault);
+
+		// Poll server every 10 seconds to indicate we're still alive!
+		let self = this;
+		let handle = setInterval(function() {
+			      self.setUserActivity({isActive:true, isPoll:true})
+			    }, 10000);
+		this.setState({pollHandle: handle});
 	},
 
+	// The componentWillUnmount handles exiting the board via the back button.
 	componentWillUnmount() {
+		if (this.state.pollHandle) {
+			clearInterval(this.state.pollHandle);
+		}
+		this.setUserActivity({isActive: false, isPoll: false});
 		document.removeEventListener('touchmove', preventDefault);
 	},
 
@@ -97,6 +115,9 @@ export default React.createClass({
 			showShareBoardDialog: !this.state.showShareBoardDialog
 		});
 	},
+	setUserActivity(isActive, isPoll) {
+		BoardAction.setUserBoardActivity(this.props.id, isActive, isPoll);
+	},
 
 	setReviewClosingButton(mode){
 		this.setState({
@@ -105,7 +126,6 @@ export default React.createClass({
 	},
 
 	render() {
-
 		let boardDialog = null;
 		let reviewDialog = null;
 
@@ -133,7 +153,8 @@ export default React.createClass({
 				<Broadcaster />
 				<Navigation reviewActive={this.state.reviewActive}
 					killReview={this.setReviewClosingButton}
-					showHelp={true} title={this.state.board.name} />
+					showHelp={true} title={this.state.board.name}
+					showBoardMembers={true} board={this.state.board} />
 				<div className="content">
 					<Scrollable board={this.state.board}
 							minimap={this.state.showMinimap}>
@@ -181,13 +202,17 @@ export default React.createClass({
 				active: this.state.showMinimap
 			}
 		];
+
 		let userOnlyControls = [
 			{
 				onClick: () => {
 					return page.show('/boards')
 				},
 				icon: 'arrow-left'
-			},
+			}
+			];
+
+			let adminOnlyControls= [
 			{
 				icon:    'pencil',
 				active:  this.state.showEditBoardDialog,
@@ -202,9 +227,14 @@ export default React.createClass({
 
 		];
 		if(this.props.user.type === User.Type.User) {
-			controls = userOnlyControls.concat(controls);
-		}
+			let currentRole    = BoardStore.getUserRole(this.state.board.id, this.props.user.id);
+			if (currentRole === "admin") {
+				controls = adminOnlyControls.concat(controls);
+			}
 
+			controls = userOnlyControls.concat(controls);
+
+		}
 		return (
 			<div className="controls">
 				{controls.map((control) => {

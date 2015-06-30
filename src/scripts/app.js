@@ -11,6 +11,14 @@ import User      from './models/user';
 import BoardView      from './views/board';
 import WorkspaceView  from './views/workspace';
 
+import LoginView      from './views/form';
+import RegisterView   from './views/form';
+import GuestLoginView from './views/form';
+import UserAccessView from './views/form';
+
+import UserAction     from './actions/user';
+
+import qs          from 'query-string';
 import FormView    from './views/form/';
 import ProfileView from './views/profile';
 
@@ -95,6 +103,12 @@ UserStore.addChangeListener(() => {
 	}
 });
 
+function authenticate(ctx, next) {
+		if(ctx.token = localStorage.getItem('access_token')) {
+			return next();
+		}
+}
+
 page('/login',
 	middleware.user.loggedOut,
 	middleware.socket.disconnect,
@@ -103,7 +117,19 @@ page('/login',
 			<FormView formProfile="loginForm" />,
 			document.getElementById('application')
 		);
-	});
+});
+
+page('/login/callback',
+	(ctx, next) => { 
+	if(ctx.querystring.length > 0) {
+		UserAction.load(qs.parse(ctx.querystring).access_token);
+			if(access_token && access_token.length > 0) {
+				localStorage.setItem('access_token', access_token);
+			}
+			return page.redirect(ctx.pathname)
+        }
+    return next();
+});
 
 page('/register',
 	middleware.user.loggedOut,
@@ -144,6 +170,16 @@ page('/boards/:id/access/:code',
 			document.getElementById('application')
 		);
 	});
+page('/userlogin/boards/:id/access/:code',
+	middleware.socket.disconnect,
+	(ctx) => {
+		return React.render(
+			<UserAccessView formProfile="userAccessForm" boardID={ctx.params.id}
+							accessCode={ctx.params.code} />,
+			document.getElementById('application')
+		);
+	});
+
 
 page('/boards',
 	middleware.user.is(User.Type.User),
