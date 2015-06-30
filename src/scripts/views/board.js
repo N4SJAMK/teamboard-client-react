@@ -91,7 +91,8 @@ export default React.createClass({
 	},
 
 	toggleReview() {
-		if(BoardStore.getTickets(this.props.id).toJS().length !== 0){
+		if(this.sendTicketsForReview().length !== 0){
+			console.log(this.sendTicketsForReview().length)
 			this.setState({ reviewActive: !this.state.reviewActive });
 		}
 		else {
@@ -121,6 +122,7 @@ export default React.createClass({
 	},
 
 	render() {
+		console.log(this.sendTicketsForReview())
 		let boardDialog = null;
 		let reviewDialog = null;
 
