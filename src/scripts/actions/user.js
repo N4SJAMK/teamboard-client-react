@@ -57,6 +57,20 @@ export default flux.actionCreator({
 			});
 	},
 
+	giveBoardAccess(boardId, accessCode) {
+		let token = UserStore.getToken();
+		return api.giveBoardAccess({ token: token, id: {
+                                     board:    boardId,
+                                     code: accessCode} })
+			.then(() => {
+				return Promise.resolve();
+			})
+			.catch((err) => {
+				BroadcastAction.add(err, Action.User.GiveBoardAccess);
+				return Promise.reject();
+			});
+	},
+
 	/**
 	 *
 	 */
@@ -70,7 +84,6 @@ export default flux.actionCreator({
 				return resolve();
 			});
 		}
-
 		return api.logout({ token })
 			.then(() => {
 				this.dispatch(Action.User.Logout);
