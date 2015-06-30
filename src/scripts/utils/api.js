@@ -11,42 +11,48 @@ import page    from 'page';
  *      necessarily the most clean way, but it will do for now.
  */
 export default {
-    login:      login,
-    loginGuest: loginGuest,
-    logout:     logout,
-    register:   register,
+	login:           login,
+	loginGuest:      loginGuest,
+	logout:          logout,
+	register:        register,
+	giveBoardAccess: giveBoardAccess,
+	getUser:         getUser,
+	getBoard:        getBoard,
+	getBoards:       getBoards,
+	getTicket:       getTicket,
+	getTickets:      getTickets,
 
-    getUser:    getUser,
-    getBoard:   getBoard,
-    getBoards:  getBoards,
-    getTicket:  getTicket,
-    getTickets: getTickets,
+	createBoard:   createBoard,
+	createTicket:  createTicket,
+	createComment: createComment,
+	updateBoard:   updateBoard,
+	updateTicket:  updateTicket,
+	deleteBoard:   deleteBoard,
+	deleteTicket:  deleteTicket,
 
-    createBoard:        createBoard,
-    createTicket:       createTicket,
-    updateBoard:        updateBoard,
-    updateTicket:       updateTicket,
-    updateUserName:     updateUserName,
-    updateUserPassword: updateUserPassword,
-    createComment:      createComment,
-    deleteBoard:        deleteBoard,
-    deleteTicket:       deleteTicket,
-    revokeAccessCode:   revokeAccessCode,
-    generateAccessCode: generateAccessCode,
+	revokeAccessCode:     revokeAccessCode,
+	generateAccessCode:   generateAccessCode,
+	setUserBoardActivity: setUserBoardActivity,
+
     queryApiVersion:    queryApiVersion,
     queryImgVersion:    queryImgVersion
+
 }
 
 const API_URL = process.env.API_URL || 'http://localhost:9002/api';
 
+
 function login(opts = {}) {
+    let provider = 'basic'; // add dynamic provider
+    let auth = "basic " + new Buffer(opts.payload.email + ":" + opts.payload.password).toString("base64");
     let options = {
-        url:     `${API_URL}/auth/login`,
-        payload: opts.payload
+        url: `${API_URL}/auth/` + provider + `/login`,
+        auth: auth
     }
-    return request.post(options).then((res) => {
+
+    return request.get(options).then((res) => {
         return {
-            user:  User.fromJS(res.body).toJS(),
+            user: User.fromJS(res.body).toJS(),
             token: res.headers['x-access-token']
         }
     });
@@ -83,6 +89,16 @@ function loginGuest(opts = {}) {
             token: res.headers['x-access-token']
         }
     });
+}
+
+function giveBoardAccess(opts = {}) {
+	let options = {
+		url:     `${API_URL}/boards/${opts.id.board}/access/${opts.id.code}/grantaccess`,
+		token: opts.token
+	}
+	return request.put(options).then((res) => {
+		return Board.fromJS(res.body).toJS();
+	});
 }
 
 function getUser(opts = {}) {
@@ -248,6 +264,25 @@ function deleteTicket(opts = {}) {
         return Ticket.fromJS(res.body).toJS();
     });
 }
+
+function setUserBoardActivity(opts = {}) {
+	let options = {
+		url:   `${API_URL}/boards/${opts.id.board}/setactivity`,
+		token: opts.token,
+		payload: opts.payload
+	}
+
+    if(opts.isPoll) {
+
+      return request.put(options);
+
+    } else {
+
+        return request.post(options);
+    }
+
+}
+
 
 function generateAccessCode(opts = {}) {
     let options = {

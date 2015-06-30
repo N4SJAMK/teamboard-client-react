@@ -1,5 +1,6 @@
-import page  from 'page';
+import page from 'page';
 import React from 'react/addons';
+
 import User  from '../models/user';
 import Board from '../models/board';
 
@@ -42,7 +43,7 @@ export default React.createClass({
 	},
 
 	mixins: [
-		listener(UserStore, BoardStore, SettingsStore)
+           listener(UserStore, BoardStore, SettingsStore)
 	],
 
 	onChange() {
@@ -61,19 +62,36 @@ export default React.createClass({
 		return Object.assign(this.getState(), {
 			showEditBoardDialog:   false,
 			showExportBoardDialog: false,
-			showShareBoardDialog:  false
+			showShareBoardDialog:  false,
+			pollHandle:            null
 		});
+	},
+
+	componentWillMount() {
+		this.setUserActivity({isActive: true, isPoll: false});
 	},
 
 	componentDidMount() {
 		BoardAction.load(this.props.id);
 		document.addEventListener('touchmove', preventDefault);
+
+		// Poll server every 10 seconds to indicate we're still alive!
+		let self = this;
+		let handle = setInterval(function() {
+                self.setUserActivity({isActive:true, isPoll:true})
+                }, 10000);
+		this.setState({pollHandle: handle});
 	},
 
+	// The componentWillUnmount handles exiting the board via the back button.
 	componentWillUnmount() {
+		if (this.state.pollHandle) {
+			clearInterval(this.state.pollHandle);
+		}
+		this.setUserActivity({isActive: false, isPoll: false});
 		document.removeEventListener('touchmove', preventDefault);
 	},
-
+	
 	toggleEditBoardDialog() {
 		this.setState({
 			showEditBoardDialog: !this.state.showEditBoardDialog
@@ -91,9 +109,11 @@ export default React.createClass({
 			showShareBoardDialog: !this.state.showShareBoardDialog
 		});
 	},
+	setUserActivity(isActive, isPoll) {
+		BoardAction.setUserBoardActivity(this.props.id, isActive, isPoll);
 
+	},
 	render() {
-
 		let boardDialog = null;
 
 		if(this.state.showEditBoardDialog) {
@@ -111,7 +131,7 @@ export default React.createClass({
 		return (
 			<div className="view view-board">
 				<Broadcaster />
-				<Navigation showHelp={true} title={this.state.board.name} />
+				<Navigation showHelp={true} showBoardMembers={true} board={this.state.board} title={this.state.board.name} />
 				<div className="content">
 					<Scrollable board={this.state.board}
 							minimap={this.state.showMinimap}>
@@ -153,13 +173,17 @@ export default React.createClass({
 				active: this.state.showMinimap
 			}
 		];
+
 		let userOnlyControls = [
 			{
 				onClick: () => {
 					return page.show('/boards')
 				},
 				icon: 'arrow-left'
-			},
+			}
+			];
+
+			let adminOnlyControls = [
 			{
 				icon:    'pencil',
 				active:  this.state.showEditBoardDialog,
@@ -173,9 +197,14 @@ export default React.createClass({
 
 		];
 		if(this.props.user.type === User.Type.User) {
-			controls = userOnlyControls.concat(controls);
-		}
+			let currentRole    = BoardStore.getUserRole(this.state.board.id, this.props.user.id);
+			if (currentRole === "admin") {
+				controls = adminOnlyControls.concat(controls);
+			}
 
+			controls = userOnlyControls.concat(controls);
+
+		}
 		return (
 			<div className="controls">
 				{controls.map((control) => {
