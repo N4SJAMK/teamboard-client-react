@@ -274,7 +274,7 @@ function setUserBoardActivity(opts = {}) {
 
     if(opts.isPoll) {
 
-	   return request.put(options);
+      return request.put(options);
 
     } else {
 

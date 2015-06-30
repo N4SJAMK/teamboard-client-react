@@ -60,8 +60,8 @@ export default flux.actionCreator({
 	giveBoardAccess(boardId, accessCode) {
 		let token = UserStore.getToken();
 		return api.giveBoardAccess({ token: token, id: {
-			                         board:    boardId,
-								     code: accessCode} })
+                                     board:    boardId,
+                                     code: accessCode} })
 			.then(() => {
 				return Promise.resolve();
 			})
