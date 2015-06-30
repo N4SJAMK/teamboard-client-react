@@ -24,42 +24,39 @@ export default React.createClass({
 				<Carousel ref="carousel" className="infocarousel"
 					data={this.setCarouselData.bind(this, 'carousel')}>
 					{this.props.tickets.map((item, index) => {
-						if(item.heading !== "" && item.content !== "" || item.comments.length !== 0) {
-							console.log(item)
-							let markupContent = markdown.markdown.toHTML(item.content);
-							if (markupContent.includes('<a href='))
-								markupContent =
-									markupContent.replace(/<a href="/g, '<a target="_blank" href="');
-							let dialogClasses = index !== this.currentSlide ?
-								'review-dialog'
-								: 'review-dialog active';
-							let ticketColor = {backgroundColor: item.color, height: 15 };
-						return (
-							<div className={dialogClasses}>
-								<div style={ticketColor}/>
-								<section className="review-dialog-header">
-									{item.heading}
+						let markupContent = markdown.markdown.toHTML(item.content);
+						if (markupContent.includes('<a href='))
+							markupContent =
+								markupContent.replace(/<a href="/g, '<a target="_blank" href="');
+						let dialogClasses = index !== this.currentSlide ?
+							'review-dialog'
+							: 'review-dialog active';
+						let ticketColor = {backgroundColor: item.color, height: 15 };
+					return (
+						<div className={dialogClasses}>
+							<div style={ticketColor}/>
+							<section className="review-dialog-header">
+								{item.heading}
+							</section>
+							<section className="review-dialog-content">
+								<span dangerouslySetInnerHTML={{__html: markupContent}}/>
+							</section>
+							<section className="review-dialog-comments">
+								<section className="review-comment-wrapper">
+									{item.comments.map((comment) => {
+										return (
+											<div className="review-comment" key={comment.id}>
+												<section>
+													<p className="review-comment-username">{comment.user.username}</p>
+												</section>
+												<p className="review-comment-message">{comment.content}</p>
+											</div>
+										);
+									})}
 								</section>
-								<section className="review-dialog-content">
-									<span dangerouslySetInnerHTML={{__html: markupContent}}/>
-								</section>
-								<section className="review-dialog-comments">
-									<section className="review-comment-wrapper">
-										{item.comments.map((comment) => {
-											return (
-												<div className="review-comment" key={comment.id}>
-													<section>
-														<p className="review-comment-username">{comment.user.username}</p>
-													</section>
-													<p className="review-comment-message">{comment.content}</p>
-												</div>
-											);
-										})}
-									</section>
-								</section>
-							</div>
-						);
-					}
+							</section>
+						</div>
+					);
 				})}
 				</Carousel>
 			</Dialog>

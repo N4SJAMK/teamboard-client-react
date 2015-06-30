@@ -92,7 +92,6 @@ export default React.createClass({
 
 	toggleReview() {
 		if(this.sendTicketsForReview().length !== 0){
-			console.log(this.sendTicketsForReview().length)
 			this.setState({ reviewActive: !this.state.reviewActive });
 		}
 		else {
@@ -117,12 +116,11 @@ export default React.createClass({
 
 	sendTicketsForReview() {
 		return BoardStore.getTickets(this.props.id).toJS().filter ((item) => {
-			return item.content !== "" && item.heading !== "" || item.comments.length !== 0
+			return item.content !== "" || item.heading !== "" || item.comments.length !== 0
 		});
 	},
 
 	render() {
-		console.log(this.sendTicketsForReview())
 		let boardDialog = null;
 		let reviewDialog = null;
 
