@@ -18,7 +18,8 @@
 				display: none
 			.slider-frame
 				height: 100% !important
-
+	.active
+		@include transform(scale(1))
 	.review-dialog
 		max-width: 700px
 		margin:        64px auto
@@ -29,8 +30,6 @@
 		color:            $bastille
 		background-color: $white
 		overflow-y: scroll
-	.active
-		@include transform(scale(1))
 
 		.review-dialog-header
 			padding: 16px
