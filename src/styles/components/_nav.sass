@@ -38,6 +38,41 @@
 		&:hover
 			color: $white
 
+
+	.members
+		@include flex-grow(0)
+		@include flex-shrink(0)
+
+		@include transition(all, 0.2s)
+
+		width:  64px
+		height: 32px
+		margin: 16px 16px
+
+		color:  $gallery
+		cursor: pointer
+
+		border:        1px solid $voodoo
+		border-radius: 2px
+
+		span
+			width:       100%
+			line-height: 30px
+			.user-amount
+				font-family: Lato
+				margin-left: 13%
+				font-size:   14px
+
+		&:hover
+			color:            $white
+			border-color:     $affair
+			background-color: $voodoo
+
+		&.active
+			color:            $white
+			border-color:     $affair
+			background-color: $voodoo
+
 	.avatar
 		@include flex-grow(0)
 		@include flex-shrink(0)

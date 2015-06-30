@@ -9,6 +9,7 @@ export default flux.actions({
 		Login:    null,
 		Logout:   null,
 		Register: null,
+		GiveBoardAccess: null,
 		Update:   null
 	},
 	Socket: {

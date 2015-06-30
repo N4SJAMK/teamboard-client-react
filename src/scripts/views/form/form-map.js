@@ -3,6 +3,7 @@ import Action          from '../../actions';
 import UserAction      from '../../actions/user';
 import BroadcastAction from '../../actions/broadcast';
 
+import UserStore       from '../../stores/user';
 /**
  *
  */
@@ -81,29 +82,72 @@ export default
 				return UserAction.login(state).then(() => {
 					return page.show('/boards');
 				});
-			},
-			action: 'Login'
+			}
 		},
-		guestLoginForm: {
-			fields: [
-				{
-					name:     'username',
-					type:     'text',
-					label:    'Username',
-					title:    'Username must be at least 3 characters.',
-					pattern:  '.{3,}',
-					required: true
+	guestLoginForm: {
+		fields: [
+			{
+				name:     'username',
+				type:     'text',
+				label:    'Username',
+				title:    'Username must be at least 3 characters.',
+				pattern:  '.{3,}',
+				required: true
+			}
+		],
+		secondary: {
+			submit: (formType, boardID, accessCode) => {
+
+				if(UserStore.getToken()) {
+					return UserAction.giveBoardAccess(boardID, accessCode).then(() => {
+						return page.show(`/boards/${boardID}`);
+					}, (err) => {console.log(err)});
 				}
-			],
-			submit: (state, boardID, accessCode) => {
-				let credentials = Object.assign(state, {
-					boardID:    boardID,
-					accessCode: accessCode
-				});
-				return UserAction.login(credentials, true).then(() => {
-					return page.show(`/boards/${boardID}`);
-				});
+				else {
+					return page.show(`/userlogin/boards/${boardID}/access/${accessCode}`);
+				}
 			},
-			action: 'Login as Guest'
-		}
+			action:      'Log in',
+			description: 'Got an account?'
+		},
+		submit: (state, boardID, accessCode) => {
+			let credentials = Object.assign(state, {
+				boardID:    boardID,
+				accessCode: accessCode
+			});
+			return UserAction.login(credentials, true).then(() => {
+				return page.show(`/boards/${boardID}`);
+			}, (err) => {});
+		},
+		action: 'Login as Guest'
+	},
+	userAccessForm: {
+		fields: [
+			{
+				name:     'email',
+				type:     'email',
+				label:    'Email',
+				required: true
+			},
+			{
+				name:     'password',
+				type:     'password',
+				label:    'Password',
+				required: true
+			}
+		],
+		submit: (state, boardID, accessCode) => {
+			return UserAction.login(state).then(() => {
+				return UserAction.giveBoardAccess(boardID, accessCode).then(() => {
+					return page.show(`/boards/${boardID}`);
+				}, (err) => {console.log(err)});
+
+			}, (err) => {
+				return page.redirect(`/boards/${boardID}/access/${accessCode}`)
+			});
+
+		},
+		action: 'Login'
 	}
+	}
+
