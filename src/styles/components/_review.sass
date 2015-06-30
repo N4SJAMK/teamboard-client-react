@@ -18,9 +18,9 @@
 				display: none
 			.slider-frame
 				height: 100% !important
-	.active
-		@include transform(scale(1))
+
 	.review-dialog
+		opacity: 0.3
 		max-width: 700px
 		margin:        64px auto
 		border-radius: 8px
@@ -30,6 +30,12 @@
 		color:            $bastille
 		background-color: $white
 		overflow-y: scroll
+		&.active
+			@include transform(scale(1))
+			opacity: 1
+
+		.ticket-color
+			height: 20px
 
 		.review-dialog-header
 			padding: 16px

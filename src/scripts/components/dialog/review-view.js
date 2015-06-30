@@ -64,10 +64,10 @@ export default React.createClass({
 						let dialogClasses = index !== this.currentSlide ?
 							'review-dialog'
 							: 'review-dialog active';
-						let ticketColor = {backgroundColor: item.color, height: 15 };
+						let ticketColor = {backgroundColor: item.color};
 					return (
 					<div className={dialogClasses}>
-						<div style={ticketColor}/>
+						<div className="ticket-color" style={ticketColor}/>
 						<section className="review-dialog-header">
 							{item.heading}
 						</section>
