@@ -194,6 +194,17 @@ function updateUserName(opts = {}) {
     });
 }
 
+function updateAvatar(opts = {}) {
+    let options = {
+        url:     `${API_URL}/user/avatar`,
+        token:   opts.token,
+        payload: opts.payload
+    }
+    return request.put(options).then((res) => {
+        return User.fromJS(res.body).toJS();
+    });
+}
+
 function updateUserPassword(opts = {}) {
     let options = {
         url:     `${API_URL}/user/changepw`,

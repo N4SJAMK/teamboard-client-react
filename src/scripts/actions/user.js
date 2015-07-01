@@ -130,6 +130,23 @@ export default flux.actionCreator({
 	/**
 	 *
 	 */
+	updateAvatar(avatar) {
+		let token = UserStore.getToken();
+
+		return api.updateAvatar({ token: token, payload: { avatar: avatar }})
+			.then((user) => {
+				this.dispatch(Action.User.Update, { user });
+				return Promise.resolve();
+			})
+			.catch((err) => {
+				BroadcastAction.add(err, Action.User.Update);
+				return Promise.reject();
+			});
+	},
+
+	/**
+	 *
+	 */
 	updatePassword(newPassword, oldPassword) {
 		let token = UserStore.getToken();
 

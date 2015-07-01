@@ -30,7 +30,7 @@ export default React.createClass({
 
         if(!this.props.imageurl) {
             initials = this.props.name.substring(0, 2).toUpperCase();
-            fontSize = this.props.size * 0.6;
+            fontSize = this.props.size * 0.55;
             if (this.props.usertype === 'guest') {
                 backgroundColor = bgcolors.guest;
             }
