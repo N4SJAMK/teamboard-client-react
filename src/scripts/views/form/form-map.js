@@ -4,6 +4,8 @@ import UserAction      from '../../actions/user';
 import BroadcastAction from '../../actions/broadcast';
 
 import UserStore       from '../../stores/user';
+
+const API_URL = process.env.API_URL || 'http://localhost:9002/api';
 /**
  *
  */
@@ -12,6 +14,7 @@ export default
 	{
 		registerForm: {
 			fields: [
+
 				{
 					name:     'email',
 					type:     'email',
@@ -54,7 +57,7 @@ export default
 				});
 			},
 			help:   'Passwords must be at least 8 characters long.',
-			action: 'Register'
+			action: 'Register',
 		},
 		loginForm: {
 			fields: [
@@ -77,6 +80,12 @@ export default
 				},
 				action:      'Register',
 				description: 'Not registered?'
+			},
+			social: {
+				header: 'Login',
+				subHeader: 'or',
+				googleUrl: API_URL+'/auth/google/login',
+				googleLogo: '/src/assets/img/providers/google.png'
 			},
 			submit: (state) => {
 				return UserAction.login(state).then(() => {

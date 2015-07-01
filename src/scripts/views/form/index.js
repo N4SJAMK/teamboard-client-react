@@ -5,7 +5,6 @@ import Broadcaster     from '../../components/broadcaster';
 import FormData        from '../../views/form/form-map';
 import BroadcastAction from '../../actions/broadcast';
 
-const API_URL = process.env.API_URL || 'http://localhost:9002/api';
 /**
  *
  */
@@ -90,7 +89,6 @@ export default React.createClass({
 		}
 	},
 	renderForm(formType) {
-		let url = API_URL + '/auth/google/login';
 		let secondaryContent = !formType.secondary ? null : (
 			<section className="secondary">
 				<p>{formType.secondary.description}</p>
@@ -100,6 +98,17 @@ export default React.createClass({
 					{formType.secondary.action}
 				</button>
 			</section>
+		);
+		let socialLogin = !formType.social ? null : (
+			<div>
+				<section className="social">
+					<h2>{formType.social.header}</h2>
+					<a className="provider" href={formType.social.googleUrl}>
+						<img className="provider" src={formType.social.googleLogo} />
+					</a>
+				</section>
+				<p className ="basic-login">{formType.social.subHeader}</p>
+			</div>
 		);
 		let primarySubmit = this.props.formProfile !== 'guestLoginForm' ?
 			this.submitPrimary(formType) :
@@ -114,13 +123,7 @@ export default React.createClass({
 							<img src="/dist/assets/img/logo.svg" />
 							<h1>Contriboard</h1>
 						</div>
-						<section className="social">
-						<h2>Login</h2>
-						<a className="provider" href={url}>
-							<img className="provider" src="/src/assets/img/providers/google.png" /> 
-						</a>
-						</section>
-						<h3 className ="basic-login">or</h3>
+						{socialLogin}
 						{this.renderFields(formType.fields)}
 						{this.checkPasswords()}
 						<input type="submit" className="btn-primary"
