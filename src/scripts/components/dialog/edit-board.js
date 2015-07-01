@@ -102,7 +102,7 @@ export default React.createClass({
 				<section className="dialog-header">
 					Edit Board
 				</section>
-				<section className="dialog-content">
+				<section className="dialog-content dialog-content-board">
 
 					<label htmlFor="board-name">Board Name</label>
 					<input name="board-name" placeholder="Board Name"

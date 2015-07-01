@@ -10,8 +10,7 @@ import UserStore    from '../../stores/user';
 
 import Dialog      from '../../components/dialog';
 import ColorSelect from '../../components/color-select';
-
-import Scrollable from './scrollable';
+import Scrollable  from '../../components/dialog/scrollable';
 
 /**
  *
