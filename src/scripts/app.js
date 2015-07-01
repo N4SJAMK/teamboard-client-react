@@ -21,7 +21,6 @@ import qs          from 'query-string';
 import FormView    from './views/form/';
 import ProfileView from './views/profile';
 
-
 // This should fix some of the issues with clicking and touch enabled devices.
 fastclick(document.body);
 
@@ -114,11 +113,11 @@ page('/login',
 });
 
 page('/login/callback',
-	(ctx, next) => { 
-	let access_token = qs.parse(ctx.querystring).access_token;
+	(ctx, next) => {
+	let accessToken = qs.parse(ctx.querystring).access_token;
 	if(ctx.querystring.length > 0) {
-			if(access_token && access_token.length > 0) {
-				localStorage.setItem('token', access_token);
+			if(accessToken && accessToken.length > 0) {
+				localStorage.setItem('token', accessToken);
 			}
 			UserAction.load().then(() => { page.redirect('/boards'); });
         }
@@ -144,6 +143,7 @@ page('/profile',
 			document.getElementById('application')
 		);
 	});
+
 page('/profile/login',
 	middleware.user.is(User.Type.User, User.Type.Guest),
 	middleware.socket.connect,
@@ -164,6 +164,7 @@ page('/boards/:id/access/:code',
 			document.getElementById('application')
 		);
 	});
+
 page('/userlogin/boards/:id/access/:code',
 	middleware.socket.disconnect,
 	(ctx) => {
@@ -173,7 +174,6 @@ page('/userlogin/boards/:id/access/:code',
 			document.getElementById('application')
 		);
 	});
-
 
 page('/boards',
 	middleware.user.is(User.Type.User),
