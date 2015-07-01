@@ -54,7 +54,7 @@ export default React.createClass({
 
 	renderFormats() {
 		return Object.keys(Format).map((key) => {
-			return <option key={key} value={Format[key]}>{key}</option>;
+			return <option key={key} value={Format[key]} id={"export-select-" + key}>{key}</option>;
 		});
 	}
 });
