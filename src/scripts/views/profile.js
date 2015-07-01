@@ -1,10 +1,10 @@
 import React      from 'react';
 import UserStore  from '../stores/user';
+import Avatar       from '../components/avatar';
 import Navigation   from '../components/navigation';
 import Broadcaster  from '../components/broadcaster';
 import ProfileForms from '../views/form/profile-forms';
 import BroadcastAction from '../actions/broadcast';
-
 /**
  *
  */
@@ -25,6 +25,8 @@ export default React.createClass({
 		let userNameContent = this.state.name === '' || !this.state.name ?
 		UserStore.getUser().username :
 		this.state.name;
+
+		let avatarUrl = this.state.avatar;
 		switch(field.type){
 			case 'submit': return (
 					<input name={field.name} type="submit"
@@ -33,14 +35,32 @@ export default React.createClass({
 			case 'text':
 			case 'password':
 			case 'file': return (
+				<section>
+					<label htmlFor={field.name}>{field.label}</label>
 					<input autoFocus={index === 0} name={field.name}
 					type={field.type} {...controlattrs}
 					valueLink={this.linkState(field.name)} />
+				</section>
 				);
 			case 'email': return (
 				<section>
 				<h4>{field.title}</h4>
 				<p>{userNameContent}</p>
+				</section>
+			);
+
+			case 'avatar': return (
+				<section>
+					<h4>{field.title}</h4>
+					<div className="avatar-wrapper">
+						<Avatar size={64} name={userNameContent}
+								imageurl={avatarUrl}
+								isOnline={true}>
+						</Avatar>
+					</div>
+					<label htmlFor={field.name}>{field.label}</label>
+					<input autoFocus={index === 0} type={field.type}
+						{...controlattrs} valueLink={this.linkState(field.url)} />
 				</section>
 			);
 		}
@@ -67,7 +87,6 @@ export default React.createClass({
 			}
 			return (
 				<section key={field.name} className="input">
-					<label htmlFor={field.name}>{field.label}</label>
 					{this.getFieldType(field, index, controlattrs)}
 				</section>
 			);

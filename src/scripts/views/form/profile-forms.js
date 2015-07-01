@@ -10,7 +10,8 @@ export default {
 			'oldPassword',
 			'newPassword',
 			'newPasswordAgain',
-			'name'
+			'name',
+			'url'
 		],
 		loginSettings: {
 			title: 'Change password',
@@ -57,14 +58,21 @@ export default {
 			title: 'Profile information',
 			fields: [
 				{
-					name:     'name',
-					type:     'text',
-					label:    'Enter a username',
-					required: true
+					type:     'avatar',
+					name:     'Enter a URL to an image',
+					title:    'Your avatar:',
+					label:    'Enter an URL to an image',
+					url:      'avatar'
 				},
 				{
 					type:     'email',
 					title:    'Your username:'
+				},
+				{
+					name:     'name',
+					type:     'text',
+					label:    'Enter a username',
+					required: true
 				},
 				{
 					name:     'submitProfile',
