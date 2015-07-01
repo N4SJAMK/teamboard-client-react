@@ -5,6 +5,7 @@ import Broadcaster     from '../../components/broadcaster';
 import FormData        from '../../views/form/form-map';
 import BroadcastAction from '../../actions/broadcast';
 
+const API_URL = process.env.API_URL || 'http://localhost:9002/api';
 /**
  *
  */
@@ -88,8 +89,8 @@ export default React.createClass({
 			return event.preventDefault();
 		}
 	},
-
 	renderForm(formType) {
+		let url = API_URL + '/auth/google/login';
 		let secondaryContent = !formType.secondary ? null : (
 			<section className="secondary">
 				<p>{formType.secondary.description}</p>
@@ -115,8 +116,8 @@ export default React.createClass({
 						</div>
 						<section className="social">
 						<h2>Login</h2>
-						<a className="provider" href="http://localhost:9002/api/auth/google/login">
-							<img className="provider" src="/src/assets/img/providers/google.png" />
+						<a className="provider" href={url}>
+							<img className="provider" src="/src/assets/img/providers/google.png" /> 
 						</a>
 						</section>
 						<h3 className ="basic-login">or</h3>
