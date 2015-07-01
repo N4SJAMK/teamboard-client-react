@@ -93,9 +93,9 @@ export default React.createClass({
 			<section className="dialog-comments">
 				<section className="new-comment-section">
 					<input className="comment-input"
-						maxLength={40}
-						valueLink={this.linkState('newComment')} placeholder="Your comment"
-							tabIndex={2}/>
+						   maxLength={40}
+						   valueLink={this.linkState('newComment')} placeholder="Your comment"
+						   tabIndex={2}/>
 					<button className="btn-primary" onClick={this.comment}>Add comment</button>
 				</section>
 				<section className="comment-wrapper">
@@ -189,16 +189,16 @@ export default React.createClass({
 						{contentArea}
 						{commentArea}
 						<section className="dialog-footer">
-							<button className="btn-neutral" onClick={this.cancel}
+							<button className="btn-neutral" id={"ticket-dialog-cancel"} onClick={this.cancel}
 									tabIndex={3}>
 								Cancel
 							</button>
-							<button className="btn-primary" onClick={this.update}
+							<button className="btn-primary" id={"ticket-dialog-save"} onClick={this.update}
 									tabIndex={4}>
 								Save
 							</button>
 						</section>
-						<span className="deleteicon fa fa-trash-o" onClick={this.remove}> Delete</span>
+						<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}> Delete</span>
 					</section>
 				</Scrollable>
 			</Dialog>

@@ -43,7 +43,7 @@ export default React.createClass({
 		return (
 			<div className="background-select">
 				<label>Board Background</label>
-				<div className="select">
+				<div className="select" id={"background-select"}>
 					<select onChange={this.onChange}
 							defaultValue={this.props.background.value}>
 						{this.renderOptions()}
@@ -58,7 +58,7 @@ export default React.createClass({
 	renderOptions: function() {
 		return Object.keys(Board.Background).map(function(key) {
 			return (
-				<option key={key} value={key}>
+				<option key={key} value={key} id={"background-select-" + key}>
 					{Board.Background[key].description}
 				</option>
 			);
