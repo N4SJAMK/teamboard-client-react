@@ -1,13 +1,11 @@
 .review-overlay
 	width:   100%
 	z-index: 9001
-	height:  100%
+	max-height:  100%
 	@include position(fixed, 0px null null 0px)
 	background-color: rgba($ebony, 0.8)
 	.dialog.info
-
 		.slider.infocarousel
-			height: 100%
 			.slider-decorator-0,
 			.slider-decorator-1
 				visibility: visible
@@ -17,110 +15,126 @@
 			.slider-decorator-2
 				display: none
 			.slider-frame
-				height: 100% !important
+				overflow-y: hidden
+				.slider-list
+					padding-top: 64px !important
+					li.slider-slide
 
-	.review-dialog
-		opacity: 0.3
-		max-width: 700px
-		margin:        64px auto
-		border-radius: 8px
-		@include transform(scale(0.9))
-		@include transition(0.3s linear)
-
-		color:            $bastille
-		background-color: $white
+	.review-dialog-container
 		overflow-y: scroll
-		&.active
-			@include transform(scale(1))
-			opacity: 1
+		max-width: 700px
+		height: 100vh !important
+		margin: 0 auto !important
+		&::-webkit-scrollbar-track
+			opacity: 0
+		&::-webkit-scrollbar
+			width: 6px
+			opacity: 0
+		&::-webkit-scrollbar-thumb
+			background-color: #999999
+			&:active
+				background-color: #fff
+		.review-dialog
+			opacity: 0.3
+			border-radius: 8px
+			//@include transform(scale(0.9))
+			@include transition(0.3s linear)
 
-		.ticket-color
-			height: 20px
+			color:            $bastille
+			background-color: $white
+			//overflow-y: scroll
 
-		.review-dialog-header
-			padding: 16px
+			&.active
+				@include transform(scale(1))
+				opacity: 1
 
-			font-size:      18px
-			letter-spacing: 1px
+			.ticket-color
+				height: 20px
 
-		.review-dialog-heading
-			font-weight: bold
-			padding:     8px 16px
-			span
-				cursor: pointer
-				cursor: hand
+			.review-dialog-header
+				padding: 16px
 
-		.review-dialog-comments
-			padding: 8px 16px 16px 16px
+				font-size:      18px
+				letter-spacing: 1px
 
-			.review-comment-wrapper
-				@include display(flex)
-				@include flex-direction(column)
-				border-top: 2px solid $silver-chalice
-				overflow-y:       visible
-				background-color: $white
+			.review-dialog-heading
+				font-weight: bold
+				padding:     8px 16px
+				span
+					cursor: pointer
+					cursor: hand
 
-				.review-comment
-					height:     50px
-					min-height: 50px
+			.review-dialog-comments
+				padding: 8px 16px 16px 16px
 
-					.review-comment-username
-						@include   margin(5 0 0 4)
-						font-size: smaller
-						color:     $dove-gray
+				.review-comment-wrapper
+					@include display(flex)
+					@include flex-direction(column)
+					border-top: 2px solid $silver-chalice
+					//overflow-y:       visible
+					background-color: $white
 
-					.review-comment-message
-						@include margin(5 0 0 4)
+					.review-comment
+						height:     50px
+						min-height: 50px
 
-				.review-comment:not(:last-child)
-					border-bottom: 1px solid
-					border-color:  $silver-chalice
+						.review-comment-username
+							@include   margin(5 0 0 4)
+							font-size: smaller
+							color:     $dove-gray
 
-		.review-dialog-content
-			padding:    8px 16px
-			overflow:   hidden
-			overflow-y: visible
+						.review-comment-message
+							@include margin(5 0 0 4)
 
-			span
-				cursor:        pointer
-				cursor:        hand
-				overflow-wrap: break-word
+					.review-comment:not(:last-child)
+						border-bottom: 1px solid
+						border-color:  $silver-chalice
 
-				p
-					white-space: pre-wrap
+			.review-dialog-content
+				padding:    8px 16px
+				overflow:   hidden
+				overflow-y: visible
 
-				h1, h2, h3, h4
-					@include margin(0px 0px 0px 0px)
+				span
+					cursor:        pointer
+					cursor:        hand
+					overflow-wrap: break-word
 
-				img
-					display: block
+					p
+						white-space: pre-wrap
 
-				code
-					display: block
+					h1, h2, h3, h4
+						@include margin(0px 0px 0px 0px)
 
-				a
-					font-size:    13pt
-					padding:      0
-					display:      inline
-					color:        $neptune
-					border-width: 0px
+					img
+						display: block
 
-				blockquote
-					margin: 10px
+					code
+						display: block
 
-				ul
-					list-style-type: disc
+					a
+						font-size:    13pt
+						padding:      0
+						display:      inline
+						color:        $neptune
+						border-width: 0px
 
-					li
-						margin-left:     20px
+					blockquote
+						margin: 10px
+
+					ul
 						list-style-type: disc
 
-				ol
-					list-style-type: decimal
+						li
+							margin-left:     20px
+							list-style-type: disc
 
-					li
-						margin-left:     20px
+					ol
 						list-style-type: decimal
 
-			@include display(flex)
-			@include flex-direction(column)
+						li
+							margin-left:     20px
+							list-style-type: decimal
+
+				@include display(flex)
+				@include flex-direction(column)

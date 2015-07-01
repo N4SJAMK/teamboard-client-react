@@ -8,9 +8,10 @@ import UserStore     from '../stores/user';
 import BoardStore    from '../stores/board';
 import SettingsStore from '../stores/settings';
 
-import BoardAction    from '../actions/board';
-import TicketAction   from '../actions/ticket';
-import SettingsAction from '../actions/settings';
+import BoardAction     from '../actions/board';
+import TicketAction    from '../actions/ticket';
+import SettingsAction  from '../actions/settings';
+import BroadcastAction from '../actions/broadcast';
 
 import listener from '../mixins/listener';
 
@@ -107,7 +108,16 @@ export default React.createClass({
 	},
 
 	toggleReview() {
-		this.setState({ reviewActive: !this.state.reviewActive });
+		if(this.sendTicketsForReview().length !== 0){
+			console.log(this.sendTicketsForReview().length)
+			this.setState({ reviewActive: !this.state.reviewActive });
+		}
+		else {
+			BroadcastAction.add({
+				type:    'broadcast',
+				content: 'You do not have any tickets to review!'
+			});
+		}
 	},
 
 	toggleShareBoardDialog() {
@@ -119,10 +129,16 @@ export default React.createClass({
 		BoardAction.setUserBoardActivity(this.props.id, isActive, isPoll);
 	},
 
-	setReviewClosingButton(mode){
+	setReviewClosingButton(mode) {
 		this.setState({
 			reviewActive: mode
 		})
+	},
+
+	sendTicketsForReview() {
+		return BoardStore.getTickets(this.props.id).toJS().filter ((item) => {
+			return item.content !== "" && item.heading !== "" || item.comments.length !== 0
+		});
 	},
 
 	render() {
@@ -144,7 +160,7 @@ export default React.createClass({
 		if(!this.state.reviewActive) {
 			reviewDialog = null;
 		} else {
-			reviewDialog = <ReviewView tickets = {BoardStore.getTickets(this.props.id).toJS()}
+			reviewDialog = <ReviewView tickets = {this.sendTicketsForReview()}
 			onDismiss = { this.toggleReview } />;
 		}
 
