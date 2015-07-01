@@ -1,15 +1,15 @@
-var React = require('react'),
-    ReactIScroll = require('react-iscroll'),
-    iScroll = require('iscroll');
+import React        from 'react';
+import ReactIScroll from 'react-iscroll';
+import iScroll      from 'iscroll';
 
 export default React.createClass({
     getDefaultProps() {
         return {
             options: {
-                mouseWheel: true,
-                scrollbars: true,
+                mouseWheel:     true,
+                scrollbars:     true,
                 preventDefault: false,
-                bounce: false
+                bounce:         false
             }
         }
     },
