@@ -58,7 +58,7 @@ export default React.createClass({
 	renderOptions: function() {
 		return Object.keys(Board.Background).map(function(key) {
 			return (
-				<option key={key} value={key}>
+				<option key={key} value={key} id={"background-select-" + key}>
 					{Board.Background[key].description}
 				</option>
 			);
