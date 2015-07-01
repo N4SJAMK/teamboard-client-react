@@ -150,4 +150,3 @@ export default
 		action: 'Login'
 	}
 	}
-

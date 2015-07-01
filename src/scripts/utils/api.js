@@ -48,15 +48,13 @@ function login(opts = {}) {
 	let options = {
 		url:  `${API_URL}/auth/`+ provider + `/login`,
 		auth: auth
-	}
-		
+	}	
 	return request.get(options).then((res) => {
 		return {
 			user:  User.fromJS(res.body).toJS(),
 			token: res.headers['x-access-token']
 		}
 	});
-
 }
 
 function logout(opts = {}) {
