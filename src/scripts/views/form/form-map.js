@@ -155,8 +155,8 @@ export default
 		submit: (state, boardID, accessCode) => {
 			return UserAction.login(state).then(() => {
 				return UserAction.giveBoardAccess(boardID, accessCode).then(() => {
-					localStorage.removeItem('board');
-					localStorage.removeItem('accessCode');
+					localStorage.removeItem('share_board');
+					localStorage.removeItem('share_accessCode');
 					return page.show(`/boards/${boardID}`);
 				}, (err) => {console.log(err)});
 

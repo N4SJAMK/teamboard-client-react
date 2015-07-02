@@ -119,13 +119,13 @@ page('/login/callback',
 			if(accessToken && accessToken.length > 0) {
 				localStorage.setItem('token', accessToken);
 			}
-			if(localStorage.getItem('board') && localStorage.getItem('accessCode')){
-				let boardID = localStorage.getItem('board');
-				let accessCode = localStorage.getItem('accessCode');
+			if(localStorage.getItem('share_board') && localStorage.getItem('share_accessCode')){
+				let boardID = localStorage.getItem('share_board');
+				let accessCode = localStorage.getItem('share_accessCode');
 				UserAction.load().then(() => {
 					UserAction.giveBoardAccess(boardID, accessCode).then(() => {
-						localStorage.removeItem('board');
-						localStorage.removeItem('accessCode');
+						localStorage.removeItem('share_board');
+						localStorage.removeItem('share_accessCode');
 						return page.show(`/boards/${boardID}`);
 					});
 				});
@@ -180,8 +180,8 @@ page('/boards/:id/access/:code',
 page('/userlogin/boards/:id/access/:code',
 	middleware.socket.disconnect,
 	(ctx) => {
-		localStorage.setItem('accessCode', ctx.params.code);
-		localStorage.setItem('board', ctx.params.id);
+		localStorage.setItem('share_accessCode', ctx.params.code);
+		localStorage.setItem('share_board', ctx.params.id);
 		return React.render(
 			<UserAccessView formProfile="userAccessForm" boardID={ctx.params.id}
 							accessCode={ctx.params.code} />,
