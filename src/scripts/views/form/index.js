@@ -100,7 +100,7 @@ export default React.createClass({
 				</button>
 			</section>
 		);
-		let primarySubmit = this.props.formProfile !== 'guestLoginForm' ?
+		let primarySubmit = this.props.formProfile !== 'guestLoginForm' && this.props.formProfile !== 'userAccessForm' ?
 			this.submitPrimary(formType) :
 			this.submitGuest(formType, this.props.accessCode, this.props.boardID)
 		return (
