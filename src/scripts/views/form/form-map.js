@@ -1,4 +1,5 @@
 import page            from 'page';
+import React           from 'react';
 import Action          from '../../actions';
 import UserAction      from '../../actions/user';
 import BroadcastAction from '../../actions/broadcast';
@@ -9,7 +10,6 @@ const API_URL = process.env.API_URL || 'http://localhost:9002/api';
 /**
  *
  */
-
 export default
 	{
 		registerForm: {
@@ -38,26 +38,48 @@ export default
 					required: true
 				}
 			],
-			secondary: {
-				submit: () => {
-					return page.show('/login');
-				},
-				action:      'Login',
-				description: 'Already registered?'
-			},
-			submit: (state) => {
-				return UserAction.register(state).then(() => {
-					return UserAction.login(state).then(() => {
+			buttons: [
+				{
+					type: 'primary',
+					text: 'Register',
+					action: (state, props, event) => {
+						if(state.passwordRegister == state.passwordAgain) {
+							return UserAction.register(state).then(() => {
+								return UserAction.login(state).then(() => {
+									BroadcastAction.add({
+										type:    'broadcast',
+										content: 'Welcome!'
+									});
+									return page.show('/boards');
+								});
+							});
+						}
+
 						BroadcastAction.add({
-							type:    'broadcast',
-							content: 'Welcome!'
+							type:    'Error',
+							content: 'Passwords entered do not match!'
 						});
-						return page.show('/boards');
-					});
-				});
-			},
-			help:   'Passwords must be at least 8 characters long.',
-			action: 'Register'
+						return event.preventDefault();
+					}
+				},
+				{
+					type: 'secondary',
+					text: 'Login',
+					description: 'Already registered?',
+					action: () => {
+						return page.show('/login');
+					}
+				}
+			],
+			onEachFrame: (state, props) => {
+				if(state.passwordAgain === '' && state.passwordRegister === '') {
+					return <span></span>;
+				}
+
+				return state.passwordAgain !== state.passwordRegister ?
+					<span className="fa fa-times mismatch">Password mismatch!</span>
+					: <span className="fa fa-check match">Passwords match!</span>;
+			}
 		},
 		loginForm: {
 			fields: [
@@ -74,25 +96,32 @@ export default
 					required: true
 				}
 			],
-			secondary: {
-				submit: () => {
-					return page.show('/register');
+			buttons: [
+				{
+					type: 'primary',
+					text: 'Login',
+					action: (state, props, event) => {
+						return UserAction.login(state).then(() => {
+							return page.show('/boards');
+						});
+					}
 				},
-				action:      'Register',
-				description: 'Not registered?'
-			},
-			social: {
-				header: 'Login',
-				subHeader: 'or',
-				googleUrl: API_URL+'/auth/google/login',
-				googleLogo: '/src/assets/img/providers/google.png'
-			},
-			submit: (state) => {
-				return UserAction.login(state).then(() => {
-					return page.show('/boards');
-				});
-			},
-			action: 'Login'
+				{
+					type: 'secondary',
+					text: 'Register',
+					description: 'Not registered?',
+					action: () => {
+						return page.show('/register');
+					}
+				}
+			],
+			socials: [
+				{
+					header: 'Google',
+					googleUrl: API_URL + '/auth/google/login',
+					googleLogo: '/src/assets/img/providers/google.png'
+				}
+			],
 		},
 	guestLoginForm: {
 		fields: [
@@ -105,31 +134,36 @@ export default
 				required: true
 			}
 		],
-		secondary: {
-			submit: (formType, boardID, accessCode) => {
-
-				if(UserStore.getToken()) {
-					return UserAction.giveBoardAccess(boardID, accessCode).then(() => {
+		buttons: [
+			{
+				type: 'primary',
+				text: 'Login as Guest',
+				action: (state, props, event) => {
+					let credentials = Object.assign(state, {
+						boardID:    props.boardID,
+						accessCode: props.accessCode
+					});
+					return UserAction.login(credentials, true).then(() => {
 						return page.show(`/boards/${boardID}`);
-					}, (err) => {console.log(err)});
-				}
-				else {
-					return page.show(`/userlogin/boards/${boardID}/access/${accessCode}`);
+					}, (err) => {});
 				}
 			},
-			action:      'Log in',
-			description: 'Got an account?'
-		},
-		submit: (state, boardID, accessCode) => {
-			let credentials = Object.assign(state, {
-				boardID:    boardID,
-				accessCode: accessCode
-			});
-			return UserAction.login(credentials, true).then(() => {
-				return page.show(`/boards/${boardID}`);
-			}, (err) => {});
-		},
-		action: 'Login as Guest'
+			{
+				type: 'secondary',
+				text: 'Register/Login',
+				description: 'Got an account?',
+				action: (state, props, event) => {
+					if(UserStore.getToken()) {
+						return UserAction.giveBoardAccess(props.boardID, props.accessCode).then(() => {
+							return page.show(`/boards/${boardID}`);
+						}, (err) => {console.log(err)});
+					}
+					else {
+						return page.show(`/userlogin/boards/${boardID}/access/${accessCode}`);
+					}
+				}
+			}
+		]
 	},
 	userAccessForm: {
 		fields: [
@@ -146,25 +180,22 @@ export default
 				required: true
 			}
 		],
-		social: {
-				header: 'Login',
-				subHeader: 'or',
-				googleUrl: API_URL+'/auth/google/login',
-				googleLogo: '/dist/assets/img/providers/google.png'
-			},
-		submit: (state, boardID, accessCode) => {
-			return UserAction.login(state).then(() => {
-				return UserAction.giveBoardAccess(boardID, accessCode).then(() => {
-					localStorage.removeItem('share_board');
-					localStorage.removeItem('share_accessCode');
-					return page.show(`/boards/${boardID}`);
-				}, (err) => {console.log(err)});
-
-			}, (err) => {
-				return page.redirect(`/boards/${boardID}/access/${accessCode}`)
-			});
-
-		},
-		action: 'Login'
+		buttons: [
+			{
+				type: 'primary',
+				text: 'Login',
+				action: (state, boardID, accessCode) => {
+					return UserAction.login(state).then(() => {
+						return UserAction.giveBoardAccess(boardID, accessCode).then(() => {
+							localStorage.removeItem('share_board');
+							localStorage.removeItem('share_accessCode');
+							return page.show(`/boards/${boardID}`);
+						}, (err) => {console.log(err)});
+					}, (err) => {
+						return page.redirect(`/boards/${boardID}/access/${accessCode}`)
+					});
+				}
+			}
+		]
 	}
-	}
+}

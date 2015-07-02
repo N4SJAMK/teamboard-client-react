@@ -24,12 +24,28 @@ export default React.createClass({
 		}, {});
 	},
 
-	checkPasswords(){
-		if(this.props.formProfile === 'registerForm' && this.state.passwordAgain !== '') {
-			return this.state.passwordAgain !== this.state.passwordRegister ?
-				<span className="fa fa-times mismatch">Password mismatch!</span>
-				: <span className="fa fa-check match">Passwords match!</span>;
+	submitButton(button) {
+		button.action(this.state, this.props, event)
+	},
+
+	renderSocials(socials) {
+		if(!socials) {
+			return (<section></section>);
 		}
+
+		return socials.map((social, index) => {
+			return(
+				<section>
+					<section className="social">
+						<a className="provider" href={social.googleUrl}>
+							<img className="provider" src={social.googleLogo} />
+						</a>
+					</section>
+				</section>
+			);
+		});
+
+		return ret;
 	},
 
 	renderFields(fields) {
@@ -49,96 +65,67 @@ export default React.createClass({
 			);
 		});
 	},
-	//submit will execute in all cases other than when
-	//passwords given in registration do not match
-	submitPrimary(currentForm) {
-		if(this.props.formProfile !== 'registerForm' ||
-			this.state.passwordAgain === this.state.passwordRegister) {
-			return (event) => {
-				if(this.props.formProfile === 'registerForm')
-					this.state.password = this.state.passwordRegister;
-				currentForm.submit(this.state);
-				return event.preventDefault();
+
+	renderPrimaryButtons(buttons) {
+		return buttons.map((button, index) => {
+			let submit = this.submitButton.bind(this, button);
+			if(button.type === 'primary') {
+				return (
+					<button className="btn-primary"
+						    onClick={submit} key={index}>
+						{button.text}
+					</button>
+				);
 			}
-		}
-		else return (event) => {
-			BroadcastAction.add({
-				type:    'Error',
-				content: 'Passwords entered do not match!'
-			});
-			return event.preventDefault();
-		}
+		});
 	},
 
-	submitSecondary(currentForm) {
-		return (event) => {
-			if (this.props.formProfile !== 'guestLoginForm') {
-				currentForm.secondary.submit(this.state);
+	renderSecondaryButtons(buttons) {
+		return buttons.map((button, index) => {
+			let submit = this.submitButton.bind(this, button);
+			if(button.type === 'secondary') {
+				return (
+					<section key={index} className="secondary">
+						<p>{button.description}</p>
+						<button className="btn-secondary"
+								onClick={submit} >
+							{button.text}
+						</button>
+					</section>
+				);
 			}
-			else {
-				currentForm.secondary.submit(this.state, this.props.boardID, this.props.accessCode);
-			}
-			return event.preventDefault();
-		}
+		});
 	},
 
-	submitGuest(currentForm, accessCode, boardID){
-		return (event) => {
-			currentForm.submit(this.state, boardID, accessCode);
-			return event.preventDefault();
+	onEachFrameHandler(formType) {
+		if(formType.onEachFrame) {
+			return formType.onEachFrame(this.state);
 		}
+		return (<span></span>);
 	},
-	renderForm(formType) {
-		let secondaryContent = !formType.secondary ? null : (
-			<section className="secondary">
-				<p>{formType.secondary.description}</p>
-				<button className="btn-secondary"
-						onClick={this.submitSecondary(formType, this.props.boardID,
-							this.props.accessCode)}>
-					{formType.secondary.action}
-				</button>
-			</section>
-		);
-		let socialLogin = !formType.social ? null : (
-			<div>
-				<section className="social">
-					<h2>{formType.social.header}</h2>
-					<a className="provider" href={formType.social.googleUrl}>
-						<img className="provider" src={formType.social.googleLogo} />
-					</a>
-				</section>
-				<p className="basic-login">{formType.social.subHeader}</p>
-			</div>
-		);
-		let primarySubmit = this.props.formProfile !== 'guestLoginForm' && this.props.formProfile !== 'userAccessForm' ?
-			this.submitPrimary(formType) :
-			this.submitGuest(formType, this.props.accessCode, this.props.boardID)
+
+	render() {
+		let formType = FormData[this.props.formProfile];
 		return (
 			<div className="view view-form">
 				<Broadcaster />
 				<div className="content">
-					<form className="form"
-						onSubmit={primarySubmit}>
+					<div className="form">
 						<div className="logo">
 							<img src="/dist/assets/img/logo.svg" />
 							<h1>Contriboard</h1>
 						</div>
-						{socialLogin}
+						{this.renderSocials(formType.socials)}
 						{this.renderFields(formType.fields)}
-						{this.checkPasswords()}
-						<input type="submit" className="btn-primary"
-							value={formType.action} />
+						{this.onEachFrameHandler(formType)}
+						{this.renderPrimaryButtons(formType.buttons)}
 						<article className="help">{formType.help}</article>
 						<section className="secondary-content">
-							{secondaryContent}
+							{this.renderSecondaryButtons(formType.buttons)}
 						</section>
-					</form>
+					</div>
 				</div>
 			</div>
 		);
-	},
-
-	render() {
-		return this.renderForm(FormData[this.props.formProfile]);
 	}
 });
