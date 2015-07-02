@@ -19,7 +19,7 @@
     "markdown": "0.5.0",
     "nuka-carousel": "0.0.12",
     "page": "1.6.0",
-    "query-string": "^2.3.0",
+    "query-string": "2.3.0",
     "react": "0.13.1",
     "react-autosize-textarea": "0.2.2",
     "react-iscroll": "0.0.4",

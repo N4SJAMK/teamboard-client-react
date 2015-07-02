@@ -91,7 +91,7 @@ export default React.createClass({
 		this.setUserActivity({isActive: false, isPoll: false});
 		document.removeEventListener('touchmove', preventDefault);
 	},
-	
+
 	toggleEditBoardDialog() {
 		this.setState({
 			showEditBoardDialog: !this.state.showEditBoardDialog
