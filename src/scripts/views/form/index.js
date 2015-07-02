@@ -107,7 +107,7 @@ export default React.createClass({
 						<img className="provider" src={formType.social.googleLogo} />
 					</a>
 				</section>
-				<p className ="basic-login">{formType.social.subHeader}</p>
+				<p className="basic-login">{formType.social.subHeader}</p>
 			</div>
 		);
 		let primarySubmit = this.props.formProfile !== 'guestLoginForm' ?
