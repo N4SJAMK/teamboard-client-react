@@ -110,7 +110,7 @@ export default React.createClass({
 				<p className="basic-login">{formType.social.subHeader}</p>
 			</div>
 		);
-		let primarySubmit = this.props.formProfile !== 'guestLoginForm' ?
+		let primarySubmit = this.props.formProfile !== 'guestLoginForm' && this.props.formProfile !== 'userAccessForm' ?
 			this.submitPrimary(formType) :
 			this.submitGuest(formType, this.props.accessCode, this.props.boardID)
 		return (

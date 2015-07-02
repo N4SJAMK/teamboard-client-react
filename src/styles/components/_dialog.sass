@@ -8,14 +8,13 @@
 
 	@include position(fixed, 0px null null 0px)
 
-	overflow-y:       hidden
 	background-color: rgba($ebony, 0.8)
 
 	.dialog
 		width:     80%
 		max-width: 400px
 
-		max-height: 90vh
+		max-height: 95vh
 
 		margin:        64px auto
 		border-radius: 8px
@@ -29,7 +28,7 @@
 			font-size:      18px
 			letter-spacing: 1px
 
-			height: 3vh
+			height: 2vh
 
 		.dialog-heading
 			font-weight: bold
@@ -40,7 +39,7 @@
 
 		.dialog-comments
 			padding: 8px 16px 16px 16px
-			max-height: 30vh
+			max-height: 18vh
 
 			.comment-wrapper
 				@include display(flex)
@@ -49,7 +48,7 @@
 				overflow-y:       auto
 				border-radius:    5px
 				background-color: $white
-				max-height: 25vh
+				max-height: 13vh
 
 				.comment
 					height:     50px
@@ -86,7 +85,7 @@
 		.dialog-content
 			padding:    8px 16px
 			overflow:   hidden
-			max-height: 30vh
+			max-height: 20vh
 			overflow-y: auto
 
 			textarea
@@ -138,9 +137,6 @@
 
 			@include display(flex)
 			@include flex-direction(column)
-
-		.dialog-content-board
-			max-height: 46vh
 
 		.preview-container
 			height:   116px
@@ -212,6 +208,13 @@
 
 				&:last-child
 					margin-right: 0px
+
+	.dialog-edit-board
+		max-height: 90vh
+
+		.dialog-content-board
+			max-height: 60vh
+			overflow:   hidden
 
 	.dialog-board-members
 
