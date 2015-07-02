@@ -36,7 +36,6 @@ User.fromJS = function fromJS(user) {
 	user.type = user.type === UserType.User
 		? UserType.User
 		: UserType.Guest;
-	console.log(new User(user));
 	return new User(user);
 }
 

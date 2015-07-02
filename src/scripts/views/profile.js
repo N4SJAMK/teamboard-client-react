@@ -16,7 +16,8 @@ export default React.createClass({
 	},
 	getInitialState() {
 		return 	ProfileForms.fieldNames.reduce((state, field) => {
-					state[field] = '';
+				state[field] = field !== 'avatar' ?
+					'' : UserStore.getUser().avatar;
 					return state;
 				}, {});
 	},
@@ -25,11 +26,6 @@ export default React.createClass({
 		let userNameContent = this.state.name === '' || !this.state.name ?
 		UserStore.getUser().username :
 		this.state.name;
-
-		let avatarUrl = this.state.avatar === '' || !this.state.avatar ?
-			UserStore.getUser().avatar :
-			this.state.avatar;
-
 		switch(field.type){
 			case 'submit': return (
 					<input name={field.name} type={"submit"}
@@ -51,19 +47,18 @@ export default React.createClass({
 				<p>{userNameContent}</p>
 				</section>
 			);
-
 			case 'avatar': return (
 				<section>
 					<h4>{field.title}</h4>
 					<div className="avatar-wrapper">
 						<Avatar size={64} name={userNameContent}
-								imageurl={avatarUrl}
+								imageurl={this.state.avatar}
 								isOnline={true}>
 						</Avatar>
 					</div>
-					<label htmlFor={field.name}>{field.label}</label>
+					<label htmlFor={field.label}>{field.label}</label>
 					<input autoFocus={index === 0} type={field.type}
-						{...controlattrs} valueLink={this.linkState(field.url)} />
+						{...controlattrs} valueLink={this.linkState(field.name)} />
 				</section>
 			);
 		}
