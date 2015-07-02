@@ -26,11 +26,14 @@ export default React.createClass({
 		UserStore.getUser().username :
 		this.state.name;
 
-		let avatarUrl = this.state.avatar;
+		let avatarUrl = this.state.avatar === '' || !this.state.avatar ?
+			UserStore.getUser().avatar :
+			this.state.avatar;
+
 		switch(field.type){
 			case 'submit': return (
-					<input name={field.name} type="submit"
-					value={field.action} {...controlattrs} />
+					<input name={field.name} type={"submit"}
+					value={"Hello"} {...controlattrs} />
 				);
 			case 'text':
 			case 'password':

@@ -71,8 +71,7 @@ export default {
 				{
 					name:     'name',
 					type:     'text',
-					label:    'Enter a username',
-					required: true
+					label:    'Enter a username'
 				},
 				{
 					name:     'submitProfile',
@@ -82,7 +81,7 @@ export default {
 				}
 			],
 			submit: (state) => {
-				return UserAction.updateName(state.name).then(() => {
+				return UserAction.updateUser(state.name, state.avatar).then(() => {
 					BroadcastAction.add({
 						type:    'broadcast',
 						content: 'Success!'

@@ -22,6 +22,9 @@ export default {
 	getTicket:       getTicket,
 	getTickets:      getTickets,
 
+    updateUserPassword: updateUserPassword,
+    updateUser:         updateUser,
+
 	createBoard:   createBoard,
 	createTicket:  createTicket,
 	createComment: createComment,
@@ -183,20 +186,9 @@ function createTicket(opts = {}) {
     });
 }
 
-function updateUserName(opts = {}) {
+function updateUser(opts = {}) {
     let options = {
         url:     `${API_URL}/user/edit`,
-        token:   opts.token,
-        payload: opts.payload
-    }
-    return request.put(options).then((res) => {
-        return User.fromJS(res.body).toJS();
-    });
-}
-
-function updateAvatar(opts = {}) {
-    let options = {
-        url:     `${API_URL}/user/avatar`,
         token:   opts.token,
         payload: opts.payload
     }

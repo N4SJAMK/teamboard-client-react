@@ -54,11 +54,12 @@ export default React.createClass({
                                 }
                                 var name = user.username || user.name;
                                 var isActive = member.get('isActive');
+                                var avatarURL   = user.avatar;
                                 if(isActive === true) {
                                     return (
                                         <div className="member-info-online">
                                             <Avatar size={32} name={name}
-                                                    imageurl={null}
+                                                    imageurl={avatarURL}
                                                     usertype={member.get('role')}
                                                     isOnline={isActive}>
                                             </Avatar>
@@ -72,7 +73,7 @@ export default React.createClass({
                                     return (
                                         <div className="member-info-offline">
                                             <Avatar size={32} name={name}
-                                                imageurl={null}
+                                                imageurl={avatarURL}
                                                 usertype={member.get('role')}
                                                 isOnline={isActive}>
                                             </Avatar>

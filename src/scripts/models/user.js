@@ -18,6 +18,7 @@ const User = immutable.Record({
 	account_type: UserType.Guest,
 	access:       '',
 	username:     '',
+	avatar:       null,
 	name:         '',
 	edited_at:    null,
 	created_at:   null,
@@ -35,7 +36,7 @@ User.fromJS = function fromJS(user) {
 	user.type = user.type === UserType.User
 		? UserType.User
 		: UserType.Guest;
-
+	console.log(new User(user));
 	return new User(user);
 }
 
