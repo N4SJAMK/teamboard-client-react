@@ -43,7 +43,7 @@ export default React.createClass({
 		return (
 			<div className="background-select">
 				<label>Board Background</label>
-				<div className="select">
+				<div className="select" id={"background-select"}>
 					<select onChange={this.onChange}
 							defaultValue={this.props.background.value}>
 						{this.renderOptions()}
