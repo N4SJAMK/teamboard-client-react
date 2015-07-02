@@ -14,7 +14,7 @@
 		width:     80%
 		max-width: 400px
 
-		max-height: 80vh
+		max-height: 95vh
 
 		margin:        64px auto
 		border-radius: 8px
@@ -138,9 +138,6 @@
 			@include display(flex)
 			@include flex-direction(column)
 
-		.dialog-content-board
-			max-height: 46vh
-
 		.preview-container
 			height:   116px
 			padding:  12px
@@ -211,6 +208,13 @@
 
 				&:last-child
 					margin-right: 0px
+
+	.dialog-edit-board
+		max-height: 90vh
+
+		.dialog-content-board
+			max-height: 60vh
+			overflow:   hidden
 
 	.dialog-board-members
 
