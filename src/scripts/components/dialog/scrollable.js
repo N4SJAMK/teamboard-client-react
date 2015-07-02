@@ -10,6 +10,11 @@ export default React.createClass({
                 scrollbars:     true,
                 preventDefault: false,
                 bounce:         false
+            },
+            style: {
+              position: "relative",
+              width: "100%",
+              overflow: "hidden"
             }
         }
     },
@@ -17,7 +22,8 @@ export default React.createClass({
     render: function() {
         return (
             <ReactIScroll iscroll={iScroll}
-                          options={this.props.options}>
+                          options={this.props.options}
+                          style={this.props.style}>
                 {this.renderChildrens()}
             </ReactIScroll>
         )
