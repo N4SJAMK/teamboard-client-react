@@ -85,7 +85,7 @@ export default
 				header: 'Login',
 				subHeader: 'or',
 				googleUrl: API_URL+'/auth/google/login',
-				googleLogo: '/src/assets/img/providers/google.png'
+				googleLogo: '/dist/assets/img/providers/google.png'
 			},
 			submit: (state) => {
 				return UserAction.login(state).then(() => {
