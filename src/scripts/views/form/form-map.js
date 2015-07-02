@@ -146,9 +146,17 @@ export default
 				required: true
 			}
 		],
+		social: {
+				header: 'Login',
+				subHeader: 'or',
+				googleUrl: API_URL+'/auth/google/login',
+				googleLogo: '/src/assets/img/providers/google.png'
+			},
 		submit: (state, boardID, accessCode) => {
 			return UserAction.login(state).then(() => {
 				return UserAction.giveBoardAccess(boardID, accessCode).then(() => {
+					localStorage.removeItem('board');
+					localStorage.removeItem('accessCode');
 					return page.show(`/boards/${boardID}`);
 				}, (err) => {console.log(err)});
 

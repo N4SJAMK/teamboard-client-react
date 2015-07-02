@@ -119,7 +119,19 @@ page('/login/callback',
 			if(accessToken && accessToken.length > 0) {
 				localStorage.setItem('token', accessToken);
 			}
-			UserAction.load().then(() => { page.redirect('/boards'); });
+			if(localStorage.getItem('board') && localStorage.getItem('accessCode')){
+				let boardID = localStorage.getItem('board');
+				let accessCode = localStorage.getItem('accessCode');
+				UserAction.load().then(() => {
+					UserAction.giveBoardAccess(boardID, accessCode).then(() => {
+						localStorage.removeItem('board');
+						localStorage.removeItem('accessCode');
+						return page.show(`/boards/${boardID}`);
+					});
+				});
+			} else {
+				UserAction.load().then(() => { page.redirect('/boards'); });
+			}		
         }
     return next();
 });
@@ -168,6 +180,8 @@ page('/boards/:id/access/:code',
 page('/userlogin/boards/:id/access/:code',
 	middleware.socket.disconnect,
 	(ctx) => {
+		localStorage.setItem('accessCode', ctx.params.code);
+		localStorage.setItem('board', ctx.params.id);
 		return React.render(
 			<UserAccessView formProfile="userAccessForm" boardID={ctx.params.id}
 							accessCode={ctx.params.code} />,
