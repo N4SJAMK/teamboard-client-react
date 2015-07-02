@@ -57,7 +57,7 @@ export default
 				});
 			},
 			help:   'Passwords must be at least 8 characters long.',
-			action: 'Register',
+			action: 'Register'
 		},
 		loginForm: {
 			fields: [
