@@ -106,7 +106,7 @@ export default React.createClass({
 				<section className="dialog-header">
 					{SettingsStore.getSetting('locale').MODAL_HEADER_BOARDEDIT}
 				</section>
-				<section className="dialog-content">
+				<section className="dialog-content dialog-content-board">
 
 					<label htmlFor="board-name">
 						{console.dir(SettingsStore.getSetting('locale'))}

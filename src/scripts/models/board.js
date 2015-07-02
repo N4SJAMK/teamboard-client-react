@@ -55,7 +55,7 @@ const Member = immutable.Record({
 });
 
 const Board = immutable.Record({
-	id:               '', 
+    id:               '',
 	name:             '',
 	size:             new Size(),
 	tickets:          immutable.List(),

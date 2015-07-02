@@ -120,7 +120,7 @@ page('/login',
 });
 
 page('/login/callback',
-	(ctx, next) => { 
+	(ctx, next) => {
 	if(ctx.querystring.length > 0) {
 		UserAction.load(qs.parse(ctx.querystring).access_token);
 			if(access_token && access_token.length > 0) {

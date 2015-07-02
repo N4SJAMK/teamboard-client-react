@@ -31,8 +31,8 @@ const DropdownItem = React.createClass({
 			<span className={`fa fa-fw fa-${this.props.icon}`} />
 		);
 		return (
-			<li className={itemClasses} onClick={this.props.onClick}>
-				{flag}{icon}{this.props.content}
+			<li className={itemClasses} id={"options-" + this.props.icon} onClick={this.props.onClick}>
+				{icon}{this.props.content}
 			</li>
 		);
 	}

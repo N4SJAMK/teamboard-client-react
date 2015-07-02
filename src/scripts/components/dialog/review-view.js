@@ -2,6 +2,7 @@ import React		from 'react/addons';
 import Carousel		from 'nuka-carousel';
 import Dialog		from '../../components/dialog';
 import markdown     from 'markdown';
+import Scrollable   from './scrollable';
 
 /**
  *
@@ -21,33 +22,37 @@ export default React.createClass({
 	var Decorators = [{
 	component: React.createClass({
 		render() {
+			let style = this.props.currentSlide === 0 ?
+				  {opacity: 0.1}
+				: {opacity: 1,
+				   cursor: 'pointer'}
 		return (
-			<div
-			onClick={this.props.previousSlide}>
-			<span className="fa fa-fw fa-chevron-left" />
-			</div>
+			<span style={style}
+			onClick={this.props.previousSlide} className="fa fa-chevron-left" />
 		)
 		}
 	}),
 	position: 'CenterLeft',
 	style: {
-		padding: 20
+		padding: 10
 	}
 	},
 	{
 	component: React.createClass({
 		render() {
+			let style = this.props.currentSlide === --this.props.slideCount ?
+				  {opacity: 0.1}
+				: {opacity: 1,
+				   cursor: 'pointer'}
 		return (
-			<div
-			onClick={this.props.nextSlide}>
-			<span className="fa fa-fw fa-chevron-right" />
-			</div>
+			<span style={style}
+			onClick={this.props.nextSlide} className="fa fa-chevron-right" />
 		)
 		}
 	}),
 	position: 'CenterRight',
 	style: {
-		padding: 20
+		padding: 10
 	}
 	}];
 		return (
@@ -64,13 +69,14 @@ export default React.createClass({
 						let dialogClasses = index !== this.currentSlide ?
 							'review-dialog'
 							: 'review-dialog active';
-						let ticketColor = {backgroundColor: item.color, height: 15 };
+						let ticketColor = {backgroundColor: item.color, height: 30};
+						console.log(this.state);
 					return (
 					<div className="review-dialog-container">
 						<div className={dialogClasses}>
 							<div style={ticketColor}/>
 							<section className="review-dialog-header">
-								{item.heading}
+								<p>{item.heading}</p>
 							</section>
 							<section className="review-dialog-content">
 								<span dangerouslySetInnerHTML={{__html: markupContent}}/>

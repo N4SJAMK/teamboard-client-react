@@ -1,7 +1,7 @@
 .review-overlay
 	width:   100%
 	z-index: 9001
-	max-height:  100%
+	height:  100%
 	@include position(fixed, 0px null null 0px)
 	background-color: rgba($ebony, 0.8)
 	.dialog.info
@@ -9,22 +9,24 @@
 			.slider-decorator-0,
 			.slider-decorator-1
 				visibility: visible
-				font-size: 4em
+				font-size: 3em
+
 				&:hover
 					color: #c4c4c4
 			.slider-decorator-2
 				display: none
 			.slider-frame
-				overflow-y: hidden
 				.slider-list
-					padding-top: 64px !important
+					margin-top: 70px !important
 					li.slider-slide
 
 	.review-dialog-container
 		overflow-y: scroll
 		max-width: 700px
-		height: 100vh !important
-		margin: 0 auto !important
+		max-height: 85vh !important
+		margin: auto !important
+		border-radius: 0px
+		font-size: 160%
 		&::-webkit-scrollbar-track
 			opacity: 0
 		&::-webkit-scrollbar
@@ -34,16 +36,14 @@
 			background-color: #999999
 			&:active
 				background-color: #fff
+
 		.review-dialog
 			opacity: 0.3
-			border-radius: 8px
 			@include transition(0.3s linear)
 
 			color:            $bastille
 			background-color: $white
-
 			&.active
-				@include transform(scale(1))
 				opacity: 1
 
 			.ticket-color
@@ -52,8 +52,11 @@
 			.review-dialog-header
 				padding: 16px
 
-				font-size:      18px
+				font-size:      130%
 				letter-spacing: 1px
+
+				p
+					word-break: break-all
 
 			.review-dialog-heading
 				font-weight: bold
@@ -73,8 +76,8 @@
 					background-color: $white
 
 					.review-comment
-						height:     50px
-						min-height: 50px
+						//height:     50px
+						//min-height: 50px
 
 						.review-comment-username
 							@include   margin(5 0 0 4)
@@ -111,7 +114,7 @@
 						display: block
 
 					a
-						font-size:    13pt
+						//font-size:    13pt
 						padding:      0
 						display:      inline
 						color:        $neptune
@@ -136,3 +139,15 @@
 
 				@include display(flex)
 				@include flex-direction(column)
+
+@media screen and (max-width: 600px)
+	.review-overlay
+		.dialog.info
+			.slider.infocarousel
+				.slider-decorator-0,
+				.slider-decorator-1
+						visibility: visible
+						font-size: 2em
+
+		.review-dialog-container
+			font-size: 100%
