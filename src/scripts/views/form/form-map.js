@@ -113,13 +113,13 @@ export default
 					action: () => {
 						return page.show('/register');
 					}
-				}
+				},
 			],
 			socials: [
 				{
 					header: 'Google',
-					googleUrl: API_URL + '/auth/google/login',
-					googleLogo: '/src/assets/img/providers/google.png'
+					url: API_URL + '/auth/google/login',
+					logo: '/dist/assets/img/providers/google.png'
 				}
 			],
 		},

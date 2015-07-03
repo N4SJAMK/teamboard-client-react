@@ -35,17 +35,15 @@ export default React.createClass({
 
 		return socials.map((social, index) => {
 			return(
-				<section>
-					<section className="social">
-						<a className="provider" href={social.googleUrl}>
-							<img className="provider" src={social.googleLogo} />
+				<section key={social.header}>
+					<section className='social'>
+						<a className='provider' href={social.url}>
+							<img name={social.header} className='provider' src={social.logo} />
 						</a>
 					</section>
 				</section>
 			);
 		});
-
-		return ret;
 	},
 
 	renderFields(fields) {
@@ -72,7 +70,7 @@ export default React.createClass({
 			if(button.type === 'primary') {
 				return (
 					<button className="btn-primary"
-						    onClick={submit} key={index}>
+						    onClick={submit} key={button.text}>
 						{button.text}
 					</button>
 				);
