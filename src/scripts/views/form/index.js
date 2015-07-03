@@ -25,7 +25,7 @@ export default React.createClass({
 	},
 
 	submitButton(button) {
-		button.action(this.state, this.props, event)
+		button.action(this.state, this.props)
 	},
 
 	renderSocials(socials) {
@@ -101,6 +101,7 @@ export default React.createClass({
 		}
 		return (<span></span>);
 	},
+
 
 	render() {
 		let formType = FormData[this.props.formProfile];

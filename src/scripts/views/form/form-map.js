@@ -42,7 +42,7 @@ export default
 				{
 					type: 'primary',
 					text: 'Register',
-					action: (state, props, event) => {
+					action: (state, props) => {
 						if(state.passwordRegister == state.passwordAgain) {
 							return UserAction.register(state).then(() => {
 								return UserAction.login(state).then(() => {
@@ -100,7 +100,7 @@ export default
 				{
 					type: 'primary',
 					text: 'Login',
-					action: (state, props, event) => {
+					action: (state, props) => {
 						return UserAction.login(state).then(() => {
 							return page.show('/boards');
 						});
@@ -138,7 +138,7 @@ export default
 			{
 				type: 'primary',
 				text: 'Login as Guest',
-				action: (state, props, event) => {
+				action: (state, props) => {
 					let credentials = Object.assign(state, {
 						boardID:    props.boardID,
 						accessCode: props.accessCode
@@ -152,7 +152,7 @@ export default
 				type: 'secondary',
 				text: 'Register/Login',
 				description: 'Got an account?',
-				action: (state, props, event) => {
+				action: (state, props) => {
 					if(UserStore.getToken()) {
 						return UserAction.giveBoardAccess(props.boardID, props.accessCode).then(() => {
 							return page.show(`/boards/${boardID}`);
