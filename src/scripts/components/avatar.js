@@ -29,15 +29,27 @@ export default React.createClass({
         let avatarClass     = null;
 
         if(!this.props.imageurl) {
-            initials = this.props.name.substring(0, 2).toUpperCase();
+
+            // If name has a space, it's probably in the form of Firstname Lastname
+            // then we take the actual initials of the user's name.
+            if (this.props.name.includes(' ')) {
+                let initialsArray = this.props.name.split(' ');
+                initials = initialsArray[0].charAt(0).toUpperCase() + initialsArray[1].charAt(0).toUpperCase();
+            } else {
+                initials = this.props.name.substring(0, 2).toUpperCase();
+            }
             fontSize = this.props.size * 0.55;
             if (this.props.usertype === 'guest' || this.props.usertype === 'temporary') {
                 backgroundColor = bgcolors.guest;
             }
 
             else {
-                // Background color is determined by the first initial
-                backgroundColor = bgcolors.user[initials.charCodeAt(0) % 4];
+                // Background color is determined by modulo of the initials char colors
+                if (initials.charCodeAt(1)) {
+                    backgroundColor = bgcolors.user[(initials.charCodeAt(0) + initials.charCodeAt(1)) % 4];
+                } else {
+                    backgroundColor = bgcolors.user[initials.charCodeAt(0) % 4];
+                }
             }
         }
 
