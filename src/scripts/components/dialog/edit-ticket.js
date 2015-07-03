@@ -102,28 +102,14 @@ export default React.createClass({
 					<Scrollable>
 						{
 							this.props.ticket.comments.map((comment) => {
+								let user     = comment.get('user').toJS();
+								let username = user.name || user.username;
+								let avatar   = user.avatar;
+								let usertype = user.account_type || user.type;
 
-								let user     = comment.get('user');
-								let username = null;
-								let avatar   = null;
-								let usertype = null;
-
-								// Sometimes ImmutableJS likes to turn our user into a Map
-								// instead of a Record. This is a hack to get our way around that.
-								if(user.constructor.name === 'Map') {
-									user     = user.toJS();
-									username = user.name || user.username;
-									avatar   = user.avatar;
-									usertype = user.account_type;
-								} else {
-									username = user.get('username');
-									avatar   = user.get('avatar');
-									usertype = user.get('account_type');
-								}
 								let timestamp = comment.get('created_at');
 								let msg       = comment.get('content');
 								let timeProps = {date: timestamp};
-
 								return (
 									<div className="comment" key={comment.id}>
 										<section className="comment-top">
@@ -148,6 +134,7 @@ export default React.createClass({
 			let content = this.state.content;
 			let markupContent = markdown.markdown.toHTML(content);
 
+			console.log(markupContent);
 			// Add target="_blank" attribute to links so they open in a new tab
 			if (markupContent.includes('<a href=')) {
 				markupContent = markupContent.replace(/<a href="/g, '<a target="_blank" href="');
