@@ -57,7 +57,6 @@ Ticket.fromJS = function fromJS(ticket) {
 			return collection.push(comment);
 		}, immutable.List());
 	}
-	console.log(ticket.comments);
 	return new Ticket(ticket);
 }
 
