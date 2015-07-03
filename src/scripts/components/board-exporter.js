@@ -37,7 +37,7 @@ export default React.createClass({
 				<label>Export Format</label>
 				<div className="input-group">
 					<div className="select">
-						<select onChange={this.onChange}
+						<select id={"export-select"} onChange={this.onChange}
 								defaultValue={this.state.format}>
 							{this.renderFormats()}
 						</select>
