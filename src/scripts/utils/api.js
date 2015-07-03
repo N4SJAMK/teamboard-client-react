@@ -22,6 +22,9 @@ export default {
 	getTicket:       getTicket,
 	getTickets:      getTickets,
 
+    updateUserPassword: updateUserPassword,
+    updateUser:         updateUser,
+
 	createBoard:   createBoard,
 	createTicket:  createTicket,
 	createComment: createComment,
@@ -182,7 +185,7 @@ function createTicket(opts = {}) {
     });
 }
 
-function updateUserName(opts = {}) {
+function updateUser(opts = {}) {
     let options = {
         url:     `${API_URL}/user/edit`,
         token:   opts.token,

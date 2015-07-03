@@ -8,6 +8,7 @@ import Ticket       from '../../models/ticket';
 import TicketAction from '../../actions/ticket';
 import UserStore    from '../../stores/user';
 
+import Avatar      from '../../components/avatar';
 import Dialog      from '../../components/dialog';
 import ColorSelect from '../../components/color-select';
 import Scrollable  from '../../components/dialog/scrollable';
@@ -99,35 +100,45 @@ export default React.createClass({
 				</section>
 				<section className="comment-wrapper">
 					<Scrollable>
-					{
-						this.props.ticket.comments.map((comment) => {
+						{
+							this.props.ticket.comments.map((comment) => {
 
-						let username  = null;
-						let timestamp = null;
-						let msg       = null;
-						// Sometimes the comment is a ImmutableJS Map instead of
-						// a plain JS object. If so, we convert it to one! There's
-						// probably a better way of handling this...
-						if(!comment.user) {
-							comment      = comment.toObject();
-							comment.user = comment.user.toObject();
-						}
-						username  = comment.user.username;
-						timestamp = comment.created_at;
-						msg       = comment.content;
+								let user     = comment.get('user');
+								let username = null;
+								let avatar   = null;
+								let usertype = null;
 
-						let timeProps = {date: timestamp};
+								// Sometimes ImmutableJS likes to turn our user into a Map
+								// instead of a Record. This is a hack to get our way around that.
+								if(user.constructor.name === 'Map') {
+									user     = user.toJS();
+									username = user.name || user.username;
+									avatar   = user.avatar;
+									usertype = user.account_type;
+								} else {
+									username = user.get('username');
+									avatar   = user.get('avatar');
+									usertype = user.get('account_type');
+								}
+								let timestamp = comment.get('created_at');
+								let msg       = comment.get('content');
+								let timeProps = {date: timestamp};
 
-						return (
-							<div className="comment" key={comment.id}>
-								<section>
-									<span className="comment-timestamp">{React.createElement(TimeAgo, timeProps)}</span>
-									<p className="comment-username">{username}</p>
-								</section>
-								<p className="comment-message">{msg}</p>
-							</div>
-						);
-					})}
+								return (
+									<div className="comment" key={comment.id}>
+										<section className="comment-top">
+											<Avatar size={32} name={username}
+													imageurl={avatar}
+													usertype={usertype}
+													isOnline={true}>
+											</Avatar>
+											<span className="comment-timestamp">{React.createElement(TimeAgo, timeProps)}</span>
+											<p className="comment-username">{username}</p>
+										</section>
+										<p className="comment-message">{msg}</p>
+									</div>
+								);
+							})}
 					</Scrollable>
 				</section>
 			</section>
@@ -146,14 +157,14 @@ export default React.createClass({
 				<section className="dialog-content">
 					<Scrollable>
 						<span dangerouslySetInnerHTML={{__html: markupContent}}
-						  	  onClick={this.toggleEdit}/>
+							  onClick={this.toggleEdit}/>
 					</Scrollable>
 				</section>
 			);
 
 			headerArea = (
 				<section className="dialog-heading">
-						<span onClick={this.toggleEdit}>{this.state.heading}</span>
+					<span onClick={this.toggleEdit}>{this.state.heading}</span>
 				</section>
 			);
 		} else {
@@ -161,8 +172,8 @@ export default React.createClass({
 				<section className="dialog-content">
 					<Scrollable>
 						<TextArea valueLink={this.linkState('content')}
-							  	  tabIndex={2}
-							  	  placeholder={'Ticket content'}/>
+								  tabIndex={2}
+								  placeholder={'Ticket content'}/>
 					</Scrollable>
 				</section>
 			);

@@ -1,6 +1,7 @@
 import React     from 'react/addons';
 import TimeAgo   from 'react-timeago';
 import Dialog    from '../../components/dialog';
+import Avatar    from '../../components/avatar';
 /**
  *
  */
@@ -52,22 +53,30 @@ export default React.createClass({
                                     user = user.toJS();
                                 }
                                 var name = user.username || user.name;
-                                if(member.get('isActive') === true) {
+                                var isActive = member.get('isActive');
+                                var avatarURL   = user.avatar;
+                                if(isActive === true) {
                                     return (
                                         <div className="member-info-online">
-                                            <img src="http://placehold.it/32x32"
-                                                 className="profile-picture"></img>
+                                            <Avatar size={32} name={name}
+                                                    imageurl={avatarURL}
+                                                    usertype={member.get('role')}
+                                                    isOnline={isActive}>
+                                            </Avatar>
                                             <div className="user-name">
                                                 {name}
                                             </div>
                                         </div>
                                     );
                                 }
-                                else if(member.get('isActive') === false) {
+                                else if(isActive === false) {
                                     return (
                                         <div className="member-info-offline">
-                                            <img src="http://placehold.it/32x32"
-                                                 className="profile-picture"></img>
+                                            <Avatar size={32} name={name}
+                                                imageurl={avatarURL}
+                                                usertype={member.get('role')}
+                                                isOnline={isActive}>
+                                            </Avatar>
                                             <div className="user-name">
                                                 {name}
                                             </div>

@@ -43,7 +43,7 @@ export default flux.store({
 				type:     storedUser.type,
 				access:   storedUser.access,
 				username: storedUser.username || storedUser.name,
-				boards:   storedUser.boards
+				avatar:   storedUser.avatar
 			});
 		}
 		return null;
@@ -60,7 +60,7 @@ export default flux.store({
 				type:     payload.user.type,
 				access:   payload.user.access,
 				username: payload.user.username,
-				boards:   payload.user.boards
+				avatar:   payload.user.avatar
 
 				//boards:   storedUser.boards
 			}
@@ -73,7 +73,7 @@ export default flux.store({
 				type:     payload.user.type,
 				access:   payload.user.access,
 				username: payload.user.username,
-				boards:   payload.user.boards
+				avatar:   payload.user.avatar
 				//boards:   storedUser.boards
 			}
 			localStorage.setItem('user',  JSON.stringify(user));
