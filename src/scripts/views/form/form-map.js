@@ -121,7 +121,7 @@ export default
 					url: API_URL + '/auth/google/login',
 					logo: '/dist/assets/img/providers/google.png'
 				}
-			],
+			]
 		},
 	guestLoginForm: {
 		fields: [
