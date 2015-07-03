@@ -54,6 +54,9 @@
 					height:     50px
 					min-height: 50px
 
+					.comment-top
+						margin-top: 8px
+
 					.comment-username
 						@include   margin(5 0 0 4)
 						font-size: smaller
@@ -61,6 +64,8 @@
 
 					.comment-message
 						@include margin(5 0 0 4)
+					.avatar
+						margin-right: 6px
 
 					.comment-timestamp
 						@include margin(4 4 0 0)
@@ -73,12 +78,14 @@
 					border-color:  $silver-chalice
 
 			.new-comment-section
+				border-bottom: 1px solid
+				border-color: $silver-chalice
 				margin-top: 6px
 				@include display(flex)
 				@include flex-direction(row)
 				input
 					margin-right:  6px
-					margin-bottom: 6px
+					margin-bottom: 12px
 				button
 					width: 46%
 

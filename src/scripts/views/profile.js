@@ -1,10 +1,10 @@
 import React      from 'react';
 import UserStore  from '../stores/user';
+import Avatar       from '../components/avatar';
 import Navigation   from '../components/navigation';
 import Broadcaster  from '../components/broadcaster';
 import ProfileForms from '../views/form/profile-forms';
 import BroadcastAction from '../actions/broadcast';
-
 /**
  *
  */
@@ -16,7 +16,8 @@ export default React.createClass({
 	},
 	getInitialState() {
 		return 	ProfileForms.fieldNames.reduce((state, field) => {
-					state[field] = '';
+				state[field] = field !== 'avatar' ?
+					'' : UserStore.getUser().avatar;
 					return state;
 				}, {});
 	},
@@ -27,20 +28,37 @@ export default React.createClass({
 		this.state.name;
 		switch(field.type){
 			case 'submit': return (
-					<input name={field.name} type="submit"
-					value={field.action} {...controlattrs} />
+					<input name={field.name} type={"submit"}
+					value={"Hello"} {...controlattrs} />
 				);
 			case 'text':
 			case 'password':
 			case 'file': return (
+				<section>
+					<label htmlFor={field.name}>{field.label}</label>
 					<input autoFocus={index === 0} name={field.name}
 					type={field.type} {...controlattrs}
 					valueLink={this.linkState(field.name)} />
+				</section>
 				);
 			case 'email': return (
 				<section>
 				<h4>{field.title}</h4>
 				<p>{userNameContent}</p>
+				</section>
+			);
+			case 'avatar': return (
+				<section>
+					<h4>{field.title}</h4>
+					<div className="avatar-wrapper">
+						<Avatar size={64} name={userNameContent}
+								imageurl={this.state.avatar}
+								isOnline={true}>
+						</Avatar>
+					</div>
+					<label htmlFor={field.label}>{field.label}</label>
+					<input autoFocus={index === 0} type={field.type}
+						{...controlattrs} valueLink={this.linkState(field.name)} />
 				</section>
 			);
 		}
@@ -67,7 +85,6 @@ export default React.createClass({
 			}
 			return (
 				<section key={field.name} className="input">
-					<label htmlFor={field.name}>{field.label}</label>
 					{this.getFieldType(field, index, controlattrs)}
 				</section>
 			);
