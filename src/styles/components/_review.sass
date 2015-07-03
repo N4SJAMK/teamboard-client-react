@@ -57,6 +57,7 @@
 
 				p
 					word-break: break-all
+					margin: 0
 
 			.review-dialog-heading
 				font-weight: bold
@@ -72,13 +73,9 @@
 					@include display(flex)
 					@include flex-direction(column)
 					border-top: 2px solid $silver-chalice
-					//overflow-y:       visible
 					background-color: $white
 
 					.review-comment
-						//height:     50px
-						//min-height: 50px
-
 						.review-comment-username
 							@include   margin(5 0 0 4)
 							font-size: smaller
@@ -103,8 +100,9 @@
 
 					p
 						white-space: pre-wrap
+						margin: 0
 
-					h1, h2, h3, h4
+					h1, h2, h3, h4, h5, h6
 						@include margin(0px 0px 0px 0px)
 
 					img
@@ -114,7 +112,6 @@
 						display: block
 
 					a
-						//font-size:    13pt
 						padding:      0
 						display:      inline
 						color:        $neptune
@@ -132,6 +129,7 @@
 
 					ol
 						list-style-type: decimal
+						@include margin(0px 0px 0px 16px)
 
 						li
 							margin-left:     20px
