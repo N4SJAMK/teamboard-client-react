@@ -46,21 +46,20 @@ export default React.createClass({
                     <section className="dialog-members">
                         <section className="dialog-member-list">
                             {members.map(function(member) {
-                                let user = member.get('user');
+
                                 // Sort of dumb fix for user sometimes being a Map
                                 // instead of a Record. Should investigate further...
-                                if (user.constructor.name === 'Map') {
-                                    user = user.toJS();
-                                }
-                                var name = user.username || user.name;
-                                var isActive = member.get('isActive');
+                                let user = member.get('user').toJS();
+                                var name        = user.username || user.name;
+                                var isActive    = member.get('isActive');
                                 var avatarURL   = user.avatar;
+                                var userRole    = member.get('role');
                                 if(isActive === true) {
                                     return (
                                         <div className="member-info-online">
                                             <Avatar size={32} name={name}
                                                     imageurl={avatarURL}
-                                                    usertype={member.get('role')}
+                                                    usertype={userRole}
                                                     isOnline={isActive}>
                                             </Avatar>
                                             <div className="user-name">
@@ -74,7 +73,7 @@ export default React.createClass({
                                         <div className="member-info-offline">
                                             <Avatar size={32} name={name}
                                                 imageurl={avatarURL}
-                                                usertype={member.get('role')}
+                                                usertype={userRole}
                                                 isOnline={isActive}>
                                             </Avatar>
                                             <div className="user-name">
