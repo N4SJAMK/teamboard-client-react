@@ -118,7 +118,7 @@ export default React.createClass({
 		return ProfileForms.linkItems.map((field) => {
 			let className = field.activeWhile === this.props.formProfile ? 'active' : null;
 			return (
-				<li className={className}>
+				<li className={className} id={field.name}>
 					<p  onClick={field.onClick}>
 					<span className={`fa fa-${field.icon}`}></span>
 					{field.name}
