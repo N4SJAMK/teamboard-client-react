@@ -8,6 +8,7 @@ import Ticket       from '../../models/ticket';
 import TicketAction from '../../actions/ticket';
 import UserStore    from '../../stores/user';
 
+import Avatar      from '../../components/avatar';
 import Dialog      from '../../components/dialog';
 import ColorSelect from '../../components/color-select';
 import Scrollable  from '../../components/dialog/scrollable';
@@ -99,35 +100,31 @@ export default React.createClass({
 				</section>
 				<section className="comment-wrapper">
 					<Scrollable>
-					{
-						this.props.ticket.comments.map((comment) => {
+						{
+							this.props.ticket.comments.map((comment) => {
+								let user     = comment.get('user').toJS();
+								let username = user.name || user.username;
+								let avatar   = user.avatar;
+								let usertype = user.account_type || user.type;
 
-						let username  = null;
-						let timestamp = null;
-						let msg       = null;
-						// Sometimes the comment is a ImmutableJS Map instead of
-						// a plain JS object. If so, we convert it to one! There's
-						// probably a better way of handling this...
-						if(!comment.user) {
-							comment      = comment.toObject();
-							comment.user = comment.user.toObject();
-						}
-						username  = comment.user.username;
-						timestamp = comment.created_at;
-						msg       = comment.content;
-
-						let timeProps = {date: timestamp};
-
-						return (
-							<div className="comment" key={comment.id}>
-								<section>
-									<span className="comment-timestamp">{React.createElement(TimeAgo, timeProps)}</span>
-									<p className="comment-username">{username}</p>
-								</section>
-								<p className="comment-message">{msg}</p>
-							</div>
-						);
-					})}
+								let timestamp = comment.get('created_at');
+								let msg       = comment.get('content');
+								let timeProps = {date: timestamp};
+								return (
+									<div className="comment" key={comment.id}>
+										<section className="comment-top">
+											<Avatar size={32} name={username}
+													imageurl={avatar}
+													usertype={usertype}
+													isOnline={true}>
+											</Avatar>
+											<span className="comment-timestamp">{React.createElement(TimeAgo, timeProps)}</span>
+											<p className="comment-username">{username}</p>
+										</section>
+										<p className="comment-message">{msg}</p>
+									</div>
+								);
+							})}
 					</Scrollable>
 				</section>
 			</section>
@@ -136,7 +133,6 @@ export default React.createClass({
 		if(!this.state.isEditing && this.state.content !== '') {
 			let content = this.state.content;
 			let markupContent = markdown.markdown.toHTML(content);
-
 			// Add target="_blank" attribute to links so they open in a new tab
 			if (markupContent.includes('<a href=')) {
 				markupContent = markupContent.replace(/<a href="/g, '<a target="_blank" href="');
@@ -146,14 +142,14 @@ export default React.createClass({
 				<section className="dialog-content">
 					<Scrollable>
 						<span dangerouslySetInnerHTML={{__html: markupContent}}
-						  	  onClick={this.toggleEdit}/>
+							  onClick={this.toggleEdit}/>
 					</Scrollable>
 				</section>
 			);
 
 			headerArea = (
 				<section className="dialog-heading">
-						<span onClick={this.toggleEdit}>{this.state.heading}</span>
+					<span onClick={this.toggleEdit}>{this.state.heading}</span>
 				</section>
 			);
 		} else {
@@ -161,8 +157,8 @@ export default React.createClass({
 				<section className="dialog-content">
 					<Scrollable>
 						<TextArea valueLink={this.linkState('content')}
-							  	  tabIndex={2}
-							  	  placeholder={'Ticket content'}/>
+								  tabIndex={2}
+								  placeholder={'Ticket content'}/>
 					</Scrollable>
 				</section>
 			);

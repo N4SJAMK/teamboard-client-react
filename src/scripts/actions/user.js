@@ -113,10 +113,10 @@ export default flux.actionCreator({
 	/**
 	 *
 	 */
-	updateName(name) {
+	updateUser(name, avatar) {
 		let token = UserStore.getToken();
 
-		return api.updateUserName({ token: token, payload: { name: name }})
+		return api.updateUser({ token: token, payload: { name: name, avatar: avatar }})
 			.then((user) => {
 				this.dispatch(Action.User.Update, { user });
 				return Promise.resolve();
