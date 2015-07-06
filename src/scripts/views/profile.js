@@ -1,10 +1,11 @@
-import React      from 'react';
-import UserStore  from '../stores/user';
-import Avatar       from '../components/avatar';
-import Navigation   from '../components/navigation';
-import Broadcaster  from '../components/broadcaster';
-import ProfileForms from '../views/form/profile-forms';
+import React           from 'react';
+import UserStore       from '../stores/user';
+import Avatar          from '../components/avatar';
+import Navigation      from '../components/navigation';
+import Broadcaster     from '../components/broadcaster';
+import ProfileForms    from '../views/form/profile-forms';
 import BroadcastAction from '../actions/broadcast';
+
 /**
  *
  */
@@ -116,15 +117,18 @@ export default React.createClass({
 
 	renderSidelinks() {
 		return ProfileForms.linkItems.map((field) => {
-			let className = field.activeWhile === this.props.formProfile ? 'active' : null;
-			return (
-				<li className={className}>
-					<p  onClick={field.onClick}>
-					<span className={`fa fa-${field.icon}`}></span>
-					{field.name}
-					</p>
-				</li>
-			);
+			let provider = localStorage.getItem('provider');
+			if(provider == null) {
+				let className = field.activeWhile === this.props.formProfile ? 'active' : null;
+				return (
+					<li className={className}>
+						<p  onClick={field.onClick}>
+						<span className={`fa fa-${field.icon}`}></span>
+						{field.name}
+						</p>
+					</li>
+				);
+			}
 		});
 	},
 
