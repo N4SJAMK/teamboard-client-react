@@ -96,7 +96,7 @@ export default React.createClass({
 						   maxLength={40}
 						   valueLink={this.linkState('newComment')} placeholder="Your comment"
 						   tabIndex={2}/>
-					<button className="btn-primary" onClick={this.comment}>Add comment</button>
+					<button className="btn-primary" id={"ticket-add-comment"} onClick={this.comment}>Add comment</button>
 				</section>
 				<section className="comment-wrapper">
 					<Scrollable>
