@@ -49,7 +49,7 @@ export default React.createClass({
 
                                 // Sort of dumb fix for user sometimes being a Map
                                 // instead of a Record. Should investigate further...
-                                let user = member.get('user').toJS();
+                                let user        = member.get('user').toJS();
                                 var name        = user.username || user.name;
                                 var isActive    = member.get('isActive');
                                 var avatarURL   = user.avatar;
