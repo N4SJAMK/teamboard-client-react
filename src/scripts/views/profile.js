@@ -36,7 +36,7 @@ export default React.createClass({
 			case 'file': return (
 				<section>
 					<label htmlFor={field.name}>{field.label}</label>
-					<input autoFocus={index === 0} name={field.name}
+					<input autoFocus={index === 0} id={field.name} name={field.name}
 					type={field.type} {...controlattrs}
 					valueLink={this.linkState(field.name)} />
 				</section>
@@ -57,7 +57,7 @@ export default React.createClass({
 						</Avatar>
 					</div>
 					<label htmlFor={field.label}>{field.label}</label>
-					<input autoFocus={index === 0} type={field.type}
+					<input autoFocus={index === 0} id={field.name} type={field.type}
 						{...controlattrs} valueLink={this.linkState(field.name)} />
 				</section>
 			);
