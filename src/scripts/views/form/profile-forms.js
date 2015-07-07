@@ -60,7 +60,7 @@ export default {
 					name:     'avatar',
 					type:     'avatar',
 					title:    'Your avatar:',
-					label:    'Enter an URL to an image',
+					label:    'Enter an URL to an image'
 				},
 				{
 					type:     'email',
