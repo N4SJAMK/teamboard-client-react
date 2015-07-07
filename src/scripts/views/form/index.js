@@ -73,7 +73,7 @@ export default React.createClass({
 	submitSecondary(currentForm) {
 		return (event) => {
 			if (this.props.formProfile !== 'guestLoginForm') {
-				currentForm.secondary.submit(this.state);
+				currentForm.secondary.submit(this.state, this.props.boardID, this.props.accessCode);
 			}
 			else {
 				currentForm.secondary.submit(this.state, this.props.boardID, this.props.accessCode);
