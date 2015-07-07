@@ -95,7 +95,7 @@ export default React.createClass({
 					<input className="comment-input"
 						   maxLength={40}
 						   valueLink={this.linkState('newComment')} placeholder="Your comment"
-						   tabIndex={2}/>
+						   tabIndex={2} />
 					<button className="btn-primary" id={"ticket-add-comment"} onClick={this.comment}>Add comment</button>
 				</section>
 				<section className="comment-wrapper">
@@ -167,7 +167,7 @@ export default React.createClass({
 				<section className="dialog-heading">
 					<input valueLink={this.linkState('heading')}
 						   placeholder={'Ticket heading'}
-						   tabIndex={1}/>
+						   tabIndex={1} autoFocus={true}/>
 				</section>
 			);
 		}
