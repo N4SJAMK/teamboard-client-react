@@ -119,7 +119,7 @@ export default React.createClass({
 		let items = [
 			{ icon: 'user',     content: 'Profile', disabled: !isProfileDisabled,
 			onClick: () => {
-				if (!isProfileDisabled) {
+				if(isProfileDisabled) {
 					return page.show('/profile');
 				}
 			}
