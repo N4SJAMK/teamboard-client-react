@@ -88,7 +88,9 @@ export default React.createClass({
 		if (this.state.pollHandle) {
 			clearInterval(this.state.pollHandle);
 		}
-		this.setUserActivity({isActive: false, isPoll: false});
+		if(UserStore.getToken()){
+			this.setUserActivity({isActive: false, isPoll: false});
+		}
 		document.removeEventListener('touchmove', preventDefault);
 	},
 

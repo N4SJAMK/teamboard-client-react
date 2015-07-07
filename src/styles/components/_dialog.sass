@@ -238,7 +238,8 @@
 			max-height: 400px
 			.dialog-header
 				padding-left: 0
-
+		.dialog-content
+			max-height: 60vh
 		.dialog-member-list
 			@include display(flex)
 			@include flex-wrap(wrap)
@@ -255,6 +256,8 @@
 				width: 45%
 				border-bottom: 1px solid
 				border-color: $gallery
+				@media screen and (max-width: 450px)
+					width: 100%
 
 				.user-name
 					width: 60%
@@ -275,7 +278,11 @@
 				border-bottom: 1px solid
 				border-color: $gallery
 				color: $silver-chalice
-
+				@media screen and (max-width: 450px)
+					width: 100%
+					.user-last-seen
+						float: left
+						margin-left: 3%
 				.user-name
 					width: 60%
 					float: left

@@ -133,8 +133,6 @@ export default React.createClass({
 		if(!this.state.isEditing && this.state.content !== '') {
 			let content = this.state.content;
 			let markupContent = markdown.markdown.toHTML(content);
-
-			console.log(markupContent);
 			// Add target="_blank" attribute to links so they open in a new tab
 			if (markupContent.includes('<a href=')) {
 				markupContent = markupContent.replace(/<a href="/g, '<a target="_blank" href="');
