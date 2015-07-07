@@ -64,7 +64,11 @@ export default flux.store({
 
 				//boards:   storedUser.boards
 			}
+			let provider = {
+				provider: payload.user.providers
+			}
 			localStorage.setItem('user', JSON.stringify(user));
+			localStorage.setItem('provider', provider);
 		},
 
 		[Action.User.Login](payload) {
@@ -74,8 +78,9 @@ export default flux.store({
 				access:   payload.user.access,
 				username: payload.user.username,
 				avatar:   payload.user.avatar
+
 				//boards:   storedUser.boards
-			}
+			}	
 			localStorage.setItem('user',  JSON.stringify(user));
 			localStorage.setItem('token', payload.token);
 		},
@@ -86,6 +91,7 @@ export default flux.store({
 
 		[Action.User.Logout]() {
 			localStorage.removeItem('user');
+			localStorage.removeItem('provider');
 			localStorage.removeItem('token');
 		}
 	}
