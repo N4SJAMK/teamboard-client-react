@@ -3,7 +3,11 @@ import React from 'react';
 
 import Action          from '../actions';
 import UserAction      from '../actions/user';
+import SettingsAction  from '../actions/settings';
 import BroadcastAction from '../actions/broadcast';
+
+import SettingsMixin  from '../mixins/settings';
+import SettingsStore  from '../stores/settings';
 
 import Dropdown     from '../components/dropdown';
 import MemberDialog from '../components/dialog/board-members';
@@ -25,8 +29,12 @@ export default React.createClass({
 		}
 	},
 
+	mixins: [
+    	SettingsMixin()
+	],
+
 	getInitialState() {
-		return { dropdown: false, feedback: false, infoActive: false, aboutActive: false, membersActive: false }
+		return { dropdown: false, feedback: false, infoActive: false, aboutActive: false, membersActive: false, localesDropdown: false}
 	},
 
 	showWorkspace() {
@@ -39,6 +47,8 @@ export default React.createClass({
 
 	toggleDropdown() {
 		this.setState({ dropdown: !this.state.dropdown });
+		if(this.state.localesDropdown)
+			this.setState({ localesDropdown: !this.state.localesDropdown });
 	},
 
 	toggleInfoView() {
@@ -116,17 +126,21 @@ export default React.createClass({
 			);
 
 		let items = [
-			{ icon: 'user',     content: 'Profile',
+			{ icon: 'user',     content: this.state.locale.DROPDOWN_PROFILE,
 			onClick: () => {
 				return page.show('/profile')
 			}
 			},
-			{ icon: 'language', content: 'Localization', disabled: true  },
+			{ icon: 'language', content: this.state.locale.DROPDOWN_LOCALE,
+				onClick: () => {
+					this.setState({ localesDropdown: !this.state.localesDropdown });
+				}
+			},
 			{
 				content: (
 					<UserVoice>
 						<span className="fa fa-fw fa-bullhorn" />
-						Feedback
+						{this.state.locale.DROPDOWN_FEEDBACK}
 					</UserVoice>
 				)
 			},
@@ -134,7 +148,7 @@ export default React.createClass({
 				onClick: () => {
 					this.toggleAboutView();
 				},
-				icon: 'question-circle', content: 'About'
+				icon: 'question-circle', content: this.state.locale.DROPDOWN_ABOUT
 			},
 			{
 				onClick: () => {
@@ -143,7 +157,29 @@ export default React.createClass({
 							BroadcastAction.add(err, Action.User.Logout);
 						});
 				},
-				icon: 'sign-out', content: 'Logout'
+				icon: 'sign-out', content: this.state.locale.DROPDOWN_LOGOUT
+			}
+		];
+		let locales = [
+			{flag: 'fi', content: 'Suomi', onClick: () => {
+					SettingsAction.setSetting('locale', 'fi');
+					this.toggleDropdown();
+				}
+			},
+			{flag: 'se', content: 'Svenska', onClick: () => {
+					SettingsAction.setSetting('locale', 'se');
+					this.toggleDropdown();
+				}
+			},
+			{flag: 'ru', content: 'русский', onClick: () => {
+					SettingsAction.setSetting('locale', 'ru');
+					this.toggleDropdown();
+				}
+			},
+			{flag: 'gb', content: 'English', onClick: () => {
+					SettingsAction.setSetting('locale', 'en');
+					this.toggleDropdown();
+				}
 			}
 		];
 		return (
@@ -157,6 +193,7 @@ export default React.createClass({
 					<span className="fa fa-fw fa-user"></span>
 				</div>
 				<Dropdown show={this.state.dropdown} items={items} />
+				<Dropdown className='locales' show={this.state.localesDropdown} items={locales} />
 				{infoDialog}
 				{boardMembersDialog}
 				{aboutDialog}

@@ -1,16 +1,22 @@
-import React      from 'react';
-import UserStore  from '../stores/user';
-import Avatar       from '../components/avatar';
-import Navigation   from '../components/navigation';
-import Broadcaster  from '../components/broadcaster';
+import React from 'react';
+
+import UserStore from '../stores/user';
+
+import Avatar      from '../components/avatar';
+import Navigation  from '../components/navigation';
+import Broadcaster from '../components/broadcaster';
+
 import ProfileForms from '../views/form/profile-forms';
+
 import BroadcastAction from '../actions/broadcast';
+
+import settingsMixin from '../mixins/settings';
 /**
  *
  */
 
 export default React.createClass({
-	mixins: [ React.addons.LinkedStateMixin ],
+	mixins: [ React.addons.LinkedStateMixin, settingsMixin() ],
 	propTypes: {
 		formProfile: React.PropTypes.string.isRequired
 	},
@@ -24,18 +30,18 @@ export default React.createClass({
 
 	getFieldType(field, index, controlattrs) {
 		let userNameContent = this.state.name === '' || !this.state.name ?
-		UserStore.getUser().username :
-		this.state.name;
+			UserStore.getUser().username :
+			this.state.name;
+
 		switch(field.type){
 			case 'submit': return (
-					<input name={field.name} type={"submit"}
-					value={"Hello"} {...controlattrs} />
+					<input name={field.name} type={"submit"} {...controlattrs}></input>
 				);
 			case 'text':
 			case 'password':
 			case 'file': return (
 				<section>
-					<label htmlFor={field.name}>{field.label}</label>
+					<label htmlFor={field.name}>{this.state.locale[field.label]}</label>
 					<input autoFocus={index === 0} name={field.name}
 					type={field.type} {...controlattrs}
 					valueLink={this.linkState(field.name)} />
@@ -43,20 +49,20 @@ export default React.createClass({
 				);
 			case 'email': return (
 				<section>
-				<h4>{field.title}</h4>
+				<h4>{this.state.locale[field.title]}</h4>
 				<p>{userNameContent}</p>
 				</section>
 			);
 			case 'avatar': return (
 				<section>
-					<h4>{field.title}</h4>
+					<h4>{this.state.locale[field.title]}</h4>
 					<div className="avatar-wrapper">
 						<Avatar size={64} name={userNameContent}
 								imageurl={this.state.avatar}
 								isOnline={true}>
 						</Avatar>
 					</div>
-					<label htmlFor={field.label}>{field.label}</label>
+					<label htmlFor={field.label}>{this.state.locale[field.label]}</label>
 					<input autoFocus={index === 0} type={field.type}
 						{...controlattrs} valueLink={this.linkState(field.name)} />
 				</section>
@@ -68,8 +74,8 @@ export default React.createClass({
 		if(this.props.formProfile === 'loginSettings' &&
 			this.state.newPasswordAgain.length > 7) {
 			return this.state.newPasswordAgain !== this.state.newPassword ?
-				<span className="fa fa-times mismatch">Password mismatch!</span>
-				: <span className="fa fa-check match">Passwords match!</span>;
+				<span className="fa fa-times mismatch">{this.state.locale.PASSWORDMISMATCH}</span>
+				: <span className="fa fa-check match">{this.state.locale.PASSWORDMATCH}</span>;
 		}
 	},
 
@@ -80,7 +86,7 @@ export default React.createClass({
 				pattern:   field.pattern,
 				required:  field.required,
 				className: field.className,
-				value:     field.buttonaction,
+				value:     this.state.locale[field.action],
 				onChange:  field.onChange
 			}
 			return (
@@ -104,7 +110,7 @@ export default React.createClass({
 		else return (event) => {
 			BroadcastAction.add({
 				type:    'Error',
-				content: 'Password mismatch!'
+				content: this.state.locale.PASSWORDMISMATCH
 			});
 			return event.preventDefault();
 		}
@@ -121,7 +127,7 @@ export default React.createClass({
 				<li className={className}>
 					<p  onClick={field.onClick}>
 					<span className={`fa fa-${field.icon}`}></span>
-					{field.name}
+					{this.state.locale[field.name]}
 					</p>
 				</li>
 			);
@@ -145,7 +151,7 @@ export default React.createClass({
 					<div className="form-container">
 						<form className="login-info"
 							onSubmit={this.submitPrimary(formType)}>
-							<h3>{formType.title}</h3>
+							<h3>{this.state.locale[formType.title]}</h3>
 							{this.renderFields(formType.fields)}
 							<article className="help">{formType.help}</article>
 							<section className="secondary-content">

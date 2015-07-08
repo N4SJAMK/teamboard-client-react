@@ -24,6 +24,8 @@ import EditBoardDialog   from '../components/dialog/edit-board';
 import ExportBoardDialog from '../components/dialog/export-board.js';
 import ShareBoardDialog  from '../components/dialog/share-board';
 
+import settingsMixin  from '../mixins/settings';
+
 /**
  * Fix issues with iOS and IScroll not working together too well...
  */
@@ -43,8 +45,7 @@ export default React.createClass({
 	},
 
 	mixins: [
-           listener(UserStore, BoardStore, SettingsStore)
-	],
+		listener(UserStore, BoardStore)],
 
 	onChange() {
 		return this.setState(this.getState());

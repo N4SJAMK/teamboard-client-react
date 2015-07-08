@@ -5,11 +5,13 @@ import BoardAction from '../../actions/board';
 
 import Dialog from '../../components/dialog';
 
+import settingsMixin from '../../mixins/settings';
+
 /**
  *
  */
 export default React.createClass({
-	mixins: [ React.addons.PureRenderMixin, React.addons.LinkedStateMixin ],
+	mixins: [ React.addons.PureRenderMixin, React.addons.LinkedStateMixin, settingsMixin() ],
 
 	propTypes: {
 		board: (props) => {
@@ -31,28 +33,32 @@ export default React.createClass({
 		return this.props.onDismiss();
 	},
 
+	getContentText(){
+		if(this.props.board.name) {
+			return this.state.locale.REMOVEBOARD_WITHNAME.replace('{board_name}', this.props.board.name);
+		}
+
+		return this.state.locale.REMOVEBOARD_WITHOUTNAME;
+	},
+
 	render() {
 		let remove  = this.remove;
 		let dismiss = this.dismiss;
 
-		let content = !this.props.board.name
-			? 'this board'
-			: <strong>{this.props.board.name}</strong>;
-
 		return (
 			<Dialog className="dialog-remove-board" onDismiss={dismiss}>
 				<section className="dialog-header">
-					Remove Board
+					{this.state.locale.REMOVEBOARD_TITLE}
 				</section>
 				<section className="dialog-content">
-					<p>Are you sure you want to remove {content}?</p>
+					<p>{this.getContentText()}</p>
 				</section>
 				<section className="dialog-footer">
 					<button className="btn-neutral" onClick={dismiss}>
-						Cancel
+						{this.state.locale.CANCELBUTTON}
 					</button>
 					<button className="btn-danger" onClick={remove}>
-						Remove
+						{this.state.locale.REMOVEBOARD_REMOVE}
 					</button>
 				</section>
 			</Dialog>

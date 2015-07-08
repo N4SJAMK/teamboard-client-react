@@ -4,13 +4,13 @@ import React from 'react';
 import Broadcaster     from '../../components/broadcaster';
 import FormData        from '../../views/form/form-map';
 import BroadcastAction from '../../actions/broadcast';
-
+import settingsMixin   from '../../mixins/settings';
 /**
  *
  */
 
 export default React.createClass({
-	mixins: [ React.addons.LinkedStateMixin ],
+	mixins: [ React.addons.LinkedStateMixin, settingsMixin() ],
 	propTypes: {
 		formProfile: React.PropTypes.string.isRequired,
 		boardID: React.PropTypes.string,
@@ -55,7 +55,7 @@ export default React.createClass({
 			}
 			return (
 				<section key={field.name} className="input">
-					<label htmlFor={field.name}>{field.label}</label>
+					<label htmlFor={field.name}>{this.state.locale[field.label]}</label>
 					<input autoFocus={index === 0} name={field.name}
 						type={field.type} {...controlattrs}
 						valueLink={this.linkState(field.name)} />
@@ -71,7 +71,7 @@ export default React.createClass({
 				return (
 					<button className="btn-primary"
 						    onClick={submit} key={button.text}>
-						{button.text}
+						{this.state.locale[button.text]}
 					</button>
 				);
 			}
@@ -84,10 +84,10 @@ export default React.createClass({
 			if(button.type === 'secondary') {
 				return (
 					<section key={index} className="secondary">
-						<p>{button.description}</p>
+						<p>{this.state.locale[button.description]}</p>
 						<button className="btn-secondary"
 								onClick={submit} >
-							{button.text}
+							{this.state.locale[button.text]}
 						</button>
 					</section>
 				);

@@ -18,22 +18,22 @@ export default
 				{
 					name:     'email',
 					type:     'email',
-					label:    'Email',
+					label:    'EMAIL',
 					required: true
 				},
 				{
 					name:     'passwordRegister',
 					type:     'password',
-					label:    'Password',
-					title:    'Minimum of 8 characters required.',
+					label:    'PASSWORD',
+					title:    'LOGIN_PASSWORDLENGTH',
 					pattern:  '.{8,}',
 					required: true
 				},
 				{
 					name:     'passwordAgain',
 					type:     'password',
-					label:    'Confirm password',
-					title:    'Minimum of 8 characters required.',
+					label:    'PROFILE_CONFPW',
+					title:    'LOGIN_PASSWORDLENGTH',
 					pattern:  '.{8,}',
 					required: true
 				}
@@ -41,14 +41,14 @@ export default
 			buttons: [
 				{
 					type: 'primary',
-					text: 'Register',
+					text: 'LOGIN_REGISTER',
 					action: (state, props) => {
 						if(state.passwordRegister == state.passwordAgain) {
 							return UserAction.register(state).then(() => {
 								return UserAction.login(state).then(() => {
 									BroadcastAction.add({
 										type:    'broadcast',
-										content: 'Welcome!'
+										content: state.locale.SUCCESS
 									});
 									return page.show('/boards');
 								});
@@ -57,15 +57,15 @@ export default
 
 						BroadcastAction.add({
 							type:    'Error',
-							content: 'Passwords entered do not match!'
+							content: 'PASSWORDMISMATCH'
 						});
 						return event.preventDefault();
 					}
 				},
 				{
 					type: 'secondary',
-					text: 'Login',
-					description: 'Already registered?',
+					text: 'LOGIN_LOGIN',
+					description: 'LOGIN_ALREADYREGISTERED',
 					action: () => {
 						return page.show('/login');
 					}
@@ -77,8 +77,8 @@ export default
 				}
 
 				return state.passwordAgain !== state.passwordRegister ?
-					<span className="fa fa-times mismatch">Password mismatch!</span>
-					: <span className="fa fa-check match">Passwords match!</span>;
+					<span className="fa fa-times mismatch">{state.locale.PASSWORDMATCH}</span>
+					: <span className="fa fa-check match">{state.locale.PASSWORDMISMATCH}</span>;
 			}
 		},
 		loginForm: {
@@ -86,20 +86,20 @@ export default
 				{
 					name:     'email',
 					type:     'email',
-					label:    'Email',
+					label:    'EMAIL',
 					required: true
 				},
 				{
 					name:     'password',
 					type:     'password',
-					label:    'Password',
+					label:    'PASSWORD',
 					required: true
 				}
 			],
 			buttons: [
 				{
 					type: 'primary',
-					text: 'Login',
+					text: 'LOGIN_LOGIN',
 					action: (state, props) => {
 						return UserAction.login(state).then(() => {
 							return page.show('/boards');
@@ -108,8 +108,8 @@ export default
 				},
 				{
 					type: 'secondary',
-					text: 'Register',
-					description: 'Not registered?',
+					text: 'LOGIN_REGISTER',
+					description: 'LOGIN_NOTREGISTERED',
 					action: () => {
 						return page.show('/register');
 					}
@@ -128,8 +128,8 @@ export default
 			{
 				name:     'username',
 				type:     'text',
-				label:    'Username',
-				title:    'Username must be at least 3 characters.',
+				label:    'LOGIN_GUEST_USERNAME',
+				title:    'LOGIN_GUEST_USERNAMELENGTH',
 				pattern:  '.{3,}',
 				required: true
 			}
@@ -137,7 +137,7 @@ export default
 		buttons: [
 			{
 				type: 'primary',
-				text: 'Login as Guest',
+				text: 'LOGIN_GUEST_LOGINASGUEST',
 				action: (state, props) => {
 					let credentials = Object.assign(state, {
 						boardID:    props.boardID,
@@ -150,8 +150,8 @@ export default
 			},
 			{
 				type: 'secondary',
-				text: 'Register/Login',
-				description: 'Got an account?',
+				text: 'LOGIN_REGISTER',
+				description: 'LOGIN_NOTREGISTERED',
 				action: (state, props) => {
 					if(UserStore.getToken()) {
 						return UserAction.giveBoardAccess(props.boardID, props.accessCode).then(() => {
@@ -170,20 +170,20 @@ export default
 			{
 				name:     'email',
 				type:     'email',
-				label:    'Email',
+				label:    'EMAIL',
 				required: true
 			},
 			{
 				name:     'password',
 				type:     'password',
-				label:    'Password',
+				label:    'PASSWORD',
 				required: true
 			}
 		],
 		buttons: [
 			{
 				type: 'primary',
-				text: 'Login',
+				text: 'LOGIN_LOGIN',
 				action: (state, boardID, accessCode) => {
 					return UserAction.login(state).then(() => {
 						return UserAction.giveBoardAccess(boardID, accessCode).then(() => {

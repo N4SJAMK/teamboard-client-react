@@ -13,11 +13,13 @@ import Dialog      from '../../components/dialog';
 import ColorSelect from '../../components/color-select';
 import Scrollable  from '../../components/dialog/scrollable';
 
+import settingsMixin from '../../mixins/settings';
+
 /**
  *
  */
 export default React.createClass({
-	mixins: [ React.addons.LinkedStateMixin ],
+	mixins: [ React.addons.LinkedStateMixin, settingsMixin() ],
 
 	propTypes: {
 		ticket: (props) => {
@@ -86,6 +88,39 @@ export default React.createClass({
 		return event.stopPropagation();
 	},
 
+	commentTimeFormatter(value, unit, suffix) {
+		if(value !== 1){
+			unit += 's'
+		}
+
+		switch(unit) {
+			case 'second':  {unit = this.state.locale.TIME_SECOND; break;}
+			case 'seconds': {unit = this.state.locale.TIME_SECONDS; break;}
+
+			case 'minute':  {unit = this.state.locale.TIME_MINUTE; break;}
+			case 'minutes': {unit = this.state.locale.TIME_MINUTES; break;}
+
+			case 'hour':  {unit = this.state.locale.TIME_HOUR; break;}
+			case 'hours': {unit = this.state.locale.TIME_HOURS; break;}
+
+			case 'day':  {unit = this.state.locale.TIME_DAY; break;}
+			case 'days': {unit = this.state.locale.TIME_DAYS; break;}
+
+			case 'week': {unit = this.state.locale.TIME_WEEK; break;}
+			case 'weeks': {unit = this.state.locale.TIME_WEEKS; break;}
+
+			case 'month': {unit = this.state.locale.TIME_MONTH; break;}
+			case 'months': {unit = this.state.locale.TIME_MONTHS; break;}
+
+			case 'year': {unit = this.state.locale.TIME_YEAR; break;}
+			case 'years': {unit = this.state.locale.TIME_YEARS; break;}
+		}
+
+		suffix = this.state.locale.TIME_SUFFIX;
+
+		return value + ' ' + unit + ' ' + suffix;
+	},
+
 	render() {
 		let headerArea = null;
 		let contentArea = null;
@@ -94,9 +129,9 @@ export default React.createClass({
 				<section className="new-comment-section">
 					<input className="comment-input"
 						   maxLength={40}
-						   valueLink={this.linkState('newComment')} placeholder="Your comment"
+						   valueLink={this.linkState('newComment')} placeholder={this.state.locale.EDITTICKET_YOURCOMMENT}
 						   tabIndex={2}/>
-					<button className="btn-primary" onClick={this.comment}>Add comment</button>
+					<button className="btn-primary" onClick={this.comment}>{this.state.locale.EDITTICKET_ADDCOMMENT}</button>
 				</section>
 				<section className="comment-wrapper">
 					<Scrollable>
@@ -109,7 +144,6 @@ export default React.createClass({
 
 								let timestamp = comment.get('created_at');
 								let msg       = comment.get('content');
-								let timeProps = {date: timestamp};
 								return (
 									<div className="comment" key={comment.id}>
 										<section className="comment-top">
@@ -118,7 +152,7 @@ export default React.createClass({
 													usertype={usertype}
 													isOnline={true}>
 											</Avatar>
-											<span className="comment-timestamp">{React.createElement(TimeAgo, timeProps)}</span>
+											<TimeAgo className="comment-timestamp" date={timestamp} formatter={this.commentTimeFormatter}/>
 											<p className="comment-username">{username}</p>
 										</section>
 										<p className="comment-message">{msg}</p>
@@ -134,7 +168,6 @@ export default React.createClass({
 			let content = this.state.content;
 			let markupContent = markdown.markdown.toHTML(content);
 
-			console.log(markupContent);
 			// Add target="_blank" attribute to links so they open in a new tab
 			if (markupContent.includes('<a href=')) {
 				markupContent = markupContent.replace(/<a href="/g, '<a target="_blank" href="');
@@ -188,14 +221,14 @@ export default React.createClass({
 						<section className="dialog-footer">
 							<button className="btn-neutral" id={"ticket-dialog-cancel"} onClick={this.cancel}
 									tabIndex={3}>
-								Cancel
+								{this.state.locale.CANCELBUTTON}
 							</button>
 							<button className="btn-primary" id={"ticket-dialog-save"} onClick={this.update}
 									tabIndex={4}>
-								Save
+								{this.state.locale.EDITTICKET_SAVE}
 							</button>
 						</section>
-						<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}> Delete</span>
+						<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}>{this.state.locale.EDITTICKET_DELETE}</span>
 					</section>
 				</Scrollable>
 			</Dialog>

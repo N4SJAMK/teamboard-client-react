@@ -1,10 +1,14 @@
 import React from 'react';
 
+import settingsMixin from '../../mixins/settings';
+
 /**
  *
  */
 // This is the textbox used in the infolayer.
 const SingleBox = React.createClass({
+	mixins: [ settingsMixin() ],
+
 	propTypes: {
 		content: React.PropTypes.string,
 		className:  React.PropTypes.string
@@ -20,7 +24,7 @@ const SingleBox = React.createClass({
 	render() {
 		return (
 			<div className={`pos ${this.props.className}`}>
-				<p>{this.props.content}</p>
+				<p>{this.state.locale[this.props.content]}</p>
 			</div>
 		);
 	}

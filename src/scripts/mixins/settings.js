@@ -1,13 +1,24 @@
-import Settings from '../stores/settings';
+import SettingsStore from '../stores/settings';
 
-export default function(...settings){
+/**
+ *
+ */
+export default function() {
 	return {
-		componentWillMount() {
-			this.settingArray = [];
-			settings.forEach((setting) => {
-				this.settingArray[setting] = Settings.getSetting(setting);
-			});
+        getInitialState() {
+    		return { locale: SettingsStore.getLocale() }
+    	},
 
+		componentDidMount() {
+            return SettingsStore.addChangeListener(() => {
+	            this.setState({ locale: SettingsStore.getLocale() });
+	        });
+		},
+
+		componentWillUnmount() {
+            return SettingsStore.removeChangeListener(() => {
+	            this.setState({ locale: SettingsStore.getLocale() });
+	        });
 		}
 	}
 }

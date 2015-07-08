@@ -3,11 +3,14 @@ import React from 'react/addons';
 import Board       from '../../models/board';
 import BoardAction from '../../actions/board';
 import Dialog      from '../../components/dialog';
+
+import settingsMixin  from '../../mixins/settings';
+
 /**
  *
  */
 export default React.createClass({
-    mixins: [ React.addons.PureRenderMixin, React.addons.LinkedStateMixin ],
+    mixins: [ React.addons.PureRenderMixin, React.addons.LinkedStateMixin, settingsMixin() ],
 
     propTypes: {
         board: (props) => {
@@ -50,7 +53,7 @@ export default React.createClass({
         let shareButton = (
             <button className={`btn-${shareButtonClass}`}
                     onClick={shareButtonClick}>
-                { sharedURL.length > 0 ? 'Hide' : 'Share' }
+                { sharedURL.length > 0 ? this.state.locale.SHARE_HIDE : this.state.locale.SHARE_SHOW }
             </button>
         );
 
@@ -58,15 +61,15 @@ export default React.createClass({
             <Dialog className="dialog-edit-board"
                     onDismiss={this.props.onDismiss}>
                 <section className="dialog-header">
-                    Share board
+                    {this.state.locale.SHARE_TITLE}
                 </section>
                 <section className="dialog-content">
 
-                    <label htmlFor="board-share">Shared link</label>
+                    <label htmlFor="board-share">{this.state.locale.SHARE_LINK}</label>
                     <section className="input-group">
                         <input ref="shareInput"
                                onClick={this.highlight}
-                               name="board-share" placeholder="Shared link"
+                               name="board-share" placeholder={this.state.locale.SHARE_LINK}
                                readOnly={true} value={sharedURL} tabIndex={-1}/>
                         {shareButton}
                     </section>
@@ -74,7 +77,7 @@ export default React.createClass({
                 </section>
                 <section className="dialog-footer">
                     <button className="btn-primary" onClick={this.submit}>
-                        Done
+                        {this.state.locale.DONEBUTTON}
                     </button>
                 </section>
             </Dialog>

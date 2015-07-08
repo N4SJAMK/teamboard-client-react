@@ -10,11 +10,14 @@ import Ticket       from '../models/ticket';
 import TicketAction from '../actions/ticket';
 
 import TicketComponent from '../components/ticket';
+import settingsMixin   from '../mixins/settings';
 
 /**
  * TODO Can Scrollable be made into a mixin, and mixed here?
  */
 export default React.createClass({
+	mixins: [ settingsMixin() ],
+
 	propTypes: {
 		board: (props) => {
 			if(!props.board instanceof Board) throw new Error();
@@ -95,7 +98,7 @@ export default React.createClass({
 		if(this.props.board.tickets.size === 0) {
 			return (
 				<div className="board-helper">
-					Doubletap anywhere to create a Ticket!
+					{this.state.locale.INFO_TAPBOARD}
 				</div>
 			);
 		}
