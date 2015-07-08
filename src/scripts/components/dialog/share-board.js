@@ -41,12 +41,11 @@ export default React.createClass({
         let code = this.props.board.accessCode;
 
         let sharedURL = code !== null && code.length > 0
-            ? location.host + '/boards/' + id + '/access/' + code + ''
+            ? location.protocol + '//' + location.host + '/boards/' + id + '/access/' + code + ''
             : '';
 
         let shareButtonClass = sharedURL.length > 0 ? 'neutral' : 'secondary';
         let shareButtonClick = sharedURL.length > 0 ? this.hide : this.share;
-
         let shareButton = (
             <button className={`btn-${shareButtonClass}`}
                     onClick={shareButtonClick}>
