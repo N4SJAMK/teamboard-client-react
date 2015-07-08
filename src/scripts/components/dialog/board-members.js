@@ -65,7 +65,7 @@ export default React.createClass({
                                                             usertype={userRole}
                                                             isOnline={isActive}>
                                                     </Avatar>
-                                                    <div className="user-name">
+                                                    <div className="user-name" title={name}>
                                                         {name}
                                                     </div>
                                                 </div>
