@@ -70,6 +70,12 @@ export default flux.actionCreator({
 				});
 			})
 			.catch((err) => {
+				if(err.statusCode === 401 || err.statusCode === 403) {
+					UserAction.logout()
+						.then(() => {
+							return page.show('/login');
+						});
+				}
 				BroadcastAction.add(err, Action.Board.Load);
 			});
 	},

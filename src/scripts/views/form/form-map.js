@@ -196,6 +196,13 @@ export default
 					});
 				}
 			}
+		],
+		socials: [
+			{
+				header: 'Google',
+				url: API_URL + '/auth/google/login',
+				logo: '/dist/assets/img/providers/google.png'
+			}
 		]
 	}
 }

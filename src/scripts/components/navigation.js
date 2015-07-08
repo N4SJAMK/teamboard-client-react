@@ -7,8 +7,7 @@ import SettingsAction  from '../actions/settings';
 import BroadcastAction from '../actions/broadcast';
 
 import SettingsMixin  from '../mixins/settings';
-import SettingsStore  from '../stores/settings';
-
+import UserStore    from '../stores/user';
 import Dropdown     from '../components/dropdown';
 import MemberDialog from '../components/dialog/board-members';
 
@@ -125,10 +124,13 @@ export default React.createClass({
 			</div>
 			);
 
+		let isProfileDisabled = UserStore.getUser().type === 'standard';
 		let items = [
-			{ icon: 'user',     content: this.state.locale.DROPDOWN_PROFILE,
-			onClick: () => {
-				return page.show('/profile')
+			{ icon: 'user', content: this.state.locale.DROPDOWN_PROFILE, disabled: !isProfileDisabled,
+				onClick: () => {
+					if(isProfileDisabled) {
+						return page.show('/profile');
+				}
 			}
 			},
 			{ icon: 'language', content: this.state.locale.DROPDOWN_LOCALE,
