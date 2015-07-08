@@ -118,24 +118,13 @@ export default React.createClass({
 	renderSidelinks() {
 		return ProfileForms.linkItems.map((field) => {
 			let provider = localStorage.getItem('provider');
-			if(provider !== null && field.activeWhile !== 'loginSettings') {
+			if(provider !== null && field.activeWhile !== 'loginSettings' || provider === null) {
 				let className = field.activeWhile === this.props.formProfile ? 'active' : null;
 				return (
-					<li className={className}>
+					<li id={field.name} className={className}>
 						<p  onClick={field.onClick}>
 						<span className={`fa fa-${field.icon}`}></span>
 						{field.name}
-						</p>
-					</li>
-				);
-			}
-			if(provider == null) {
-				let className = field.activeWhile === this.props.formProfile ? 'active' : null;
-				return (
-					<li className={className} onClick={field.onClick} id={field.name}>
-						<p>
-							<span className={`fa fa-${field.icon}`}></span>
-							{field.name}
 						</p>
 					</li>
 				);

@@ -67,8 +67,8 @@ export default React.createClass({
 	renderComments(ticket) {
 		return ticket.comments.map((comment) => {
 
-			let user     = comment.get('user').toJS();
-			let content  = comment.toJS().content;
+			let user     = comment.user;
+			let content  = comment.content;
 			let username = user.username || user.name;
 			let avatar   = user.avatar;
 			let usertype = user.account_type || user.type;
@@ -88,7 +88,7 @@ export default React.createClass({
 	},
 
 	renderTickets() {
-		return this.props.tickets.map((ticket, index) => {
+		return this.props.tickets.toJS().map((ticket, index) => {
 			let markupContent = markdown.markdown.toHTML(ticket.content).replace(/<a href="/g, '<a target="_blank" href="');
 			let dialogClasses = index !== this.currentSlide ? 'review-dialog' : 'review-dialog active';
 			let ticketColor = {backgroundColor: ticket.color};

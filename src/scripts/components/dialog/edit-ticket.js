@@ -165,16 +165,10 @@ export default React.createClass({
 
 			headerArea = (
 				<section className="dialog-heading">
-<<<<<<< HEAD
-					<input valueLink={this.linkState('heading')}
-						placeholder={'Ticket heading'}
-						tabIndex={1}/>
-=======
 					<input  valueLink={this.linkState('heading')}
 							maxLength={40}
 							placeholder={'Ticket heading'}
 							tabIndex={1}/>
->>>>>>> 7305a3a746c9596124053481b5bfe8373f783c57
 				</section>
 			);
 		}
