@@ -137,9 +137,9 @@ export default React.createClass({
 				}
 			}
 			},
-			{ icon: 'language', content: 'Localization',
+			{ icon: 'language', content: 'Localization', disabled: true,
 				onClick: () => {
-					this.setState({ localesDropdown: !this.state.localesDropdown });
+					//this.setState({ localesDropdown: !this.state.localesDropdown });
 				}
 			},
 			{

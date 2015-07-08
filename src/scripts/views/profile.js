@@ -134,8 +134,8 @@ export default React.createClass({
 				return (
 					<li className={className} onClick={field.onClick} id={field.name}>
 						<p>
-						<span className={`fa fa-${field.icon}`}></span>
-						{field.name}
+							<span className={`fa fa-${field.icon}`}></span>
+							{field.name}
 						</p>
 					</li>
 				);
@@ -150,7 +150,9 @@ export default React.createClass({
 				<Broadcaster />
 				<div className="content-settings">
 					<div className="settings-nav">
-						<span className="menu-link fa fa-bars" onClick={this.toggleNav} />
+						<div className="menu-div" onClick={this.toggleNav}>
+							<span className="menu-link fa fa-bars" />
+						</div>
 						<nav id="menu" className="navigation">
 							<ul>
 								{this.renderSidelinks()}

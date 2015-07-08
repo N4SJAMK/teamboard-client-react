@@ -1,7 +1,7 @@
 .review-overlay
 	width:   100%
 	z-index: 9001
-	max-height:  100%
+	height:  100%
 	@include position(fixed, 0px null null 0px)
 	background-color: rgba($ebony, 0.8)
 	.dialog.info
@@ -9,58 +9,64 @@
 			.slider-decorator-0,
 			.slider-decorator-1
 				visibility: visible
-				font-size: 4em
+				font-size: 3em
+
 				&:hover
 					color: #c4c4c4
 			.slider-decorator-2
 				display: none
 			.slider-frame
-				overflow-y: hidden
 				.slider-list
-					padding-top: 64px !important
+					margin-top: 70px !important
 					li.slider-slide
 
-	.review-dialog-container
-		overflow-y: scroll
-		max-width: 700px
-		height: 100vh !important
-		margin: 0 auto !important
-		&::-webkit-scrollbar-track
-			opacity: 0
-		&::-webkit-scrollbar
-			width: 6px
-			opacity: 0
-		&::-webkit-scrollbar-thumb
-			background-color: #999999
-			&:active
-				background-color: #fff
-		.review-dialog
-			opacity: 0.3
-			border-radius: 8px
-			@include transition(0.3s linear)
+.review-dialog-container
+	max-width: 700px
+	max-height: 90vh
+	margin: auto
+	font-size: 160%
+	.review-dialog
+		opacity: 0.3
+		@include transition(font-size  0.3s linear)
+		@include transition(opacity  0.3s linear)
+		color:            $bastille
+		background-color: $white
+		border-radius: 6px
+		padding-bottom: 8px
+		&.active
+			opacity: 1
+			z-index: 10000
 
-			color:            $bastille
-			background-color: $white
+		.ticket-color
+			height: 20px
 
-			&.active
-				@include transform(scale(1))
-				opacity: 1
+		.review-dialog-header
+			overflow: hidden
+			text-overflow: ellipses
+			border-radius: 4px 4px 0 0
 
-			.ticket-color
-				height: 20px
+			.review-dialog-header-text
+				overflow: hidden
+				text-overflow: ellipsis
+				white-space: nowrap
+				padding: 15px
+				margin: 0
 
-			.review-dialog-header
-				padding: 16px
+				max-width: 655px
 
-				font-size:      18px
+				font-size:      130%
 				letter-spacing: 1px
 
-			.review-dialog-heading
-				font-weight: bold
-				padding:     8px 16px
-				span
-					cursor: pointer
-					cursor: hand
+				color: $white
+
+		.content-wrapper
+			overflow-y: auto
+			max-height: 80vh
+			position: relative
+			@media screen and (max-height: 800px)
+				overflow-y: scroll
+				max-height: 70vh
+
 
 			.review-dialog-comments
 				padding: 8px 16px 16px 16px
@@ -69,20 +75,22 @@
 					@include display(flex)
 					@include flex-direction(column)
 					border-top: 2px solid $silver-chalice
-					//overflow-y:       visible
 					background-color: $white
 
 					.review-comment
-						height:     50px
-						min-height: 50px
+						padding-top:    8px
+						padding-bottom: 8px
+
+						.avatar
+							margin-right: 5px
 
 						.review-comment-username
-							@include   margin(5 0 0 4)
-							font-size: smaller
-							color:     $dove-gray
+							@include     margin(5 0 0 4)
+							font-size:   smaller
+							color:       $dove-gray
 
 						.review-comment-message
-							@include margin(5 0 0 4)
+							@include margin(8 0 0 4)
 
 					.review-comment:not(:last-child)
 						border-bottom: 1px solid
@@ -98,41 +106,56 @@
 					cursor:        hand
 					overflow-wrap: break-word
 
-					p
-						white-space: pre-wrap
+				p
+					white-space: pre-wrap
 
-					h1, h2, h3, h4
-						@include margin(0px 0px 0px 0px)
+				h1, h2, h3, h4, h5, h6
+					@include margin(0px 0px 0px 0px)
 
-					img
-						display: block
+				img
+					display: block
 
-					code
-						display: block
+				code
+					display: block
 
-					a
-						font-size:    13pt
-						padding:      0
-						display:      inline
-						color:        $neptune
-						border-width: 0px
+				a
+					font-size:    13pt
+					padding:      0
+					display:      inline
+					color:        $neptune
+					border-width: 0px
 
-					blockquote
-						margin: 10px
+				blockquote
+					@include margin(0 0 0 20)
 
-					ul
+				ul
+					list-style-type: disc
+
+					li
+						margin-left:     25px
 						list-style-type: disc
 
-						li
-							margin-left:     20px
-							list-style-type: disc
+				ol
+					list-style-type: decimal
 
-					ol
+					li
+						margin-left:     40px
 						list-style-type: decimal
-
-						li
-							margin-left:     20px
-							list-style-type: decimal
+				hr
+					width: 100%
 
 				@include display(flex)
 				@include flex-direction(column)
+
+@media screen and (max-width: 600px)
+	.review-overlay
+		.dialog.info
+			.slider.infocarousel
+				.slider-decorator-0,
+				.slider-decorator-1
+						visibility: visible
+						font-size: 2em
+
+		.review-dialog-container
+			font-size: 100%
+

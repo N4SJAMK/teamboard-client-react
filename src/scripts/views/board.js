@@ -9,7 +9,6 @@ import BoardStore    from '../stores/board';
 import SettingsStore from '../stores/settings';
 
 import BoardAction     from '../actions/board';
-import TicketAction    from '../actions/ticket';
 import SettingsAction  from '../actions/settings';
 import BroadcastAction from '../actions/broadcast';
 
@@ -66,6 +65,7 @@ export default React.createClass({
 			showExportBoardDialog: false,
 			showShareBoardDialog:  false,
 			reviewActive:          false,
+			reviewTickets:         [],
 			pollHandle:            null
 		});
 	},
@@ -110,7 +110,7 @@ export default React.createClass({
 	},
 
 	toggleReview() {
-		if(this.sendTicketsForReview().length !== 0){
+		if(this.sendTicketsForReview().size !== 0){
 			this.setState({ reviewActive: !this.state.reviewActive });
 		}
 		else {
@@ -137,9 +137,11 @@ export default React.createClass({
 	},
 
 	sendTicketsForReview() {
-		return BoardStore.getTickets(this.props.id).toJS().filter ((item) => {
-			return item.content !== "" || item.heading !== "" || item.comments.length !== 0
-		});
+		// If needed we can use some checks here to filter
+		// 	out unneeded tickets here
+		return this.state.board.tickets.filter((ticket) => {
+			return ticket.content !== "" || ticket.heading !== "" || ticket.comments.size !== 0
+     	});
 	},
 
 	render() {
@@ -175,7 +177,8 @@ export default React.createClass({
 				<div className="content">
 					<Scrollable board={this.state.board}
 							minimap={this.state.showMinimap}>
-						<BoardComponent board={this.state.board}
+						<BoardComponent selectMode={this.state.selectMode}
+						setReviewTickets={this.setReviewTickets} board={this.state.board}
 							snap={this.state.snapToGrid} />
 					</Scrollable>
 				</div>

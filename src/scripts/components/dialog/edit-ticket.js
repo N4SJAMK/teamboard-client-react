@@ -63,11 +63,11 @@ export default React.createClass({
 	comment(event) {
 		event.preventDefault();
 		if (this.state.newComment !== '') {
-			TicketAction.comment({id: this.props.board}, {
+			TicketAction.comment({ id: this.props.board }, {
 				id: this.props.ticket.id
 			}, this.state.newComment);
 
-			this.setState({newComment: ''});
+			this.setState({ newComment: '' });
 		}
 		return event.stopPropagation();
 	},
@@ -76,10 +76,10 @@ export default React.createClass({
 		// This handler is a no-op if we are clicking on the text-area or text input.
 		// Also, don't exit editing mode if we click a link or if ticket has no content
 		if( event.target instanceof HTMLTextAreaElement ||
-            event.target instanceof HTMLInputElement ||
-            event.target instanceof HTMLAnchorElement ||
-            this.state.content === '')  {
-            return;
+			event.target instanceof HTMLInputElement ||
+			event.target instanceof HTMLAnchorElement ||
+			this.state.content === '')  {
+			return;
 		}
 
 		this.setState({ isEditing: !this.state.isEditing });
@@ -87,15 +87,15 @@ export default React.createClass({
 	},
 
 	render() {
-		let headerArea = null;
+		let headerArea  = null;
 		let contentArea = null;
 		let commentArea = (
 			<section className="dialog-comments">
 				<section className="new-comment-section">
-					<input className="comment-input"
-						maxLength={40}
-						valueLink={this.linkState('newComment')} placeholder="Your comment"
-						tabIndex={2}/>
+					<input  className="comment-input"
+							maxLength={40}
+							valueLink={this.linkState('newComment')} placeholder="Your comment"
+							tabIndex={2}/>
 					<button className="btn-primary" onClick={this.comment}>Add comment</button>
 				</section>
 				<section className="comment-wrapper">
@@ -165,9 +165,16 @@ export default React.createClass({
 
 			headerArea = (
 				<section className="dialog-heading">
+<<<<<<< HEAD
 					<input valueLink={this.linkState('heading')}
 						placeholder={'Ticket heading'}
 						tabIndex={1}/>
+=======
+					<input  valueLink={this.linkState('heading')}
+							maxLength={40}
+							placeholder={'Ticket heading'}
+							tabIndex={1}/>
+>>>>>>> 7305a3a746c9596124053481b5bfe8373f783c57
 				</section>
 			);
 		}
