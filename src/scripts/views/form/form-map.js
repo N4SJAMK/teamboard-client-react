@@ -4,6 +4,8 @@ import UserAction      from '../../actions/user';
 import BroadcastAction from '../../actions/broadcast';
 
 import UserStore       from '../../stores/user';
+
+const API_URL = process.env.API_URL || 'http://localhost:9002/api';
 /**
  *
  */
@@ -12,6 +14,7 @@ export default
 	{
 		registerForm: {
 			fields: [
+
 				{
 					name:     'email',
 					type:     'email',
@@ -78,11 +81,18 @@ export default
 				action:      'Register',
 				description: 'Not registered?'
 			},
+			social: {
+				header: 'Login',
+				subHeader: 'or',
+				googleUrl: API_URL+'/auth/google/login',
+				googleLogo: '/dist/assets/img/providers/google.png'
+			},
 			submit: (state) => {
 				return UserAction.login(state).then(() => {
 					return page.show('/boards');
 				});
-			}
+			},
+			action: 'Login'
 		},
 	guestLoginForm: {
 		fields: [
@@ -136,9 +146,26 @@ export default
 				required: true
 			}
 		],
+		social: {
+				header: 'Login',
+				subHeader: 'or',
+				googleUrl: API_URL+'/auth/google/login',
+				googleLogo: '/dist/assets/img/providers/google.png'
+			},
+		secondary: {
+			submit: (formType, boardID, accessCode) => {
+				localStorage.removeItem('share_board');
+				localStorage.removeItem('share_accessCode');
+				return page.show(`/boards/${boardID}/access/${accessCode}`);
+			},
+			action:      'Guest login',
+			description: 'No account?'
+		},
 		submit: (state, boardID, accessCode) => {
 			return UserAction.login(state).then(() => {
 				return UserAction.giveBoardAccess(boardID, accessCode).then(() => {
+					localStorage.removeItem('share_board');
+					localStorage.removeItem('share_accessCode');
 					return page.show(`/boards/${boardID}`);
 				}, (err) => {console.log(err)});
 
@@ -150,4 +177,3 @@ export default
 		action: 'Login'
 	}
 	}
-

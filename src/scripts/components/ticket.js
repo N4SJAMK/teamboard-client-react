@@ -158,7 +158,7 @@ export default React.createClass({
 					<span dangerouslySetInnerHTML={{__html: markupContent}} />
 					<span className="count-icon">
 						<span className="fa fa-2x fa-comment comment">
-							<span className="count">{this.props.ticket.comments.size || this.props.ticket.comments.length}</span>
+							<span className="count">{this.props.ticket.comments.size}</span>
 						</span>
 					</span>
 				</div>

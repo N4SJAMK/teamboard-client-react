@@ -8,8 +8,10 @@ import Ticket       from '../../models/ticket';
 import TicketAction from '../../actions/ticket';
 import UserStore    from '../../stores/user';
 
+import Avatar      from '../../components/avatar';
 import Dialog      from '../../components/dialog';
 import ColorSelect from '../../components/color-select';
+import Scrollable  from '../../components/dialog/scrollable';
 
 /**
  *
@@ -85,76 +87,37 @@ export default React.createClass({
 	},
 
 	render() {
-		let editDialogContent  = null;
-		let editDialogHeader   = null;
-
-		if(!this.state.isEditing && this.state.content !== '') {
-			let content = this.state.content;
-			let markupContent = markdown.markdown.toHTML(content);
-
-			// Add target="_blank" attribute to links so they open in a new tab
-			if (markupContent.includes('<a href=')) {
-				markupContent = markupContent.replace(/<a href="/g, '<a target="_blank" href="');
-			}
-			editDialogContent = <span dangerouslySetInnerHTML={{__html: markupContent}}
-                                      onClick={this.toggleEdit}/>
-
-			editDialogHeader = <span onClick={this.toggleEdit}>{this.state.heading}</span>
-		}
-
-		else if(this.state.isEditing) {
-			editDialogContent = <TextArea valueLink={this.linkState('content')}
-                                          tabIndex={2}
-                                          placeholder={'Ticket content'}/>
-
-			editDialogHeader = <input valueLink={this.linkState('heading')}
-                                      placeholder={'Ticket heading'}
-                                      tabIndex={1}/>
-		}
-		return (
-			<Dialog className="edit-ticket-dialog"
-					onDismiss={this.props.onDismiss}>
-				<section className="dialog-header">
-					<ColorSelect color={this.linkState('color')} />
+		let headerArea = null;
+		let contentArea = null;
+		let commentArea = (
+			<section className="dialog-comments">
+				<section className="new-comment-section">
+					<input className="comment-input"
+						maxLength={40}
+						valueLink={this.linkState('newComment')} placeholder="Your comment"
+						tabIndex={2}/>
+					<button className="btn-primary" onClick={this.comment}>Add comment</button>
 				</section>
-				<section onClick={this.state.isEditing ? this.toggleEdit : null}>
-				<section className="dialog-heading">
-					{editDialogHeader}
-				</section>
-						<section className="dialog-content">
-							{editDialogContent}
-						</section>
-						<section className="dialog-comments">
-							<section className="new-comment-section">
-								<input className="comment-input"
-                                       maxLength={40}
-                                       valueLink={this.linkState('newComment')} placeholder="Your comment"
-										tabIndex={2}/>
-								<button className="btn-primary" onClick={this.comment}>Add comment</button>
-							</section>
-							<section className="comment-wrapper">
-							{
-								this.props.ticket.comments.map((comment) => {
+				<section className="comment-wrapper">
+					<Scrollable>
+						{
+							this.props.ticket.comments.map((comment) => {
+								let user     = comment.get('user').toJS();
+								let username = user.name || user.username;
+								let avatar   = user.avatar;
+								let usertype = user.account_type || user.type;
 
-								let username  = null;
-								let timestamp = null;
-								let msg       = null;
-								// Sometimes the comment is a ImmutableJS Map instead of
-								// a plain JS object. If so, we convert it to one! There's
-								// probably a better way of handling this...
-								if(!comment.user) {
-									comment      = comment.toObject();
-									comment.user = comment.user.toObject();
-								}
-								username  = comment.user.username;
-								timestamp = comment.created_at;
-								msg       = comment.content;
-
+								let timestamp = comment.get('created_at');
+								let msg       = comment.get('content');
 								let timeProps = {date: timestamp};
-
 								return (
 									<div className="comment" key={comment.id}>
-										<section>
+										<section className="comment-top">
+											<Avatar size={32} name={username}
+													imageurl={avatar}
+													usertype={usertype}
+													isOnline={true}>
+											</Avatar>
 											<span className="comment-timestamp">{React.createElement(TimeAgo, timeProps)}</span>
 											<p className="comment-username">{username}</p>
 										</section>
@@ -162,21 +125,77 @@ export default React.createClass({
 									</div>
 								);
 							})}
-							</section>
-						</section>
+					</Scrollable>
+				</section>
+			</section>
+		)
+
+		if(!this.state.isEditing && this.state.content !== '') {
+			let content = this.state.content;
+			let markupContent = markdown.markdown.toHTML(content);
+			// Add target="_blank" attribute to links so they open in a new tab
+			if (markupContent.includes('<a href=')) {
+				markupContent = markupContent.replace(/<a href="/g, '<a target="_blank" href="');
+			}
+
+			contentArea = (
+				<section className="dialog-content">
+					<Scrollable>
+						<span dangerouslySetInnerHTML={{__html: markupContent}}
+							onClick={this.toggleEdit}/>
+					</Scrollable>
+				</section>
+			);
+
+			headerArea = (
+				<section className="dialog-heading">
+					<span onClick={this.toggleEdit}>{this.state.heading}</span>
+				</section>
+			);
+		} else {
+			contentArea = (
+				<section className="dialog-content">
+					<Scrollable>
+						<TextArea valueLink={this.linkState('content')}
+								tabIndex={2}
+								placeholder={'Ticket content'}/>
+					</Scrollable>
+				</section>
+			);
+
+			headerArea = (
+				<section className="dialog-heading">
+					<input valueLink={this.linkState('heading')}
+						placeholder={'Ticket heading'}
+						tabIndex={1}/>
+				</section>
+			);
+		}
+
+		return (
+			<Dialog className="edit-ticket-dialog"
+					onDismiss={this.props.onDismiss}>
+				<Scrollable>
+					<section className="dialog-header">
+						<ColorSelect color={this.linkState('color')} />
+					</section>
+					<section onClick={this.state.isEditing ? this.toggleEdit : null}>
+						{headerArea}
+						{contentArea}
+						{commentArea}
 						<section className="dialog-footer">
-							<button className="btn-neutral" onClick={this.cancel}
+							<button className="btn-neutral" id={"ticket-dialog-cancel"} onClick={this.cancel}
 									tabIndex={3}>
 								Cancel
 							</button>
-							<button className="btn-primary" onClick={this.update}
+							<button className="btn-primary" id={"ticket-dialog-save"} onClick={this.update}
 									tabIndex={4}>
 								Save
 							</button>
 						</section>
-					<span className="deleteicon fa fa-trash-o" onClick={this.remove}> Delete</span>
-
+						<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}> Delete</span>
 					</section>
+				</Scrollable>
 			</Dialog>
 		);
 	}

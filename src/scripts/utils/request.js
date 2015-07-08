@@ -21,9 +21,14 @@ function request(to, options = {}) {
 			.set('Accept',        'application/json')
 			.set('Content-Type',  'application/json')
 			.set('Authorization', options.auth || `Bearer ${options.token}`);
+
 		if(options.payload) {
 			request = request.send(options.payload)
+		} else {
+			// Prevents IE returning bad request message
+			request = request.send({})
 		}
+
 		return request.end((err, res) => {
 			if(err) {
 				err.statusCode = err.status || res ? res.status : 0;

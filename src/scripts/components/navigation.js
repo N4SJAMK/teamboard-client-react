@@ -5,7 +5,7 @@ import Action          from '../actions';
 import UserAction      from '../actions/user';
 import SettingsAction from '../actions/settings';
 import BroadcastAction from '../actions/broadcast';
-
+import UserStore    from '../stores/user';
 import Dropdown     from '../components/dropdown';
 import MemberDialog from '../components/dialog/board-members';
 
@@ -128,10 +128,13 @@ export default React.createClass({
 			</div>
 			);
 
+		let isProfileDisabled = UserStore.getUser().type === 'standard';
 		let items = [
-			{ icon: 'user', content: 'Profile',
+			{ icon: 'user',     content: 'Profile', disabled: !isProfileDisabled,
 			onClick: () => {
-				return page.show('/profile')
+				if(isProfileDisabled) {
+					return page.show('/profile');
+				}
 			}
 			},
 			{ icon: 'language', content: 'Localization',

@@ -9,12 +9,13 @@
 
 	@include position(fixed, 0px null null 0px)
 
-	overflow-y:       scroll
 	background-color: rgba($ebony, 0.8)
 
 	.dialog
 		width:     80%
 		max-width: 400px
+
+		max-height: 95vh
 
 		margin:        64px auto
 		border-radius: 8px
@@ -28,6 +29,8 @@
 			font-size:      18px
 			letter-spacing: 1px
 
+			height: 2vh
+
 		.dialog-heading
 			font-weight: bold
 			padding:     8px 16px
@@ -37,19 +40,23 @@
 
 		.dialog-comments
 			padding: 8px 16px 16px 16px
+			max-height: 18vh
 
 			.comment-wrapper
 				@include display(flex)
 				@include flex-direction(column)
 				overflow:         hidden
 				overflow-y:       auto
-				max-height:       200px
 				border-radius:    5px
 				background-color: $white
+				max-height: 13vh
 
 				.comment
 					height:     50px
 					min-height: 50px
+
+					.comment-top
+						margin-top: 8px
 
 					.comment-username
 						@include   margin(5 0 0 4)
@@ -58,6 +65,11 @@
 
 					.comment-message
 						@include margin(5 0 0 4)
+						word-wrap: normal
+						padding-left: 36px
+
+					.avatar
+						margin-right: 6px
 
 					.comment-timestamp
 						@include margin(4 4 0 0)
@@ -70,23 +82,25 @@
 					border-color:  $silver-chalice
 
 			.new-comment-section
+				border-bottom: 1px solid
+				border-color: $silver-chalice
 				margin-top: 6px
 				@include display(flex)
 				@include flex-direction(row)
 				input
 					margin-right:  6px
-					margin-bottom: 6px
+					margin-bottom: 12px
 				button
 					width: 46%
 
 		.dialog-content
 			padding:    8px 16px
 			overflow:   hidden
-			max-height: 50vh
+			max-height: 20vh
 			overflow-y: auto
 
 			textarea
-				max-height: 50vh
+				width:     100%
 
 			input
 				margin-bottom: 8px
@@ -206,6 +220,13 @@
 				&:last-child
 					margin-right: 0px
 
+	.dialog-edit-board
+		max-height: 90vh
+
+		.dialog-content-board
+			max-height: 60vh
+			overflow:   hidden
+
 	.dialog-board-members
 
 		.dialog-header
@@ -218,7 +239,8 @@
 			max-height: 400px
 			.dialog-header
 				padding-left: 0
-
+		.dialog-content
+			max-height: 60vh
 		.dialog-member-list
 			@include display(flex)
 			@include flex-wrap(wrap)
@@ -235,6 +257,8 @@
 				width: 45%
 				border-bottom: 1px solid
 				border-color: $gallery
+				@media screen and (max-width: 450px)
+					width: 100%
 
 				.user-name
 					width: 60%
@@ -255,7 +279,11 @@
 				border-bottom: 1px solid
 				border-color: $gallery
 				color: $silver-chalice
-
+				@media screen and (max-width: 450px)
+					width: 100%
+					.user-last-seen
+						float: left
+						margin-left: 3%
 				.user-name
 					width: 60%
 					float: left
@@ -273,5 +301,3 @@
 					-webkit-filter: grayscale(1)
 					filter: grayscale(1)
 					opacity: 0.5
-
-

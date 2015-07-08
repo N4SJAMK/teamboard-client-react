@@ -101,9 +101,8 @@ export default React.createClass({
 		if (boardAdmin === undefined) {
 			return;
 		}
-		if (boardAdmin && typeof boardAdmin.user === 'object' && typeof boardAdmin.user.get('id') != 'undefined') {
-			if(boardAdmin.user.get('id') == user.get('id'))  {
-		
+		if(boardAdmin && typeof boardAdmin.user === 'object' && typeof boardAdmin.user.get('id') !== 'undefined') {
+			if(boardAdmin.user.get('id') === user.get('id'))  {
 			return (
 				<div className="controls">
 					{controls.map(function(ctrl, index) {
@@ -122,7 +121,7 @@ export default React.createClass({
 			);
 		}
 		}
-		else {	
+		else {
 			return (
 				<div className="controls">
 					{controls.map(function(ctrl, index) {

@@ -11,7 +11,7 @@ export default {
 			'newPassword',
 			'newPasswordAgain',
 			'name',
-			'currentView'
+			'avatar'
 		],
 		loginSettings: {
 			title: 'Change password',
@@ -58,14 +58,19 @@ export default {
 			title: 'Profile information',
 			fields: [
 				{
-					name:     'name',
-					type:     'text',
-					label:    'Enter a username',
-					required: true
+					name:     'avatar',
+					type:     'avatar',
+					title:    'Your avatar:',
+					label:    'Enter an URL to an image'
 				},
 				{
 					type:     'email',
 					title:    'Your username:'
+				},
+				{
+					name:     'name',
+					type:     'text',
+					label:    'Enter a username'
 				},
 				{
 					name:     'submitProfile',
@@ -75,7 +80,7 @@ export default {
 				}
 			],
 			submit: (state) => {
-				return UserAction.updateName(state.name).then(() => {
+				return UserAction.updateUser(state.name, state.avatar).then(() => {
 					BroadcastAction.add({
 						type:    'broadcast',
 						content: 'Success!'

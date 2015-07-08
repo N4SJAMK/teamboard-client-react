@@ -70,6 +70,12 @@ export default flux.actionCreator({
 				});
 			})
 			.catch((err) => {
+				if(err.statusCode === 401 || err.statusCode === 403) {
+					UserAction.logout()
+						.then(() => {
+							return page.show('/login');
+						});
+				}
 				BroadcastAction.add(err, Action.Board.Load);
 			});
 	},
@@ -131,14 +137,14 @@ export default flux.actionCreator({
 		let token = UserStore.getToken();
 
 		return api.setUserBoardActivity({
-			          token:    token,
+                      token:    token,
                       isPoll:   payload.isPoll,
-			          id: {
-						  board:boardId
-					  },
-			          payload: { isActive: payload.isActive }
-		   })
-			.then(() => {
+                          id: {
+                          board:boardId
+                          },
+                          payload: { isActive: payload.isActive }
+            })
+            .then(() => {
 				return Promise.resolve();
 			})
 			.catch((err) => {

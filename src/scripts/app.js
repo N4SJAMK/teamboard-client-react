@@ -15,7 +15,6 @@ import LoginView      from './views/form';
 import RegisterView   from './views/form';
 import GuestLoginView from './views/form';
 import UserAccessView from './views/form';
-
 import UserAction     from './actions/user';
 
 import qs          from 'query-string';
@@ -103,12 +102,6 @@ UserStore.addChangeListener(() => {
 	}
 });
 
-function authenticate(ctx, next) {
-		if(ctx.token = localStorage.getItem('access_token')) {
-			return next();
-		}
-}
-
 page('/login',
 	middleware.user.loggedOut,
 	middleware.socket.disconnect,
@@ -120,13 +113,25 @@ page('/login',
 });
 
 page('/login/callback',
-	(ctx, next) => { 
+	(ctx, next) => {
+	let accessToken = qs.parse(ctx.querystring).access_token;
 	if(ctx.querystring.length > 0) {
-		UserAction.load(qs.parse(ctx.querystring).access_token);
-			if(access_token && access_token.length > 0) {
-				localStorage.setItem('access_token', access_token);
+			if(accessToken && accessToken.length > 0) {
+				localStorage.setItem('token', accessToken);
 			}
-			return page.redirect(ctx.pathname)
+			if(localStorage.getItem('share_board') && localStorage.getItem('share_accessCode')){
+				let boardID = localStorage.getItem('share_board');
+				let accessCode = localStorage.getItem('share_accessCode');
+				UserAction.load().then(() => {
+					UserAction.giveBoardAccess(boardID, accessCode).then(() => {
+						localStorage.removeItem('share_board');
+						localStorage.removeItem('share_accessCode');
+						return page.show(`/boards/${boardID}`);
+					});
+				});
+			} else {
+				UserAction.load().then(() => { page.redirect('/boards'); });
+			}		
         }
     return next();
 });
@@ -150,6 +155,7 @@ page('/profile',
 			document.getElementById('application')
 		);
 	});
+
 page('/profile/login',
 	middleware.user.is(User.Type.User, User.Type.Guest),
 	middleware.socket.connect,
@@ -170,16 +176,18 @@ page('/boards/:id/access/:code',
 			document.getElementById('application')
 		);
 	});
+
 page('/userlogin/boards/:id/access/:code',
 	middleware.socket.disconnect,
 	(ctx) => {
+		localStorage.setItem('share_accessCode', ctx.params.code);
+		localStorage.setItem('share_board', ctx.params.id);
 		return React.render(
 			<UserAccessView formProfile="userAccessForm" boardID={ctx.params.id}
 							accessCode={ctx.params.code} />,
 			document.getElementById('application')
 		);
 	});
-
 
 page('/boards',
 	middleware.user.is(User.Type.User),

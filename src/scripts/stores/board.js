@@ -40,12 +40,19 @@ export default flux.store({
 		if (board) {
 			let members = board.members;
 			if (members.constructor.name === "List")
-			 {
-			 	members = members.toJS();
-			 }
+            {
+                members = members.toJS();
+			}
 			members.map(function(member) {
-				if (member.user.id == userID) {
-					role = member.role;
+
+				let tempmember = member;
+
+				if (tempmember.constructor.name !== 'Object') {
+					tempmember = tempmember.toJS();
+				}
+
+				if (tempmember.user.id === userID) {
+					role = tempmember.role;
 				}
 			})
 		}
@@ -59,10 +66,9 @@ export default flux.store({
 		if (board) {
 			if (board.members) {
 				let members = board.members;
-				adminUser = members.find(function(obj){return obj.get('role') === 'admin';});
+				adminUser = members.find(function(obj){return obj.get('role') === 'admin'; });
 			}
 		}
-
 		return adminUser;
 	},
 

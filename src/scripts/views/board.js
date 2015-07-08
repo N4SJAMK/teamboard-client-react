@@ -45,7 +45,7 @@ export default React.createClass({
 	},
 
 	mixins: [
-		listener(UserStore, BoardStore, SettingsStore),
+           listener(UserStore, BoardStore, SettingsStore)
 	],
 
 	onChange() {
@@ -81,8 +81,8 @@ export default React.createClass({
 		// Poll server every 10 seconds to indicate we're still alive!
 		let self = this;
 		let handle = setInterval(function() {
-			      self.setUserActivity({isActive:true, isPoll:true})
-			    }, 10000);
+                self.setUserActivity({isActive:true, isPoll:true})
+                }, 10000);
 		this.setState({pollHandle: handle});
 	},
 
@@ -91,7 +91,9 @@ export default React.createClass({
 		if (this.state.pollHandle) {
 			clearInterval(this.state.pollHandle);
 		}
-		this.setUserActivity({isActive: false, isPoll: false});
+		if(UserStore.getToken()){
+			this.setUserActivity({isActive: false, isPoll: false});
+		}
 		document.removeEventListener('touchmove', preventDefault);
 	},
 
@@ -227,7 +229,7 @@ export default React.createClass({
 			}
 			];
 
-			let adminOnlyControls= [
+			let adminOnlyControls = [
 			{
 				icon:    'pencil',
 				active:  this.state.showEditBoardDialog,
