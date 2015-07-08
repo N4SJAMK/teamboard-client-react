@@ -14,7 +14,7 @@ import Minimap          from '../../components/minimap'
 export default React.createClass({
 	mixins: [
 		React.addons.PureRenderMixin,
-		React.addons.LinkedStateMixin,
+		React.addons.LinkedStateMixin
 	],
 
 	propTypes: {

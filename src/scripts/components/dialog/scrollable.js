@@ -12,22 +12,18 @@ export default React.createClass({
 				bounce:         false
 			},
 			style: {
-				position: "relative",
-				width: "100%",
-				overflow: "hidden"
+				position: 'relative',
+				width:    '100%',
+				overflow: 'hidden'
 			}
 		}
-	},
-
-	onScrollStart: function() {
-	console.log("iScroll starts scrolling")
 	},
 
 	render: function() {
 		return (
 			<ReactIScroll iscroll={iScroll}
-						  options={this.props.options}
-						  style={this.props.style}>
+						options={this.props.options}
+						style={this.props.style}>
 				{this.renderChildrens()}
 			</ReactIScroll>
 		)

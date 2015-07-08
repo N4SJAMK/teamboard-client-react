@@ -47,7 +47,7 @@ export default React.createClass({
 		*/
 		let objects = [
 			[
-				[ <Dropdown className='infodrop' show={true} items={dropitems} /> ],
+				[ <Dropdown className="infodrop" show={true} items={dropitems} /> ],
 				[
 					{ content: 'Return to workspace', className: 'pos-back' },
 					{ content: 'Edit board', className:'pos-edit' },
@@ -102,9 +102,9 @@ export default React.createClass({
 
 					{objects.map((item) => {
 					return (
-					<div>
-						<TextBoxes items={item[1]} objects={item[0]}/>
-					</div>
+						<div>
+							<TextBoxes items={item[1]} objects={item[0]}/>
+						</div>
 					);
 				})}
 				</Carousel>

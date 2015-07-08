@@ -118,8 +118,8 @@ export default React.createClass({
 		return ProfileForms.linkItems.map((field) => {
 			let className = field.activeWhile === this.props.formProfile ? 'active' : null;
 			return (
-				<li className={className}>
-					<p  onClick={field.onClick}>
+				<li className={className} onClick={field.onClick}>
+					<p>
 					<span className={`fa fa-${field.icon}`}></span>
 					{field.name}
 					</p>
@@ -135,7 +135,9 @@ export default React.createClass({
 				<Broadcaster />
 				<div className="content-settings">
 					<div className="settings-nav">
-						<span className="menu-link fa fa-bars" onClick={this.toggleNav} />
+						<div className="menu-div" onClick={this.toggleNav}>
+							<span className="menu-link fa fa-bars" />
+						</div>
 						<nav id="menu" className="navigation">
 							<ul>
 								{this.renderSidelinks()}
