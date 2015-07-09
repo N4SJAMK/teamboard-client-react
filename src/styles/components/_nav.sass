@@ -73,7 +73,7 @@
 			border-color:     $affair
 			background-color: $voodoo
 
-	.avatar
+	.avatar-wrapper
 		@include flex-grow(0)
 		@include flex-shrink(0)
 
@@ -102,6 +102,17 @@
 			color:            $white
 			border-color:     $affair
 			background-color: $voodoo
+			.avatar
+				filter: brightness(1.2)
+				-webkit-filter: brightness(1.2)
+
+	.avatar
+		border: none
+	  	@include transition(all, 0.2s)
+		&:hover
+			filter:         brightness(1.2)
+			-webkit-filter: brightness(1.2)
+			cursor:  pointer
 
 	.dropdown
 		&::before
