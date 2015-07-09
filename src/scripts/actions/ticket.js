@@ -94,12 +94,15 @@ export default flux.actionCreator({
 
 		this.dispatch(Action.Ticket.Edit, { board, ticket: payload });
 
-		api.updateTicket({
+		return api.updateTicket({
 			token, payload, id: { board: board.id, ticket: payload.id }
+			}).then((response) => {
+			return Promise.resolve()
 		})
-			.catch((err) => {
+		.catch((err) => {
 				this.dispatch(Action.Ticket.Edit, { board, ticket: previous });
 				BroadcastAction.add(err, Action.Ticket.Edit);
+				return Promise.reject()
 			});
 	},
 

@@ -46,12 +46,14 @@ export default React.createClass({
 
 	update(event) {
 		event.preventDefault();
+
 		TicketAction.update({ id: this.props.board }, {
 			id:      this.props.ticket.id,
 			color:   this.state.color,
 			content: this.state.content,
 			heading: this.state.heading
-		});
+		}).then((ticket) => { this.postComment({isUnmounting: true}); });
+
 		return this.props.onDismiss();
 	},
 
@@ -60,15 +62,21 @@ export default React.createClass({
 		return this.props.onDismiss();
 	},
 
-	comment(event) {
-		event.preventDefault();
+	postComment(stateInfo) {
 		if (this.state.newComment !== '') {
 			TicketAction.comment({id: this.props.board}, {
 				id: this.props.ticket.id
 			}, this.state.newComment);
 
-			this.setState({newComment: ''});
+			if(!stateInfo.isUnmounting) {
+				this.setState({newComment: ''});
+			}
 		}
+	},
+
+	comment(event) {
+		event.preventDefault();
+		this.postComment({isUnmounting: false});
 		return event.stopPropagation();
 	},
 
