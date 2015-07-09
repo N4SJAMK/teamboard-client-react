@@ -56,7 +56,7 @@ export default React.createClass({
 		let infoIcon = null;
 
 		if(!this.state.infoActive) {
-			infoIcon = 'info';
+			infoIcon = 'question';
 			infoDialog = null;
 			activeClick = this.toggleDropdown;
 		} else {
@@ -137,7 +137,7 @@ export default React.createClass({
 				onClick: () => {
 					this.toggleAboutView();
 				},
-				icon: 'question-circle', content: 'About'
+				icon: 'info', content: 'About'
 			},
 			{
 				onClick: () => {
