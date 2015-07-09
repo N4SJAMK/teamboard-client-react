@@ -41,12 +41,12 @@ export default React.createClass({
         return (
             <Dialog className="dialog-board-members"
                     onDismiss={this.props.onDismiss}>
-                <Scrollable>
                 <section className="dialog-header">
                     Board members
                 </section>
                 <section className="dialog-content">
-                        <section className="dialog-members">
+                    <Scrollable>
+                    <section className="dialog-members">
                                 <section className="dialog-member-list">
                                     {members.map(function(member) {
 
@@ -92,13 +92,13 @@ export default React.createClass({
                                     }
                                 </section>
                         </section>
+                        </Scrollable>
                         <section className="dialog-footer">
                         <button className="btn-primary" onClick={this.submit}>
                             Done
                         </button>
                     </section>
                 </section>
-                </Scrollable>
             </Dialog>
         );
     }
