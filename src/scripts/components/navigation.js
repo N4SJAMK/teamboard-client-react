@@ -192,6 +192,7 @@ export default React.createClass({
 		let name      = user.get('username');
 		let avatarURL = user.get('avatar');
 		let userType  = user.get('type');
+
 		return (
 			<nav id="nav" className="nav">
 				<img className="logo" src="/dist/assets/img/logo.svg"

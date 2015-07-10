@@ -99,10 +99,10 @@ export default React.createClass({
 		let commentArea = (
 			<section className="dialog-comments">
 				<section className="new-comment-section">
-					<input  className="comment-input"
-							maxLength={40}
-							valueLink={this.linkState('newComment')} placeholder="Your comment"
-							tabIndex={2}/>
+					<input className="comment-input"
+						maxLength={140}
+						valueLink={this.linkState('newComment')} placeholder="Your comment"
+						tabIndex={2}/>
 					<button className="btn-primary" onClick={this.comment}>Add comment</button>
 				</section>
 				<section className="comment-wrapper">
@@ -164,8 +164,8 @@ export default React.createClass({
 				<section className="dialog-content">
 					<Scrollable>
 						<TextArea valueLink={this.linkState('content')}
-								tabIndex={2}
-								placeholder={'Ticket content'}/>
+							tabIndex={2}
+							placeholder={'Ticket content'}/>
 					</Scrollable>
 				</section>
 			);
@@ -173,9 +173,9 @@ export default React.createClass({
 			headerArea = (
 				<section className="dialog-heading">
 					<input  valueLink={this.linkState('heading')}
-							maxLength={40}
-							placeholder={'Ticket heading'}
-							tabIndex={1}/>
+						maxLength={40}
+						placeholder={'Ticket heading'}
+						tabIndex={1}/>
 				</section>
 			);
 		}
@@ -187,9 +187,9 @@ export default React.createClass({
 					<ColorSelect color={this.linkState('color')} />
 				</section>
 				<section onClick={this.state.isEditing ? this.toggleEdit : null}>
-						{headerArea}
-						{contentArea}
-						{commentArea}
+					{headerArea}
+					{contentArea}
+					{commentArea}
 					<section className="dialog-footer">
 						<button className="btn-neutral" id={"ticket-dialog-cancel"} onClick={this.cancel}
 								tabIndex={3}>
