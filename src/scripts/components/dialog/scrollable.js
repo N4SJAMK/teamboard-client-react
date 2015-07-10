@@ -8,13 +8,14 @@ export default React.createClass({
             options: {
                 mouseWheel:     true,
                 scrollbars:     true,
-                preventDefault: false,
+                preventDefault: true,
                 bounce:         false
             },
             style: {
-              position: "relative",
-              width: "100%",
-              overflow: "hidden"
+              position:                     'relative',
+              width:                        '100%',
+              overflow:                     'hidden',
+              '-webkit-overflow-scrolling': 'touch'
             }
         }
     },

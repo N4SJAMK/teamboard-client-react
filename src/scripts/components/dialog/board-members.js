@@ -41,64 +41,56 @@ export default React.createClass({
         return (
             <Dialog className="dialog-board-members"
                     onDismiss={this.props.onDismiss}>
-                <Scrollable>
+
                 <section className="dialog-header">
                     Board members
                 </section>
                 <section className="dialog-content">
+                    <Scrollable>
                         <section className="dialog-members">
-                                <section className="dialog-member-list">
-                                    {members.map(function(member) {
-
+                            <section className="dialog-member-list">
+                                {
+                                    members.map(function(member) {
                                         // Sort of dumb fix for user sometimes being a Map
                                         // instead of a Record. Should investigate further...
                                         let user        = member.get('user').toJS();
-                                        var name        = user.username || user.name;
-                                        var isActive    = member.get('isActive');
-                                        var avatarURL   = user.avatar;
-                                        var userRole    = member.get('role');
-                                        if(isActive === true) {
-                                            return (
-                                                <div className="member-info-online">
-                                                    <Avatar size={32} name={name}
+                                        let name        = user.username || user.name;
+                                        let isActive    = member.get('isActive');
+                                        let avatarURL   = user.avatar;
+                                        let userRole    = member.get('role');
+
+                                        return (
+                                            <div className={isActive ? "member-info-online" : "member-info-offline" }>
+                                                <Avatar size={32} name={name}
                                                             imageurl={avatarURL}
                                                             usertype={userRole}
                                                             isOnline={isActive}>
-                                                    </Avatar>
-                                                    <div className="user-name" title={name}>
-                                                        {name}
-                                                    </div>
+                                                </Avatar>
+                                                <div className="user-name" title={name}>
+                                                    {name}
                                                 </div>
-                                            );
-                                        }
-                                        else if(isActive === false) {
-                                            return (
-                                                <div className="member-info-offline">
-                                                    <Avatar size={32} name={name}
-                                                        imageurl={avatarURL}
-                                                        usertype={userRole}
-                                                        isOnline={isActive}>
-                                                    </Avatar>
-                                                    <div className="user-name" title={name}>
-                                                        {name}
-                                                    </div>
-                                                    <div className="user-last-seen">
-                                                        Seen {React.createElement(TimeAgo, {date: member.get('lastSeen')})}
-                                                    </div>
-                                                </div>
-                                            );
-                                        }
+                                                {
+                                                    !isActive ?
+                                                    (
+                                                        <div className="user-last-seen">
+                                                            Seen {React.createElement(TimeAgo, {date: member.get('lastSeen')})}
+                                                        </div>
+                                                    ) :
+                                                    null
+                                                }
+                                            </div>
+                                        );
                                     })
-                                    }
-                                </section>
+                                }
+                            </section>
                         </section>
-                        <section className="dialog-footer">
+                    </Scrollable>
+                    <section className="dialog-footer">
                         <button className="btn-primary" onClick={this.submit}>
                             Done
                         </button>
                     </section>
                 </section>
-                </Scrollable>
             </Dialog>
         );
     }
