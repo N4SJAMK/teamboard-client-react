@@ -154,6 +154,7 @@ export default React.createClass({
 		let user      = UserStore.getUser();
 		let name      = user.get('username');
 		let avatarURL = user.get('avatar');
+		let userType  = user.get('type');
 
 		return (
 			<nav id="nav" className="nav">
@@ -165,7 +166,8 @@ export default React.createClass({
 				<div id="avatar" onClick={activeClick} className={userButtonClass}>
 						<Avatar size={30} name={name}
 								imageurl={avatarURL}
-								isOnline={true}>
+								isOnline={true}
+								usertype={userType}>
 						</Avatar>
 				</div>
 				<Dropdown show={this.state.dropdown} items={items} />
