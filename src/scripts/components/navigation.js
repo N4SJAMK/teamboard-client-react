@@ -1,5 +1,6 @@
-import page  from 'page';
-import React from 'react';
+import page  	  from 'page';
+import React 	  from 'react';
+import classNames from 'classnames';
 
 import Action          from '../actions';
 import UserAction      from '../actions/user';
@@ -87,7 +88,7 @@ export default React.createClass({
 		}
 
 		let infoButtonClass =
-			React.addons.classSet({
+			classNames({
 				infobutton: true,
 				pulsate: localStorage.getItem('infovisited') === null
 					? true : false,
@@ -95,13 +96,13 @@ export default React.createClass({
 			});
 
 		let userButtonClass =
-			React.addons.classSet({
+			classNames({
 				'avatar-wrapper': true,
 				active: this.state.dropdown
 			});
 
 		let membersButtonClass =
-			React.addons.classSet({
+			classNames({
 				members: true,
 				active: this.state.membersActive
 			});
