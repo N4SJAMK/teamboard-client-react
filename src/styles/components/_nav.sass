@@ -102,9 +102,10 @@
 			color:            $white
 			border-color:     $affair
 			background-color: $voodoo
-			.avatar
-				filter: brightness(1.2)
-				-webkit-filter: brightness(1.2)
+
+	.options
+		@include position(absolute, 80px 4px null null)
+		@include slurppis
 
 	.avatar
 		border: none
@@ -127,8 +128,29 @@
 			border-right:  8px solid transparent
 			border-bottom: 8px solid $bastille
 
-		@include position(absolute, 80px 4px null null)
+	.locales
+		@include position(absolute, 80px 195px null null)
+		@include slurppis
+		@include transition(width 0.1s ease-out)
+		span
+			@include fadein
+		&::before
+			content: ""
 
+			width:  0
+			height: 0
+
+			@include position(absolute, 60px -8px null null)
+
+			border-left:   8px solid $bastille
+			border-top:    8px solid transparent
+			border-bottom: 8px solid transparent
+
+		@media screen and (max-width: 450px)
+			width: 50px
+
+			span
+				display: none
 	.infobutton
 		@include flex-grow(0)
 		@include flex-shrink(0)
@@ -161,3 +183,35 @@
 			background-color: $voodoo
 		&.pulsate
 			@include pulsate
+		@media screen and (max-width: 830px)
+			display: none
+	.review
+		@include flex-grow(0)
+		@include flex-shrink(0)
+
+		@include transition(all, 0.2s)
+
+		width:  30px
+		height: 30px
+		margin: 16px 16px
+
+		color:  $gallery
+		cursor: pointer
+
+		border:        1px solid $voodoo
+		border-radius: 2px
+
+		span
+			width:       30px
+			line-height: 30px
+
+		&:hover
+			color:            $white
+			border-color:     $affair
+			background-color: $voodoo
+
+		&.active
+			z-index: 9002	!important
+			color:            $white
+			border-color:     $affair
+			background-color: $voodoo

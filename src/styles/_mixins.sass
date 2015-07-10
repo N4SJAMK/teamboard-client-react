@@ -59,7 +59,6 @@
 	@keyframes #{$animationName}
 		@content;
 
-
 @include keyframes(pulsate)
 	from
 		background-color: $affair
@@ -71,3 +70,51 @@
 
 @mixin pulsate
 	@include animate(pulsate, 0.9s, infinite, normal)
+
+@include keyframes(slurppis)
+	from
+		transform: scale(0.5)
+		opacity: 0.5
+	to
+		transform: scale(1)
+		opacity: 1
+
+@mixin slurppis
+	@include animate(slurppis, 0.05s, 1, normal)
+
+@include keyframes(fadein)
+	0%
+		opacity: 0
+	50%
+		opacity: 0
+	100%
+		opacity: 1
+
+@mixin fadein
+	@include animate(fadein, 0.1s, 1, normal)
+
+@include keyframes(ticketin)
+	0%
+		transform: scale(0.8)
+		opacity: 0
+
+	75%
+		transform: scale(1.05)
+		box-shadow: 0px 0px 3px $dove-gray
+
+	100%
+		transform: scale(1.0)
+		opacity: 1
+
+@mixin ticketin
+	@include animate(ticketin, 0.2s, 1, normal)
+
+@include keyframes(pussaus)
+	from
+		opacity: 0
+		transform: translate(-200px, 0px)
+	to
+		opacity: 1
+		transform: translate(0px, 0px)
+@mixin pussaus
+	@include animate(pussaus, 0.3s, 1, normal)

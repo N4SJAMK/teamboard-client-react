@@ -1,8 +1,6 @@
 import React from 'react/addons';
-
 import Board       from '../../models/board';
 import BoardAction from '../../actions/board';
-
 import Dialog           from '../../components/dialog';
 import BackgroundSelect from '../../components/background-select';
 import Minimap          from '../../components/minimap'
@@ -10,7 +8,10 @@ import Minimap          from '../../components/minimap'
  *
  */
 export default React.createClass({
-	mixins: [ React.addons.PureRenderMixin, React.addons.LinkedStateMixin ],
+	mixins: [
+		React.addons.PureRenderMixin,
+		React.addons.LinkedStateMixin
+	],
 
 	propTypes: {
 		board: (props) => {
@@ -95,16 +96,17 @@ export default React.createClass({
 				}
 			}
 		}
-
 		return (
 			<Dialog className="dialog-edit-board"
 					onDismiss={this.props.onDismiss}>
 				<section className="dialog-header">
-					Edit Board
+					'Edit Board'
 				</section>
 				<section className="dialog-content dialog-content-board">
 
-					<label htmlFor="board-name">Board Name</label>
+					<label htmlFor="board-name">
+					'Board name'
+					</label>
 					<input name="board-name" placeholder="Board Name"
 						valueLink={this.linkState('name')} autoFocus={true} />
 					<div className="preview-container">

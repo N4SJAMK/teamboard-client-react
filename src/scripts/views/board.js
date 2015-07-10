@@ -8,9 +8,9 @@ import UserStore     from '../stores/user';
 import BoardStore    from '../stores/board';
 import SettingsStore from '../stores/settings';
 
-import BoardAction    from '../actions/board';
-import TicketAction   from '../actions/ticket';
-import SettingsAction from '../actions/settings';
+import BoardAction     from '../actions/board';
+import SettingsAction  from '../actions/settings';
+import BroadcastAction from '../actions/broadcast';
 
 import listener from '../mixins/listener';
 
@@ -23,6 +23,7 @@ import BoardComponent  from '../components/board';
 import EditBoardDialog   from '../components/dialog/edit-board';
 import ExportBoardDialog from '../components/dialog/export-board.js';
 import ShareBoardDialog  from '../components/dialog/share-board';
+import ReviewView        from '../components/dialog/review-view';
 
 /**
  * Fix issues with iOS and IScroll not working together too well...
@@ -63,6 +64,8 @@ export default React.createClass({
 			showEditBoardDialog:   false,
 			showExportBoardDialog: false,
 			showShareBoardDialog:  false,
+			reviewActive:          false,
+			reviewTickets:         [],
 			pollHandle:            null
 		});
 	},
@@ -106,6 +109,18 @@ export default React.createClass({
 		});
 	},
 
+	toggleReview() {
+		if(this.sendTicketsForReview().size !== 0){
+			this.setState({ reviewActive: !this.state.reviewActive });
+		}
+		else {
+			BroadcastAction.add({
+				type:    'broadcast',
+				content: 'You do not have any tickets to review!'
+			});
+		}
+	},
+
 	toggleShareBoardDialog() {
 		this.setState({
 			showShareBoardDialog: !this.state.showShareBoardDialog
@@ -113,10 +128,25 @@ export default React.createClass({
 	},
 	setUserActivity(isActive, isPoll) {
 		BoardAction.setUserBoardActivity(this.props.id, isActive, isPoll);
-
 	},
+
+	setReviewClosingButton(mode) {
+		this.setState({
+			reviewActive: mode
+		})
+	},
+
+	sendTicketsForReview() {
+		// If needed we can use some checks here to filter
+		// 	out unneeded tickets here
+		return this.state.board.tickets.filter((ticket) => {
+			return ticket.content !== "" || ticket.heading !== "" || ticket.comments.size !== 0
+		});
+	},
+
 	render() {
 		let boardDialog = null;
+		let reviewDialog = null;
 
 		if(this.state.showEditBoardDialog) {
 			boardDialog = <EditBoardDialog board={this.state.board}
@@ -130,18 +160,30 @@ export default React.createClass({
                                     onDismiss={this.toggleShareBoardDialog} />
 		}
 
+		if(!this.state.reviewActive) {
+			reviewDialog = null;
+		} else {
+			reviewDialog = <ReviewView tickets = {this.sendTicketsForReview()}
+			onDismiss = { this.toggleReview } />;
+		}
+
 		return (
 			<div className="view view-board">
 				<Broadcaster />
-				<Navigation showHelp={true} showBoardMembers={true} board={this.state.board} title={this.state.board.name} />
+				<Navigation reviewActive={this.state.reviewActive}
+					killReview={this.setReviewClosingButton}
+					showHelp={true} title={this.state.board.name}
+					showBoardMembers={true} board={this.state.board} />
 				<div className="content">
 					<Scrollable board={this.state.board}
 							minimap={this.state.showMinimap}>
-						<BoardComponent board={this.state.board}
+						<BoardComponent selectMode={this.state.selectMode}
+						setReviewTickets={this.setReviewTickets} board={this.state.board}
 							snap={this.state.snapToGrid} />
 					</Scrollable>
 				</div>
 				{boardDialog}
+				{reviewDialog}
 				{this.renderControls()}
 			</div>
 		);
@@ -153,6 +195,11 @@ export default React.createClass({
 	 */
 	renderControls() {
 		let controls = [
+			{
+				icon:    'eye',
+				active:  this.state.reviewActive,
+				onClick: this.toggleReview
+			},
 			{
 				icon:    'download',
 				active:  this.state.showExportBoardDialog,
@@ -196,6 +243,7 @@ export default React.createClass({
 				active:  this.state.showShareBoardDialog,
 				onClick: this.toggleShareBoardDialog
 			}
+
 
 		];
 		if(this.props.user.type === User.Type.User) {
