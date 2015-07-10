@@ -7,28 +7,24 @@
 
 	margin:        8px
 	border-radius: 2px
-
+	overflow: hidden
 	box-shadow:       0px 0px 2px 2px $silver-chalice
 	background-color: $gallery
 
 	&.new-board
 		color:            $white
 		background-color: $neptune
-
+		z-index: 100
 		cursor: pointer
 
 		span
 			width:  202px
 			margin: 8px
-
 			font-size:   64px
 			line-height: 182px
-
 			border-radius: 2px
-
 			&:hover
 				background-color: $patina
-
 
 	.minimap-container
 		height:   110px
@@ -46,7 +42,6 @@
 			border-radius: 2px
 
 			box-shadow: 0px 0px 2px $silver-chalice
-
 
 			&:hover
 				border-color: $silver-chalice
@@ -66,7 +61,6 @@
 
 		&:hover
 			color: $dove-gray
-
 
 	.ownedby
 		z-index: 1

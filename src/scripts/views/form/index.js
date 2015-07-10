@@ -18,14 +18,14 @@ export default React.createClass({
 	},
 
 	getInitialState() {
-		return FormData.registerForm.fields.reduce((state, field) => {
-			state[field.name] = '';
+		return FormData.stateVariables.reduce((state, variable) => {
+			state[variable] = '';
 			return state;
 		}, {});
 	},
 
 	checkPasswords(){
-		if(this.props.formProfile === 'registerForm' && this.state.passwordAgain !== '') {
+		if(this.props.formProfile === 'registerForm' && this.state.passwordAgain.length > 7) {
 			return this.state.passwordAgain !== this.state.passwordRegister ?
 				<span className="fa fa-times mismatch">Password mismatch!</span>
 				: <span className="fa fa-check match">Passwords match!</span>;
