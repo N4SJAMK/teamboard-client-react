@@ -5,6 +5,7 @@ import Action          from '../actions';
 import UserAction      from '../actions/user';
 import BroadcastAction from '../actions/broadcast';
 import UserStore    from '../stores/user';
+import Avatar       from '../components/avatar';
 import Dropdown     from '../components/dropdown';
 import MemberDialog from '../components/dialog/board-members';
 
@@ -83,7 +84,7 @@ export default React.createClass({
 
 		let userButtonClass =
 			React.addons.classSet({
-				avatar: true,
+				'avatar-wrapper': true,
 				active: this.state.dropdown
 			});
 
@@ -149,6 +150,11 @@ export default React.createClass({
 				icon: 'sign-out', content: 'Logout'
 			}
 		];
+
+		let user      = UserStore.getUser();
+		let name      = user.get('username');
+		let avatarURL = user.get('avatar');
+
 		return (
 			<nav id="nav" className="nav">
 				<img className="logo" src="/dist/assets/img/logo.svg"
@@ -157,7 +163,10 @@ export default React.createClass({
 				{showBoardMembers}
 				{showInfo}
 				<div id="avatar" onClick={activeClick} className={userButtonClass}>
-					<span className="fa fa-fw fa-user"></span>
+						<Avatar size={30} name={name}
+								imageurl={avatarURL}
+								isOnline={true}>
+						</Avatar>
 				</div>
 				<Dropdown show={this.state.dropdown} items={items} />
 				{infoDialog}
