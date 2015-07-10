@@ -12,9 +12,10 @@ export default React.createClass({
                 bounce:         false
             },
             style: {
-              position: "relative",
-              width: "100%",
-              overflow: "hidden"
+              position:                     'relative',
+              width:                        '100%',
+              overflow:                     'hidden',
+              '-webkit-overflow-scrolling': 'touch'
             }
         }
     },
