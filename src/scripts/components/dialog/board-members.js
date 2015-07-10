@@ -46,8 +46,9 @@ export default React.createClass({
                     Board members
                 </section>
                 <section className="dialog-content">
-                    <Scrollable>
+
                         <section className="dialog-members">
+                        <Scrollable>
                             <section className="dialog-member-list">
                                 {
                                     members.map(function(member) {
@@ -83,8 +84,9 @@ export default React.createClass({
                                     })
                                 }
                             </section>
+                            </Scrollable>
                         </section>
-                    </Scrollable>
+
                     <section className="dialog-footer">
                         <button className="btn-primary" onClick={this.submit}>
                             Done

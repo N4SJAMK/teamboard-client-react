@@ -225,12 +225,13 @@
 			overflow:   hidden
 
 	.dialog-board-members
-
 		.dialog-header
 			font-size: 20px
 
 		.dialog-members
 			@include padding(0)
+			@include display(flex)
+			@include flex-direction(column)
 			font-size: 15px
 			max-height: 400px
 
@@ -238,7 +239,7 @@
 				padding-left: 0
 
 		.dialog-content
-			max-height: 60vh
+			max-height: 70vh
 
 		.dialog-member-list
 			@include display(flex)
