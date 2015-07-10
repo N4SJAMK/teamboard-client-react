@@ -148,6 +148,10 @@ export default React.createClass({
 			markupContent = markupContent.replace(/<a href="/g, '<a target="_blank" href="');
 		}
 
+		let commentCount = null;
+
+		this.props.ticket.comments.size < 100 ? commentCount = this.props.ticket.comments.size : commentCount = "99+";
+
 		return (
 			<div className="ticket" style={style.ticket}>
 				<div className="color" style={style.color}></div>
@@ -158,7 +162,7 @@ export default React.createClass({
 					<span dangerouslySetInnerHTML={{__html: markupContent}} />
 					<span className="count-icon">
 						<span className="fa fa-2x fa-comment comment">
-							<span className="count">{this.props.ticket.comments.size}</span>
+							<span className="count">{commentCount}</span>
 						</span>
 					</span>
 				</div>

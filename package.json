@@ -1,6 +1,10 @@
 {
   "name": "contriboard",
   "author": "taneli.hartikainen@jamk.fi",
+  "contributors": [{
+    "name": "Matti Jokitulppo",
+    "email": "melonmanchan@gmail.com"
+  }],
   "license": "MIT",
   "scripts": {
     "test": "gulp test",

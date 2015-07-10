@@ -154,6 +154,10 @@ const PayloadHandler = {
 		let board = Object.assign({ id: payload.board },
 			payload.data.newAttributes);
 		board.name = utf8.decode(board.name);
+
+		board.members.map(function (member) {
+			member.user.name = utf8.decode(member.user.name);
+		});
 		return BoardAction.edit(board);
 	},
 	[Event.Ticket.Create](payload) {
@@ -176,7 +180,8 @@ const PayloadHandler = {
 		ticket.heading = utf8.decode(ticket.heading);
 		if(ticket.comments) {
 			ticket.comments.map(function (comment) {
-				comment.content = utf8.decode(comment.content)
+				comment.content   = utf8.decode(comment.content)
+				comment.user.name = utf8.decode(comment.user.name);
 			});
 		}
 		return TicketAction.edit(board, ticket);

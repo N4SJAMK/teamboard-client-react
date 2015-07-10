@@ -10,14 +10,6 @@
 				height: 100%
 				width: 100%
 				@include position(absolute, 0px null null 0px)
-.info-view-active
-	.view-board
-		.controls
-			&::after
-				content: ''
-				height: 100%
-				width: 100%
-				@include position(absolute, 0px null null 0px)
 
 	&.slide-0
 		.controls
@@ -28,9 +20,12 @@
 			z-index: 10000
 			background-color: $neptune
 
-	@include slide(4, "fa-pencil")
-	@include slide(5, "fa-share-alt")
-	@include slide(6, "fa-download")
+	@include slide(4, 'user', 'fa-eye')
+	@include slide(5, 'user', 'fa-download')
+
+	@include slide(4, 'admin', 'fa-pencil')
+	@include slide(5, 'admin', 'fa-share-alt')
+	@include slide(6, 'admin', 'fa-download')
 
 .infospace
 	height:100%
@@ -56,6 +51,7 @@
 
 //Tooltip postioning
 .pos
+	color: $white
 	border-radius: 5px
 	border: 2px solid $affair
 
@@ -68,31 +64,48 @@
 
 	// Slide 0
 	&.pos-control-back-admin
+		width: 480px
 		@include position(absolute, 75px null null 80px)
 
 	&.pos-control-edit-admin
+		width: 480px
 		@include position(absolute, 125px null null 80px)
 
 	&.pos-control-share-admin
+		width: 480px
 		@include position(absolute, 175px null null 80px)
 
-	&.pos-control-export-admin
+	&.pos-control-review-admin
+		width: 480px
 		@include position(absolute, 225px null null 80px)
 
-	&.pos-control-magnet-admin
+	&.pos-control-export-admin
+		width: 480px
 		@include position(absolute, 275px null null 80px)
 
-	&.pos-control-minimap-admin
+	&.pos-control-magnet-admin
+		width: 480px
 		@include position(absolute, 325px null null 80px)
 
-	&.pos-control-export-user
+	&.pos-control-minimap-admin
+		width: 480px
+		@include position(absolute, 375px null null 80px)
+
+	&.pos-control-review-user
+		width: 480px
 		@include position(absolute, 75px null null 80px)
 
-	&.pos-control-magnet-user
+	&.pos-control-export-user
+		width: 480px
 		@include position(absolute, 125px null null 80px)
 
-	&.pos-control-minimap-user
+	&.pos-control-magnet-user
+		width: 480px
 		@include position(absolute, 175px null null 80px)
+
+	&.pos-control-minimap-user
+		width: 480px
+		@include position(absolute, 225px null null 80px)
 
 	// Slide 1
 	&.pos-dropdown-profile
@@ -158,7 +171,7 @@
 		@include position(absolute, 520px null null 750px)
 
 	&.pos-ticket-edit-delete
-		@include position(absolute, 640px null null 450px)
+		@include position(absolute, 640px null null 300px)
 
 	// Slide 4
 	&.pos-board-name
@@ -199,7 +212,6 @@
 	&.pos-export-done
 		@include position(absolute, 280px null null 410px)
 
-
 // Carousel styling
 .info
 	width:      100%
@@ -208,7 +220,7 @@
 	margin-top: 0px
 	color: 		$white
 
-	.infocarousel
+	.carousel-info
 		position:   static !important
 		width:      100%
 		height:     100%
@@ -216,18 +228,20 @@
 
 		// Carousel slider buttons
 		.info-button
-			border: 0
-			color:      $grey
-			font-size: 	130px
-			padding: 	0px 7px
-			margin:  	20px 0px
-			background: transparent
+			button
+				border:     0
+				color:      $grey
+				font-size: 	130px
+				padding: 	0px 7px
+				margin:  	20px 0px
+				background: transparent
 
 			&.info-button-active
-				opacity:    1
-				color: 		$neptune
+				button
+					opacity:    1
+					color: 		$neptune
 
 .infodrop
-	float:right;
+	float:right
 	margin-top: 80px
 	margin-right: 4px

@@ -12,26 +12,27 @@ export default React.createClass({
                 bounce:         false
             },
             style: {
-              position: "relative",
-              width: "100%",
-              overflow: "hidden"
+              position:                     'relative',
+              width:                        '100%',
+              overflow:                     'hidden',
+              '-webkit-overflow-scrolling': 'touch'
             }
         }
     },
 
-    render: function() {
-        return (
-            <ReactIScroll iscroll={iScroll}
-                          options={this.props.options}
-                          style={this.props.style}>
-                {this.renderChildrens()}
-            </ReactIScroll>
-        )
-    },
+	render: function() {
+		return (
+			<ReactIScroll iscroll={iScroll}
+						options={this.props.options}
+						style={this.props.style}>
+				{this.renderChildrens()}
+			</ReactIScroll>
+		)
+	},
 
-    renderChildrens() {
-        return React.Children.map(this.props.children, (child) => {
-            return React.addons.cloneWithProps(child, {});
-        })
-    }
+	renderChildrens() {
+		return React.Children.map(this.props.children, (child) => {
+			return React.addons.cloneWithProps(child, {});
+		})
+	}
 });

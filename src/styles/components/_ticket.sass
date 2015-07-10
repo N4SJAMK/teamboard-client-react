@@ -6,14 +6,17 @@
 	height: 108px
 	overflow: hidden
 	@include position(absolute)
-
+	@include ticketin
+	@include transition(width 0.1s ease-out, height 0.1s ease-out, box-shadow 0.1s ease-out)
 	&:hover
 		z-index:    350 !important
 		box-shadow: 0px 0px 4px $dove-gray
 
 	&.is-dragging
 		z-index:    400 !important
-		box-shadow: 0px 0px 8px $dove-gray
+		box-shadow: 2px 2px 8px $dove-gray
+		width: 196px
+		height: 112px
 
 	border:        1px solid $gallery
 	border-radius: 2px
@@ -40,13 +43,14 @@
 			overflow: visible
 			.count
 				@include     position(26% 23% null null fixed)
-				width:       14px
+				overflow:    visible
+				width:       16px
 				height:      14px
 				text-align:  center
 				position:    fixed !important
 				color:       $white
 				font-family: Lato
-				font-size:   small
+				font-size:   12px
 
 	.heading
 		margin:      8px
