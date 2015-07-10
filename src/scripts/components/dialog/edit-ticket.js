@@ -83,9 +83,9 @@ export default React.createClass({
 		// This handler is a no-op if we are clicking on the text-area or text input.
 		// Also, don't exit editing mode if we click a link or if ticket has no content
 		if( event.target instanceof HTMLTextAreaElement ||
-			event.target instanceof HTMLInputElement ||
-			event.target instanceof HTMLAnchorElement ||
-			this.state.content === '')  {
+			event.target    instanceof HTMLInputElement ||
+			event.target   instanceof HTMLAnchorElement ||
+			this.state.content === '') {
 			return;
 		}
 
