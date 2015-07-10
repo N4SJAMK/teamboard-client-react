@@ -46,12 +46,14 @@ export default React.createClass({
 
 	update(event) {
 		event.preventDefault();
+
 		TicketAction.update({ id: this.props.board }, {
 			id:      this.props.ticket.id,
 			color:   this.state.color,
 			content: this.state.content,
 			heading: this.state.heading
-		});
+		}).then((ticket) => { this.postComment({isUnmounting: true}); });
+
 		return this.props.onDismiss();
 	},
 
@@ -60,15 +62,20 @@ export default React.createClass({
 		return this.props.onDismiss();
 	},
 
-	comment(event) {
-		event.preventDefault();
+	postComment(stateInfo) {
 		if (this.state.newComment !== '') {
 			TicketAction.comment({ id: this.props.board }, {
 				id: this.props.ticket.id
 			}, this.state.newComment);
-
-			this.setState({ newComment: '' });
+			if(!stateInfo.isUnmounting) {
+				this.setState({newComment: ''});
+			}
 		}
+	},
+
+	comment(event) {
+		event.preventDefault();
+		this.postComment({isUnmounting: false});
 		return event.stopPropagation();
 	},
 
@@ -176,27 +183,25 @@ export default React.createClass({
 		return (
 			<Dialog className="edit-ticket-dialog"
 					onDismiss={this.props.onDismiss}>
-				<Scrollable>
-					<section className="dialog-header">
-						<ColorSelect color={this.linkState('color')} />
-					</section>
-					<section onClick={this.state.isEditing ? this.toggleEdit : null}>
+				<section className="dialog-header">
+					<ColorSelect color={this.linkState('color')} />
+				</section>
+				<section onClick={this.state.isEditing ? this.toggleEdit : null}>
 						{headerArea}
 						{contentArea}
 						{commentArea}
-						<section className="dialog-footer">
-							<button className="btn-neutral" id={"ticket-dialog-cancel"} onClick={this.cancel}
-									tabIndex={3}>
-								Cancel
-							</button>
-							<button className="btn-primary" id={"ticket-dialog-save"} onClick={this.update}
-									tabIndex={4}>
-								Save
-							</button>
-						</section>
-						<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}> Delete</span>
+					<section className="dialog-footer">
+						<button className="btn-neutral" id={"ticket-dialog-cancel"} onClick={this.cancel}
+								tabIndex={3}>
+							Cancel
+						</button>
+						<button className="btn-primary" id={"ticket-dialog-save"} onClick={this.update}
+								tabIndex={4}>
+							Save
+						</button>
 					</section>
-				</Scrollable>
+					<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}> Delete</span>
+				</section>
 			</Dialog>
 		);
 	}

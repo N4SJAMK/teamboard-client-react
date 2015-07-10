@@ -95,9 +95,7 @@
 
 		.dialog-content
 			padding:    8px 16px
-			overflow:   hidden
 			max-height: 20vh
-			overflow-y: auto
 
 			textarea
 				width:     100%
@@ -228,25 +226,26 @@
 			overflow:   hidden
 
 	.dialog-board-members
-
 		.dialog-header
 			font-size: 20px
 
 		.dialog-members
 			@include padding(0)
+			@include display(flex)
+			@include flex-direction(column)
 			font-size: 15px
-			overflow-y: auto
 			max-height: 400px
+
 			.dialog-header
 				padding-left: 0
+
 		.dialog-content
 			max-height: 60vh
+
 		.dialog-member-list
 			@include display(flex)
 			@include flex-wrap(wrap)
 			padding-left: 8px
-			overflow-y: auto
-
 
 			.member-info-online
 				@include margin(null 16px null null)
@@ -261,10 +260,13 @@
 					width: 100%
 
 				.user-name
-					width: 60%
+					width: 73%
 					float: left
 					margin-top: 5%
 					margin-left: 5%
+					white-space: nowrap
+					overflow: hidden
+					text-overflow: ellipsis
 
 				.profile-picture
 					float: left
@@ -282,12 +284,14 @@
 				@media screen and (max-width: 450px)
 					width: 100%
 					.user-last-seen
-						float: left
-						margin-left: 3%
+
 				.user-name
-					width: 60%
+					width: 73%
 					float: left
 					margin-left: 5%
+					white-space: nowrap
+					overflow: hidden
+					text-overflow: ellipsis
 
 				.user-last-seen
 					span

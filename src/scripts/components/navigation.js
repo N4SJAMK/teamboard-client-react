@@ -6,6 +6,7 @@ import UserAction      from '../actions/user';
 import SettingsAction from '../actions/settings';
 import BroadcastAction from '../actions/broadcast';
 import UserStore    from '../stores/user';
+import Avatar       from '../components/avatar';
 import Dropdown     from '../components/dropdown';
 import MemberDialog from '../components/dialog/board-members';
 
@@ -73,7 +74,7 @@ export default React.createClass({
 		let infoIcon = null;
 
 		if(!this.state.infoActive) {
-			infoIcon = 'info';
+			infoIcon = 'question';
 			infoDialog = null;
 		} else {
 			infoIcon = 'times';
@@ -96,7 +97,7 @@ export default React.createClass({
 
 		let userButtonClass =
 			React.addons.classSet({
-				avatar: true,
+				'avatar-wrapper': true,
 				active: this.state.dropdown
 			});
 
@@ -154,7 +155,7 @@ export default React.createClass({
 				onClick: () => {
 					this.toggleAboutView();
 				},
-				icon: 'question-circle', content: 'About'
+				icon: 'info', content: 'About'
 			},
 			{
 				onClick: () => {
@@ -188,6 +189,9 @@ export default React.createClass({
 				}
 			}
 		]
+		let user      = UserStore.getUser();
+		let name      = user.get('username');
+		let avatarURL = user.get('avatar');
 		return (
 			<nav id="nav" className="nav">
 				<img className="logo" src="/dist/assets/img/logo.svg"
@@ -196,8 +200,11 @@ export default React.createClass({
 				{this.CancelReview()}
 				{showBoardMembers}
 				{showInfo}
-				<div id="avatar" onClick={this.toggleDropdown} className={userButtonClass}>
-					<span className="fa fa-fw fa-user"></span>
+				<div id="avatar" onClick={activeClick} className={userButtonClass}>
+						<Avatar size={30} name={name}
+								imageurl={avatarURL}
+								isOnline={true}>
+						</Avatar>
 				</div>
 				<Dropdown className='options' show={this.state.dropdown} items={items} />
 				<Dropdown className='locales' show={this.state.localesDropdown} items={locales} />

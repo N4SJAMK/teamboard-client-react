@@ -3,21 +3,22 @@ import ReactIScroll from 'react-iscroll';
 import iScroll      from 'iscroll';
 
 export default React.createClass({
-	getDefaultProps() {
-		return {
-			options: {
-				mouseWheel:     true,
-				scrollbars:     true,
-				preventDefault: false,
-				bounce:         false
-			},
-			style: {
-				position: 'relative',
-				width:    '100%',
-				overflow: 'hidden'
-			}
-		}
-	},
+    getDefaultProps() {
+        return {
+            options: {
+                mouseWheel:     true,
+                scrollbars:     true,
+                preventDefault: false,
+                bounce:         false
+            },
+            style: {
+              position:                     'relative',
+              width:                        '100%',
+              overflow:                     'hidden',
+              '-webkit-overflow-scrolling': 'touch'
+            }
+        }
+    },
 
 	render: function() {
 		return (
