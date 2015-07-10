@@ -100,12 +100,12 @@ export default React.createClass({
 			<Dialog className="dialog-edit-board"
 					onDismiss={this.props.onDismiss}>
 				<section className="dialog-header">
-					'Edit Board'
+					Edit Board
 				</section>
 				<section className="dialog-content dialog-content-board">
 
 					<label htmlFor="board-name">
-					'Board name'
+					Board name
 					</label>
 					<input name="board-name" placeholder="Board Name"
 						valueLink={this.linkState('name')} autoFocus={true} />

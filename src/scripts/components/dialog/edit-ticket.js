@@ -165,7 +165,7 @@ export default React.createClass({
 					<Scrollable>
 						<TextArea valueLink={this.linkState('content')}
 							tabIndex={2}
-							placeholder={'Ticket content'}/>
+							placeholder="Ticket content"/>
 					</Scrollable>
 				</section>
 			);
@@ -174,7 +174,7 @@ export default React.createClass({
 				<section className="dialog-heading">
 					<input  valueLink={this.linkState('heading')}
 						maxLength={40}
-						placeholder={'Ticket heading'}
+						placeholder="Ticket heading"
 						tabIndex={1}/>
 				</section>
 			);
