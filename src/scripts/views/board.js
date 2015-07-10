@@ -141,7 +141,7 @@ export default React.createClass({
 		// 	out unneeded tickets here
 		return this.state.board.tickets.filter((ticket) => {
 			return ticket.content !== "" || ticket.heading !== "" || ticket.comments.size !== 0
-     	});
+		});
 	},
 
 	render() {

@@ -108,8 +108,8 @@ export default React.createClass({
 							{ticketNumber}
 							<p className="ticket-header-text" title={ticket.heading}>{ticket.heading}</p>
 							<span className="review-dialog-content"
-								  dangerouslySetInnerHTML={{__html: markupContent}}>
-							  </span>
+								dangerouslySetInnerHTML={{__html: markupContent}}>
+							</span>
 							<section className="review-dialog-comments">
 								<section className="review-comment-wrapper">
 									{this.renderComments(ticket)}
@@ -128,11 +128,11 @@ export default React.createClass({
 			<Dialog className="review" viewProfile="review"
 					onDismiss={this.props.onDismiss}>
 				<Carousel ref="carousel" className="infocarousel"
-					      data={this.setCarouselData.bind(this, 'carousel')}
-					      decorators={this.getDecorations()}
-						  slideWidth={0.70}
-					      cellAlign="center"
-						  dragging={true}>
+					data={this.setCarouselData.bind(this, 'carousel')}
+						decorators={this.getDecorations()}
+						slideWidth={0.70}
+						cellAlign="center"
+						dragging={true}>
 					{this.renderTickets()}
 				</Carousel>
 				<span className="ticket-number">{currentTicket}</span>
