@@ -71,3 +71,11 @@
 
 @mixin pulsate
 	@include animate(pulsate, 0.9s, infinite, normal)
+
+@mixin line-block($width, $height, $rotate)
+	content: ' '
+	display: block
+	width: $width
+	height: $height
+	background-color: $affair
+	@include transform(rotate($rotate))

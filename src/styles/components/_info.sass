@@ -22,315 +22,183 @@
 	&.slide-0
 		.controls
 			@include layer(10000)
+
+	&.slide-1
 		.avatar
 			z-index: 10000
 			background-color: $neptune
 
-	@include slide(2, "fa-pencil")
-	@include slide(3, "fa-share-alt")
-	@include slide(4, "fa-download")
+	@include slide(4, "fa-pencil")
+	@include slide(5, "fa-share-alt")
+	@include slide(6, "fa-download")
 
 .infospace
 	height:100%
 	width:100%
 	position: relative
 
-	@include dialogImage("Info", 45%, 90px)
-	@include dialogImage("Ticket", 54%, 90px)
-	@include dialogImage("EditTicket", 45%, 260px)
+	.info-dropdown
+		@include position(absolute, 100px null null 400px)
+
+	.info-img
+		&.ticket
+			@include position(absolute, 400px null null 400px)
+		&.ticket-new
+			@include position(absolute, 200px null null 400px)
+		&.ticket-edit
+			@include position(absolute, 100px null null 350px)
+		&.board-edit
+			@include position(absolute, 100px null null 350px)
+		&.board-share
+			@include position(absolute, 100px null null 350px)
+		&.board-export
+			@include position(absolute, 100px null null 350px)
 
 //Tooltip postioning
-
 .pos
-	border-radius: 2px
-	border: 2px  solid $affair
+	border-radius: 5px
+	border: 2px solid $affair
+
 	display: block
-	position: absolute
 	background-color: $affair
+	width: 	240px
 
-	p
-		margin: 8px
+	margin: 8px
+	padding: 10px
 
-	&.pos-back
-		top: 75px
-		left: 120px
-		&:before
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			width: 53px
-			right: 54px
-			top: 26px
-			@include transform( rotate(-6deg))
+	// Slide 0
+	&.pos-control-back-admin
+		@include position(absolute, 75px null null 80px)
 
-	&.pos-edit
-		top: 134px
-		left: 136px
-		&:before
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			width: 70px
-			right: 71px
-			top: 20px
-			@include transform( rotate(-3deg))
+	&.pos-control-edit-admin
+		@include position(absolute, 125px null null 80px)
 
-	&.pos-share
-		top: 189px
-		left: 150px
-		&:before
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			width: 84px
-			right: 85px
-			top: 12px
-			@include transform( rotate(1deg))
+	&.pos-control-share-admin
+		@include position(absolute, 175px null null 80px)
 
-	&.pos-export
-		top: 241px
-		left: 150px
-		&:before
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			width: 85px
-			right: 86px
-			top: 10px
-			@include transform( rotate(5deg))
+	&.pos-control-export-admin
+		@include position(absolute, 225px null null 80px)
 
-	&.pos-magnet
-		top: 301px
-		left: 125px
-		&:before
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			width: 58px
-			right: 59px
-			top: 10px
-			@include transform( rotate(16deg))
+	&.pos-control-magnet-admin
+		@include position(absolute, 275px null null 80px)
 
-	&.pos-minimap
-		top: 355px
-		left: 115px
-		&:before
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			width: 56px
-			right: 54px
-			top: 2px
-			@include transform( rotate(30deg))
+	&.pos-control-minimap-admin
+		@include position(absolute, 325px null null 80px)
 
-	&.pos-profile
-		right: 266px
-		top: 72px
-		position: absolute
-		&:after
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			float: right
-			right: -85px
-			width: 84px
-			top: -11px
-			@include transform( rotate(10deg))
+	&.pos-control-export-user
+		@include position(absolute, 75px null null 80px)
 
-	&.pos-localization
-		top: 128px
-		position: absolute
-		right: 251px
-		&:after
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			float: right
-			right: -70px;
-			width: 69px;
-			top: -7px;
-			@include transform( rotate(4deg))
+	&.pos-control-magnet-user
+		@include position(absolute, 125px null null 80px)
 
-	&.pos-feedback
-		top: 187px
-		position: absolute
-		right: 242px
-		&:after
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			float: right
-			right: -61px
-			width: 59px
-			top: -23px
-			@include transform( rotate(-7deg))
+	&.pos-control-minimap-user
+		@include position(absolute, 175px null null 80px)
 
-	&.pos-logout
-		position: absolute
-		top: 249px
-		right: 267px
-		&:after
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			float: right
-			right: -85px
-			width: 86px
-			top: -34px
-			@include transform( rotate(-9deg))
+	// Slide 1
+	&.pos-dropdown-profile
+		@include position(absolute, 85px null null 100px)
 
-	&.pos-boardname
-		position: 	absolute
-		top: 		144px
-		right: 		57%
-		&:after
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			float: right
-			right: -85px
-			width: 86px
-			top: -7px
-			@include transform( rotate(13deg))
+	&.pos-dropdown-localization
+		@include position(absolute, 130px null null 590px)
 
-	&.pos-boardpreview
-		position: 	absolute
-		top: 		240px
-		right: 		57%
-		&:after
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			float: right
-			right: -170px
-			width: 170px
-			top: -7px
-			@include transform( rotate(10deg))
+	&.pos-dropdown-feedback
+		@include position(absolute, 175px null null 100px)
 
-	&.pos-boardbg
-		max-width: 	270px
-		position: 	absolute
-		top: 		340px
-		right:  	57%
-		&:after
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			float: right
-			right: -88px
-			width: 89px
-			top: -7px
-			@include transform( rotate(13deg))
+	&.pos-dropdown-about
+		@include position(absolute, 220px null null 590px)
 
-	&.pos-boardmeasures
-		position: 	absolute
-		top: 		430px
-		right:  	57%
-		&:after
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			float: right
-			right: -88px
-			width: 89px
-			top: -7px
-			@include transform( rotate(13deg))
+	&.pos-dropdown-logout
+		@include position(absolute, 265px null null 100px)
 
-	&.pos-format
-		position: 	absolute
-		top: 		115px
-		right:  	57%
-		max-width: 	254px
-		&:after
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			float: right
-			right: -88px
-			width: 89px
-			top: -7px
-			@include transform( rotate(13deg))
+	// Slide 2
+	&.pos-ticket-click
+		@include position(absolute, 90px null null 360px)
 
-	&.pos-click
-		position: 	absolute
-		top: 		100px
-		right:  	58%
-		max-width: 	254px
-		background-color: $neptune
-		border: 2px  solid $neptune
-		&:after
-			border-top: 2px solid $neptune
-			content: ' '
-			display: block
-			position: relative
-			float: right
-			right: 177px
-			width: 60px
-			top: 27px
-			@include transform( rotate(61deg))
+	&.pos-ticket-new
+		@include position(absolute, 230px null null 90px)
 
-	&.pos-ticket
-		position: 	absolute
-		top: 		200px
-		right:  	48%
-		max-width: 	254px
-		&:after
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			float: right
-			right: -87px
-			width: 89px
-			top: -43px
-			@include transform( rotate(-20deg))
+	&.pos-ticket-new-click
+		@include position(absolute, 230px null null 610px)
 
-	&.pos-color
-		position: 	absolute
-		top: 		290px
-		right:  	57%
-		max-width: 	254px
-		&:after
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			float: right
-			right: -88px
-			width: 89px
-			top: -27px
-			@include transform( rotate(-13deg))
+	&.pos-ticket-color
+		@include position(absolute, 370px null null 610px)
 
-	&.pos-content
-		position: 	absolute
-		top: 		420px
-		right:  	58%
-		max-width: 	254px
-		&:after
-			border-top: 2px solid $affair
-			content: ' '
-			display: block
-			position: relative
-			float: right
-			right: -159px
-			width: 159px
-			top: -27px
-			@include transform( rotate(-8deg))
+	&.pos-ticket-header
+		@include position(absolute, 400px null null 90px)
+
+	&.pos-ticket-content
+		@include position(absolute, 480px null null 90px)
+
+	&.pos-ticket-comments
+		@include position(absolute, 490px null null 610px)
+
+	// Slide 3
+	&.pos-ticket-edit-color
+		@include position(absolute, 90px null null 750px)
+
+	&.pos-ticket-edit-header
+		@include position(absolute, 144px null null 70px)
+
+	&.pos-ticket-edit-content
+		@include position(absolute, 240px null null 70px)
+
+	&.pos-ticket-edit-comment-input
+		@include position(absolute, 345px null null 70px)
+
+	&.pos-ticket-edit-comment-add
+		@include position(absolute, 345px null null 750px)
+
+	&.pos-ticket-edit-comment-all
+		@include position(absolute, 425px null null 70px)
+
+	&.pos-ticket-edit-cancel
+		@include position(absolute, 520px null null 70px)
+
+	&.pos-ticket-edit-done
+		@include position(absolute, 520px null null 750px)
+
+	&.pos-ticket-edit-delete
+		@include position(absolute, 640px null null 450px)
+
+	// Slide 4
+	&.pos-board-name
+		@include position(absolute, 144px null null 70px)
+
+	&.pos-board-minimap
+		@include position(absolute, 257px null null 70px)
+
+	&.pos-board-background
+		@include position(absolute, 355px null null 70px)
+
+	&.pos-board-background-custom
+		@include position(absolute, 420px null null 750px)
+
+	&.pos-board-size
+		@include position(absolute, 510px null null 70px)
+
+	&.pos-board-done
+		@include position(absolute, 640px null null 410px)
+
+	// Slide 5
+	&.pos-share-link
+		@include position(absolute, 150px null null 70px)
+
+	&.pos-share-button
+		@include position(absolute, 150px null null 750px)
+
+	&.pos-share-done
+		@include position(absolute, 280px null null 410px)
+
+	// Slide 6
+	&.pos-export-format
+		@include position(absolute, 150px null null 70px)
+
+	&.pos-export-button
+		@include position(absolute, 150px null null 750px)
+
+	&.pos-export-done
+		@include position(absolute, 280px null null 410px)
+
 
 // Carousel styling
 .info
@@ -341,23 +209,23 @@
 	color: 		$white
 
 	.infocarousel
-		position:static !important
+		position:   static !important
 		width:      100%
 		height:     100%
 
-		// Decorator 0 & 1 are side arrows
-		.slider-decorator-0
-			visibility: hidden
-
-		.slider-decorator-1
-			visibility: hidden
 
 		// Carousel slider buttons
-		.slider-decorator-2
-			button
-				color: 		$white 				!important
-				font-size: 	70px				!important
-				padding: 	0px 5px 0px 5px		!important
+		.info-button
+			border: 0
+			color:      $grey
+			font-size: 	130px
+			padding: 	0px 7px
+			margin:  	20px 0px
+			background: transparent
+
+			&.info-button-active
+				opacity:    1
+				color: 		$neptune
 
 .infodrop
 	float:right;

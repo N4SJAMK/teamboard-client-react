@@ -61,7 +61,7 @@ export default React.createClass({
 			activeClick = this.toggleDropdown;
 		} else {
 			infoIcon = 'times';
-			infoDialog = <InfoView onDismiss = { this.toggleInfoView } />;
+			infoDialog = <InfoView onDismiss = { this.toggleInfoView } board={this.props.board} />;
 			activeClick = () => {};
 		}
 
