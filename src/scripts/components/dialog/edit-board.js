@@ -1,10 +1,6 @@
 import React from 'react/addons';
-
 import Board       from '../../models/board';
 import BoardAction from '../../actions/board';
-
-import SettingsStore from '../../stores/settings';
-
 import Dialog           from '../../components/dialog';
 import BackgroundSelect from '../../components/background-select';
 import Minimap          from '../../components/minimap'
@@ -104,12 +100,12 @@ export default React.createClass({
 			<Dialog className="dialog-edit-board"
 					onDismiss={this.props.onDismiss}>
 				<section className="dialog-header">
-					{SettingsStore.getSetting('locale').MODAL_HEADER_BOARDEDIT}
+					'Edit Board'
 				</section>
 				<section className="dialog-content dialog-content-board">
 
 					<label htmlFor="board-name">
-						{console.dir(SettingsStore.getSetting('locale'))}
+					'Board name'
 					</label>
 					<input name="board-name" placeholder="Board Name"
 						valueLink={this.linkState('name')} autoFocus={true} />

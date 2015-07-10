@@ -17,6 +17,11 @@ export default React.createClass({
 
 	componentWillUpdate() {
 		this.currentSlide = this.state.carousels.carousel.state.currentSlide;
+		this.ticketArrayLength = this.props.tickets.toJS().length;
+	},
+
+	componentWillMount() {
+		this.ticketArrayLength = this.props.tickets.toJS().length;
 	},
 
 	getDecorations() {
@@ -66,7 +71,6 @@ export default React.createClass({
 
 	renderComments(ticket) {
 		return ticket.comments.map((comment) => {
-
 			let user     = comment.user;
 			let content  = comment.content;
 			let username = user.username || user.name;
@@ -92,16 +96,20 @@ export default React.createClass({
 			let markupContent = markdown.markdown.toHTML(ticket.content).replace(/<a href="/g, '<a target="_blank" href="');
 			let dialogClasses = index !== this.currentSlide ? 'review-dialog' : 'review-dialog active';
 			let ticketColor = {backgroundColor: ticket.color};
+			let ticketNumber = <span className="ticket-number">
+					{`${index+1} / ${this.ticketArrayLength}`}
+				</span>;
 
 			return (
 				<div className="review-dialog-container">
 					<div className={dialogClasses}>
-						<section style={ticketColor} className="review-dialog-header">
-							<p className="review-dialog-header-text" title={ticket.heading}>{ticket.heading}</p>
-						</section>
+						<section style={ticketColor} className="review-dialog-header"/>
 						<div className="content-wrapper">
+							{ticketNumber}
+							<p className="ticket-header-text" title={ticket.heading}>{ticket.heading}</p>
 							<span className="review-dialog-content"
-								  dangerouslySetInnerHTML={{__html: markupContent}}/>
+								  dangerouslySetInnerHTML={{__html: markupContent}}>
+							  </span>
 							<section className="review-dialog-comments">
 								<section className="review-comment-wrapper">
 									{this.renderComments(ticket)}
@@ -115,8 +123,9 @@ export default React.createClass({
 	},
 
 	render() {
+		let currentTicket = `${this.currentSlide+1} / ${this.ticketArrayLength}`;
 		return (
-			<Dialog className="info" viewProfile="review"
+			<Dialog className="review" viewProfile="review"
 					onDismiss={this.props.onDismiss}>
 				<Carousel ref="carousel" className="infocarousel"
 					      data={this.setCarouselData.bind(this, 'carousel')}
@@ -126,6 +135,7 @@ export default React.createClass({
 						  dragging={true}>
 					{this.renderTickets()}
 				</Carousel>
+				<span className="ticket-number">{currentTicket}</span>
 			</Dialog>
 		);
 	}
