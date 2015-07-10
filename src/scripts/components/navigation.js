@@ -70,7 +70,6 @@ export default React.createClass({
 	render() {
 		let infoDialog = null;
 		let aboutDialog = null;
-		let activeClick = null;
 		let infoIcon = null;
 
 		if(!this.state.infoActive) {
@@ -200,7 +199,7 @@ export default React.createClass({
 				{this.CancelReview()}
 				{showBoardMembers}
 				{showInfo}
-				<div id="avatar" onClick={activeClick} className={userButtonClass}>
+				<div id="avatar" onClick={this.toggleDropdown} className={userButtonClass}>
 						<Avatar size={30} name={name}
 								imageurl={avatarURL}
 								isOnline={true}>
