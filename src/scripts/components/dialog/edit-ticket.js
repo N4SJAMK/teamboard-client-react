@@ -101,7 +101,7 @@ export default React.createClass({
 			<section className="dialog-comments">
 				<section className="new-comment-section">
 					<input className="comment-input"
-						maxLength={40}
+						maxLength={140}
 						valueLink={this.linkState('newComment')} placeholder="Your comment"
 						tabIndex={2}/>
 					<button className="btn-primary" onClick={this.comment}>Add comment</button>
