@@ -11,14 +11,21 @@
 				width: 100%
 				@include position(absolute, 0px null null 0px)
 
-	&.slide-0
+	&.slide-0-admin
 		.controls
 			@include layer(10000)
 
-	&.slide-1
-		.avatar
-			z-index: 10000
-			background-color: $neptune
+	&.slide-1-admin
+		.avatar-wrapper
+			@include layer(10000)
+
+	&.slide-0-user
+		.controls
+			@include layer(10000)
+
+	&.slide-1-user
+		.avatar-wrapper
+			@include layer(10000)
 
 	@include slide(4, 'user', 'fa-eye')
 	@include slide(5, 'user', 'fa-download')
