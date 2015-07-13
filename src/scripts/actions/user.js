@@ -1,6 +1,7 @@
 import api  from '../utils/api';
 import flux from '../utils/flux';
 
+import User            from '../models/user';
 import Action          from '../actions';
 import UserStore       from '../stores/user';
 import Broadcast       from '../models/broadcast';
@@ -56,6 +57,20 @@ export default flux.actionCreator({
 			});
 	},
 
+	giveBoardAccess(boardId, accessCode) {
+		let token = UserStore.getToken();
+		return api.giveBoardAccess({ token: token, id: {
+                                     board:    boardId,
+                                     code: accessCode} })
+			.then(() => {
+				return Promise.resolve();
+			})
+			.catch((err) => {
+				BroadcastAction.add(err, Action.User.GiveBoardAccess);
+				return Promise.reject();
+			});
+	},
+
 	/**
 	 *
 	 */
@@ -63,7 +78,7 @@ export default flux.actionCreator({
 		let user  = UserStore.getUser();
 		let token = UserStore.getToken();
 
-		if(user.type === 'guest') {
+		if(!token || !user || user.type === User.Type.Guest) {
 			return new Promise((resolve) => {
 				this.dispatch(Action.User.Logout);
 				return resolve();
@@ -91,6 +106,40 @@ export default flux.actionCreator({
 			})
 			.catch((err) => {
 				BroadcastAction.add(err, Action.User.Register);
+				return Promise.reject();
+			});
+	},
+
+	/**
+	 *
+	 */
+	updateUser(name, avatar) {
+		let token = UserStore.getToken();
+
+		return api.updateUser({ token: token, payload: { name: name, avatar: avatar }})
+			.then((user) => {
+				this.dispatch(Action.User.Update, { user });
+				return Promise.resolve();
+			})
+			.catch((err) => {
+				BroadcastAction.add(err, Action.User.Update);
+				return Promise.reject();
+			});
+	},
+
+	/**
+	 *
+	 */
+	updatePassword(newPassword, oldPassword) {
+		let token = UserStore.getToken();
+
+		return api.updateUserPassword({ token: token, payload: { new_password: newPassword, old_password: oldPassword } })
+			.then((user) => {
+				this.dispatch(Action.User.Update, { user });
+				return Promise.resolve();
+			})
+			.catch((err) => {
+				BroadcastAction.add(err, Action.User.Update);
 				return Promise.reject();
 			});
 	}

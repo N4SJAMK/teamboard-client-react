@@ -70,6 +70,12 @@ export default flux.actionCreator({
 				});
 			})
 			.catch((err) => {
+				if(err.statusCode === 401 || err.statusCode === 403) {
+					UserAction.logout()
+						.then(() => {
+							return page.show('/login');
+						});
+				}
 				BroadcastAction.add(err, Action.Board.Load);
 			});
 	},
@@ -80,7 +86,6 @@ export default flux.actionCreator({
 	create(board) {
 		let token   = UserStore.getToken();
 		let payload = Object.assign(board, { id: uid() });
-
 		this.dispatch(Action.Board.Add, { board: payload });
 
 		api.createBoard({ token, payload })
@@ -100,7 +105,6 @@ export default flux.actionCreator({
 	update(board) {
 		let token    = UserStore.getToken();
 		let previous = BoardStore.getBoard(board.id).toJS();
-
 		this.dispatch(Action.Board.Edit, { board });
 
 		api.updateBoard({ token, payload: board, id: { board: board.id } })
@@ -126,6 +130,28 @@ export default flux.actionCreator({
 			});
 	},
 
+	/**
+	 * Sets the user either active or away in a board
+	 */
+	setUserBoardActivity(boardId, payload) {
+		let token = UserStore.getToken();
+
+		return api.setUserBoardActivity({
+                      token:    token,
+                      isPoll:   payload.isPoll,
+                          id: {
+                          board:boardId
+                          },
+                          payload: { isActive: payload.isActive }
+            })
+            .then(() => {
+				return Promise.resolve();
+			})
+			.catch((err) => {
+				BroadcastAction.add(err, Action.Board.setUserBoardActivity);
+				return Promise.reject();
+			});
+	},
 	/**
 	 * Generate an 'access-code' for the given board, allowing the board to be
 	 * shared to ther users.

@@ -4,6 +4,7 @@ import immutable from 'immutable';
 
 import Board        from '../models/board';
 import BoardStore   from '../stores/board';
+import UserStore    from '../stores/user';
 import TicketAction from '../actions/ticket';
 
 import Control           from '../components/control';
@@ -94,12 +95,40 @@ export default React.createClass({
 				onClick: this.showDialog.bind(this, 'EditBoardDialog')
 			}
 		];
-		return (
-			<div className="controls">
-				{controls.map(function(ctrl, index) {
-					return <Control key={index} {...ctrl} />;
-				})}
-			</div>
-		);
+
+		let boardAdmin = BoardStore.getBoardAdmin(this.props.board.id);
+		let user       = UserStore.getUser();
+		if (boardAdmin === undefined) {
+			return;
+		}
+		if(boardAdmin && typeof boardAdmin.user === 'object' && typeof boardAdmin.user.get('id') !== 'undefined') {
+			if(boardAdmin.user.get('id') === user.get('id'))  {
+			return (
+				<div className="controls">
+					{controls.map(function(ctrl, index) {
+						return <Control key={index} {...ctrl} />;
+					})}
+				</div>
+			);
+		}
+		else {
+			return (
+				<div className="controls">
+				<div className="ownedby">
+					{'Owned by: ' + boardAdmin.user.get('username')}
+				</div>
+				</div>
+			);
+		}
+		}
+		else {
+			return (
+				<div className="controls">
+					{controls.map(function(ctrl, index) {
+						return <Control key={index} {...ctrl} />;
+					})}
+				</div>
+			);
+		}
 	}
 });

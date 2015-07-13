@@ -2,6 +2,7 @@ import React from 'react';
 
 const DropdownItem = React.createClass({
 	propTypes: {
+		flag:     React.PropTypes.string,
 		icon:     React.PropTypes.string,
 		onClick:  React.PropTypes.func,
 		disabled: React.PropTypes.bool
@@ -23,12 +24,15 @@ const DropdownItem = React.createClass({
 			item:     true,
 			disabled: this.props.disabled
 		});
+		let flag = !this.props.flag ? null : (
+			<img className='fa fa-fw' src={`/src/assets/img/${this.props.flag}.png`} alt="flag"/>
+		);
 		let icon = !this.props.icon ? null : (
 			<span className={`fa fa-fw fa-${this.props.icon}`} />
 		);
 		return (
-			<li className={itemClasses} onClick={this.props.onClick}>
-				{icon}{this.props.content}
+			<li className={itemClasses} id={"options-" + this.props.icon} onClick={this.props.onClick}>
+				{flag}{icon}{this.props.content}
 			</li>
 		);
 	}
@@ -53,8 +57,9 @@ export default React.createClass({
 	},
 
 	render() {
+		let additionalClass = !this.props.className ? null : this.props.className
 		return !this.props.show ? null : (
-			<ul className={`dropdown ${this.props.className}`}>
+			<ul className={`dropdown ${additionalClass}`}>
 				{this.props.items.map((item, index) => {
 					return <DropdownItem key={index} {...item} />;
 				})}

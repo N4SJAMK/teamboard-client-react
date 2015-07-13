@@ -42,7 +42,8 @@ export default flux.store({
 				id:       storedUser.id,
 				type:     storedUser.type,
 				access:   storedUser.access,
-				username: storedUser.username || storedUser.name
+				username: storedUser.username || storedUser.name,
+				avatar:   storedUser.avatar
 			});
 		}
 		return null;
@@ -58,9 +59,16 @@ export default flux.store({
 				id:       payload.user.id,
 				type:     payload.user.type,
 				access:   payload.user.access,
-				username: payload.user.username
+				username: payload.user.username,
+				avatar:   payload.user.avatar
+
+				//boards:   storedUser.boards
+			}
+			let provider = {
+				provider: payload.user.providers
 			}
 			localStorage.setItem('user', JSON.stringify(user));
+			localStorage.setItem('provider', provider);
 		},
 
 		[Action.User.Login](payload) {
@@ -68,14 +76,22 @@ export default flux.store({
 				id:       payload.user.id,
 				type:     payload.user.type,
 				access:   payload.user.access,
-				username: payload.user.username
-			}
+				username: payload.user.username,
+				avatar:   payload.user.avatar
+
+				//boards:   storedUser.boards
+			}	
 			localStorage.setItem('user',  JSON.stringify(user));
 			localStorage.setItem('token', payload.token);
 		},
 
+		[Action.User.Update](payload) {
+			localStorage.setItem('user', JSON.stringify(payload.user));
+		},
+
 		[Action.User.Logout]() {
 			localStorage.removeItem('user');
+			localStorage.removeItem('provider');
 			localStorage.removeItem('token');
 		}
 	}

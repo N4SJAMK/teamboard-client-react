@@ -1,4 +1,5 @@
 import immutable from 'immutable';
+import User      from './user';
 
 const Color = {
 	RED:    '#eb584a',
@@ -11,11 +12,20 @@ const Position = immutable.Record({
 	x: 0, y: 0, z: 0
 });
 
+const Comment = immutable.Record({
+	_id:        '',
+	content:	'',
+	created_at: Date.now(),
+	user:       new User()
+});
+
 const Ticket = immutable.Record({
 	id:       '',
 	ua:       Date.now(),
 	color:    Color.VIOLET,
 	content:  '',
+	heading:  '',
+	comments: immutable.List(),
 	position: new Position()
 });
 
@@ -29,11 +39,24 @@ Ticket.Position = Position;
  * records.
  */
 Ticket.fromJS = function fromJS(ticket) {
+	ticket.comments = ticket.comments || [ ];
+
 	let hascolor = Object.keys(Ticket.Color)
 		.map((color) => Ticket.Color[color] === ticket.color)
 		.reduce((has, color) => has || color, false);
 	ticket.color    = hascolor ? ticket.color : Ticket.Color.VIOLET;
 	ticket.position = new Position(ticket.position);
+
+	if (ticket.comments) {
+		ticket.comments = ticket.comments.reduce((collection, record) => {
+
+			if (record.user !== null && typeof record.user === 'object') {
+				record.user  = new User(record.user);
+			}
+			let comment = new Comment(record);
+			return collection.push(comment);
+		}, immutable.List());
+	}
 	return new Ticket(ticket);
 }
 

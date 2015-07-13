@@ -18,17 +18,16 @@ export default React.createClass({
 	},
 
 	getInitialState() {
-		return FormData.fieldNames.reduce((state, field) => {
-			state[field] = '';
+		return FormData.stateVariables.reduce((state, variable) => {
+			state[variable] = '';
 			return state;
 		}, {});
 	},
 
 	checkPasswords(){
-		if(this.props.formProfile === 'registerForm' &&
-			this.state.passwordAgain.length > 7) {
-			return this.state.passwordAgain !== this.state.passwordRegister
-				? <span className="fa fa-times mismatch">Password mismatch!</span>
+		if(this.props.formProfile === 'registerForm' && this.state.passwordAgain.length > 7) {
+			return this.state.passwordAgain !== this.state.passwordRegister ?
+				<span className="fa fa-times mismatch">Password mismatch!</span>
 				: <span className="fa fa-check match">Passwords match!</span>;
 		}
 	},
@@ -50,22 +49,16 @@ export default React.createClass({
 			);
 		});
 	},
-
 	//submit will execute in all cases other than when
-	//passwords given in registration do not match.
-	submitPrimary(currentForm, ...rest) {
+	//passwords given in registration do not match
+	submitPrimary(currentForm) {
 		if(this.props.formProfile !== 'registerForm' ||
 			this.state.passwordAgain === this.state.passwordRegister) {
-		let fields = currentForm.fields.reduce((fields, field) => {
-			fields[field.name] = this.state[field.name];
-			return fields;
-		}, {});
 			return (event) => {
 				if(this.props.formProfile === 'registerForm')
-					fields.password = fields.passwordRegister;
-					let submitParams = [ fields ].concat(rest);
-					currentForm.submit.apply(null, submitParams);
-					return event.preventDefault();
+					this.state.password = this.state.passwordRegister;
+				currentForm.submit(this.state);
+				return event.preventDefault();
 			}
 		}
 		else return (event) => {
@@ -79,32 +72,58 @@ export default React.createClass({
 
 	submitSecondary(currentForm) {
 		return (event) => {
-			currentForm.secondary.submit(this.state);
+			if (this.props.formProfile !== 'guestLoginForm') {
+				currentForm.secondary.submit(this.state, this.props.boardID, this.props.accessCode);
+			}
+			else {
+				currentForm.secondary.submit(this.state, this.props.boardID, this.props.accessCode);
+			}
 			return event.preventDefault();
 		}
 	},
 
+	submitGuest(currentForm, accessCode, boardID){
+		return (event) => {
+			currentForm.submit(this.state, boardID, accessCode);
+			return event.preventDefault();
+		}
+	},
 	renderForm(formType) {
 		let secondaryContent = !formType.secondary ? null : (
 			<section className="secondary">
 				<p>{formType.secondary.description}</p>
 				<button className="btn-secondary"
-						onClick={this.submitSecondary(formType)}>
+						onClick={this.submitSecondary(formType, this.props.boardID,
+							this.props.accessCode)}>
 					{formType.secondary.action}
 				</button>
 			</section>
 		);
+		let socialLogin = !formType.social ? null : (
+			<div>
+				<section className="social">
+					<h2>{formType.social.header}</h2>
+					<a className="provider" href={formType.social.googleUrl}>
+						<img className="provider" src={formType.social.googleLogo} />
+					</a>
+				</section>
+				<p className="basic-login">{formType.social.subHeader}</p>
+			</div>
+		);
+		let primarySubmit = this.props.formProfile !== 'guestLoginForm' && this.props.formProfile !== 'userAccessForm' ?
+			this.submitPrimary(formType) :
+			this.submitGuest(formType, this.props.accessCode, this.props.boardID)
 		return (
 			<div className="view view-form">
 				<Broadcaster />
 				<div className="content">
 					<form className="form"
-						onSubmit={this.submitPrimary(formType, this.props.boardID,
-							this.props.accessCode)}>
+						onSubmit={primarySubmit}>
 						<div className="logo">
 							<img src="/dist/assets/img/logo.svg" />
 							<h1>Contriboard</h1>
 						</div>
+						{socialLogin}
 						{this.renderFields(formType.fields)}
 						{this.checkPasswords()}
 						<input type="submit" className="btn-primary"
