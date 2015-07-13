@@ -6,7 +6,6 @@
 	height: 108px
 	overflow: hidden
 	@include position(absolute)
-	@include ticketin
 	@include transition(width 0.1s ease-out, height 0.1s ease-out, box-shadow 0.1s ease-out)
 	&:hover
 		z-index:    350 !important
@@ -42,12 +41,13 @@
 			color: $silver-chalice
 			overflow: visible
 			.count
-				@include     position(26% 23% null null fixed)
+				position: relative
+				right: 53%
+				bottom: 4px
 				overflow:    visible
 				width:       16px
 				height:      14px
 				text-align:  center
-				position:    fixed !important
 				color:       $white
 				font-family: Lato
 				font-size:   12px
