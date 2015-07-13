@@ -25,7 +25,8 @@
 
 	@include slide(4, 'admin', 'fa-pencil')
 	@include slide(5, 'admin', 'fa-share-alt')
-	@include slide(6, 'admin', 'fa-download')
+	@include slide(6, 'admin', 'fa-eye')
+	@include slide(7, 'admin', 'fa-download')
 
 .infospace
 	height:100%
@@ -46,6 +47,8 @@
 			@include position(absolute, 100px null null 350px)
 		&.board-share
 			@include position(absolute, 100px null null 350px)
+		&.review
+			@include position(absolute, 100px null null 350px)
 		&.board-export
 			@include position(absolute, 100px null null 350px)
 
@@ -62,7 +65,7 @@
 	margin: 8px
 	padding: 10px
 
-	// Slide 0
+	// Controls
 	&.pos-control-back-admin
 		width: 480px
 		@include position(absolute, 75px null null 80px)
@@ -107,7 +110,7 @@
 		width: 480px
 		@include position(absolute, 225px null null 80px)
 
-	// Slide 1
+	// Dropdown
 	&.pos-dropdown-profile
 		@include position(absolute, 85px null null 100px)
 
@@ -123,7 +126,7 @@
 	&.pos-dropdown-logout
 		@include position(absolute, 265px null null 100px)
 
-	// Slide 2
+	// Tickets
 	&.pos-ticket-click
 		@include position(absolute, 90px null null 360px)
 
@@ -145,7 +148,7 @@
 	&.pos-ticket-comments
 		@include position(absolute, 490px null null 610px)
 
-	// Slide 3
+	// Edit ticket
 	&.pos-ticket-edit-color
 		@include position(absolute, 90px null null 750px)
 
@@ -155,13 +158,10 @@
 	&.pos-ticket-edit-content
 		@include position(absolute, 240px null null 70px)
 
-	&.pos-ticket-edit-comment-input
-		@include position(absolute, 345px null null 70px)
-
 	&.pos-ticket-edit-comment-add
 		@include position(absolute, 345px null null 750px)
 
-	&.pos-ticket-edit-comment-all
+	&.pos-ticket-edit-comment-area
 		@include position(absolute, 425px null null 70px)
 
 	&.pos-ticket-edit-cancel
@@ -173,7 +173,7 @@
 	&.pos-ticket-edit-delete
 		@include position(absolute, 640px null null 300px)
 
-	// Slide 4
+	// Edit board
 	&.pos-board-name
 		@include position(absolute, 144px null null 70px)
 
@@ -192,22 +192,23 @@
 	&.pos-board-done
 		@include position(absolute, 640px null null 410px)
 
-	// Slide 5
+	// Share board
 	&.pos-share-link
 		@include position(absolute, 150px null null 70px)
-
-	&.pos-share-button
-		@include position(absolute, 150px null null 750px)
 
 	&.pos-share-done
 		@include position(absolute, 280px null null 410px)
 
-	// Slide 6
-	&.pos-export-format
+	// Review
+	&.pos-review-content
 		@include position(absolute, 150px null null 70px)
 
-	&.pos-export-button
-		@include position(absolute, 150px null null 750px)
+	&.pos-review-arrows
+		@include position(absolute, 360px null null 70px)
+
+	// Export
+	&.pos-export-format
+		@include position(absolute, 150px null null 70px)
 
 	&.pos-export-done
 		@include position(absolute, 280px null null 410px)
