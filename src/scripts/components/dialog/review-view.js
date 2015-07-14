@@ -26,8 +26,7 @@ export default React.createClass({
 
 	onKeyDown(e) {
 		let key = e.keyCode ? e.keyCode : e.which;
-
-		if (key == 27) {
+		if (key === 27) {
 			this.props.onDismiss();
 		}
 	},
@@ -40,19 +39,15 @@ export default React.createClass({
 		document.removeEventListener('keydown', this.onKeyDown);
 	},
 
-
-
 	getDecorations() {
 		return [
 			{
 				component: React.createClass({
-
 					onKeyDown(e) {
 						let key = e.keyCode ? e.keyCode : e.which;
-
-						if (key == 39) {
+						if (key === 39) {
 							this.props.nextSlide();
-						}else if (key == 37) {
+						}else if (key === 37) {
 							this.props.previousSlide();
 						}
 					},
@@ -133,7 +128,7 @@ export default React.createClass({
 			let dialogClasses = index !== this.currentSlide ? 'review-dialog' : 'review-dialog active';
 			let ticketColor = {backgroundColor: ticket.color};
 			let ticketNumber = <span className="ticket-number">
-					{`${index+1} / ${this.ticketArrayLength}`}
+					{ `${index+1} / ${this.ticketArrayLength}` }
 				</span>;
 
 			return (
