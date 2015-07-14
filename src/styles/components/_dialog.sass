@@ -58,9 +58,11 @@
 						margin-top: 8px
 
 					.comment-username
-						@include   margin(5 0 0 4)
-						font-size: smaller
-						color:     $dove-gray
+						@include       margin(5 0 0 4)
+						font-size:     smaller
+						color:         $dove-gray
+						text-overflow: ellipsis
+						overflow:      hidden
 
 					.comment-message
 						@include margin(5 0 4 4)
