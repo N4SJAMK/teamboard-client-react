@@ -1,5 +1,6 @@
-import React  from 'react';
-import Hammer from 'hammerjs';
+import React  	  from 'react';
+import Hammer 	  from 'hammerjs';
+import classNames from 'classnames';
 
 /**
  *
@@ -24,7 +25,7 @@ export default React.createClass({
 	},
 
 	render() {
-		let controlClasses = React.addons.classSet({
+		let controlClasses = classNames({
 			control: true,
 			active:  this.props.active
 		});

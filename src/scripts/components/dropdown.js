@@ -1,4 +1,5 @@
-import React from 'react';
+import React      from 'react';
+import classNames from 'classnames';
 
 const DropdownItem = React.createClass({
 	propTypes: {
@@ -20,7 +21,7 @@ const DropdownItem = React.createClass({
 	},
 
 	render() {
-		let itemClasses = React.addons.classSet({
+		let itemClasses = classNames({
 			item:     true,
 			disabled: this.props.disabled
 		});

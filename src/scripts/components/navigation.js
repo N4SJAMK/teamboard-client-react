@@ -1,5 +1,6 @@
-import page  from 'page';
-import React from 'react';
+import page  	  from 'page';
+import React 	  from 'react';
+import classNames from 'classnames';
 
 import Action          from '../actions';
 import UserAction      from '../actions/user';
