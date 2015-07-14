@@ -7,7 +7,7 @@ import Avatar     from '../../components/avatar';
 
 /**
  *
- */
+*/
 
 export default React.createClass({
 	mixins: [ Carousel.ControllerMixin ],
@@ -24,10 +24,47 @@ export default React.createClass({
 		this.ticketArrayLength = this.props.tickets.toJS().length;
 	},
 
+	onKeyDown(e) {
+		let key = e.keyCode ? e.keyCode : e.which;
+
+		if (key == 27) {
+			this.props.onDismiss();
+		}
+	},
+
+	componentDidMount() {
+		document.addEventListener('keydown', this.onKeyDown);
+	},
+
+	componentWillUnmount() {
+		document.removeEventListener('keydown', this.onKeyDown);
+	},
+
+
+
 	getDecorations() {
 		return [
 			{
 				component: React.createClass({
+
+					onKeyDown(e) {
+						let key = e.keyCode ? e.keyCode : e.which;
+
+						if (key == 39) {
+							this.props.nextSlide();
+						}else if (key == 37) {
+							this.props.previousSlide();
+						}
+					},
+
+					componentDidMount() {
+						document.addEventListener('keydown', this.onKeyDown);
+					},
+
+					componentWillUnmount() {
+						document.removeEventListener('keydown', this.onKeyDown);
+					},
+
 					render() {
 						let style = {opacity: 0};
 
@@ -50,7 +87,6 @@ export default React.createClass({
 				component: React.createClass({
 					render() {
 						let style = {opacity: 0};
-
 						if(this.props.currentSlide !== --this.props.slideCount) {
 							style = { opacity: 1, cursor: 'pointer'}
 						}
