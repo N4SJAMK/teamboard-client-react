@@ -20,79 +20,82 @@ export default React.createClass({
 	mixins: [ Carousel.ControllerMixin ],
 	getInitialState(){
 		return {
-			currentSlide: null,
-		    role: BoardStore.getUserRole(this.props.board.id, UserStore.getUser().id) === 'admin' ?
-						'admin' : 'user'
+			currentSlide: 0,
+		    role: this.getRole()
 		}
 	},
 
 	componentDidMount() {
 		this.el = document.getElementById('application');
 		this.el.className = 'info-view-active';
-		this.avatar = document.getElementById('avatar');
-		this.infobutton = document.getElementById('info');
-		this.infobutton.className = 'infobutton active';
 	},
 
 	componentWillUnmount() {
-		this.el.className = '';
+		this.el.className = null;
 	},
 
-	componentDidUpdate(){
-		this.el.className =
-			`info-view-active slide-${this.state.carousels.carousel.state.currentSlide}-${this.state.role}`;
+	componentDidUpdate() {
+		if (this.state.currentSlide !== this.state.carousels.carousel.state.currentSlide) {
+	    	this.setState({currentSlide: this.state.carousels.carousel.state.currentSlide});
+	  	}
 
-		this.currentSlide = this.state.carousels.carousel.state.currentSlide;
+		this.el.className = `info-view-active slide-${this.state.currentSlide}-${this.state.role}`;
+	},
+
+	getRole() {
+		return BoardStore.getUserRole(this.props.board.id, UserStore.getUser().id)
+					=== 'admin' ? 'admin' : 'user';
 	},
 
 	getDecorator() {
-		return [{
-	    component: React.createClass({
-			getIndexes(count, inc) {
-				var arr = [];
-				for (var i = 0; i < count; i += inc) {
-					arr.push(i);
-				}
-				return arr;
-			},
+		return [
+			{
+			    component: React.createClass({
+					getIndexes(count, inc) {
+						var arr = [];
+						for (var i = 0; i < count; i += inc) {
+							arr.push(i);
+						}
+						return arr;
+					},
 
-			getClass(currentSlide, index) {
-					return (currentSlide === index) ? 'info-button info-button-active' : 'info-button'
-			},
+					getClass(currentSlide, index) {
+						return (currentSlide === index) ? 'info-button info-button-active' : 'info-button';
+					},
 
-	    	render() {
-	        	var self = this;
-	        	var indexes = this.getIndexes(self.props.slideCount, self.props.slidesToScroll);
-	        	return (
-	          		<ul>
-	            		{
-	              			indexes.map(function(index) {
-	                			return (
-	                  				<li style={{ listStyleType: 'none',display: 'inline-block' }}
-						  				  className={self.getClass(self.props.currentSlide, index)}
-						  				  key={index}>
-	                    				<button onClick={self.props.goToSlide.bind(null, index)}>
-	                      					&bull;
-	                    				</button>
-	                  				</li>
-	                			)
-	              			})
-	            		}
-	          		</ul>
-	        	)
-	      	}
-		}),
-		position: 'BottomCenter'
-	    }]
+			    	render() {
+			        	let indexes = this.getIndexes(this.props.slideCount, this.props.slidesToScroll);
+			        	return (
+			          		<ul>
+			            		{
+			              			indexes.map((index) => {
+			                			return (
+			                  				<li style={{ listStyleType: 'none',display: 'inline-block' }}
+								  				className={this.getClass(this.props.currentSlide, index)}
+								  				key={index}>
+			                    				<button onClick={this.props.goToSlide.bind(null, index)}>
+			                      					&bull;
+			                    				</button>
+			                  				</li>
+			                			)
+			              			})
+			            		}
+			          		</ul>
+			        	)
+			      	}
+				}),
+				position: 'BottomCenter'
+			}
+		];
 	},
 
 	getSlides() {
 		let dropdownItems = [
-			{ icon: 'user',                 content: 'Profile'  },
+			{ icon: 'user',             content: 'Profile'  },
 			{ icon: 'language',         content: 'Localization'  },
-			{ icon: 'bullhorn',          content: 'Feedback'  },
-			{ icon: 'question-circle', content: 'About' },
-			{ icon: 'sign-out',          content: 'Logout'  }
+			{ icon: 'bullhorn',         content: 'Feedback'  },
+			{ icon: 'question-circle',  content: 'About' },
+			{ icon: 'sign-out',         content: 'Logout'  }
 		];
 
 		if(this.state.role === 'admin') {
