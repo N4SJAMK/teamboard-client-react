@@ -74,7 +74,7 @@ export default React.createClass({
         }
 
         return (
-            <div className={avatarClass} style={style}>
+            <div className={avatarClass} style={style} id={"avatar-" + this.props.size}>
                 {initials}
             </div>
         );

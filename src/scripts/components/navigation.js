@@ -1,13 +1,14 @@
-import page  from 'page';
-import React from 'react';
+import page  	  from 'page';
+import React 	  from 'react';
+import classNames from 'classnames';
 
 import Action          from '../actions';
 import UserAction      from '../actions/user';
 import SettingsAction  from '../actions/settings';
 import BroadcastAction from '../actions/broadcast';
 
-import SettingsMixin  from '../mixins/settings';
 import UserStore    from '../stores/user';
+import Avatar       from '../components/avatar';
 import Dropdown     from '../components/dropdown';
 import MemberDialog from '../components/dialog/board-members';
 
@@ -15,191 +16,233 @@ import UserVoice from '../components/user-voice';
 import InfoView  from './dialog/view-info';
 import AboutView from './dialog/view-about';
 
+import Board from '../models/board';
+
+import localeMixin from '../mixins/locale';
+
 /**
  *
  */
 export default React.createClass({
-	propTypes: {
-		title:            React.PropTypes.string.isRequired,
-		showHelp:         React.PropTypes.bool,
-		showBoardMembers: React.PropTypes.bool,
-		board: (props) => {
-			if(!props.board instanceof Board) throw new Error();
-		}
-	},
+    mixins: [
+        localeMixin()
+    ],
 
-	mixins: [
-    	SettingsMixin()
-	],
+    propTypes: {
+        title: React.PropTypes.string.isRequired,
+        showHelp: React.PropTypes.bool,
+        reviewActive: React.PropTypes.bool,
+        killReview: React.PropTypes.func,
+        board: (props) => {
+            if(!props.board instanceof Board) throw new Error();
+        }
+    },
 
-	getInitialState() {
-		return { dropdown: false, feedback: false, infoActive: false, aboutActive: false, membersActive: false, localesDropdown: false}
-	},
+    getInitialState() {
+        return {
+            dropdown: false, localesDropdown: false,
+            feedback: false, infoActive: false,
+            aboutActive: false, membersActive: false
+        }
+    },
 
-	showWorkspace() {
-		return page.show('/boards');
-	},
+    showWorkspace() {
+        return page.show('/boards');
+    },
 
-	toggleMembersDialog() {
-		this.setState({ membersActive: !this.state.membersActive });
-	},
+    toggleMembersDialog() {
+        this.setState({ membersActive: !this.state.membersActive });
+    },
 
-	toggleDropdown() {
-		this.setState({ dropdown: !this.state.dropdown });
-		if(this.state.localesDropdown)
-			this.setState({ localesDropdown: !this.state.localesDropdown });
-	},
+    toggleDropdown() {
+        this.setState({ dropdown: !this.state.dropdown });
+        if(this.state.localesDropdown) {
+            this.setState({ localesDropdown: !this.state.localesDropdown });
+        }
+    },
 
-	toggleInfoView() {
-		this.setState({ infoActive: !this.state.infoActive });
-	},
+    toggleInfoView() {
+        this.setState({ infoActive: !this.state.infoActive });
+    },
 
-	toggleAboutView() {
-		this.setState({ aboutActive: !this.state.aboutActive });
-	},
+    toggleAboutView() {
+        this.setState({ aboutActive: !this.state.aboutActive });
+    },
 
-	render: function() {
-		let infoDialog = null;
-		let aboutDialog = null;
-		let activeClick = null;
-		let infoIcon = null;
+    CancelReview(){
+        return !this.props.reviewActive ? null : (
+            <div onClick={() => {this.props.killReview(false)}}
+            className="review active">
+                <span className="fa fa-fw fa-times"></span>
+            </div>
+        );
+    },
 
-		if(!this.state.infoActive) {
-			infoIcon = 'info';
-			infoDialog = null;
-			activeClick = this.toggleDropdown;
-		} else {
-			infoIcon = 'times';
-			infoDialog = <InfoView onDismiss = { this.toggleInfoView } />;
-			activeClick = () => {};
-		}
+    render() {
+        let infoDialog = null;
+        let aboutDialog = null;
+        let infoIcon = null;
 
-		if(!this.state.aboutActive) {
-			aboutDialog = null;
-			activeClick = this.toggleDropdown;
-		} else {
-			aboutDialog = <AboutView onDismiss = { this.toggleAboutView } />;
-			activeClick = () => {};
-		}
+        if(!this.state.infoActive) {
+            infoIcon = 'question';
+            infoDialog = null;
+        } else {
+            infoIcon = 'times';
+            infoDialog = <InfoView onDismiss = { this.toggleInfoView }  board={this.props.board}/>;
+        }
 
-		let infoButtonClass =
-			React.addons.classSet({
-				infobutton: true,
-				pulsate: localStorage.getItem('infovisited') === null
-					? true : false,
-				active: this.state.infoActive
-			});
+        if(!this.state.aboutActive) {
+            aboutDialog = null;
+        } else {
+            aboutDialog = <AboutView onDismiss = { this.toggleAboutView } />;
+        }
 
-		let userButtonClass =
-			React.addons.classSet({
-				avatar: true,
-				active: this.state.dropdown
-			});
+        let infoButtonClass =
+            classNames({
+                infobutton: true,
+                active: this.state.infoActive
+            });
 
-		let membersButtonClass =
-			React.addons.classSet({
-				members: true,
-				active: this.state.membersActive
-			});
+        let userButtonClass =
+            classNames({
+                'avatar-wrapper': true,
+                active: this.state.dropdown
+            });
 
-		let boardMembersDialog = null;
+        let membersButtonClass =
+            classNames({
+                members: true,
+                active: this.state.membersActive
+            });
 
-		if (this.state.membersActive) {
-			boardMembersDialog = <MemberDialog board={this.props.board} onDismiss={this.toggleMembersDialog}/>
-		}
+        let boardMembersDialog = null;
 
-		let showBoardMembers = !this.props.showBoardMembers ? null : (
-			<div id="members" onClick={this.toggleMembersDialog} className={membersButtonClass}>
-				<span className="fa fa-fw fa-users">
-					<span className="user-amount">
-						{this.props.board.members.size}
-					</span>
-				</span>
-			</div>
-		);
+        if (this.state.membersActive) {
+            boardMembersDialog = <MemberDialog board={this.props.board} onDismiss={this.toggleMembersDialog}/>
+        }
 
-		let showInfo = !this.props.showHelp ? null : (
-			<div id="info" onClick={this.toggleInfoView} className={infoButtonClass}>
-				<span className={`fa fa-fw fa-${infoIcon}`}></span>
-			</div>
-			);
+        let showBoardMembers = !this.props.showBoardMembers ? null : (
+            <div id="members" onClick={this.toggleMembersDialog} className={membersButtonClass}>
+                <span className="fa fa-fw fa-users">
+                    <span className="user-amount">
+                        {this.props.board.members.size}
+                    </span>
+                </span>
+            </div>
+        );
 
-		let isProfileDisabled = UserStore.getUser().type === 'standard';
-		let items = [
-			{ icon: 'user', content: this.state.locale.DROPDOWN_PROFILE, disabled: !isProfileDisabled,
-				onClick: () => {
-					if(isProfileDisabled) {
-						return page.show('/profile');
-				}
-			}
-			},
-			{ icon: 'language', content: this.state.locale.DROPDOWN_LOCALE,
-				onClick: () => {
-					this.setState({ localesDropdown: !this.state.localesDropdown });
-				}
-			},
-			{
-				content: (
-					<UserVoice>
-						<span className="fa fa-fw fa-bullhorn" />
-						{this.state.locale.DROPDOWN_FEEDBACK}
-					</UserVoice>
-				)
-			},
-			{
-				onClick: () => {
-					this.toggleAboutView();
-				},
-				icon: 'question-circle', content: this.state.locale.DROPDOWN_ABOUT
-			},
-			{
-				onClick: () => {
-					UserAction.logout()
-						.catch((err) => {
-							BroadcastAction.add(err, Action.User.Logout);
-						});
-				},
-				icon: 'sign-out', content: this.state.locale.DROPDOWN_LOGOUT
-			}
-		];
-		let locales = [
-			{flag: 'fi', content: 'Suomi', onClick: () => {
-					SettingsAction.setSetting('locale', 'fi');
-					this.toggleDropdown();
-				}
-			},
-			{flag: 'se', content: 'Svenska', onClick: () => {
-					SettingsAction.setSetting('locale', 'se');
-					this.toggleDropdown();
-				}
-			},
-			{flag: 'ru', content: 'русский', onClick: () => {
-					SettingsAction.setSetting('locale', 'ru');
-					this.toggleDropdown();
-				}
-			},
-			{flag: 'gb', content: 'English', onClick: () => {
-					SettingsAction.setSetting('locale', 'en');
-					this.toggleDropdown();
-				}
-			}
-		];
-		return (
-			<nav id="nav" className="nav">
-				<img className="logo" src="/dist/assets/img/logo.svg"
-					onClick={this.showWorkspace} />
-				<h1 className="title">{this.props.title}</h1>
-				{showBoardMembers}
-				{showInfo}
-				<div id="avatar" onClick={activeClick} className={userButtonClass}>
-					<span className="fa fa-fw fa-user"></span>
-				</div>
-				<Dropdown show={this.state.dropdown} items={items} />
-				<Dropdown className='locales' show={this.state.localesDropdown} items={locales} />
-				{infoDialog}
-				{boardMembersDialog}
-				{aboutDialog}
-			</nav>
-		);
-	}
+        let showInfo = !this.props.showHelp ? null : (
+            <div id="info" onClick={this.toggleInfoView} className={infoButtonClass}>
+                <span className={`fa fa-fw fa-${infoIcon}`}></span>
+            </div>
+            );
+
+        let isProfileDisabled = UserStore.getUser().type === 'standard';
+        let items = [
+            {
+                icon: 'user',
+                content: this.state.translations.DROPDOWN_PROFILE[this.state.locale],
+                disabled: !isProfileDisabled,
+                onClick: () => {
+                    if(isProfileDisabled) {
+                        return page.show('/profile');
+                    }
+                }
+            },
+            {
+                icon: 'language',
+                content: this.state.translations.DROPDOWN_LOCALE[this.state.locale],
+                onClick: () => {
+                    this.setState({ localesDropdown: !this.state.localesDropdown });
+                }
+            },
+            {
+                content: (
+                    <UserVoice>
+                        <span className="fa fa-fw fa-bullhorn" />
+                        {this.state.translations.DROPDOWN_FEEDBACK[this.state.locale]}
+                    </UserVoice>
+                )
+            },
+            {
+                icon: 'info',
+                content: this.state.translations.DROPDOWN_ABOUT[this.state.locale],
+                onClick: () => {
+                    this.toggleAboutView();
+                }
+            },
+            {
+                icon: 'sign-out',
+                content: this.state.translations.DROPDOWN_LOGOUT[this.state.locale],
+                onClick: () => {
+                    UserAction.logout()
+                        .catch((err) => {
+                            BroadcastAction.add(err, Action.User.Logout);
+                        });
+                }
+            }
+        ];
+        let locales = [
+            {
+                flag: 'gb',
+                content: 'English',
+                onClick: () => {
+                    SettingsAction.setSetting('locale', 'en');
+                    this.toggleDropdown();
+                }
+            },
+            {
+                flag: 'fi',
+                content: 'Suomi',
+                onClick: () => {
+                    SettingsAction.setSetting('locale', 'fi');
+                    this.toggleDropdown();
+                }
+            },
+            {
+                flag: 'se',
+                content: 'Svenska',
+                onClick: () => {
+                    SettingsAction.setSetting('locale', 'se');
+                    this.toggleDropdown();
+                }
+            },
+            {
+                flag: 'ru',
+                content: 'ру́сский',
+                disabled: true,
+                onClick: () => {
+                    SettingsAction.setSetting('locale', 'ru');
+                    this.toggleDropdown();
+                }
+            }
+        ]
+        let user      = UserStore.getUser();
+        let name      = user.get('username');
+        let avatarURL = user.get('avatar');
+        let userType  = user.get('type');
+
+        return (
+            <nav id="nav" className="nav">
+                <img className="logo" src="/dist/assets/img/logo.svg"
+                    onClick={this.showWorkspace} />
+                <h1 className="title">{this.props.title}</h1>
+                {this.CancelReview()}
+                {showBoardMembers}
+                {showInfo}
+                <div id="avatar" onClick={this.toggleDropdown} className={userButtonClass}>
+                        <Avatar size={30} name={name}
+                                imageurl={avatarURL}
+                                isOnline={true}
+                                usertype={userType}>
+                        </Avatar>
+                </div>
+                <Dropdown className="options" show={this.state.dropdown} items={items} />
+                <Dropdown className="locales" show={this.state.localesDropdown} items={locales} />
+                {infoDialog}
+                {boardMembersDialog}
+                {aboutDialog}
+            </nav>
+        );
+    }
 });

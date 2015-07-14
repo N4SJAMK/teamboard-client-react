@@ -1,4 +1,6 @@
-
+/**
+ *
+ */
 .view-settings
 	height: 100%
 	padding: 0
@@ -10,6 +12,7 @@
 		@include justify-content(center)
 		margin: 40px auto
 		max-width: 600px
+
 		.settings-nav
 			@include flex(2)
 			.menu-link
@@ -19,6 +22,7 @@
 				margin-right: 10px
 				li
 					cursor: pointer
+					@include padding(15 0 15 0)
 					&.active
 						font-weight: bold
 						&:hover
@@ -28,6 +32,8 @@
 					span
 						display: inline-block
 						margin-right: 5px
+					p
+						margin: 0px
 
 		.form-container
 			@include flex(5)
@@ -52,13 +58,16 @@
 			@include flex-direction(column)
 			@include margin(10 10 10 10)
 			.settings-nav
+				.menu-div
+					@include padding(15 0 15 5)
+					@include margin(0 0 5 0)
 				span.menu-link
 					display: block
-					@include margin(10 15 15 5)
+					@include margin(0 0 0 0)
 				nav
 					overflow: hidden
 					max-height: 0
-					@include transition(all 0.5s ease-in-out)
+					@include transition(max-height 0.3s ease-in-out)
 					ul
 						margin-right: 0px
 						li

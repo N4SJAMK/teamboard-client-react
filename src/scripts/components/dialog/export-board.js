@@ -6,12 +6,16 @@ import BoardAction from '../../actions/board';
 import Dialog           from '../../components/dialog';
 import BoardExporter    from '../../components/board-exporter';
 
-import settingsMixin  from '../../mixins/settings';
+import localeMixin  from '../../mixins/locale';
 /**
  *
  */
 export default React.createClass({
-    mixins: [ React.addons.PureRenderMixin, React.addons.LinkedStateMixin, settingsMixin() ],
+    mixins: [
+        React.addons.PureRenderMixin,
+        React.addons.LinkedStateMixin,
+        localeMixin()
+    ],
 
     propTypes: {
         board: (props) => {
@@ -31,14 +35,14 @@ export default React.createClass({
             <Dialog className="dialog-edit-board"
                     onDismiss={this.props.onDismiss}>
                 <section className="dialog-header">
-                    {this.state.locale.EXPORTBOARD_TITLE}
+                    {this.state.translations.EXPORTBOARD_TITLE[this.state.locale]}
                 </section>
                 <section className="dialog-content">
                     <BoardExporter boardID={id} />
                 </section>
                 <section className="dialog-footer">
                     <button className="btn-primary" onClick={this.submit}>
-                        {this.state.locale.DONEBUTTON}
+                        {this.state.translations.DONEBUTTON[this.state.locale]}
                     </button>
                 </section>
             </Dialog>

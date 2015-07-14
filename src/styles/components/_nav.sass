@@ -2,216 +2,213 @@
  *
  */
 .nav
-	height:           64px
-	background-color: $bastille
+    height:           64px
+    background-color: $bastille
 
-	@include display(flex)
-	@include flex-direction(row)
+    @include display(flex)
+    @include flex-direction(row)
 
-	.logo
-		@include flex-grow(0)
-		@include flex-shrink(0)
+    .logo
+        @include flex-grow(0)
+        @include flex-shrink(0)
 
-		cursor: pointer
+        cursor: pointer
 
-		width:  32px
-		height: 32px
-		margin: 16px 16px
+        width:  32px
+        height: 32px
+        margin: 16px 16px
 
-	.title
-		@include flex-grow(1)
-		@include flex-shrink(1)
+    .title
+        @include flex-grow(1)
+        @include flex-shrink(1)
 
-		overflow: hidden
+        overflow: hidden
 
-		height: 32px
+        height: 32px
 
-		margin:     16px 0px
-		margin-top: 19px
+        margin:     16px 0px
+        margin-top: 19px
 
-		font-size:   18px
-		line-height: 28px
+        font-size:   18px
+        line-height: 28px
 
-		color:       $gallery
-		font-family: "Lato", sans-serif
+        color:       $gallery
+        font-family: "Lato", sans-serif
 
-		&:hover
-			color: $white
+        &:hover
+            color: $white
 
 
-	.members
-		@include flex-grow(0)
-		@include flex-shrink(0)
+    .members
+        @include flex-grow(0)
+        @include flex-shrink(0)
 
-		@include transition(all, 0.2s)
+        @include transition(all, 0.2s)
 
-		width:  64px
-		height: 32px
-		margin: 16px 16px
+        width:  64px
+        height: 32px
+        margin: 16px 16px
 
-		color:  $gallery
-		cursor: pointer
+        color:  $gallery
+        cursor: pointer
 
-		border:        1px solid $voodoo
-		border-radius: 2px
+        border:        1px solid $voodoo
+        border-radius: 2px
 
-		span
-			width:       100%
-			line-height: 30px
-			.user-amount
-				font-family: Lato
-				margin-left: 13%
-				font-size:   14px
+        span
+            width:       100%
+            line-height: 30px
+            .user-amount
+                font-family: Lato
+                margin-left: 13%
+                font-size:   14px
 
-		&:hover
-			color:            $white
-			border-color:     $affair
-			background-color: $voodoo
+        &:hover
+            color:            $white
+            border-color:     $affair
+            background-color: $voodoo
 
-		&.active
-			color:            $white
-			border-color:     $affair
-			background-color: $voodoo
+        &.active
+            color:            $white
+            border-color:     $affair
+            background-color: $voodoo
 
-	.dropdown
-		&::before
-			content: ""
+    .avatar-wrapper
+        @include flex-grow(0)
+        @include flex-shrink(0)
 
-			width:  0
-			height: 0
+        @include transition(all, 0.2s)
 
-			@include position(absolute, -8px 21px null null)
+        width:  30px
+        height: 30px
+        margin: 16px 16px
 
-			border-left:   8px solid transparent
-			border-right:  8px solid transparent
-			border-bottom: 8px solid $bastille
+        color:  $gallery
+        cursor: pointer
 
-		@include position(absolute, 80px 4px null null)
+        border:        1px solid $voodoo
+        border-radius: 2px
 
-	.avatar
-		@include flex-grow(0)
-		@include flex-shrink(0)
+        span
+            width:       30px
+            line-height: 30px
 
-		@include transition(all, 0.2s)
+        &:hover
+            color:            $white
+            border-color:     $affair
+            background-color: $voodoo
 
-		width:  30px
-		height: 30px
-		margin: 16px 16px
+        &.active
+            color:            $white
+            border-color:     $affair
+            background-color: $voodoo
 
-		color:  $gallery
-		cursor: pointer
+    .options
+        @include position(absolute, 80px 4px null null)
+        @include slurppis
 
-		border:        1px solid $voodoo
-		border-radius: 2px
+    .avatar
+        border: none
+          @include transition(all, 0.2s)
+        &:hover
+            filter:         brightness(1.2)
+            -webkit-filter: brightness(1.2)
+            cursor:  pointer
 
-		span
-			width:       30px
-			line-height: 30px
+    .dropdown
+        &::before
+            content: ""
 
-		&:hover
-			color:            $white
-			border-color:     $affair
-			background-color: $voodoo
+            width:  0
+            height: 0
 
-		&.active
-			color:            $white
-			border-color:     $affair
-			background-color: $voodoo
-	.options
-		@include position(absolute, 80px 4px null null)
-		&::before
-			content: ""
+            @include position(absolute, -8px 21px null null)
 
-			width:  0
-			height: 0
+            border-left:   8px solid transparent
+            border-right:  8px solid transparent
+            border-bottom: 8px solid $bastille
 
-			@include position(absolute, -8px 21px null null)
+    .locales
+        @include position(absolute, 80px 205px null null)
+        @include slurppis
+        @include transition(width 0.1s ease-out)
+        span
+            @include fadein
+        &::before
+            content: ""
 
-			border-left:   8px solid transparent
-			border-right:  8px solid transparent
-			border-bottom: 8px solid $bastille
+            width:  0
+            height: 0
 
-	.locales
-		@include position(absolute, 80px 205px null null)
-		@include transition(width 0.1s ease-out)
+            @include position(absolute, 60px -8px null null)
 
-		&::before
-			content: ""
+            border-left:   8px solid $bastille
+            border-top:    8px solid transparent
+            border-bottom: 8px solid transparent
 
-			width:  0
-			height: 0
+        @media screen and (max-width: 450px)
+            width: 50px
 
-			@include position(absolute, 60px -8px null null)
+            span
+                display: none
+    .infobutton
+        @include flex-grow(0)
+        @include flex-shrink(0)
 
-			border-left:   8px solid $bastille
-			border-top:    8px solid transparent
-			border-bottom: 8px solid transparent
+        @include transition(all, 0.2s)
 
-		@media screen and (max-width: 450px)
-			width: 50px
+        width:  30px
+        height: 30px
+        margin: 16px 16px
 
-			span
-				display: none
-	.infobutton
-		@include flex-grow(0)
-		@include flex-shrink(0)
+        color:  $gallery
+        cursor: pointer
 
-		@include transition(all, 0.2s)
+        border:        1px solid $voodoo
+        border-radius: 2px
 
-		width:  30px
-		height: 30px
-		margin: 16px 16px
+        span
+            width:       30px
+            line-height: 30px
 
-		color:  $gallery
-		cursor: pointer
+        &:hover
+            color:            $white
+            border-color:     $affair
+            background-color: $voodoo
 
-		border:        1px solid $voodoo
-		border-radius: 2px
+        &.active
+            z-index: 9002	!important
+            color:            $white
+            border-color:     $affair
+            background-color: $voodoo
 
-		span
-			width:       30px
-			line-height: 30px
+    .review
+        @include flex-grow(0)
+        @include flex-shrink(0)
 
-		&:hover
-			color:            $white
-			border-color:     $affair
-			background-color: $voodoo
+        @include transition(all, 0.2s)
 
-		&.active
-			z-index: 9002	!important
-			color:            $white
-			border-color:     $affair
-			background-color: $voodoo
-		&.pulsate
-			@include pulsate
+        width:  30px
+        height: 30px
+        margin: 16px 16px
 
-	.review
-		@include flex-grow(0)
-		@include flex-shrink(0)
+        color:  $gallery
+        cursor: pointer
 
-		@include transition(all, 0.2s)
+        border:        1px solid $voodoo
+        border-radius: 2px
 
-		width:  30px
-		height: 30px
-		margin: 16px 16px
+        span
+            width:       30px
+            line-height: 30px
 
-		color:  $gallery
-		cursor: pointer
+        &:hover
+            color:            $white
+            border-color:     $affair
+            background-color: $voodoo
 
-		border:        1px solid $voodoo
-		border-radius: 2px
-
-		span
-			width:       30px
-			line-height: 30px
-
-		&:hover
-			color:            $white
-			border-color:     $affair
-			background-color: $voodoo
-
-		&.active
-			z-index: 9002	!important
-			color:            $white
-			border-color:     $affair
-			background-color: $voodoo
+        &.active
+            z-index: 9002	!important
+            color:            $white
+            border-color:     $affair
+            background-color: $voodoo

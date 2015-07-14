@@ -10,6 +10,8 @@ export default {
 			'oldPassword',
 			'newPassword',
 			'newPasswordAgain',
+			'name',
+			'currentView',
 			'avatar'
 		],
 		loginSettings: {

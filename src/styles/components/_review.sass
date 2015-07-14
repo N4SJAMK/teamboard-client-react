@@ -1,0 +1,161 @@
+.review-overlay
+	width:   100%
+	z-index: 9001
+	height:  100%
+	@include position(fixed, 0px null null 0px)
+	background-color: rgba($ebony, 0.8)
+	.dialog.review
+		color: 		$white
+
+		.slider.infocarousel
+			.slider-decorator-0,
+			.slider-decorator-1
+				visibility: visible
+				font-size: 3em
+
+				&:hover
+					color: #c4c4c4
+			.slider-decorator-2
+				display: none
+			.slider-frame
+				.slider-list
+					margin-top: 70px !important
+					li.slider-slide
+						height: 100% !important
+
+.review-dialog-container
+	max-width: 700px
+	max-height: 90vh
+	margin: auto
+	font-size: 160%
+
+	.review-dialog
+		opacity: 0.3
+		@include transition(font-size  0.3s linear)
+		@include transition(opacity  0.3s linear)
+		color:            $bastille
+		background-color: $white
+		border-radius: 6px
+		padding-bottom: 8px
+		&.active
+			opacity: 1
+			z-index: 10000
+
+		.ticket-color
+			height: 20px
+
+		.review-dialog-header
+			height: 30px
+			border-radius: 4px 4px 0 0
+
+		.ticket-header-text
+			word-break: break-all
+			font-weight: bold
+			margin-left: 15px
+			font-size:      130%
+			letter-spacing: 1px
+
+		.content-wrapper
+			overflow-y: auto
+			max-height: 80vh
+			position: relative
+			@media screen and (max-height: 800px)
+				max-height: 70vh
+
+			span.ticket-number
+				position: absolute
+				margin: 7px
+				font-size: 17px
+				right: 5px
+				color: $silver-chalice
+
+			.review-dialog-comments
+				padding: 8px 16px 16px 16px
+
+				.review-comment-wrapper
+					@include display(flex)
+					@include flex-direction(column)
+					border-top: 2px solid $silver-chalice
+					background-color: $white
+
+					.review-comment
+						padding-top:    8px
+						padding-bottom: 8px
+
+						.avatar
+							margin-right: 5px
+
+						.review-comment-username
+							@include     margin(5 0 0 4)
+							font-size:   smaller
+							color:       $dove-gray
+
+						.review-comment-message
+							@include margin(8 0 0 4)
+
+					.review-comment:not(:last-child)
+						border-bottom: 1px solid
+						border-color:  $silver-chalice
+
+			.review-dialog-content
+				padding:    8px 16px
+				overflow:   hidden
+				overflow-y: visible
+
+				span
+					cursor:        pointer
+					cursor:        hand
+					overflow-wrap: break-word
+
+				p
+					white-space: pre-wrap
+
+				h1, h2, h3, h4, h5, h6
+					@include margin(0px 0px 0px 0px)
+
+				img
+					display: block
+
+				code
+					display: block
+
+				a
+					font-size:    13pt
+					padding:      0
+					display:      inline
+					color:        $neptune
+					border-width: 0px
+
+				blockquote
+					@include margin(0 0 0 20)
+
+				ul
+					list-style-type: disc
+
+					li
+						margin-left:     25px
+						list-style-type: disc
+
+				ol
+					list-style-type: decimal
+
+					li
+						margin-left:     40px
+						list-style-type: decimal
+				hr
+					width: 100%
+
+				@include display(flex)
+				@include flex-direction(column)
+
+@media screen and (max-width: 600px)
+	.review-overlay
+		.dialog.info
+			.slider.infocarousel
+				.slider-decorator-0,
+				.slider-decorator-1
+						visibility: visible
+						font-size: 2em
+
+		.review-dialog-container
+			font-size: 100%

@@ -1,14 +1,22 @@
 import React      from 'react/addons';
 import TimeAgo    from 'react-timeago';
-import Dialog     from '../../components/dialog';
-import Avatar     from '../../components/avatar';
+
+import Board       from '../../models/board';
+import localeMixin from '../../mixins/locale';
+
+import Dialog     from '../dialog';
+import Avatar     from '../avatar';
 import Scrollable from './scrollable';
 
 /**
  *
  */
 export default React.createClass({
-    mixins: [ React.addons.PureRenderMixin, React.addons.LinkedStateMixin ],
+    mixins: [
+        React.addons.PureRenderMixin,
+        React.addons.LinkedStateMixin,
+        localeMixin()
+    ],
 
     propTypes: {
         board: (props) => {
@@ -38,67 +46,71 @@ export default React.createClass({
             return (x.isActive === y.isActive)? 0 : x.isActive? -1 : 1;
         });
 
+        let timeFormatter = ((value, unit, suffix) => {
+            if(value !== 1) {
+                unit = `${unit}s`;
+            }
+
+            unit = this.state.translations[`TIME_${unit.toUpperCase()}`][this.state.locale];
+            suffix = this.state.translations.TIME_SUFFIX[this.state.locale];
+
+            return `${value} ${unit} ${suffix}`;
+        });
+
         return (
             <Dialog className="dialog-board-members"
                     onDismiss={this.props.onDismiss}>
-                <Scrollable>
+
                 <section className="dialog-header">
-                    Board members
+                    {this.state.translations.BOARDMEMBERS_TITLE[this.state.locale]}
                 </section>
                 <section className="dialog-content">
-                        <section className="dialog-members">
-                                <section className="dialog-member-list">
-                                    {members.map(function(member) {
-
+                    <section className="dialog-members">
+                        <Scrollable>
+                            <section className="dialog-member-list">
+                                {
+                                    members.map(function(member) {
                                         // Sort of dumb fix for user sometimes being a Map
                                         // instead of a Record. Should investigate further...
                                         let user        = member.get('user').toJS();
-                                        var name        = user.username || user.name;
-                                        var isActive    = member.get('isActive');
-                                        var avatarURL   = user.avatar;
-                                        var userRole    = member.get('role');
-                                        if(isActive === true) {
-                                            return (
-                                                <div className="member-info-online">
-                                                    <Avatar size={32} name={name}
+                                        let name        = user.username || user.name;
+                                        let isActive    = member.get('isActive');
+                                        let avatarURL   = user.avatar;
+                                        let userRole    = member.get('role');
+
+                                        return (
+                                            <div className={isActive ? "member-info-online" : "member-info-offline" }>
+                                                <Avatar size={32} name={name}
                                                             imageurl={avatarURL}
                                                             usertype={userRole}
                                                             isOnline={isActive}>
-                                                    </Avatar>
-                                                    <div className="user-name">
-                                                        {name}
-                                                    </div>
+                                                </Avatar>
+                                                <div className="user-name" title={name}>
+                                                    {name}
                                                 </div>
-                                            );
-                                        }
-                                        else if(isActive === false) {
-                                            return (
-                                                <div className="member-info-offline">
-                                                    <Avatar size={32} name={name}
-                                                        imageurl={avatarURL}
-                                                        usertype={userRole}
-                                                        isOnline={isActive}>
-                                                    </Avatar>
-                                                    <div className="user-name">
-                                                        {name}
-                                                    </div>
-                                                    <div className="user-last-seen">
-                                                        Seen {React.createElement(TimeAgo, {date: member.get('lastSeen')})}
-                                                    </div>
-                                                </div>
-                                            );
-                                        }
+                                                {
+                                                    !isActive ?
+                                                    (
+                                                        <div className="user-last-seen">
+                                                            <TimeAgo date={member.get('lastSeen')}
+                                                                     formatter={timeFormatter} />
+                                                        </div>
+                                                    ) :
+                                                    null
+                                                }
+                                            </div>
+                                        );
                                     })
-                                    }
-                                </section>
-                        </section>
-                        <section className="dialog-footer">
+                                }
+                            </section>
+                        </Scrollable>
+                    </section>
+                    <section className="dialog-footer">
                         <button className="btn-primary" onClick={this.submit}>
-                            Done
+                            {this.state.translations.DONEBUTTON[this.state.locale]}
                         </button>
                     </section>
                 </section>
-                </Scrollable>
             </Dialog>
         );
     }

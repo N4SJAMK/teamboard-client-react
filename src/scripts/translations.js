@@ -1,573 +1,745 @@
 export default {
-    en: {
-        //DROPDOWN
-        DROPDOWN_PROFILE:  'Profile',
-        DROPDOWN_LOCALE:   'Language',
-        DROPDOWN_FEEDBACK: 'Feedback',
-        DROPDOWN_ABOUT:    'About',
-        DROPDOWN_LOGOUT:   'Log out',
-
-        //UNIVERSAL
-        SUCCESS:          'Success',
-        NOTFOUND:         'Not found',
-        FORBIDDEN:        'Forbidden',
-        PASSWORD:         'Password',
-        EMAIL:            'E-mail',
-        PASSWORDMATCH:    'Passwords match',
-        PASSWORDMISMATCH: 'Password mismatch!',
-        CANCELBUTTON:     'Cancel',
-        DONEBUTTON:       'Done',
-        CLOSEBUTTON:      'Close',
-
-        //LOGIN
-        LOGIN_LOGIN:             'Log in',
-        LOGIN_REGISTER:          'Register',
-        LOGIN_PASSWORDLENGTH:    'Password must be at least 8 characters long.',
-        LOGIN_REGISTERFAIL:      'Registration failed!',
-        LOGIN_NOTREGISTERED:     'Not registered?',
-        LOGIN_ALREADYREGISTERED: 'Already registered?',
-
-        //GUEST LOGIN
-        LOGIN_GUEST_USERNAME:     'Username',
-        LOGIN_GUEST_LOGINASGUEST: 'Log in as Guest',
-        LOGIN_GUEST_GOTACCOUNT:   'Got an account?',
-        LOGIN_GUEST_LOGINBUTTON:  'Log in',
-        LOGIN_GUEST_USERNAMELENGTH: 'Username must be at least 3 characters long',
-
-        //PROFILE
-        PROFILE_SAVECHANGES: 'Save changes',
-        PROFILE_WORKSPACE:   'Workspace',
-        PROFILE_ENTERURL:    'Enter a URL to an image',
-        PROFILE_ENTERNAME:   'Enter a username',
-        PROFILE_SETTINGS:    'Profile settings',
-        PROFILE_INFO:        'Profile information',
-        PROFILE_ENTERUSER:   'Enter a username',
-        PROFILE_YOURNAME:    'Your username:',
-        PROFILE_YOURAVATAR:  'Your Avatar:',
-
-        PROFILE_CHANGEPW:  'Change password',
-        PROFILE_CURRENTPW: 'Enter your current password',
-        PROFILE_NEWPW:     'Enter a new password',
-        PROFILE_CONFPW:    'Confirm your new password',
-
-        //EDITBOARD
-        EDITBOARD_TITLE:     'Edit Board',
-        EDITBOARD_BOARDNAME: 'Board name',
-        EDITBOARD_BOARDBG:   'Board background',
-        EDITBOARD_BOARDSIZE: 'Board size (measured in tickets)',
-        EDITBOARD_WIDTH:     'Width',
-        EDITBOARD_HEIGHT:    'Height',
-
-        //REMOVEBOARD
-        REMOVEBOARD_TITLE:       'Remove the board',
-        REMOVEBOARD_WITHNAME:    'Are you sure you want to remove the board {board_name}?',
-        REMOVEBOARD_WITHOUTNAME: 'Are you sure you want to remove this board?',
-        REMOVEBOARD_REMOVE:      'Remove',
-
-
-        //BOARDMEMBERS
-        BOARDMEMBERS_TITLE: 'Board members',
-
-        //EDITTICKET
-        EDITTICKET_HEADING:     'Ticket heading',
-        EDITTICKET_CONTENT:     'Ticket content',
-        EDITTICKET_YOURCOMMENT: 'Your comment',
-        EDITTICKET_ADDCOMMENT:  'Add comment',
-        EDITTICKET_DELETE:      'Delete',
-        EDITTICKET_SAVE:        'Save',
-        //EXPORTBOARD
-        EXPORTBOARD_TITLE:     'Export Board',
-        EXPORTBOARD_FORMAT:    'Export format',
-        EXPORTBOARD_EXPBUTTON: 'Export',
-
-        //INFOVIEW
-        //SLIDE1
-        INFO_TOWS:        'Return to workspace',
-        INFO_EDITBOARD:   'Edit board',
-        INFO_SHAREBOARD:  'Share board',
-        INFO_EXPORTBOARD: 'Export board',
-        INFO_SNAP:        'Make tickets snap to grid',
-        INFO_MINIMAP:     'Toggle the board minimap and navigate',
-        INFO_PROFILE:     'Edit your profile',
-        INFO_LOCALE:      'Choose a preferred language',
-        INFO_FEEDBACK:    'Send feedback to the developers',
-        INFO_ABOUT:       'Information about Contriboard',
-        INFO_LOGOUT:      'Log out',
-        //SLIDE2
-        INFO_TAPBOARD:    'Double tap the board to create a ticket.',
-        INFO_TAPTICKET:   'Double tap a ticket to edit it.',
-        INFO_TICKETCOLOR: 'Select a color for the ticket.',
-        INFO_EDITTICKET:  'Edit the contents of a ticket.',
-        //SLIDE3
-        INFO_EDITNAME:     'Edit the name of the board.',
-        INFO_PREVIEWBOARD: 'Board preview.',
-        INFO_EDITBG:       'Edit the board background.',
-        INFO_CHANGESIZE:   'Change the size of the board.',
-        //SLIDE4
-        INFO_SHAREURL: 'Tap Share to get the URL for sharing the board.',
-        //SLIDE5
-        INFO_GETEXPORT: 'Select an export format and tap Export to download the file.',
-
-        //ABOUT
-        ABOUT_TITLE:    'About Contriboard',
-        ABOUT_ABOUT:    'A fast open-source brainstorming tool for everyone.',
-        ABOUT_DEVS:     'Developers:',
-        ABOUT_HOMEPAGE: 'Contriboard homepage:',
-        ABOUT_CLIENT:   'Client version:',
-        ABOUT_API:      'API version:',
-        ABOUT_IMG:      'IMG version',
-
-        //SHARE BOARD
-        SHARE_TITLE: 'Share board',
-        SHARE_LINK:  'Sharing link',
-        SHARE_SHOW:  'Share',
-        SHARE_HIDE:  'Hide',
-
-        //TIMEAGO TRANSLATIONS
-            //SINGULAR
-        TIME_SECOND: 'second',
-        TIME_MINUTE: 'minute',
-        TIME_HOURS:  'hour',
-        TIME_DAYS:   'day',
-        TIME_WEEKS:  'week',
-        TIME_MONTHS: 'month',
-        TIME_YEARS:  'year',
-            //PLURAL
-        TIME_SECONDS: 'seconds',
-        TIME_MINUTES: 'minutes',
-        TIME_HOURS:   'hours',
-        TIME_DAYS:    'days',
-        TIME_WEEKS:   'weeks',
-        TIME_MONTHS:  'months',
-        TIME_YEARS:   'years',
-        TIME_SUFFIX:  'ago',
-
+    /********************************
+    /   UNIVERSAL                   *
+    ********************************/
+    SUCCESS: {
+        en:  'Success!',
+        fi:  'Onnistui!',
+        swe: 'Lyckades!',
+        ru:  ''
     },
-    fi: {
-        //DROPDOWN
-        DROPDOWN_PROFILE:  'Profiili',
-        DROPDOWN_LOCALE:   'Kieli',
-        DROPDOWN_FEEDBACK: 'Palaute',
-        DROPDOWN_ABOUT:    'Contriboardista',
-        DROPDOWN_LOGOUT:   'Kirjaudu ulos',
-
-        //UNIVERSAL
-        SUCCESS:          'Onnistui!',
-        NOTFOUND:         'Ei löytynyt',
-        FORBIDDEN:        'Kielletty',
-        PASSWORD:         'Salasana',
-        EMAIL:            'E-mail',
-        PASSWORDMATCH:    'Salasanat täsmäävät!',
-        PASSWORDMISMATCH: 'Salasanat eivät täsmää!',
-        CANCELBUTTON:     'Peruuta',
-        DONEBUTTON:       'Valmis',
-        CLOSEBUTTON:      'Sulje',
-
-        //LOGIN
-        LOGIN_LOGIN:             'Kirjaudu sisään',
-        LOGIN_REGISTER:          'Rekisteröidy',
-        LOGIN_PASSWORDLENGTH:    'Salasanan täytyy olla vähintään 8 merkkiä pitkä.',
-        LOGIN_REGISTERFAIL:      'Rekisteröinti epäonnistui!',
-        LOGIN_NOTREGISTERED:     'Ei vielä tiliä?',
-        LOGIN_ALREADYREGISTERED: 'Kirjaudu olemassaolevalla tilillä',
-
-        //GUEST LOGIN
-        LOGIN_GUEST_USERNAME:       'käyttäjänimi',
-        LOGIN_GUEST_LOGINASGUEST:   'Kirjaudu vieraskäyttäjänä',
-        LOGIN_GUEST_GOTACCOUNT:     'Kirjaudu olemassaolevalla tilillä',
-        LOGIN_GUEST_LOGINBUTTON:    'Kirjaudu',
-        LOGIN_GUEST_USERNAMELENGTH: 'Käyttäjänimen tulee olla vähintään 3 merkkiä pitkä',
-
-        //PROFILE
-        PROFILE_SAVECHANGES: 'Tallenna muutokset',
-        PROFILE_WORKSPACE:   'Työtila',
-        PROFILE_ENTERURL:    'Syötä Avatarisi URL',
-        PROFILE_ENTERNAME:   'Syötä käyttäjänimi',
-        PROFILE_SETTINGS:    'Profiilin asetukset',
-        PROFILE_INFO:        'Profiilin tiedot',
-        PROFILE_ENTERUSER:   'Anna käyttäjänimi',
-        PROFILE_YOURNAME:    'Käyttäjänimesi:',
-        PROFILE_YOURAVATAR:  'Avatarisi:',
-        PROFILE_CHANGEPW:    'Vaihda salasana',
-        PROFILE_CURRENTPW:   'Anna nykyinen salasanasi',
-        PROFILE_NEWPW:       'Anna uusi salasana',
-        PROFILE_CONFPW:      'Kirjoita salasana uudelleen',
-
-        //EDITBOARD
-        EDITBOARD_TITLE:     'Muokkaa lautaa',
-        EDITBOARD_BOARDNAME: 'Laudan nimi',
-        EDITBOARD_BOARDBG:   'Laudan taustakuva',
-        EDITBOARD_BOARDSIZE: 'Laudan koko (lappuina)',
-        EDITBOARD_WIDTH:     'Leveys',
-        EDITBOARD_HEIGHT:    'Korkeus',
-
-        //REMOVEBOARD
-        REMOVEBOARD_TITLE:       'Poista lauta',
-        REMOVEBOARD_WITHNAME:    'Haluatko varmasti poistaa laudan {board_name}?',
-        REMOVEBOARD_WITHOUTNAME: 'Haluatko varmasti poistaa tämän laudan?',
-        REMOVEBOARD_REMOVE:      'Poista',
-
-        //BOARDMEMBERS
-        BOARDMEMBERS_TITLE: 'Laudan jäsenet',
-
-        //EDITTICKET
-        EDITTICKET_HEADING:     'Lapun otsikko',
-        EDITTICKET_CONTENT:     'Lapun sisältö',
-        EDITTICKET_YOURCOMMENT: 'Kommenttisi',
-        EDITTICKET_ADDCOMMENT:  'Lisää kommentti',
-        EDITTICKET_DELETE:      'Poista',
-        EDITTICKET_SAVE:        'Tallenna',
-
-        //EXPORTBOARD
-        EXPORTBOARD_TITLE:     'Lataa lauta koneellesi',
-        EXPORTBOARD_FORMAT:    'Valitse tiedostomuoto',
-        EXPORTBOARD_EXPBUTTON: 'Lataa',
-
-        //SLIDE1
-        INFO_TOWS:        'Palaa työtilaan',
-        INFO_EDITBOARD:   'Muokkaa lautaa',
-        INFO_SHAREBOARD:  'Jaa lauta',
-        INFO_EXPORTBOARD: 'Lataa lauta koneellesi',
-        INFO_SNAP:        'Kiinnitä laput ruudukon mukaan',
-        INFO_MINIMAP:     'Näytä kartta ja navigoi',
-        INFO_PROFILE:     'Muokkaa profiilia',
-        INFO_LOCALE:      'Vaihda käyttökieli',
-        INFO_FEEDBACK:    'Lähetä palautetta kehittäjille',
-        INFO_ABOUT:       'Tietoa Contriboardista',
-        INFO_LOGOUT:      'Kirjaudu ulos',
-        //SLIDE2
-        INFO_TAPBOARD:    'Kaksoisnapauta lautaa luodaksesi lapun.',
-        INFO_TAPTICKET:   'Muokkaa lappua kaksoisnapauttamalla sitä.',
-        INFO_TICKETCOLOR: 'Valitse lapun väri.',
-        INFO_EDITTICKET:  'Muokkaa lapun sisältöä.',
-        //SLIDE3
-        INFO_EDITNAME:     'Muokkaa laudan nimeä.',
-        INFO_PREVIEWBOARD: 'Laudan esikatselu.',
-        INFO_EDITBG:       'Muokkaa laudan taustakuvaa.',
-        INFO_CHANGESIZE:   'Muuta laudan kokoa.',
-        //SLIDE4
-        INFO_SHAREURL: 'Paina Jaa-nappia luodaksesi linkki laudalle.',
-        //SLIDE5
-        INFO_GETEXPORT: 'Valitse tiedostomuoto ja lataa lauta painamalla Export-nappia.',
-
-        //ABOUT
-        ABOUT_TITLE:    'Tietoa Contriboardista',
-        ABOUT_ABOUT:    'Nopea avoimen lähdekoodin aivoriihityökalu kaikille.',
-        ABOUT_DEVS:     'Kehittäjät:',
-        ABOUT_HOMEPAGE: 'Contriboardin kotisivu:',
-        ABOUT_CLIENT:   'Client versio:',
-        ABOUT_API:      'API versio',
-        ABOUT_IMG:      'IMG versio',
-
-        //SHARE BOARD
-        SHARE_TITLE: 'Jaa lauta',
-        SHARE_LINK:  'Jakolinkki',
-        SHARE_SHOW:  'Jaa',
-        SHARE_HIDE:  'Piilota',
-
-        //TIMEAGO TRANSLATIONS
-            //SINGULAR
-        TIME_SECOND: 'sekunti',
-        TIME_MINUTE: 'minuutti',
-        TIME_HOURS:  'tunti',
-        TIME_DAYS:   'päivä',
-        TIME_WEEKS:  'viikko',
-        TIME_MONTHS: 'kuukausi',
-        TIME_YEARS:  'vuosi',
-            //PLURAL
-        TIME_SECONDS: 'sekuntia',
-        TIME_MINUTES: 'minuuttia',
-        TIME_HOURS:   'tuntia',
-        TIME_DAYS:    'päivää',
-        TIME_WEEKS:   'viikkoa',
-        TIME_MONTHS:  'kuukautta',
-        TIME_YEARS:   'vuotta',
-        TIME_SUFFIX:  'sitten',
-
+    NOTFOUND: {
+        en:  'Not found',
+        fi:  'Ei löytynyt',
+        swe: 'Finns inte',
+        ru:  ''
     },
-    se: {
-        //DROPDOWN
-        DROPDOWN_PROFILE:   'Profil',
-        DROPDOWN_LOCALE:    'Språk',
-        DROPDOWN_FEEDBACK:  'Feedback',
-        DROPDOWN_ABOUT:     'Om Contriboard',
-        DROPDOWN_LOGOUT:    'Logga ut',
-
-        //UNIVERSAL
-        SUCCESS:          'Lyckades',
-        NOTFOUND:         'Finns inte',
-        FORBIDDEN:        'Förbjudet',
-        PASSWORD:         'Lösenord',
-        EMAIL:            'E-post',
-        PASSWORDMATCH:    'Lösernord matchar!',
-        PASSWORDMISMATCH: 'Lösernorden matchar inte!',
-        CANCELBUTTON:     'Avbryt',
-        DONEBUTTON:       'Färdig',
-        CLOSEBUTTON:      'Stänga',
-
-        //LOGIN
-        LOGIN_LOGIN:             'Logga in',
-        LOGIN_REGISTER:          'Skapa konto',
-        LOGIN_PASSWORDLENGTH:    'Lösenordet måste ha åtminstone 8 tecken.',
-        LOGIN_REGISTERFAIL:      'Registrering misslyckades!',
-        LOGIN_NOTREGISTERED:     'Har du inte registrerat?',
-        LOGIN_ALREADYREGISTERED: 'Har du redan registrerat?',
-
-        //GUEST LOGIN
-        LOGIN_GUEST_USERNAME:       'Användarnamn',
-        LOGIN_GUEST_LOGINASGUEST:   'Logga in som gäst',
-        LOGIN_GUEST_GOTACCOUNT:     'Konto finns redan?',
-        LOGIN_GUEST_LOGINBUTTON:    'Logga in',
-        LOGIN_GUEST_USERNAMELENGTH: '',
-
-        //PROFILE
-        PROFILE_SAVECHANGES: '',
-        PROFILE_WORKSPACE:   'Arbetsyta',
-        PROFILE_ENTERURL:    'Ange din profilbilds webbadressen',
-        PROFILE_ENTERNAME:   'Ange ditt användarnamn',
-        PROFILE_SETTINGS:    'Profilinställningar',
-        PROFILE_INFO:        'Profil information',
-        PROFILE_ENTERUSER:   'Välj ett användarnamn',
-        PROFILE_YOURNAME:    'Ditt användarnamn:',
-        PROFILE_YOURAVATAR:  'Din profilbild',
-        PROFILE_CHANGEPW:    'Ändra lösenord',
-        PROFILE_CURRENTPW:   'Ge ditt nuvarande lösenord',
-        PROFILE_NEWPW:       'Ge ett nytt lösenord',
-        PROFILE_CONFPW:      'Bekräfta lösenordet',
-
-        //EDITBOARD
-        EDITBOARD_TITLE:     'Redigera Bordet',
-        EDITBOARD_BOARDNAME: 'Bordets namn',
-        EDITBOARD_BOARDBG:   'Bord bakgrund',
-        EDITBOARD_BOARDSIZE: 'Bordets storlek (som lappar)',
-        EDITBOARD_WIDTH:     'Bredd',
-        EDITBOARD_HEIGHT:    'Höjd',
-
-
-        //REMOVEBOARD
-        REMOVEBOARD_TITLE:       'Radera bordet',
-        REMOVEBOARD_WITHNAME:    'Är du säker på att du vill radera bordet {board_name}?',
-        REMOVEBOARD_WITHOUTNAME: 'Är du säker på att du vill radera denna bord?',
-        REMOVEBOARD_REMOVE:      'Radera',
-
-        //BOARDMEMBERS
-        BOARDMEMBERS_TITLE: 'Bord medlemmar',
-
-        //EDITTICKET
-        EDITTICKET_HEADING:     'Lappens rubrik',
-        EDITTICKET_CONTENT:     'Lappens innehåll',
-        EDITTICKET_YOURCOMMENT: 'Din kommentar',
-        EDITTICKET_ADDCOMMENT:  'Lägg till kommentar',
-        EDITTICKET_DELETE:      'Radera',
-        EDITTICKET_SAVE:        'Spara',
-        //EXPORTBOARD
-        EXPORTBOARD_TITLE:     'Exportera bordet',
-        EXPORTBOARD_FORMAT:    'Exportera format',
-        EXPORTBOARD_EXPBUTTON: 'Export',
-
-        //INFOVIEW
-        //SLIDE1
-        INFO_TOWS:        'Gå tillbaka till arbetsytan',
-        INFO_EDITBOARD:   'Redigera bordet',
-        INFO_SHAREBOARD:  'Del bordet',
-        INFO_EXPORTBOARD: 'Exportera bordet',
-        INFO_SNAP:        'Fäst mot stödraster',
-        INFO_MINIMAP:     'Visa miniatyröversikt och navigera',
-        INFO_PROFILE:     'Redigera din profil',
-        INFO_LOCALE:      'Ändra språk',
-        INFO_FEEDBACK:    'Skicka feedback till utvecklarna',
-        INFO_ABOUT:       'Information om Contriboard',
-        INFO_LOGOUT:      'Logga ut',
-        //SLIDE2
-        INFO_TAPBOARD:    'Dubbelklicka bordet för att skapa en lapp.',
-        INFO_TAPTICKET:   'Dubbelklicka lappan för att redigera det.',
-        INFO_TICKETCOLOR: 'Välj en färg för lappan.',
-        INFO_EDITTICKET:  'Redigera innehållet i en lapp.',
-        //SLIDE3
-        INFO_EDITNAME:     'Redigera bordets namn.',
-        INFO_PREVIEWBOARD: 'Bordets förhandsgranskning.',
-        INFO_EDITBG:       'Redigera bordets bakgrundsbild.',
-        INFO_CHANGESIZE:   'Ändra bordets storlek.',
-        //SLIDE4
-        INFO_SHAREURL: 'Tryck på Dela för att få en URL till bordet.',
-        //SLIDE5
-        INFO_GETEXPORT: 'Välj ett exportformat och tryck på Exportera för att ladda filen.',
-
-        //ABOUT
-        ABOUT_TITLE:    'Om Contriboard',
-        ABOUT_ABOUT:    'En snabb öppen källkod brainstorming verktyg för alla.',
-        ABOUT_DEVS:     'Utvecklare:',
-        ABOUT_HOMEPAGE: 'Contriboard hemsida:',
-        ABOUT_CLIENT:   'Client version:',
-        ABOUT_API:      'API version',
-        ABOUT_IMG:      'IMG version',
-
-        //SHARE BOARD
-        SHARE_TITLE: 'Dela bord',
-        SHARE_LINK:  'Dela länk',
-        SHARE_SHOW:  'Del',
-        SHARE_HIDE:  'Dölj',
-
-        //TIMEAGO TRANSLATIONS
-            //SINGULAR
-        TIME_SECOND: 'sekund',
-        TIME_MINUTE: 'minut',
-        TIME_HOURS:  'timma',
-        TIME_DAYS:   'vecka',
-        TIME_WEEKS:  'viikko',
-        TIME_MONTHS: 'månad',
-        TIME_YEARS:  'år',
-            //PLURAL
-        TIME_SECONDS: 'sekunder',
-        TIME_MINUTES: 'minuter',
-        TIME_HOURS:   'timmar',
-        TIME_DAYS:    'dagar',
-        TIME_WEEKS:   'veckor',
-        TIME_MONTHS:  'månader',
-        TIME_YEARS:   'år',
-        TIME_SUFFIX:  'sedan',
-
+    FORBIDDEN: {
+        en:  'Forbidden',
+        fi:  'Kielletty',
+        swe: 'Förbjudet',
+        ru:  ''
     },
-    ru: {
-        //DROPDOWN
-        DROPDOWN_PROFILE:  'профиль',
-        DROPDOWN_LOCALE:   'язык',
-        DROPDOWN_FEEDBACK: 'обратная связь',
-        DROPDOWN_ABOUT:    'около',
-        DROPDOWN_LOGOUT:   'выйти',
+    PASSWORD: {
+        en:  'Password',
+        fi:  'Salasana',
+        swe: 'Lösenord',
+        ru:  ''
+    },
+    EMAIL: {
+        en:  'E-mail',
+        fi:  'Sähköposti',
+        swe: 'E-post',
+        ru:  'E-mail'
+    },
+    PASSWORDMATCH: {
+        en:  'Passwords match',
+        fi:  'Salasanat täsmäävät',
+        swe: 'Lösenord matchar',
+        ru:  ''
+    },
+    PASSWORDMISMATCH: {
+        en:  'Passwords don\'t match',
+        fi:  'Salasanat eivät täsmää',
+        swe: 'Lösenorden matchar inte',
+        ru:  ''
+    },
+    CANCELBUTTON: {
+        en:  'Cancel',
+        fi:  'Peruuta',
+        swe: 'Avbryt',
+        ru:  ''
+    },
+    DONEBUTTON: {
+        en:  'Done',
+        fi:  'Valmis',
+        swe: 'Färdig',
+        ru:  ''
+    },
+    CLOSEBUTTON: {
+        en:  'Close',
+        fi:  'Sulje',
+        swe: 'Stänga',
+        ru:  ''
+    },
+    SAVEBUTTON: {
+        en: 'Save',
+        fi: 'Tallenna',
+        se: '',
+        ru: ''
+    },
+    DELETEBUTTON: {
+        en: 'Delete',
+        fi: 'Poista',
+        se: '',
+        ru: ''
+    },
 
-        //UNIVERSAL
-        SUCCESS:           'Управляемый',
-        NOTFOUND:          'не найдено',
-        FORBIDDEN:         'запрещено',
-        PASSWORD:          'пароль',
-        EMAIL:             'E-mail',
-        PASSWORDMATCH:     'пароли совпадают',
-        PASSWORDMISMATCH:  'пароли несоответствие',
-        CANCELBUTTON:      'отменить',
-        DONEBUTTON:        'готовы',
-        CLOSEBUTTON:       'Закрыть',
+    /********************************
+    /   DROPDOWN                    *
+    ********************************/
+    DROPDOWN_PROFILE: {
+        en:  'Profile',
+        fi:  'Profiili',
+        swe: 'Profil',
+        ru:  ''
+    },
+    DROPDOWN_LOCALE: {
+        en:  'Language',
+        fi:  'Kieli',
+        swe: 'Språk',
+        ru:  ''
+    },
+    DROPDOWN_FEEDBACK: {
+        en:  'Feedback',
+        fi:  'Palaute',
+        swe: 'Feedback',
+        ru:  ''
+    },
+    DROPDOWN_ABOUT: {
+        en:  'About',
+        fi:  'Contriboardista',
+        swe: 'Om Contriboard',
+        ru:  ''
+    },
+    DROPDOWN_LOGOUT: {
+        en:  'Log out',
+        fi:  'Kirjaudu ulos',
+        swe: 'Logga ut',
+        ru:  ''
+    },
 
-        //LOGIN
-        LOGIN_LOGIN:             'Войти',
-        LOGIN_REGISTER:          'Зарегистрироваться',
-        LOGIN_PASSWORDLENGTH:    'Пароль должен быть длиной не менее 8 символов.',
-        LOGIN_REGISTERFAIL:      'Регистрация не удалось!',
-        LOGIN_NOTREGISTERED:     'Вы еще не зарегистрировались?',
-        LOGIN_ALREADYREGISTERED: 'Уже есть аккаунт?',
+    /********************************
+    /   LOGIN                       *
+    ********************************/
+    LOGIN_LOGIN: {
+        en:  'Log in',
+        fi:  'Kirjaudu sisään',
+        swe: 'Logga in',
+        ru:  ''
+    },
+    LOGIN_REGISTER: {
+        en:  'Register',
+        fi:  'Rekistöröidy',
+        swe: 'Skapa konto',
+        ru:  ''
+    },
+    LOGIN_PASSWORDLENGTH: {
+        en:  'Password must be at least 8 characters long',
+        fi:  'Salasanan täytyy olla vähintään 8 merkkiä pitkä.',
+        swe: 'Lösenordet måste ha åtminstone 8 tecken.',
+        ru:  ''
+    },
+    LOGIN_REGISTERFAIL: {
+        en:  'Registration failed!',
+        fi:  'Rekistöröinti epäonnistui!',
+        swe: 'Registrering misslyckades!',
+        ru:  ''
+    },
+    LOGIN_NOTREGISTERED: {
+        en:  'Not registered?',
+        fi:  'Ei vielä tiliä?',
+        swe: 'Har du inte registrerat?',
+        ru:  ''
+    },
+    LOGIN_ALREADYREGISTERED: {
+        en:  'Already registered?',
+        fi:  'Kirjaudu olemassaolevalla tilillä',
+        swe: 'Konto finns redan?',
+        ru:  ''
+    },
 
-        //GUEST LOGIN
-        LOGIN_GUEST_USERNAME:       'Имя пользователя',
-        LOGIN_GUEST_LOGINASGUEST:   'Войти в качестве гостя',
-        LOGIN_GUEST_GOTACCOUNT:     'Уже есть аккаунт?',
-        LOGIN_GUEST_LOGINBUTTON:    'Войти в качестве гостя',
-        LOGIN_GUEST_USERNAMELENGTH: 'Имя пользователя должно быть длиной не менее 3 символов',
+    /********************************
+    /   GUEST LOGIN                 *
+    ********************************/
+    LOGIN_GUEST_USERNAME: {
+        en:  'Username',
+        fi:  'Käyttäjänimi',
+        swe: 'Användernamn',
+        ru:  ''
+    },
+    LOGIN_GUEST_LOGINASGUEST: {
+        en:  'Log in as a Guest',
+        fi:  'Kirjaudu vieraskäyttäjänä',
+        swe: 'Logga in som gäst',
+        ru:  ''
+    },
+    LOGIN_GUEST_GOTACCOUNT: {
+        en:  'Got an account?',
+        fi:  'Tili löytyy jo?',
+        swe: 'Konto finns redan?',
+        ru:  ''
+    },
+    LOGIN_GUEST_LOGINBUTTON: {
+        en:  'Log in',
+        fi:  'Kirjaudu',
+        swe: 'Logga in',
+        ru:  ''
+    },
+    LOGIN_GUEST_USERNAMELENGTH: {
+        en:  'Username must be at least 3 characters long',
+        fi:  'Käyttäjänimen täytyy olla vähintään 3 merkkiä pitkä',
+        swe: 'Användernamnet måste ha åtminstone 3 tecken',
+        ru:  ''
+    },
 
-        //PROFILE
-        PROFILE_SAVECHANGES: 'Сохранить изменения',
-        PROFILE_WORKSPACE:   'рабочее пространство',
-        PROFILE_ENTERURL:    'Введите URL к изображению',
-        PROFILE_ENTERNAME:   'Введите имя пользователя',
-        PROFILE_SETTINGS:    'настройки профиля',
-        PROFILE_INFO:        'информация профиля',
-        PROFILE_ENTERUSER:   'введите имя пользователя',
-        PROFILE_YOURNAME:    'ваше имя пользователя:',
-        PROFILE_YOURAVATAR:  'Ваш аватар',
-        PROFILE_CHANGEPW:    'изменить пароль',
-        PROFILE_CURRENTPW:   'Введите текущий пароль',
-        PROFILE_NEWPW:       'Введите новый пароль',
-        PROFILE_CONFPW:      'Подтвердите новый пароль',
+    /********************************
+    /   PROFILE                     *
+    ********************************/
+    PROFILE_SAVECHANGES: {
+        en:  'Save changes',
+        fi:  'Tallenna muutokset',
+        swe: 'Spara ändringar',
+        ru:  ''
+    },
+    PROFILE_WORKSPACE: {
+        en:  'Workspace',
+        fi:  'Työtila',
+        swe: 'Arbetsyta',
+        ru:  ''
+    },
+    PROFILE_ENTERURL: {
+        en:  'Enter a URL to an image',
+        fi:  'Liitä osoite kuvaan',
+        swe: 'Ange din profilbilds webbadressen',
+        ru:  ''
+    },
+    PROFILE_ENTERNAME: {
+        en:  'Enter a username',
+        fi:  'Syötä käyttäjänimi',
+        swe: 'Ange ditt användernamn',
+        ru:  ''
+    },
+    PROFILE_SETTINGS: {
+        en:  'Profile settings',
+        fi:  'Profiiliasetukset',
+        swe: 'Profilinställningar',
+        ru:  ''
+    },
+    PROFILE_INFO: {
+        en:  'Profile information',
+        fi:  'Profiilitiedot',
+        swe: 'Profil information',
+        ru:  ''
+    },
+    PROFILE_ENTERUSER: {
+        en:  'Enter a username',
+        fi:  'Anna käyttäjänimi',
+        swe: 'Välj ett användarnamn',
+        ru:  ''
+    },
+    PROFILE_YOURNAME: {
+        en:  'Your username',
+        fi:  'Käyttäjänimesi',
+        swe: 'Ditt användernamn',
+        ru:  ''
+    },
+    PROFILE_YOURAVATAR: {
+        en:  'Your avatar',
+        fi:  'Käyttäjäkuvasi',
+        swe: 'Din profilbild',
+        ru:  ''
+    },
+    PROFILE_CHANGEPW: {
+        en:  'Change password',
+        fi:  'Vaihda salasana',
+        swe: 'Ändra lösenord',
+        ru:  ''
+    },
+    PROFILE_CURRENTPW: {
+        en:  'Enter your current password',
+        fi:  'Syötä nykyinen salasana',
+        swe: 'Ge ditt nuvarande lösenord',
+        ru:  ''
+    },
+    PROFILE_NEWPW: {
+        en:  'Enter a new password',
+        fi:  'Syötä uusi salasana',
+        swe: 'Ge ett nytt lösenord',
+        ru:  ''
+    },
+    PROFILE_CONFPW: {
+        en:  'Confirm your new password',
+        fi:  'Vahvista uusi salasana',
+        swe: 'Bekräfta lösenordet',
+        ru:  ''
+    },
 
-        //EDITBOARD
-        EDITBOARD_TITLE:     'Ред актировать доска',
-        EDITBOARD_BOARDNAME: 'имя Совет',
-        EDITBOARD_BOARDBG:   'Совет фона',
-        EDITBOARD_BOARDSIZE: 'Размер платы (измеряется в билеты)',
-        EDITBOARD_WIDTH:     'ширина',
-        EDITBOARD_HEIGHT:    'высота',
+    /********************************
+    /   EDIT BOARD                  *
+    ********************************/
+    EDITBOARD_TITLE: {
+        en:  'Edit board',
+        fi:  'Muokkaa lautaa',
+        swe: 'Redigera bordet',
+        ru:  ''
+    },
+    EDITBOARD_NAME: {
+        en:  'Board name',
+        fi:  'Laudan nimi',
+        swe: 'Bordets namn',
+        ru:  ''
+    },
+    EDITBOARD_BACKGROUND: {
+        en:  'Board background',
+        fi:  'Laudan taustakuva',
+        swe: 'Bord bakgrund',
+        ru:  ''
+    },
+    EDITBOARD_SIZE: {
+        en:  'Board size (measured in tickets)',
+        fi:  'Laudan koko (lappuina)',
+        swe: 'Bordets storlek (som lappar)',
+        ru:  ''
+    },
+    EDITBOARD_WIDTH: {
+        en:  'Width',
+        fi:  'Leveys',
+        swe: 'Bredd',
+        ru:  ''
+    },
+    EDITBOARD_HEIGHT: {
+        en:  'Height',
+        fi:  'Korkeus',
+        swe: 'Höjd',
+        ru:  ''
+    },
 
-        //REMOVEBOARD
-        REMOVEBOARD_TITLE:       'удалить доска',
-        REMOVEBOARD_WITHNAME:    'Ты уверен что хотите удалить доску {board_name}?',
-        REMOVEBOARD_WITHOUTNAME: 'Ты уверен что хотите удалить этот борт?',
-        REMOVEBOARD_REMOVE:      'удалить',
+    /********************************
+    /   REMOVE BOARD
+    ********************************/
+    REMOVEBOARD_TITLE: {
+        en: 'Remove board',
+        fi: 'Poista lauta',
+        se: '',
+        ru: ''
+    },
+    REMOVEBOARD_WITHNAME: {
+        en: 'Are you sure you want to delete {board_name}?',
+        fi: 'Haluatko varmasti poistaa laudan {board_name}?',
+        se: '',
+        ru: ''
+    },
+    REMOVEBOARD_WITHOUTNAME: {
+        en: 'Are you sure you want to delete this board?',
+        fi: 'Haluatko varmasti poistaa tämän laudan?',
+        se: '',
+        ru: ''
+    },
+    REMOVEBOARD_REMOVE: {
+        en: 'Remove',
+        fi: 'Poista',
+        se: '',
+        ru: ''
+    },
 
-        //BOARDMEMBERS
-        BOARDMEMBERS_TITLE: 'совет директоров',
+    /********************************
+    /   INFO VIEW
+    ********************************/
+    // Controls
+    INFO_CONTROLS_WORKSPACE: {
+        en: 'Return to workspace',
+        fi: 'Palaa työtilaan',
+        se: 'Retur till arbetsyten',
+        ru: ''
+    },
+    INFO_CONTROLS_EDITBOARD: {
+        en: 'Edit board',
+        fi: 'Muokkaa lautaa',
+        se: 'Redigera bordet',
+        ru: ''
+    },
+    INFO_CONTROLS_SHAREBOARD: {
+        en: 'Share board',
+        fi: 'Jaa lauta',
+        se: 'Del bordet',
+        ru: ''
+    },
+    INFO_CONTROLS_REVIEWBOARD: {
+        en: 'Review Mode',
+        fi: 'Esitystila',
+        se: 'Presentationsläge',
+        ru: ''
+    },
+    INFO_CONTROLS_EXPORTBOARD: {
+        en: 'Export board',
+        fi: 'Lataa lauta',
+        se: 'Exportera bordet',
+        ru: ''
+    },
+    INFO_CONTROLS_SNAP: {
+        en: 'Snap the tickets to the grid',
+        fi: 'Kohdista laput ruudukkoon',
+        se: 'Fäst mot stödraste',
+        ru: ''
+    },
+    INFO_CONTROLS_MINIMAP: {
+        en: 'Toggle minimap',
+        fi: 'Avaa minikartta',
+        se: 'Vis miniatyröversikt',
+        ru: ''
+    },
 
-        //EDITTICKET
-        EDITTICKET_HEADING:     'заголовок билетов',
-        EDITTICKET_CONTENT:     'содержание билетов',
-        EDITTICKET_YOURCOMMENT: 'Ваш комментарий',
-        EDITTICKET_ADDCOMMENT:  'добавить комментарий',
-        EDITTICKET_DELETE:      'удалить',
-        EDITTICKET_SAVE:        'сохранить',
-        //EXPORTBOARD
-        EXPORTBOARD_TITLE:     'Экспорт доска',
-        EXPORTBOARD_FORMAT:    'формат экспорта',
-        EXPORTBOARD_EXPBUTTON: 'Экспорт',
+    // Dropdown
+    INFO_DROPDOWN_PROFILE: {
+        en: 'Edit your profile',
+        fi: 'Muokkaa profiiliasi',
+        se: 'Redigera din profil',
+        ru: ''
+    },
+    INFO_DROPDOWN_LOCALE: {
+        en: 'Change language',
+        fi: 'Vaihda kieltä',
+        se: 'Redigera språk',
+        ru: ''
+    },
+    INFO_DROPDOWN_FEEDBACK: {
+        en: 'Send feedback to the developers',
+        fi: 'Lähetä palautetta kehittäjille',
+        se: 'Skicka feedback till utvecklarna',
+        ru: ''
+    },
+    INFO_DROPDOWN_ABOUT: {
+        en: 'Show information about Contriboard',
+        fi: 'Näytä tietoa Contriboardista',
+        se: 'Vis information om Contriboard',
+        ru: ''
+    },
+    INFO_DROPDOWN_LOGOUT: {
+        en: 'Log out',
+        fi: 'Kirjaudu ulos',
+        se: 'Logga ut',
+        ru: ''
+    },
 
-        //INFOVIEW
-        //SLIDE1
-        INFO_TOWS:        'Вернуться к рабочей',
-        INFO_EDITBOARD:   'Ред актировать доска',
-        INFO_SHAREBOARD:  'Доля платы',
-        INFO_EXPORTBOARD: 'Экспорт доска',
-        INFO_SNAP:        'Сделать билеты привязки к сетке',
-        INFO_MINIMAP:     'Переключение обзор платы и навигации',
-        INFO_PROFILE:     'Редактировать профиль',
-        INFO_LOCALE:      'Изменить язык операционной',
-        INFO_FEEDBACK:    'Отправить отзыв разработчикам',
-        INFO_ABOUT:       'Информация о Contriboard',
-        INFO_LOGOUT:      'выйти',
-        //SLIDE2
-        INFO_TAPBOARD:    'Дважды нажмите, чтобы создать совет билет.',
-        INFO_TAPTICKET:   'Дважды нажмите билет, чтобы изменить его.',
-        INFO_TICKETCOLOR: 'Выберите цвет для вашего билета.',
-        INFO_EDITTICKET:  'Редактировать содержимое билета.',
-        //SLIDE3
-        INFO_EDITNAME:     'Измените имя этого совета.',
-        INFO_PREVIEWBOARD: 'Совет просмотра.',
-        INFO_EDITBG:       'Редактировать доска фоновое изображение.',
-        INFO_CHANGESIZE:   'Изменить размер этой платы.',
-        //SLIDE4
-        INFO_SHAREURL: 'Нажмите Отправить, чтобы получить адрес этой платы для совместного использования.',
-        //SLIDE5
-        INFO_GETEXPORT: 'Выберите формат экспорта и нажмите Экспорт, чтобы загрузить файл.',
+    // Ticket
+    INFO_TICKET_CREATENEW: {
+        en: 'Double tap the board to create a ticket',
+        fi: 'Kaksoisnapauta lautaa luodaksesi lapun',
+        se: 'Dubbelklicka bordet för att skapa en lapp',
+        ru: ''
+    },
+    INFO_TICKET_NEWTICKET: {
+        en: 'This is what your new ticket looks like',
+        fi: 'Tältä tuliterä lappusi nyt näyttää',
+        se: 'Detta är vad din lapp ser ut',
+        ru: ''
+    },
+    INFO_TICKET_TICKETEDIT: {
+        en: 'You can double click the ticket to edit it',
+        fi: 'Voit kaksoisnapauttaa lappuasi muokataksesi sitä',
+        se: 'Du kan dubbelklicka lappen för att redigera det.',
+        ru: ''
+    },
+    INFO_TICKET_COLOR: {
+        en: 'Ticket color',
+        fi: 'Lapun väri',
+        se: 'Lappens färg',
+        ru: ''
+    },
+    INFO_TICKET_HEADER: {
+        en: 'Ticket header',
+        fi: 'Lapun otsikko',
+        se: 'Lappens överskrift',
+        ru: ''
+    },
+    INFO_TICKET_CONTENT: {
+        en: 'Ticket content',
+        fi: 'Lapun sisältö',
+        se: 'Lappens innehåll',
+        ru: ''
+    },
+    INFO_TICKET_COMMENTS: {
+        en: 'Amount of comments on the ticket',
+        fi: 'Lapun kommenttien määrä',
+        se: 'Antalet kommentarer på lappen',
+        ru: ''
+    },
 
-        //ABOUT
-        ABOUT_TITLE:    'Обо Contriboard',
-        ABOUT_ABOUT:    'Быстрый открытым исходным кодом мозговой штурм инструмент для всех.',
-        ABOUT_DEVS:     'разработчиков:',
-        ABOUT_HOMEPAGE: 'Contriboard домашнюю:',
-        ABOUT_CLIENT:   'Client версия:',
-        ABOUT_API:      'API версия:',
-        ABOUT_IMG:      'IMG версия',
+    // Edit ticket
+    INFO_EDITTICKET_COLOR: {
+        en: 'Select the ticket\'s color',
+        fi: 'Valitse lapulle väri',
+        se: 'Välj en färg för lappen',
+        ru: ''
+    },
+    INFO_EDITTICKET_HEADER: {
+        en: 'Edit the ticket\'s title',
+        fi: 'Muokkaa lapun otsikkoa',
+        se: 'Redigera lappens överskrift',
+        ru: ''
+    },
+    INFO_EDITTICKET_CONTENT: {
+        en: 'Edit the ticket\s content',
+        fi: 'Muokkaa lapun sisältöä',
+        se: 'Redigera lappens innehåll',
+        ru: ''
+    },
+    INFO_EDITTICKET_COMMENTADD: {
+        en: 'Add a comment to the ticket',
+        fi: 'Klikkaa lisätääksesi kommentti',
+        se: 'Lägga till en kommentar',
+        ru: ''
+    },
+    INFO_EDITTICKET_COMMENTAREA: {
+        en: 'Comments added to the ticket',
+        fi: 'Lappuun kirjoitetut kommentit',
+        se: 'Kommentar lagt till lappen',
+        ru: ''
+    },
+    INFO_EDITTICKET_CANCEL: {
+        en: 'Cancel changes and return to the board',
+        fi: 'Peruuta muutokset ja palaa laudalle',
+        se: 'Avbryt förandringarna och retur till bordet',
+        ru: ''
+    },
+    INFO_EDITTICKET_SAVE: {
+        en: 'Save the changes and return to the board',
+        fi: 'Tallenna muutokset ja palaa laudalle',
+        se: 'Spar förandringarna och retur till bordet',
+        ru: ''
+    },
+    INFO_EDITTICKET_DELETE: {
+        en: 'Delete the ticket',
+        fi: 'Poista lappu',
+        se: 'Radera lappen',
+        ru: ''
+    },
 
-        //SHARE BOARD
-        SHARE_TITLE: 'Поделиться Совет',
-        SHARE_LINK:  'Общий ссылку',
-        SHARE_SHOW:  'поделиться',
-        SHARE_HIDE:  'скрывать',
+    // Edit board (admin only)
+    INFO_EDITBOARD_NAME: {
+        en: 'Edit the name of the board',
+        fi: 'Muokkaa laudan nimeä',
+        se: 'Redigera bordets namn',
+        ru: ''
+    },
+    INFO_EDITBOARD_MINIMAP: {
+        en: 'Toggles a minimap of the board',
+        fi: 'Avaa pienoiskartta laudasta',
+        se: 'Öppna en miniatyröversikt av bordet',
+        ru: ''
+    },
+    INFO_EDITBOARD_BACKGROUND: {
+        en: 'Change the background of the board',
+        fi: 'Vaihta laudan taustakuvaa',
+        se: 'Redigera bordets bakgrund',
+        ru: ''
+    },
+    INFO_EDITBOARD_BACKGROUNDCUSTOM: {
+        en: 'Enter a URL to a custom background image',
+        fi: 'Syötä osoite taustakuvaan',
+        se: 'Ange en URL till din bakgrund bild',
+        ru: ''
+    },
+    INFO_EDITBOARD_SIZE: {
+        en: 'Set the width and the height of your board',
+        fi: 'Syötä lautasi korkeus ja leveys',
+        se: 'Ange höjd och bredd ',
+        ru: ''
+    },
+    INFO_EDITBOARD_DONE: {
+        en: 'Save your changes and return to the board',
+        fi: 'Tallenna muutokset ja palaa laudalle',
+        se: 'Spar förandringarna och retur till bordet',
+        ru: ''
+    },
 
-        //TIMEAGO TRANSLATIONS
-            //SINGULAR
-        TIME_SECOND: 'вторая',
-        TIME_MINUTE: 'минута',
-        TIME_HOURS:  'час',
-        TIME_DAYS:   'дн',
-        TIME_WEEKS:  'Неделя',
-        TIME_MONTHS: 'Месяц',
-        TIME_YEARS:  'Год',
-            //PLURAL
-        TIME_SECONDS: 'секунд',
-        TIME_MINUTES: 'мин',
-        TIME_HOURS:   'час',
-        TIME_DAYS:    'дн',
-        TIME_WEEKS:   'недели',
-        TIME_MONTHS:  'Месяцы',
-        TIME_YEARS:   'Годы',
-        TIME_SUFFIX:  'назад',
+    // Share board (admin only)
+    INFO_SHAREBOARD_LINK: {
+        en: 'Generate a share link to share the board',
+        fi: 'Luo jakolinkki, jonka avulla voit jakaa laudan muille',
+        se: 'Hämta en delningslänk för att dela bordet',
+        ru: ''
+    },
+    INFO_SHAREBOARD_DONE: {
+        en: 'Return to the board',
+        fi: 'Palaa laudalle',
+        se: 'Retur till bordet',
+        ru: ''
+    },
 
+    // Review view
+    INFO_REVIEW_CONTENT: {
+        en: 'Tickets in Review Mode',
+        fi: 'Laput esitystilassa',
+        se: 'Lapparna i presentationsläget',
+        ru: ''
+    },
+    INFO_REVIEW_ARROWS: {
+        en: 'Use the arrows to navigate the presentation mode ',
+        fi: 'Käytä nuolia navigoidaaksesi esitystilassa',
+        se: 'Använda pilarna för att navigera i presentationsläget',
+        ru: ''
+    },
+
+    // Export board
+    INFO_EXPORTBOARD_FORMAT: {
+        en: 'Select an file format and download the board',
+        fi: 'Valitse tiedostonmuoto ja lataa lauta',
+        se: 'Välj en export format och spara bordet',
+        ru: ''
+    },
+    INFO_EXPORTBOARD_DONE: {
+        en: 'Return to the board',
+        fi: 'Palaa laudalle',
+        se: 'Retur till bordet',
+        ru: ''
+    },
+
+    /********************************
+    /   TIME                        *
+    ********************************/
+    //SINGULAR
+    TIME_SECOND: {
+        en: 'second',
+        fi: 'sekuntti',
+        se: 'sekund',
+        ru: ''
+    },
+    TIME_MINUTE: {
+        en: 'minute',
+        fi: 'minuutti',
+        se: 'minut',
+        ru: ''
+    },
+    TIME_HOUR: {
+        en: 'hour',
+        fi: 'tunti',
+        se: 'timma',
+        ru: ''
+    },
+    TIME_DAY: {
+        en: 'day',
+        fi: 'päivä',
+        se: 'dag',
+        ru: ''
+    },
+    TIME_WEEK: {
+        en: 'week',
+        fi: 'viikko',
+        se: 'vecka',
+        ru: ''
+    },
+    TIME_MONTH: {
+        en: 'month',
+        fi: 'kuukausi',
+        se: 'månad',
+        ru: ''
+    },
+    TIME_YEAR: {
+        en: 'year',
+        fi: 'vuosi',
+        se: 'år',
+        ru: ''
+    },
+
+    //PLURAL
+    TIME_SECONDS: {
+        en: 'seconds',
+        fi: 'sekunttia',
+        se: 'sekunder',
+        ru: ''
+    },
+    TIME_MINUTES: {
+        en: 'minutes',
+        fi: 'minuuttia',
+        se: 'minuter',
+        ru: ''
+    },
+    TIME_HOURS: {
+        en: 'hours',
+        fi: 'tuntia',
+        se: 'timmar',
+        ru: ''
+    },
+    TIME_DAYS: {
+        en: 'days',
+        fi: 'päivää',
+        se: 'dagar',
+        ru: ''
+    },
+    TIME_WEEKS: {
+        en: 'weeks',
+        fi: 'viikkoa',
+        se: 'veckor',
+        ru: ''
+    },
+    TIME_MONTHS: {
+        en: 'months',
+        fi: 'kuukautta',
+        se: 'månader',
+        ru: ''
+    },
+    TIME_YEARS: {
+        en: 'years',
+        fi: 'vuotta',
+        se: 'år',
+        ru: ''
+    },
+    TIME_SUFFIX: {
+        en: 'ago',
+        fi: 'sitten',
+        se: 'sedan',
+        ru: ''
+    },
+
+    /********************************
+    /   BOARD MEMBERS               *
+    ********************************/
+    BOARDMEMBERS_TITLE: {
+        en: 'Board members',
+        fi: 'Laudan jäsenet',
+        se: '',
+        ru: ''
+    },
+
+    /********************************
+    /   EDIT TICKET                 *
+    ********************************/
+    EDITTICKET_HEADER: {
+        en: 'Ticket header',
+        fi: 'Lapun otsikko',
+        se: '',
+        ru: ''
+    },
+    EDITTICKET_CONTENT: {
+        en: 'Ticket content',
+        fi: 'Lapun sisältö',
+        se: '',
+        ru: ''
+    },
+    EDITTICKET_YOURCOMMENT: {
+        en: 'Your comment',
+        fi: 'Kommenttisi',
+        se: '',
+        ru: ''
+    },
+    EDITTICKET_ADDCOMMENT: {
+        en: 'Add comment',
+        fi: 'Lisää kommentti',
+        se: '',
+        ru: ''
+    },
+
+    /********************************
+    /   BOARD EXPORT                *
+    ********************************/
+    EXPORTBOARD_TITLE: {
+        en: 'Export board',
+        fi: 'Lataa lauta koneellesi',
+        se: '',
+        ru: ''
+    },
+    EXPORTBOARD_FORMAT: {
+        en: 'Format',
+        fi: 'Formaatti',
+        se: '',
+        ru: ''
+    },
+    EXPORTBOARD_EXPORT: {
+        en: 'Export',
+        fi: 'Lataa',
+        se: '',
+        ru: ''
     }
 }
