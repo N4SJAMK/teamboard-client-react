@@ -1,10 +1,10 @@
 import page            from 'page';
 import UserAction      from '../../actions/user';
 import BroadcastAction from '../../actions/broadcast';
+
 /*
  *
  */
-
 export default {
 		fieldNames: [
 			'oldPassword',
@@ -46,12 +46,14 @@ export default {
 				}
 			],
 			submit: (state) => {
-				return UserAction.updatePassword(state.newPassword, state.oldPassword).then(() => {
-					BroadcastAction.add({
-						type:    'broadcast',
-						content: 'Success!'
-					});
-				}).catch(() => {});
+				return UserAction
+					.updatePassword(state.newPassword, state.oldPassword)
+					.then(() => {
+						BroadcastAction.add({
+							type:    'broadcast',
+							content: 'Success!'
+						});
+					}).catch(() => { });
 			},
 			action: 'Save changes'
 		},
@@ -81,12 +83,13 @@ export default {
 				}
 			],
 			submit: (state) => {
-				return UserAction.updateUser(state.name, state.avatar).then(() => {
-					BroadcastAction.add({
-						type:    'broadcast',
-						content: 'Success!'
-					});
-				}).catch(() => {});
+				return UserAction.updateUser(state.name, state.avatar)
+					.then(() => {
+						BroadcastAction.add({
+							type:    'broadcast',
+							content: 'Success!'
+						});
+					}).catch(() => { });
 			},
 			action: 'Save changes'
 		},

@@ -1,25 +1,27 @@
-import React		from 'react/addons';
-import Carousel		from 'nuka-carousel';
-import Dialog		from '../../components/dialog';
-import TextBoxes	from './text-box';
-import Dropdown 	from '../dropdown';
+import React    from 'react/addons';
+import Carousel from 'nuka-carousel';
+
+import Dialog    from '../../components/dialog';
+import TextBoxes from './text-box';
+import Dropdown  from '../dropdown';
 
 /**
  *
  */
-
 export default React.createClass({
 	mixins: [ Carousel.ControllerMixin ],
+
 	getInitialState(){
 		return { currentSlide: null }
 	},
 
 	componentDidMount() {
 		localStorage.setItem('infovisited', true);
-		this.el = document.getElementById('application');
+
+		this.el           = document.getElementById('application');
 		this.el.className = 'info-view-active';
-		this.avatar = document.getElementById('avatar');
-		this.infobutton = document.getElementById('info');
+
+		this.infobutton           = document.getElementById('info');
 		this.infobutton.className = 'infobutton active';
 	},
 
@@ -27,9 +29,9 @@ export default React.createClass({
 		this.el.className = '';
 	},
 
-	componentDidUpdate(){
-		this.el.className =
-			`info-view-active slide-${this.state.carousels.carousel.state.currentSlide}`;
+	componentDidUpdate() {
+		this.el.className = `info-view-active slide-
+			${this.state.carousels.carousel.state.currentSlide}`;
 	},
 
 	render() {
@@ -41,11 +43,12 @@ export default React.createClass({
 		];
 
 		/*
-		Second layer arrays represent the slides. First one of the
-		third layer arrays contain anything other than textbox-components
-		while the second ones contain the textboxes' props.
-		*/
+		 * Second layer arrays represent the slides. First one of the third
+		 * layer arrays contain anything other than textbox-components while
+		 * the second ones contain the textboxes' props.
+		 */
 		let objects = [
+			/* eslint-disable */
 			[
 				[ <Dropdown className="infodrop" show={true} items={dropitems} /> ],
 				[
@@ -92,21 +95,21 @@ export default React.createClass({
 					{ content: 'Select an export format and hit Export to download the file.', className: 'pos-format' }
 				]
 			]
+			/* eslint-enable */
 		];
 
 		return (
 			<Dialog className="info" viewProfile="info"
 					onDismiss={this.props.onDismiss}>
 				<Carousel ref="carousel" className="infocarousel"
-					data={this.setCarouselData.bind(this, 'carousel')}>
-
+						data={this.setCarouselData.bind(this, 'carousel')}>
 					{objects.map((item) => {
-					return (
-						<div>
-							<TextBoxes items={item[1]} objects={item[0]}/>
-						</div>
-					);
-				})}
+						return (
+							<div>
+								<TextBoxes items={item[1]} objects={item[0]} />
+							</div>
+						);
+					})}
 				</Carousel>
 			</Dialog>
 		);

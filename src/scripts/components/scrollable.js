@@ -5,7 +5,6 @@ import Board   from '../models/board';
 import Minimap from '../components/minimap';
 
 /**
- *
  * TODO Remove the dependency of 'Board', just a simple component which makes
  *      a 'Scrollable' area and attaches the given 'minimap' to it.
  */

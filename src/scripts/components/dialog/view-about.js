@@ -1,7 +1,8 @@
-import React		from 'react/addons';
-import Dialog		from '../../components/dialog';
-import UserStore	from '../../stores/user';
-import api		from '../../utils/api';
+import React from 'react/addons';
+
+import api       from '../../utils/api';
+import Dialog    from '../../components/dialog';
+import UserStore from '../../stores/user';
 
 export default React.createClass({
 	propTypes: {
@@ -9,36 +10,40 @@ export default React.createClass({
 	},
 
 	getInitialState() {
-	return {
-		infoReceived:   false,
-		clientVersion:  process.env.VERSION || 'unknown',
-		apiVersion:     null,
-		imgVersion:     null
+		return {
+			infoReceived:  false,
+			clientVersion: process.env.VERSION || 'unknown',
+			apiVersion:    null,
+			imgVersion:    null
 		}
 	},
 
-	componentWillMount(){
+	componentWillMount() {
 		let token = UserStore.getToken();
 
-		api.queryApiVersion({ token }).then((res) => {
-			this.state.apiVersion = res.version || 'unknown';
-			this.setState({ infoReceived : true });
-		}, (err) => {
-			this.state.apiVersion = 'error';
-			this.setState({ infoReceived : true });
-		});
+		api.queryApiVersion({ token }).then(
+			(res) => {
+				this.state.apiVersion = res.version || 'unknown';
+				this.setState({ infoReceived : true });
+			},
+			() => {
+				this.state.apiVersion = 'error';
+				this.setState({ infoReceived : true });
+			});
 
-		api.queryImgVersion({ token }).then((res) => {
-		this.state.imgVersion = res.version || 'unknown';
-			this.setState({ infoReceived : true });
-		}, (err) => {
-			this.state.imgVersion = 'error';
-			this.setState({ infoReceived : true });
-		});
+		api.queryImgVersion({ token }).then(
+			(res) => {
+				this.state.imgVersion = res.version || 'unknown';
+				this.setState({ infoReceived : true });
+			},
+			() => {
+				this.state.imgVersion = 'error';
+				this.setState({ infoReceived : true });
+			});
 	},
 
-	shouldComponentUpdate(){
-		if(!this.state.apiVersion || !this.state.imgVersion){
+	shouldComponentUpdate() {
+		if(!this.state.apiVersion || !this.state.imgVersion) {
 			return false;
 		}
 		return true;
@@ -51,6 +56,7 @@ export default React.createClass({
 
 	render() {
 		return (
+			/* eslint-disable */
 			<Dialog className="dialog-about"
 					onDismiss={this.props.onDismiss}>
 				<section className="dialog-header">
@@ -96,6 +102,7 @@ export default React.createClass({
 					</button>
 				</section>
 			</Dialog>
+			/* eslint-enable */
 		);
 	}
 });
