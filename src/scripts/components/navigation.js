@@ -46,8 +46,9 @@ export default React.createClass({
 
 	toggleDropdown() {
 		this.setState({ dropdown: !this.state.dropdown });
-		if(this.state.localesDropdown)
+		if(this.state.localesDropdown) {
 			this.setState({ localesDropdown: !this.state.localesDropdown });
+		}
 	},
 
 	toggleInfoView() {
@@ -167,22 +168,34 @@ export default React.createClass({
 			}
 		];
 		let locales = [
-			{flag: 'fi', content: 'Suomi', onClick: () => {
+			{
+				flag: 'fi',
+				content: 'Suomi',
+				onClick: () => {
 					SettingsAction.setSetting('locale', 'fi');
 					this.toggleDropdown();
 				}
 			},
-			{flag: 'se', content: 'Svenska', onClick: () => {
+			{
+				flag: 'se',
+				content: 'Svenska',
+				onClick: () => {
 					SettingsAction.setSetting('locale', 'se');
 					this.toggleDropdown();
 				}
 			},
-			{flag: 'ru', content: 'русский', onClick: () => {
+			{
+				flag: 'ru',
+				content: 'русский',
+				onClick: () => {
 					SettingsAction.setSetting('locale', 'ru');
 					this.toggleDropdown();
 				}
 			},
-			{flag: 'gb', content: 'English', onClick: () => {
+			{
+				flag: 'gb',
+				content: 'English',
+				onClick: () => {
 					SettingsAction.setSetting('locale', 'en');
 					this.toggleDropdown();
 				}
@@ -208,8 +221,8 @@ export default React.createClass({
 								usertype={userType}>
 						</Avatar>
 				</div>
-				<Dropdown className='options' show={this.state.dropdown} items={items} />
-				<Dropdown className='locales' show={this.state.localesDropdown} items={locales} />
+				<Dropdown className="options" show={this.state.dropdown} items={items} />
+				<Dropdown className="locales" show={this.state.localesDropdown} items={locales} />
 				{infoDialog}
 				{boardMembersDialog}
 				{aboutDialog}

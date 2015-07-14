@@ -61,12 +61,14 @@ export default React.createClass({
 				return event.preventDefault();
 			}
 		}
-		else return (event) => {
-			BroadcastAction.add({
-				type:    'Error',
-				content: 'Passwords entered do not match!'
-			});
-			return event.preventDefault();
+		else {
+			return (event) => {
+				BroadcastAction.add({
+					type:    'Error',
+					content: 'Passwords entered do not match!'
+				});
+				return event.preventDefault();
+			}
 		}
 	},
 

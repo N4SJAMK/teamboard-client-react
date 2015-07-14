@@ -80,7 +80,7 @@ export default flux.store({
 				avatar:   payload.user.avatar
 
 				//boards:   storedUser.boards
-			}	
+			}
 			localStorage.setItem('user',  JSON.stringify(user));
 			localStorage.setItem('token', payload.token);
 		},

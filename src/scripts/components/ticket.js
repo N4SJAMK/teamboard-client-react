@@ -150,7 +150,11 @@ export default React.createClass({
 
 		let commentCount = null;
 
-		this.props.ticket.comments.size < 100 ? commentCount = this.props.ticket.comments.size : commentCount = "99+";
+		if (this.props.ticket.comments.size < 100) {
+			commentCount = this.props.ticket.comments.size
+		} else {
+			commentCount = '99+';
+		}
 
 		return (
 			<div className="ticket" style={style.ticket}>
@@ -159,7 +163,7 @@ export default React.createClass({
 					{this.props.ticket.heading}
 				</div>
 				<div className="content">
-					<span dangerouslySetInnerHTML={{__html: markupContent}} />
+					<span dangerouslySetInnerHTML={{ __html: markupContent }} />
 					<span className="count-icon">
 						<span className="fa fa-2x fa-comment comment">
 							<span className="count">{commentCount}</span>

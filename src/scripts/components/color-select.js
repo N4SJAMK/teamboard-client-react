@@ -22,7 +22,7 @@ const ColorButton = React.createClass({
 
 	render() {
 		return <div className="option"
-			style={{ backgroundColor: this.props.color }} id={"color-" + this.props.color} />;
+			style={{ backgroundColor: this.props.color }} id={'color-' + this.props.color} />;
 	}
 });
 

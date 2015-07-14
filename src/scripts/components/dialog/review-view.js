@@ -61,15 +61,16 @@ export default React.createClass({
 					},
 
 					render() {
-						let style = {opacity: 0};
+						let style = { opacity: 0 };
 
 						if(this.props.currentSlide !== 0 && this.props.slideCount > 0) {
-							style = { opacity: 1, cursor: 'pointer'}
+							style = { opacity: 1, cursor: 'pointer' }
 						}
 
 						return (
-							<span style={style}
-							onClick={this.props.previousSlide} className="fa fa-chevron-left" />
+							<span style={ style }
+							onClick={this.props.previousSlide}
+							className="fa fa-chevron-left" />
 						);
 					}
 				}),
@@ -81,14 +82,15 @@ export default React.createClass({
 			{
 				component: React.createClass({
 					render() {
-						let style = {opacity: 0};
+						let style = { opacity: 0 };
 						if(this.props.currentSlide !== --this.props.slideCount) {
-							style = { opacity: 1, cursor: 'pointer'}
+							style = { opacity: 1, cursor: 'pointer' }
 						}
 
 						return (
 							<span style={style}
-							onClick={this.props.nextSlide} className="fa fa-chevron-right" />
+							onClick={this.props.nextSlide}
+							className="fa fa-chevron-right" />
 						);
 					}
 				}),
@@ -126,7 +128,7 @@ export default React.createClass({
 		return this.props.tickets.toJS().map((ticket, index) => {
 			let markupContent = markdown.markdown.toHTML(ticket.content).replace(/<a href="/g, '<a target="_blank" href="');
 			let dialogClasses = index !== this.currentSlide ? 'review-dialog' : 'review-dialog active';
-			let ticketColor = {backgroundColor: ticket.color};
+			let ticketColor = { backgroundColor: ticket.color };
 			let ticketNumber = <span className="ticket-number">
 					{ `${index+1} / ${this.ticketArrayLength}` }
 				</span>;
@@ -139,7 +141,7 @@ export default React.createClass({
 							{ticketNumber}
 							<p className="ticket-header-text" title={ticket.heading}>{ticket.heading}</p>
 							<span className="review-dialog-content"
-								dangerouslySetInnerHTML={{__html: markupContent}}>
+								dangerouslySetInnerHTML={{ __html: markupContent }}>
 							</span>
 							<section className="review-dialog-comments">
 								<section className="review-comment-wrapper">
