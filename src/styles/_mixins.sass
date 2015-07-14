@@ -6,8 +6,8 @@
 	z-index:    $index
 	box-shadow: 2px 2px 4px $dove-gray
 
-@mixin slide($index, $icon)
-	&.slide-#{$index}
+@mixin slide($index, $role, $icon)
+	&.slide-#{$index}-#{$role}
 		.view-board
 			.controls
 				z-index: 10000

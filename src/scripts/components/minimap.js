@@ -1,5 +1,6 @@
-import React     from 'react/addons';
-import immutable from 'immutable';
+import React      from 'react/addons';
+import immutable  from 'immutable';
+import classNames from 'classnames';
 
 import Board  from '../models/board';
 import Ticket from '../models/ticket';
@@ -86,7 +87,7 @@ export default React.createClass({
 
 	render() {
 		let board   = this.props.board;
-		let classes = React.addons.classSet({
+		let classes = classNames({
 			minimap: true, hidden: !this.props.show
 		});
 

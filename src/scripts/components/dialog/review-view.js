@@ -49,7 +49,7 @@ export default React.createClass({
 				component: React.createClass({
 					render() {
 						let style = { opacity: 0 }
-						if(this.props.currentSlide < this.props.slideCount) {
+						if(this.props.currentSlide < (this.props.slideCount - 1)) {
 							style = { opacity: 1, cursor: 'pointer' }
 						}
 						return (

@@ -6,10 +6,9 @@ import Hammer from 'hammerjs';
  */
 export default React.createClass({
 	mixins: [ React.addons.PureRenderMixin ],
-
-	// Since this component is used for the infolayer, infoView is true while it
-	// is active and dictates whether a form gets rendered within the dialog
-	// or not.
+	//Since this component is used for the infolayer, infoView is true while it
+	//is active and dictates whether a form gets rendered within the dialog
+	//or not.
 	propTypes: {
 		viewProfile: React.PropTypes.string,
 		className: React.PropTypes.string,
@@ -63,26 +62,18 @@ export default React.createClass({
 	},
 
 	renderDialog() {
-		let form = this.props.viewProfile !== 'info'
-			? (
-				<form className={`dialog ${this.props.className}`}
+		let classDialog = this.props.viewProfile !== 'review' ?
+				'dialog-overlay' : 'review-overlay';
+
+		let classForm = this.props.viewProfile === 'info' ?
+				'info ' : `dialog ${this.props.className}`
+
+		return (
+			<div className={classDialog}>
+				<form className={classForm}
 						onSubmit={this.onSubmit}>
 					{this.props.children}
 				</form>
-			)
-			: (
-				<div className={`${this.props.className}`}
-						onSubmit={this.onSubmit}>
-					{this.props.children}
-				</div>
-			);
-
-		let className = this.props.viewProfile !== 'review'
-			? 'dialog-overlay' : 'review-overlay';
-
-		return (
-			<div className={className}>
-				{form}
 			</div>
 		);
 	}
