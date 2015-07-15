@@ -62,7 +62,6 @@ export default React.createClass({
 					? size.height - Ticket.Height
 					: position.y)
 				: 0;
-
 			TicketAction.create(this.props.board, { position });
 		});
 	},
@@ -102,7 +101,7 @@ export default React.createClass({
 		return this.props.board.tickets.map((ticket) => {
 			return (
 				<TicketComponent key={ticket.id} snap={this.props.snap}
-					board={this.props.board.id} ticket={ticket} />
+					board={this.props.board} ticket={ticket} />
 			);
 		});
 	}

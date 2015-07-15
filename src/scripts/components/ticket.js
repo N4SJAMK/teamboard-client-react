@@ -8,6 +8,7 @@ import gridify   from '../utils/gridify';
 import doubletap from '../utils/doubletap';
 
 import Ticket       from '../models/ticket';
+import Board        from '../models/board';
 import TicketAction from '../actions/ticket';
 
 import DraggableMixin   from '../mixins/draggable';
@@ -23,8 +24,10 @@ export default React.createClass({
 		ticket: (props) => {
 			if(!props.ticket instanceof Ticket) throw new Error();
 		},
-		snap:  React.PropTypes.bool,
-		board: React.PropTypes.string.isRequired
+		board: (props) => {
+			if(!props.board instanceof Board) throw new Error();
+		},
+		snap:  React.PropTypes.bool
 	},
 
 	getDefaultProps() {
@@ -51,7 +54,7 @@ export default React.createClass({
 
 		let havePropsChanged = (
 			prevProps.snap  !== nextProps.snap                ||
-			prevProps.board !== nextProps.board               ||
+			prevProps.board.id !== nextProps.board.id               ||
 			!immutable.is(prevProps.ticket, nextProps.ticket)
 		);
 
@@ -82,7 +85,7 @@ export default React.createClass({
 				}
 				else this.setState({ x: position.x, y: position.y });
 
-				TicketAction.update({ id: this.props.board }, {
+				TicketAction.update({ id: this.props.board.id }, {
 					id: this.props.ticket.id,
 					position: { x: this.state.x, y: this.state.y }
 				});

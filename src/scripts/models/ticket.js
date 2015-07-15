@@ -25,8 +25,9 @@ const Ticket = immutable.Record({
 	color:    Color.VIOLET,
 	content:  '',
 	heading:  '',
+	createdBy: new User(),
 	comments: immutable.List(),
-	position: new Position()
+	position: new Position(),
 });
 
 Ticket.Width    = 192;
@@ -40,14 +41,21 @@ Ticket.Position = Position;
  */
 Ticket.fromJS = function fromJS(ticket) {
 	ticket.comments = ticket.comments || [ ];
-
 	let hascolor = Object.keys(Ticket.Color)
 		.map((color) => Ticket.Color[color] === ticket.color)
 		.reduce((has, color) => has || color, false);
 	ticket.color    = hascolor ? ticket.color : Ticket.Color.VIOLET;
 	ticket.position = new Position(ticket.position);
+	
+	if(ticket.createdBy === String) {
+		delete ticket.createdBy;
+	}
 
-	if (ticket.comments) {
+	if(ticket.createdBy) {
+		ticket.createdBy = new User(ticket.createdBy);
+	}
+
+	if(ticket.comments) {
 		ticket.comments = ticket.comments.reduce((collection, record) => {
 
 			if (record.user !== null && typeof record.user === 'object') {

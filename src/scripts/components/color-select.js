@@ -1,6 +1,6 @@
 import React  from 'react/addons';
 import Hammer from 'hammerjs';
-
+import TimeAgo   from 'react-timeago';
 import Ticket from '../models/ticket';
 
 /**
@@ -33,6 +33,7 @@ export default React.createClass({
 	mixins: [ React.addons.PureRenderMixin ],
 
 	propTypes: {
+		ticketData: React.PropTypes.object,
 		color: React.PropTypes.shape({
 			value:         React.PropTypes.string.isRequired,
 			requestChange: React.PropTypes.func.isRequired
@@ -50,6 +51,7 @@ export default React.createClass({
 			<div className="color-select">
 				<div className="value"
 					style={{ backgroundColor: this.props.color.value }} />
+					<span className="creator">{`Created by ${this.props.ticketData.createdBy}`}</span>
 				<div className="options">
 					{colors.map((color) => {
 						return <ColorButton key={color} color={color}
