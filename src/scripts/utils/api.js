@@ -21,6 +21,7 @@ export default {
 	getBoards:       getBoards,
 	getTicket:       getTicket,
 	getTickets:      getTickets,
+    getComments:     getComments,
 
     updateUserPassword: updateUserPassword,
     updateUser:         updateUser,
@@ -163,6 +164,23 @@ function getTickets(opts = {}) {
     });
 }
 
+function getComments(opts = {}) {
+    let options = {
+        url:   `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}/comments`,
+        token: opts.token
+    }
+    return request.get(options).then(res => res.body);
+}
+
+function createComment(opts = {}) {
+    let options = {
+        url:     `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}/comments`,
+        token:   opts.token,
+        payload: opts.payload
+    }
+    return request.post(options).then(res => res.body);
+}
+
 function createBoard(opts = {}) {
     let options = {
         url:     `${API_URL}/boards`,
@@ -205,18 +223,6 @@ function updateUserPassword(opts = {}) {
     return request.put(options).then((res) => {
         return User.fromJS(res.body).toJS();
     });
-}
-
-function createComment(opts = {}) {
-	let options = {
-		url:     `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}/comments`,
-		token:   opts.token,
-		payload: opts.payload
-	}
-
-	return request.post(options).then((res) => {
-		return Ticket.fromJS(res.body).toJS();
-	});
 }
 
 function updateBoard(opts = {}) {

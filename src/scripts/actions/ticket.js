@@ -79,9 +79,9 @@ export default flux.actionCreator({
 
 		api.createComment({ token, payload, id: { board: board.id, ticket: payload.id }})
 			.catch((err) => {
-			this.dispatch(Action.Ticket.Edit, { board, ticket: previous });
-			BroadcastAction.add(err, Action.Ticket.Edit);
-		});
+				this.dispatch(Action.Ticket.Edit, { board, ticket: previous });
+				BroadcastAction.add(err, Action.Ticket.Edit);
+			});
 	},
 
 	/**

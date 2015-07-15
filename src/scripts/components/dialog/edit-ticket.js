@@ -23,6 +23,9 @@ export default React.createClass({
 		ticket: (props) => {
 			if(!props.ticket instanceof Ticket) throw new Error();
 		},
+		comments: (props) => {
+			if(!props.comments instanceof immutable.List) throw new Error();
+		},
 		board:     React.PropTypes.string.isRequired,
 		onDismiss: React.PropTypes.func.isRequired
 	},
@@ -112,7 +115,7 @@ export default React.createClass({
 				</section>
 				<section className="comment-wrapper">
 					<Scrollable>
-						{this.props.ticket.comments.map((comment) => {
+						{this.props.comments.map((comment) => {
 							let user     = comment.get('user').toJS();
 							let username = user.name || user.username;
 							let avatar   = user.avatar;

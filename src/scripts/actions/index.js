@@ -38,5 +38,10 @@ export default flux.actions({
 		Load:   null,
 		Edit:   null,
 		Remove: null
+	},
+	Comment: {
+		Add:    null,
+		Load:   null,
+		Remove: null
 	}
 });
