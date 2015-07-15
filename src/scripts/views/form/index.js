@@ -103,6 +103,9 @@ export default React.createClass({
 			<div>
 				<section className="social">
 					<h2>{formType.social.header}</h2>
+					<a className="provider" href={formType.social.facebookUrl}>
+						<img className="provider" src={formType.social.facebookLogo} />
+					</a>
 					<a className="provider" href={formType.social.googleUrl}>
 						<img className="provider" src={formType.social.googleLogo} />
 					</a>

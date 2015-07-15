@@ -90,7 +90,9 @@ export default
 				header: 'Login',
 				subHeader: 'or',
 				googleUrl: API_URL+'/auth/google/login',
-				googleLogo: '/dist/assets/img/providers/google.png'
+				googleLogo: '/dist/assets/img/providers/google.png',
+				facebookUrl: API_URL+'/auth/facebook/login',
+				facebookLogo: '/dist/assets/img/providers/facebook.png'
 			},
 			submit: (state) => {
 				return UserAction.login(state).then(() => {
@@ -154,8 +156,10 @@ export default
 		social: {
 				header: 'Login',
 				subHeader: 'or',
-				googleUrl: API_URL+'/auth/google/login',
-				googleLogo: '/dist/assets/img/providers/google.png'
+				googleUrl: API_URL+'/auth/facebook/login',
+				googleLogo: '/dist/assets/img/providers/google.png',
+				facebookUrl: API_URL+'/auth/facebook/login',
+				facebookLogo: '/dist/assets/img/providers/facebook.png'
 			},
 		secondary: {
 			submit: (formType, boardID, accessCode) => {
