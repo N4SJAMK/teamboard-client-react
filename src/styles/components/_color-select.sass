@@ -8,12 +8,31 @@
 	.value
 		height: 24px
 		background-color: $wedgewood
+		@include transition(all 0.3s)
 
 	.options
 		@include display(flex)
 		@include flex-direction(row)
+		@include justify-content(space-around)
 
 		.option
-			height: 24px
+			height: 42px
+			width: 42px
+			@include margin(10 0 0 0)
+			border-radius: 50%
 			cursor: pointer
-			@include flex(1)
+			position: relative
+			@include transition(border 0.3s, opacity 0.3s)
+
+		.option:hover
+			opacity: 0.7
+
+		.active
+			box-sizing: border-box
+			border: 3px solid $neptune
+			height: 42px
+			width: 42px
+
+		.active:hover
+			box-sizing: border-box
+			opacity: 1
