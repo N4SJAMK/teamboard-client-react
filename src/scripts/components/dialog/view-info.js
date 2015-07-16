@@ -102,24 +102,29 @@ export default React.createClass({
     getSlides() {
         let dropdownItems = [
             {
+                disabled: true,
+                customclass: 'profile-name',
+                content: `${this.locale('DROPDOWN_HELLO')}, ${UserStore.getUser().username}`
+            },
+            {
                 icon: 'user',
-                content: UserStore.getUser().username
+                content: this.locale('DROPDOWN_PROFILE')
             },
             {
                 icon: 'language',
-                content: this.state.translations.DROPDOWN_LOCALE[this.state.locale]
+                content: this.locale('DROPDOWN_LOCALE')
             },
             {
                 icon: 'bullhorn',
-                content: this.state.translations.DROPDOWN_FEEDBACK[this.state.locale]
+                content: this.locale('DROPDOWN_FEEDBACK')
             },
             {
                 icon: 'question-circle',
-                content: this.state.translations.DROPDOWN_ABOUT[this.state.locale]
+                content: this.locale('DROPDOWN_ABOUT')
             },
             {
                 icon: 'sign-out',
-                content: this.state.translations.DROPDOWN_LOGOUT[this.state.locale]
+                content: this.locale('DROPDOWN_LOGOUT')
             }
         ];
 
