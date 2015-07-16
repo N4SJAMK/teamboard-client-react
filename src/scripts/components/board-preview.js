@@ -17,110 +17,110 @@ import localeMixin from '../mixins/locale';
  *
  */
 export default React.createClass({
-    mixins: [
-            localeMixin()
-    ],
+	mixins: [
+			localeMixin()
+	],
 
-    propTypes: {
-        board: (props) => {
-            if(!props.board instanceof Board) throw Error();
-        }
-    },
+	propTypes: {
+		board: (props) => {
+			if(!props.board instanceof Board) throw Error();
+		}
+	},
 
-    getInitialState() {
-        return {
-            showEditBoardDialog:   false,
-            showRemoveBoardDialog: false
-        }
-    },
+	getInitialState() {
+		return {
+			showEditBoardDialog:   false,
+			showRemoveBoardDialog: false
+		}
+	},
 
-    shouldComponentUpdate(nextProps, nextState) {
-        let prevProps = this.props;
-        let prevState = this.state;
+	shouldComponentUpdate(nextProps, nextState) {
+		let prevProps = this.props;
+		let prevState = this.state;
 
-        let havePropsChanged = (
-            !immutable.is(prevProps.board, nextProps.board)
-        );
-        let hasStateChanged = (
-            prevState.showEditBoardDialog   !== nextState.showEditBoardDialog ||
-            prevState.showRemoveBoardDialog !== nextState.showRemoveBoardDialog
-        );
-        return havePropsChanged || hasStateChanged;
-    },
+		let havePropsChanged = (
+			!immutable.is(prevProps.board, nextProps.board)
+		);
+		let hasStateChanged = (
+			prevState.showEditBoardDialog   !== nextState.showEditBoardDialog ||
+			prevState.showRemoveBoardDialog !== nextState.showRemoveBoardDialog
+		);
+		return havePropsChanged || hasStateChanged;
+	},
 
-    showBoard() {
-        if(!this.props.board.id.startsWith('dirty_')) {
-            return page.show(`/boards/${this.props.board.id}`);
-        }
-    },
+	showBoard() {
+		if(!this.props.board.id.startsWith('dirty_')) {
+			return page.show(`/boards/${this.props.board.id}`);
+		}
+	},
 
-    showDialog(dialog) {
-        if(!this.props.board.id.startsWith('dirty_')) {
-            this.setState({ [`show${dialog}`]: !this.state[`show${dialog}`] });
-        }
-    },
+	showDialog(dialog) {
+		if(!this.props.board.id.startsWith('dirty_')) {
+			this.setState({ [`show${dialog}`]: !this.state[`show${dialog}`] });
+		}
+	},
 
-    render() {
-        let board = this.props.board;
+	render() {
+		let board = this.props.board;
 
-        let editBoardDialog = !this.state.showEditBoardDialog ? null : (
-            <EditBoardDialog board={board}
-                onDismiss={this.showDialog.bind(this, 'EditBoardDialog')} />
-        );
-        let removeBoardDialog = !this.state.showRemoveBoardDialog ? null : (
-            <RemoveBoardDialog board={board}
-                onDismiss={this.showDialog.bind(this, 'RemoveBoardDialog')} />
-        );
+		let editBoardDialog = !this.state.showEditBoardDialog ? null : (
+			<EditBoardDialog board={board}
+				onDismiss={this.showDialog.bind(this, 'EditBoardDialog')} />
+		);
+		let removeBoardDialog = !this.state.showRemoveBoardDialog ? null : (
+			<RemoveBoardDialog board={board}
+				onDismiss={this.showDialog.bind(this, 'RemoveBoardDialog')} />
+		);
 
-        return (
-            <div className="board-preview">
-                <div className="minimap-container" onClick={this.showBoard}>
-                    <Minimap board={board} />
-                </div>
-                <div className="name" onClick={this.showBoard}>
-                    {board.name}
-                </div>
-                {editBoardDialog}
-                {removeBoardDialog}
-                {this.renderControls()}
-            </div>
-        );
-    },
+		return (
+			<div className="board-preview">
+				<div className="minimap-container" onClick={this.showBoard}>
+					<Minimap board={board} />
+				</div>
+				<div className="name" onClick={this.showBoard}>
+					{board.name}
+				</div>
+				{editBoardDialog}
+				{removeBoardDialog}
+				{this.renderControls()}
+			</div>
+		);
+	},
 
-    renderControls() {
-        let controls = [
-            {
-                icon:    'trash',
-                active:  this.state.showRemoveBoardDialog,
-                onClick: this.showDialog.bind(this, 'RemoveBoardDialog')
-            },
-            {
-                icon:    'pencil',
-                active:  this.state.showEditBoardDialog,
-                onClick: this.showDialog.bind(this, 'EditBoardDialog')
-            }
-        ];
+	renderControls() {
+		let controls = [
+			{
+				icon:    'trash',
+				active:  this.state.showRemoveBoardDialog,
+				onClick: this.showDialog.bind(this, 'RemoveBoardDialog')
+			},
+			{
+				icon:    'pencil',
+				active:  this.state.showEditBoardDialog,
+				onClick: this.showDialog.bind(this, 'EditBoardDialog')
+			}
+		];
 
-        let boardAdmin = BoardStore.getBoardAdmin(this.props.board.id);
-        let user       = UserStore.getUser();
-        if (boardAdmin === undefined) {
-            return;
-        }
+		let boardAdmin = BoardStore.getBoardAdmin(this.props.board.id);
+		let user       = UserStore.getUser();
+		if (boardAdmin === undefined) {
+			return null;
+		}
 
-        if(boardAdmin.user && boardAdmin.user.get('id') === user.get('id')) {
-            return (
-                <div className="controls">
-                    {controls.map(function(ctrl, index) {
-                        return <Control key={index} {...ctrl} />;
-                    })}
-                </div>
-            );
-        }
+		if(boardAdmin.user && boardAdmin.user.get('id') === user.get('id')) {
+			return (
+				<div className="controls">
+					{controls.map(function(ctrl, index) {
+						return <Control key={index} {...ctrl} />;
+					})}
+				</div>
+			);
+		}
 
-        return (
-            <div className="controls ownedby">
-                {`${this.locale('OWNEDBY')}: ${boardAdmin.user.get('username')}`}
-            </div>
-        );
-    }
+		return (
+			<div className="controls ownedby">
+				{`${this.locale('OWNEDBY')}: ${boardAdmin.user.get('username')}`}
+			</div>
+		);
+	}
 });
