@@ -131,7 +131,7 @@ page('/login/callback',
 				});
 			} else {
 				UserAction.load().then(() => { page.redirect('/boards'); });
-			}		
+			}
         }
     return next();
 });

@@ -9,11 +9,11 @@ export default React.createClass({
 	},
 
 	getInitialState() {
-	return {
-		infoReceived:   false,
-		clientVersion:  process.env.VERSION || 'unknown',
-		apiVersion:     null,
-		imgVersion:     null
+		return {
+			infoReceived:   false,
+			clientVersion:  process.env.VERSION || 'unknown',
+			apiVersion:     null,
+			imgVersion:     null
 		}
 	},
 
