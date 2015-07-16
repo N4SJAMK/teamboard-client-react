@@ -21,7 +21,7 @@ const ColorButton = React.createClass({
 	},
 
 	render() {
-		return <div className="option"
+		return <div className={`option ${this.props.active}`}
 			style={{ backgroundColor: this.props.color }} id={"color-" + this.props.color} />;
 	}
 });
@@ -41,12 +41,13 @@ export default React.createClass({
 	},
 
 	selectColor(newColor) {
+		this.activeColor=newColor;
 		this.props.color.requestChange(newColor);
 	},
 
-	render: function() {
+	render() {
 		let colors = Object.keys(Ticket.Color).map((c) => Ticket.Color[c]);
-
+		let active = '';
 		return (
 			<div className="color-select">
 				<div className="value"
@@ -54,7 +55,8 @@ export default React.createClass({
 					<span className="creator">{`Created by ${this.props.ticketData.createdBy}`}</span>
 				<div className="options">
 					{colors.map((color) => {
-						return <ColorButton key={color} color={color}
+						active = this.activeColor === color ? ' active' : '';
+						return <ColorButton active={active}  key={color} color={color}
 							onSelect={this.selectColor} />;
 					})}
 				</div>

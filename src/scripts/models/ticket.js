@@ -26,6 +26,7 @@ const Ticket = immutable.Record({
 	content:  '',
 	heading:  '',
 	createdBy: new User(),
+	lastEditedBy: new User(),
 	comments: immutable.List(),
 	position: new Position(),
 });
@@ -47,13 +48,19 @@ Ticket.fromJS = function fromJS(ticket) {
 	ticket.color    = hascolor ? ticket.color : Ticket.Color.VIOLET;
 	ticket.position = new Position(ticket.position);
 	
-	if(ticket.createdBy === String) {
+	if(ticket.createdBy instanceof String) {
 		delete ticket.createdBy;
 	}
 
 	if(ticket.createdBy) {
 		ticket.createdBy = new User(ticket.createdBy);
 	}
+
+	if(ticket.lastEditedBy instanceof String) {
+		delete ticket.lastEditedBy;
+	}
+
+	if(ticket.lastEditedBy) ticket.lastEditedBy = new User(ticket.lastEditedBy);
 
 	if(ticket.comments) {
 		ticket.comments = ticket.comments.reduce((collection, record) => {

@@ -262,9 +262,7 @@ function deleteTicket(opts = {}) {
         url:   `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}`,
         token: opts.token
     }
-    return request.del(options).then((res) => {
-        return Ticket.fromJS(res.body).toJS();
-    });
+    return request.del(options)
 }
 
 function setUserBoardActivity(opts = {}) {

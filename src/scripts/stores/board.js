@@ -118,6 +118,7 @@ export default flux.store({
 		},
 
 		[Action.Ticket.Edit](payload) {
+			console.log(payload.ticket)
 			if(!has(boards, payload.board)) {
 				throw new Error('Board not found!');
 			}
