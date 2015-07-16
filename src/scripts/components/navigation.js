@@ -1,5 +1,6 @@
-import page  from 'page';
-import React from 'react';
+import page  	  from 'page';
+import React 	  from 'react';
+import classNames from 'classnames';
 
 import Action          from '../actions';
 import UserAction      from '../actions/user';
@@ -13,6 +14,8 @@ import MemberDialog from '../components/dialog/board-members';
 import UserVoice from '../components/user-voice';
 import InfoView  from './dialog/view-info';
 import AboutView from './dialog/view-about';
+
+import Board from '../models/board';
 
 /**
  *
