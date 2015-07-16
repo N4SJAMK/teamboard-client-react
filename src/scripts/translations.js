@@ -853,7 +853,7 @@ export default {
 	/********************************
 	/   EDIT TICKET                 *
 	********************************/
-	EDITTICKET_HEADING: {
+	EDITTICKET_HEADER: {
 		en: 'Ticket header',
 		fi: 'Lapun otsikko',
 		se: 'Lappens överskrift',

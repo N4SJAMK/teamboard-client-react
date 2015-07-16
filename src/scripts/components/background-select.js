@@ -2,11 +2,16 @@ import React   from 'react/addons';
 import Board   from '../models/board';
 import Minimap from './minimap';
 
+import localeMixin from '../mixins/locale';
+
 /**
  *
  */
 export default React.createClass({
-	mixins: [ React.addons.PureRenderMixin ],
+	mixins: [ 
+		React.addons.PureRenderMixin,
+		localeMixin()
+	],
 
 	propTypes: {
 		background: React.PropTypes.shape({
@@ -42,7 +47,6 @@ export default React.createClass({
 
 		return (
 			<div className="background-select">
-				<label>{this.state.locale.EDITBOARD_BOARDBG}</label>
 				<div className="select" id={"background-select"}>
 					<select onChange={this.onChange}
 							defaultValue={this.props.background.value}>
