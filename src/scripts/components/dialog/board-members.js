@@ -51,8 +51,8 @@ export default React.createClass({
                 unit = `${unit}s`;
             }
 
-            unit = this.state.translations[`TIME_${unit.toUpperCase()}`][this.state.locale];
-            suffix = this.state.translations.TIME_SUFFIX[this.state.locale];
+            unit = this.locale(`TIME_${unit.toUpperCase()}`);
+            suffix = this.locale('TIME_SUFFIX');
 
             return `${value} ${unit} ${suffix}`;
         });
@@ -62,7 +62,7 @@ export default React.createClass({
                     onDismiss={this.props.onDismiss}>
 
                 <section className="dialog-header">
-                    {this.state.translations.BOARDMEMBERS_TITLE[this.state.locale]}
+                    {this.locale('BOARDMEMBERS_TITLE')}
                 </section>
                 <section className="dialog-content">
                     <section className="dialog-members">
@@ -107,7 +107,7 @@ export default React.createClass({
                     </section>
                     <section className="dialog-footer">
                         <button className="btn-primary" onClick={this.submit}>
-                            {this.state.translations.DONEBUTTON[this.state.locale]}
+                            {this.locale('DONEBUTTON')}
                         </button>
                     </section>
                 </section>

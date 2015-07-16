@@ -113,8 +113,8 @@ export default React.createClass({
             unit = `${unit}s`;
         }
 
-        unit = this.state.translations[`TIME_${unit.toUpperCase()}`][this.state.locale];
-        suffix = this.state.translations.TIME_SUFFIX[this.state.locale];
+        unit = this.locale(`TIME_${unit.toUpperCase()}`);
+        suffix = this.locale('TIME_SUFFIX');
 
         return `${value} ${unit} ${suffix}`;
     },
@@ -155,7 +155,7 @@ export default React.createClass({
                 <section className="dialog-heading">
                     <input  valueLink={this.linkState('heading')}
                         maxLength={40}
-                        placeholder={this.state.translations.EDITTICKET_HEADER[this.state.locale]}
+                        placeholder={this.locale('EDITTICKET_HEADER')}
                         tabIndex={1}/>
                 </section>
             ) :
@@ -173,7 +173,7 @@ export default React.createClass({
                     <Scrollable>
                         <TextArea valueLink={this.linkState('content')}
                                   tabIndex={2}
-                                  placeholder={this.state.translations.EDITTICKET_CONTENT[this.state.locale]}/>
+                                  placeholder={this.locale('EDITTICKET_CONTENT')}/>
                     </Scrollable>
                 </section>
             ) :
@@ -194,10 +194,10 @@ export default React.createClass({
                     <input className="comment-input"
                         maxLength={140}
                         valueLink={this.linkState('newComment')}
-                        placeholder={this.state.translations.EDITTICKET_YOURCOMMENT[this.state.locale]}
+                        placeholder={this.locale('EDITTICKET_YOURCOMMENT')}
                         tabIndex={2}/>
                     <button className="btn-primary" onClick={this.comment}>
-                        {this.state.translations.EDITTICKET_ADDCOMMENT[this.state.locale]}
+                        {this.locale('EDITTICKET_ADDCOMMENT')}
                     </button>
                 </section>
                 <section className="comment-wrapper">
@@ -223,15 +223,15 @@ export default React.createClass({
                     <section className="dialog-footer">
                         <button className="btn-neutral" id={"ticket-dialog-cancel"} onClick={this.cancel}
                                 tabIndex={3}>
-                            {this.state.translations.CANCELBUTTON[this.state.locale]}
+                            {this.locale('CANCELBUTTON')}
                         </button>
                         <button className="btn-primary" id={"ticket-dialog-save"} onClick={this.update}
                                 tabIndex={4}>
-                            {this.state.translations.SAVEBUTTON[this.state.locale]}
+                            {this.locale('SAVEBUTTON')}
                         </button>
                     </section>
                     <span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}>
-                        {this.state.translations.DELETEBUTTON[this.state.locale]}
+                        {this.locale('DELETEBUTTON')}
                     </span>
                 </section>
             </Dialog>

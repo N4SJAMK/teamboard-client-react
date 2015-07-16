@@ -35,14 +35,14 @@ export default React.createClass({
             <Dialog className="dialog-edit-board"
                     onDismiss={this.props.onDismiss}>
                 <section className="dialog-header">
-                    {this.state.translations.EXPORTBOARD_TITLE[this.state.locale]}
+                    {this.locale('EXPORTBOARD_TITLE')}
                 </section>
                 <section className="dialog-content">
                     <BoardExporter boardID={id} />
                 </section>
                 <section className="dialog-footer">
                     <button className="btn-primary" onClick={this.submit}>
-                        {this.state.translations.DONEBUTTON[this.state.locale]}
+                        {this.locale('DONEBUTTON')}
                     </button>
                 </section>
             </Dialog>

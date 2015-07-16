@@ -24,6 +24,14 @@ export default function() {
             Settings.removeChangeListener(() => {
                 this.setState({ locale: Settings.getLocale() })
             });
+        },
+
+        locale(id) {
+            if(!this.state.translations[id]) {
+                return id;
+            }
+
+            return this.state.translations[id][this.state.locale]
         }
     }
 }

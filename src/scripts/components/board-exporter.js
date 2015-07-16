@@ -41,7 +41,7 @@ export default React.createClass({
         return (
             <section className="board-exporter">
                 <label>
-                    {this.state.translations.EXPORTBOARD_FORMAT[this.state.locale]}
+                    {this.locale('EXPORTBOARD_FORMAT')}
                 </label>
                 <div className="input-group">
                     <div className="select">
@@ -53,7 +53,7 @@ export default React.createClass({
                     </div>
                     <a className="btn btn-secondary" href={exportURL}
                             target="_blank">
-                        {this.state.translations.EXPORTBOARD_EXPORT[this.state.locale]}
+                        {this.locale('EXPORTBOARD_EXPORT')}
                     </a>
                 </div>
             </section>

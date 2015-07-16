@@ -3,253 +3,253 @@
  */
 
 .info-view-active
-	.view-board
-		.controls
-			&::after
-				content: ''
-				height: 100%
-				width: 100%
-				@include position(absolute, 0px null null 0px)
+    .view-board
+        .controls
+            &::after
+                content: ''
+                height: 100%
+                width: 100%
+                @include position(absolute, 0px null null 0px)
 
-	&.slide-0-admin
-		.controls
-			@include layer(10000)
+    &.slide-3-admin
+        .controls
+            @include layer(10000)
 
-	&.slide-1-admin
-		.avatar-wrapper
-			@include layer(10000)
+    &.slide-0-admin
+        .avatar-wrapper
+            @include layer(10000)
 
-	&.slide-0-user
-		.controls
-			@include layer(10000)
+    &.slide-3-user
+        .controls
+            @include layer(10000)
 
-	&.slide-1-user
-		.avatar-wrapper
-			@include layer(10000)
+    &.slide-0-user
+        .avatar-wrapper
+            @include layer(10000)
 
-	@include slide(4, 'user', 'fa-eye')
-	@include slide(5, 'user', 'fa-download')
+    @include slide(4, 'user', 'fa-eye')
+    @include slide(5, 'user', 'fa-download')
 
-	@include slide(4, 'admin', 'fa-pencil')
-	@include slide(5, 'admin', 'fa-share-alt')
-	@include slide(6, 'admin', 'fa-eye')
-	@include slide(7, 'admin', 'fa-download')
+    @include slide(4, 'admin', 'fa-pencil')
+    @include slide(5, 'admin', 'fa-share-alt')
+    @include slide(6, 'admin', 'fa-eye')
+    @include slide(7, 'admin', 'fa-download')
 
 .infospace
-	height:100%
-	width:100%
-	position: relative
+    height:100%
+    width:100%
+    position: relative
 
-	.info-dropdown
-		@include position(absolute, 100px null null 400px)
+    .info-dropdown
+        @include position(absolute, 100px null null 400px)
 
-	.info-img
-		&.ticket
-			@include position(absolute, 400px null null 400px)
-		&.ticket-new
-			@include position(absolute, 200px null null 400px)
-		&.ticket-edit
-			@include position(absolute, 100px null null 350px)
-		&.board-edit
-			@include position(absolute, 100px null null 350px)
-		&.board-share
-			@include position(absolute, 100px null null 350px)
-		&.review
-			@include position(absolute, 100px null null 350px)
-		&.board-export
-			@include position(absolute, 100px null null 350px)
+    .info-img
+        &.ticket
+            @include position(absolute, 400px null null 400px)
+        &.ticket-new
+            @include position(absolute, 200px null null 400px)
+        &.ticket-edit
+            @include position(absolute, 100px null null 350px)
+        &.board-edit
+            @include position(absolute, 100px null null 350px)
+        &.board-share
+            @include position(absolute, 100px null null 350px)
+        &.review
+            @include position(absolute, 100px null null 350px)
+        &.board-export
+            @include position(absolute, 100px null null 350px)
 
 //Tooltip postioning
 .pos
-	color: $white
-	border-radius: 5px
-	border: 2px solid $affair
+    color: $white
+    border-radius: 5px
+    border: 2px solid $affair
 
-	display: block
-	background-color: $affair
-	width: 	240px
+    display: block
+    background-color: $affair
+    width: 	240px
 
-	margin: 8px
-	padding: 10px
+    margin: 8px
+    padding: 10px
 
-	// Controls
-	&.pos-control-back-admin
-		width: 480px
-		@include position(absolute, 75px null null 80px)
+    // Controls
+    &.pos-control-back-admin
+        width: 480px
+        @include position(absolute, 75px null null 80px)
 
-	&.pos-control-edit-admin
-		width: 480px
-		@include position(absolute, 125px null null 80px)
+    &.pos-control-edit-admin
+        width: 480px
+        @include position(absolute, 125px null null 80px)
 
-	&.pos-control-share-admin
-		width: 480px
-		@include position(absolute, 175px null null 80px)
+    &.pos-control-share-admin
+        width: 480px
+        @include position(absolute, 175px null null 80px)
 
-	&.pos-control-review-admin
-		width: 480px
-		@include position(absolute, 225px null null 80px)
+    &.pos-control-review-admin
+        width: 480px
+        @include position(absolute, 225px null null 80px)
 
-	&.pos-control-export-admin
-		width: 480px
-		@include position(absolute, 275px null null 80px)
+    &.pos-control-export-admin
+        width: 480px
+        @include position(absolute, 275px null null 80px)
 
-	&.pos-control-magnet-admin
-		width: 480px
-		@include position(absolute, 325px null null 80px)
+    &.pos-control-magnet-admin
+        width: 480px
+        @include position(absolute, 325px null null 80px)
 
-	&.pos-control-minimap-admin
-		width: 480px
-		@include position(absolute, 375px null null 80px)
+    &.pos-control-minimap-admin
+        width: 480px
+        @include position(absolute, 375px null null 80px)
 
-	&.pos-control-review-user
-		width: 480px
-		@include position(absolute, 75px null null 80px)
+    &.pos-control-review-user
+        width: 480px
+        @include position(absolute, 75px null null 80px)
 
-	&.pos-control-export-user
-		width: 480px
-		@include position(absolute, 125px null null 80px)
+    &.pos-control-export-user
+        width: 480px
+        @include position(absolute, 125px null null 80px)
 
-	&.pos-control-magnet-user
-		width: 480px
-		@include position(absolute, 175px null null 80px)
+    &.pos-control-magnet-user
+        width: 480px
+        @include position(absolute, 175px null null 80px)
 
-	&.pos-control-minimap-user
-		width: 480px
-		@include position(absolute, 225px null null 80px)
+    &.pos-control-minimap-user
+        width: 480px
+        @include position(absolute, 225px null null 80px)
 
-	// Dropdown
-	&.pos-dropdown-profile
-		@include position(absolute, 85px null null 100px)
+    // Dropdown
+    &.pos-dropdown-profile
+        @include position(absolute, 85px null null 100px)
 
-	&.pos-dropdown-localization
-		@include position(absolute, 130px null null 590px)
+    &.pos-dropdown-localization
+        @include position(absolute, 130px null null 590px)
 
-	&.pos-dropdown-feedback
-		@include position(absolute, 175px null null 100px)
+    &.pos-dropdown-feedback
+        @include position(absolute, 175px null null 100px)
 
-	&.pos-dropdown-about
-		@include position(absolute, 220px null null 590px)
+    &.pos-dropdown-about
+        @include position(absolute, 220px null null 590px)
 
-	&.pos-dropdown-logout
-		@include position(absolute, 265px null null 100px)
+    &.pos-dropdown-logout
+        @include position(absolute, 265px null null 100px)
 
-	// Tickets
-	&.pos-ticket-click
-		@include position(absolute, 90px null null 360px)
+    // Tickets
+    &.pos-ticket-click
+        @include position(absolute, 90px null null 360px)
 
-	&.pos-ticket-new
-		@include position(absolute, 230px null null 90px)
+    &.pos-ticket-new
+        @include position(absolute, 230px null null 90px)
 
-	&.pos-ticket-new-click
-		@include position(absolute, 230px null null 610px)
+    &.pos-ticket-new-click
+        @include position(absolute, 230px null null 610px)
 
-	&.pos-ticket-color
-		@include position(absolute, 370px null null 610px)
+    &.pos-ticket-color
+        @include position(absolute, 370px null null 610px)
 
-	&.pos-ticket-header
-		@include position(absolute, 400px null null 90px)
+    &.pos-ticket-header
+        @include position(absolute, 400px null null 90px)
 
-	&.pos-ticket-content
-		@include position(absolute, 480px null null 90px)
+    &.pos-ticket-content
+        @include position(absolute, 480px null null 90px)
 
-	&.pos-ticket-comments
-		@include position(absolute, 490px null null 610px)
+    &.pos-ticket-comments
+        @include position(absolute, 490px null null 610px)
 
-	// Edit ticket
-	&.pos-ticket-edit-color
-		@include position(absolute, 90px null null 750px)
+    // Edit ticket
+    &.pos-ticket-edit-color
+        @include position(absolute, 90px null null 750px)
 
-	&.pos-ticket-edit-header
-		@include position(absolute, 144px null null 70px)
+    &.pos-ticket-edit-header
+        @include position(absolute, 144px null null 70px)
 
-	&.pos-ticket-edit-content
-		@include position(absolute, 240px null null 70px)
+    &.pos-ticket-edit-content
+        @include position(absolute, 240px null null 70px)
 
-	&.pos-ticket-edit-comment-add
-		@include position(absolute, 345px null null 750px)
+    &.pos-ticket-edit-comment-add
+        @include position(absolute, 345px null null 750px)
 
-	&.pos-ticket-edit-comment-area
-		@include position(absolute, 425px null null 70px)
+    &.pos-ticket-edit-comment-area
+        @include position(absolute, 425px null null 70px)
 
-	&.pos-ticket-edit-cancel
-		@include position(absolute, 520px null null 70px)
+    &.pos-ticket-edit-cancel
+        @include position(absolute, 520px null null 70px)
 
-	&.pos-ticket-edit-done
-		@include position(absolute, 520px null null 750px)
+    &.pos-ticket-edit-done
+        @include position(absolute, 520px null null 750px)
 
-	&.pos-ticket-edit-delete
-		@include position(absolute, 640px null null 300px)
+    &.pos-ticket-edit-delete
+        @include position(absolute, 640px null null 300px)
 
-	// Edit board
-	&.pos-board-name
-		@include position(absolute, 144px null null 70px)
+    // Edit board
+    &.pos-board-name
+        @include position(absolute, 144px null null 70px)
 
-	&.pos-board-minimap
-		@include position(absolute, 257px null null 70px)
+    &.pos-board-minimap
+        @include position(absolute, 257px null null 70px)
 
-	&.pos-board-background
-		@include position(absolute, 355px null null 70px)
+    &.pos-board-background
+        @include position(absolute, 355px null null 70px)
 
-	&.pos-board-background-custom
-		@include position(absolute, 420px null null 750px)
+    &.pos-board-background-custom
+        @include position(absolute, 420px null null 750px)
 
-	&.pos-board-size
-		@include position(absolute, 510px null null 70px)
+    &.pos-board-size
+        @include position(absolute, 510px null null 70px)
 
-	&.pos-board-done
-		@include position(absolute, 640px null null 410px)
+    &.pos-board-done
+        @include position(absolute, 640px null null 410px)
 
-	// Share board
-	&.pos-share-link
-		@include position(absolute, 150px null null 70px)
+    // Share board
+    &.pos-share-link
+        @include position(absolute, 150px null null 70px)
 
-	&.pos-share-done
-		@include position(absolute, 280px null null 410px)
+    &.pos-share-done
+        @include position(absolute, 280px null null 410px)
 
-	// Review
-	&.pos-review-content
-		@include position(absolute, 150px null null 70px)
+    // Review
+    &.pos-review-content
+        @include position(absolute, 150px null null 70px)
 
-	&.pos-review-arrows
-		@include position(absolute, 360px null null 70px)
+    &.pos-review-arrows
+        @include position(absolute, 360px null null 70px)
 
-	// Export
-	&.pos-export-format
-		@include position(absolute, 150px null null 70px)
+    // Export
+    &.pos-export-format
+        @include position(absolute, 150px null null 70px)
 
-	&.pos-export-done
-		@include position(absolute, 280px null null 410px)
+    &.pos-export-done
+        @include position(absolute, 280px null null 410px)
 
 // Carousel styling
 .info
-	width:      100%
-	height:     100%
-	max-width:  100%
-	margin-top: 0px
-	color: 		$white
+    width:      100%
+    height:     100%
+    max-width:  100%
+    margin-top: 0px
+    color: 		$white
 
-	.carousel-info
-		position:   static !important
-		width:      100%
-		height:     100%
+    .carousel-info
+        position:   static !important
+        width:      100%
+        height:     100%
 
 
-		// Carousel slider buttons
-		.info-button
-			button
-				border:     0
-				color:      $grey
-				font-size: 	130px
-				padding: 	0px 7px
-				margin:  	20px 0px
-				background: transparent
+        // Carousel slider buttons
+        .info-button
+            button
+                border:     0
+                color:      $grey
+                font-size: 	130px
+                padding: 	0px 7px
+                margin:  	20px 0px
+                background: transparent
 
-			&.info-button-active
-				button
-					opacity:    1
-					color: 		$neptune
+            &.info-button-active
+                button
+                    opacity:    1
+                    color: 		$neptune
 
 .infodrop
-	float:right
-	margin-top: 80px
-	margin-right: 4px
+    float:right
+    margin-top: 80px
+    margin-right: 4px

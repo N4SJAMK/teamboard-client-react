@@ -39,11 +39,11 @@ export default React.createClass({
 
     getContentText(){
         if(this.props.board.name) {
-            return this.state.translations.REMOVEBOARD_WITHNAME[this.state.locale]
+            return this.locale('REMOVEBOARD_WITHNAME')
                     .replace('{board_name}', this.props.board.name);
         }
 
-        return this.state.translations.REMOVEBOARD_WITHOUTNAME[this.state.locale];
+        return this.locale('REMOVEBOARD_WITHOUTNAME');
     },
 
     render() {
@@ -54,17 +54,17 @@ export default React.createClass({
         return (
             <Dialog className="dialog-remove-board" onDismiss={dismiss}>
                 <section className="dialog-header">
-                    {this.state.translations.REMOVEBOARD_TITLE[this.state.locale]}
+                    {this.locale('REMOVEBOARD_TITLE')}
                 </section>
                 <section className="dialog-content">
                     <p>{this.getContentText()}</p>
                 </section>
                 <section className="dialog-footer">
                     <button className="btn-neutral" onClick={dismiss}>
-                        {this.state.translations.CANCELBUTTON[this.state.locale]}
+                        {this.locale('CANCELBUTTON')}
                     </button>
                     <button className="btn-danger" onClick={remove}>
-                        {this.state.translations.REMOVEBOARD_REMOVE[this.state.locale]}
+                        {this.locale('DELETEBUTTON')}
                     </button>
                 </section>
             </Dialog>

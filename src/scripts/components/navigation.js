@@ -140,8 +140,13 @@ export default React.createClass({
         let isProfileDisabled = UserStore.getUser().type === 'standard';
         let items = [
             {
+                disabled: true,
+                customclass: 'profile-name',
+                content: `${this.locale('DROPDOWN_HELLO')}, ${UserStore.getUser().username}`
+            },
+            {
                 icon: 'user',
-                content: this.state.translations.DROPDOWN_PROFILE[this.state.locale],
+                content: this.locale('DROPDOWN_PROFILE'),
                 disabled: !isProfileDisabled,
                 onClick: () => {
                     if(isProfileDisabled) {
@@ -151,29 +156,30 @@ export default React.createClass({
             },
             {
                 icon: 'language',
-                content: this.state.translations.DROPDOWN_LOCALE[this.state.locale],
+                content: this.locale('DROPDOWN_LOCALE'),
                 onClick: () => {
                     this.setState({ localesDropdown: !this.state.localesDropdown });
                 }
             },
             {
+                nospan: true,
                 content: (
                     <UserVoice>
                         <span className="fa fa-fw fa-bullhorn" />
-                        {this.state.translations.DROPDOWN_FEEDBACK[this.state.locale]}
+                        {this.locale('DROPDOWN_FEEDBACK')}
                     </UserVoice>
                 )
             },
             {
                 icon: 'info',
-                content: this.state.translations.DROPDOWN_ABOUT[this.state.locale],
+                content: this.locale('DROPDOWN_ABOUT'),
                 onClick: () => {
                     this.toggleAboutView();
                 }
             },
             {
                 icon: 'sign-out',
-                content: this.state.translations.DROPDOWN_LOGOUT[this.state.locale],
+                content: this.locale('DROPDOWN_LOGOUT'),
                 onClick: () => {
                     UserAction.logout()
                         .catch((err) => {
@@ -208,15 +214,23 @@ export default React.createClass({
                 }
             },
             {
-                flag: 'ru',
-                content: 'ру́сский',
-                disabled: true,
+                flag: 'dk',
+                content: 'Dansk',
                 onClick: () => {
-                    SettingsAction.setSetting('locale', 'ru');
+                    SettingsAction.setSetting('locale', 'dk');
+                    this.toggleDropdown();
+                }
+            },
+            {
+                flag: 'jp',
+                content: '日本語',
+                onClick: () => {
+                    SettingsAction.setSetting('locale', 'jp');
                     this.toggleDropdown();
                 }
             }
-        ]
+        ];
+
         let user      = UserStore.getUser();
         let name      = user.get('username');
         let avatarURL = user.get('avatar');

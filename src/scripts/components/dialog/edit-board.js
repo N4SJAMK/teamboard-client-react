@@ -105,24 +105,24 @@ export default React.createClass({
             <Dialog className="dialog-edit-board"
                     onDismiss={this.props.onDismiss}>
                 <section className="dialog-header">
-                    {this.state.translations.EDITBOARD_TITLE[this.state.locale]}
+                    {this.locale('EDITBOARD_TITLE')}
                 </section>
                 <section className="dialog-content dialog-content-board">
 
                     <label htmlFor="board-name">
-                        {this.state.translations.EDITBOARD_NAME[this.state.locale]}
+                        {this.locale('EDITBOARD_NAME')}
                     </label>
                     <input name="board-name"
-                           placeholder={this.state.translations.EDITBOARD_NAME[this.state.locale]}
+                           placeholder={this.locale('EDITBOARD_NAME')}
                            valueLink={this.linkState('name')} autoFocus={true} />
                     <div className="preview-container">
                         <Minimap
                             board={board}
                             isTicketSized={true} />
                     </div>
-                    
+
                     <label htmlFor="board-background">
-                        {this.state.translations.EDITBOARD_BACKGROUND[this.state.locale]}
+                        {this.locale('EDITBOARD_BACKGROUND')}
                     </label>
                     <BackgroundSelect
                         name="board-background"
@@ -130,12 +130,12 @@ export default React.createClass({
                         customBackground={this.linkState('customBackground')} />
 
                     <label htmlFor="dialog-size-wrapper">
-                        {this.state.translations.EDITBOARD_SIZE[this.state.locale]}
+                        {this.locale('EDITBOARD_SIZE')}
                     </label>
                     <section className="dialog-size-wrapper">
                         <section className="dialog-size">
                                 <label htmlFor="board-width">
-                                    {this.state.translations.EDITBOARD_WIDTH[this.state.locale]}
+                                    {this.locale('EDITBOARD_WIDTH')}
                                 </label>
                                 <input name="board-width"
                                     placeholder="Board Width"
@@ -151,7 +151,7 @@ export default React.createClass({
 
                         <section className="dialog-size">
                             <label htmlFor="board-height">
-                                {this.state.translations.EDITBOARD_HEIGHT[this.state.locale]}
+                                {this.locale('EDITBOARD_HEIGHT')}
                             </label>
                             <input name="board-height"
                                    placeholder="Board Height"
@@ -165,7 +165,7 @@ export default React.createClass({
                 </section>
                 <section className="dialog-footer">
                     <button className="btn-primary" onClick={this.submit}>
-                        {this.state.translations.DONEBUTTON[this.state.locale]}
+                        {this.locale('DONEBUTTON')}
                     </button>
                 </section>
             </Dialog>
