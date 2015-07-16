@@ -21,215 +21,201 @@ import Board from '../models/board';
  *
  */
 export default React.createClass({
-	propTypes: {
-		title: React.PropTypes.string.isRequired,
-		showHelp: React.PropTypes.bool,
-		reviewActive: React.PropTypes.bool,
-		killReview: React.PropTypes.func,
-		board: (props) => {
-			if(!props.board instanceof Board) throw new Error();
-		}
-	},
+    propTypes: {
+        title: React.PropTypes.string.isRequired,
+        showHelp: React.PropTypes.bool,
+        reviewActive: React.PropTypes.bool,
+        killReview: React.PropTypes.func,
+        board: (props) => {
+            if(!props.board instanceof Board) throw new Error();
+        }
+    },
 
-	getInitialState() {
-		return {
-			dropdown: false, localesDropdown: false,
-			feedback: false, infoActive: false,
-			aboutActive: false, membersActive: false
-		}
-	},
+    getInitialState() {
+        return {
+            dropdown: false, localesDropdown: false,
+            feedback: false, infoActive: false,
+            aboutActive: false, membersActive: false
+        }
+    },
 
-	showWorkspace() {
-		return page.show('/boards');
-	},
+    showWorkspace() {
+        return page.show('/boards');
+    },
 
-	toggleMembersDialog() {
-		this.setState({ membersActive: !this.state.membersActive });
-	},
+    toggleMembersDialog() {
+        this.setState({ membersActive: !this.state.membersActive });
+    },
 
-	toggleDropdown() {
-		this.setState({ dropdown: !this.state.dropdown });
-		if(this.state.localesDropdown) {
-			this.setState({ localesDropdown: !this.state.localesDropdown });
-		}
-	},
+    toggleDropdown() {
+        this.setState({ dropdown: !this.state.dropdown });
+        if(this.state.localesDropdown) {
+            this.setState({ localesDropdown: !this.state.localesDropdown });
+        }
+    },
 
-	toggleInfoView() {
-		this.setState({ infoActive: !this.state.infoActive });
-	},
+    toggleInfoView() {
+        this.setState({ infoActive: !this.state.infoActive });
+    },
 
-	toggleAboutView() {
-		this.setState({ aboutActive: !this.state.aboutActive });
-	},
+    toggleAboutView() {
+        this.setState({ aboutActive: !this.state.aboutActive });
+    },
 
-	CancelReview(){
-		return !this.props.reviewActive ? null : (
-			<div onClick={() => {this.props.killReview(false)}}
-			className="review active">
-				<span className="fa fa-fw fa-times"></span>
-			</div>
-		);
-	},
+    CancelReview(){
+        return !this.props.reviewActive ? null : (
+            <div onClick={() => {this.props.killReview(false)}}
+            className="review active">
+                <span className="fa fa-fw fa-times"></span>
+            </div>
+        );
+    },
 
-	render() {
-		let infoDialog = null;
-		let aboutDialog = null;
-		let infoIcon = null;
+    render() {
+        let infoDialog = null;
+        let aboutDialog = null;
+        let infoIcon = null;
 
-		if(!this.state.infoActive) {
-			infoIcon = 'question';
-			infoDialog = null;
-		} else {
-			infoIcon = 'times';
-			infoDialog = <InfoView onDismiss = { this.toggleInfoView } />;
-		}
+        if(!this.state.infoActive) {
+            infoIcon = 'question';
+            infoDialog = null;
+        } else {
+            infoIcon = 'times';
+            infoDialog = <InfoView onDismiss = { this.toggleInfoView }  board={this.props.board}/>;
+        }
 
-		if(!this.state.aboutActive) {
-			aboutDialog = null;
-		} else {
-			aboutDialog = <AboutView onDismiss = { this.toggleAboutView } />;
-		}
+        if(!this.state.aboutActive) {
+            aboutDialog = null;
+        } else {
+            aboutDialog = <AboutView onDismiss = { this.toggleAboutView } />;
+        }
 
-		let infoButtonClass =
-			React.addons.classSet({
-				infobutton: true,
-				pulsate: localStorage.getItem('infovisited') === null
-					? true : false,
-				active: this.state.infoActive
-			});
+        let infoButtonClass =
+            React.addons.classSet({
+                infobutton: true,
+                active: this.state.infoActive
+            });
 
-		let userButtonClass =
-			React.addons.classSet({
-				'avatar-wrapper': true,
-				active: this.state.dropdown
-			});
+        let userButtonClass =
+            React.addons.classSet({
+                'avatar-wrapper': true,
+                active: this.state.dropdown
+            });
 
-		let membersButtonClass =
-			React.addons.classSet({
-				members: true,
-				active: this.state.membersActive
-			});
+        let membersButtonClass =
+            React.addons.classSet({
+                members: true,
+                active: this.state.membersActive
+            });
 
-		let boardMembersDialog = null;
+        let boardMembersDialog = null;
 
-		if (this.state.membersActive) {
-			boardMembersDialog = <MemberDialog board={this.props.board} onDismiss={this.toggleMembersDialog}/>
-		}
+        if (this.state.membersActive) {
+            boardMembersDialog = <MemberDialog board={this.props.board} onDismiss={this.toggleMembersDialog}/>
+        }
 
-		let showBoardMembers = !this.props.showBoardMembers ? null : (
-			<div id="members" onClick={this.toggleMembersDialog} className={membersButtonClass}>
-				<span className="fa fa-fw fa-users">
-					<span className="user-amount">
-						{this.props.board.members.size}
-					</span>
-				</span>
-			</div>
-		);
+        let showBoardMembers = !this.props.showBoardMembers ? null : (
+            <div id="members" onClick={this.toggleMembersDialog} className={membersButtonClass}>
+                <span className="fa fa-fw fa-users">
+                    <span className="user-amount">
+                        {this.props.board.members.size}
+                    </span>
+                </span>
+            </div>
+        );
 
-		let showInfo = !this.props.showHelp ? null : (
-			<div id="info" onClick={this.toggleInfoView} className={infoButtonClass}>
-				<span className={`fa fa-fw fa-${infoIcon}`}></span>
-			</div>
-			);
+        let showInfo = !this.props.showHelp ? null : (
+            <div id="info" onClick={this.toggleInfoView} className={infoButtonClass}>
+                <span className={`fa fa-fw fa-${infoIcon}`}></span>
+            </div>
+            );
 
-		let isProfileDisabled = UserStore.getUser().type === 'standard';
-		let items = [
-			{ icon: 'user',     content: 'Profile', disabled: !isProfileDisabled,
-			onClick: () => {
-				if(isProfileDisabled) {
-					return page.show('/profile');
-				}
-			}
-			},
-			{ icon: 'language', content: 'Localization', disabled: true,
-				onClick: () => {
-					//this.setState({ localesDropdown: !this.state.localesDropdown });
-				}
-			},
-			{
-				content: (
-					<UserVoice>
-						<span className="fa fa-fw fa-bullhorn" />
-						Feedback
-					</UserVoice>
-				)
-			},
-			{
-				onClick: () => {
-					this.toggleAboutView();
-				},
-				icon: 'info', content: 'About'
-			},
-			{
-				onClick: () => {
-					UserAction.logout()
-						.catch((err) => {
-							BroadcastAction.add(err, Action.User.Logout);
-						});
-				},
-				icon: 'sign-out', content: 'Logout'
-			}
-		];
-		let locales = [
-			{
-				flag: 'fi',
-				content: 'Suomi',
-				onClick: () => {
-					SettingsAction.setSetting('locale', 'fi');
-					this.toggleDropdown();
-				}
-			},
-			{
-				flag: 'se',
-				content: 'Svenska',
-				onClick: () => {
-					SettingsAction.setSetting('locale', 'se');
-					this.toggleDropdown();
-				}
-			},
-			{
-				flag: 'ru',
-				content: 'русский',
-				onClick: () => {
-					SettingsAction.setSetting('locale', 'ru');
-					this.toggleDropdown();
-				}
-			},
-			{
-				flag: 'gb',
-				content: 'English',
-				onClick: () => {
-					SettingsAction.setSetting('locale', 'en');
-					this.toggleDropdown();
-				}
-			}
-		]
-		let user      = UserStore.getUser();
-		let name      = user.get('username');
-		let avatarURL = user.get('avatar');
-		let userType  = user.get('type');
+        let isProfileDisabled = UserStore.getUser().type === 'standard';
+        let items = [
+            { icon: 'user',     content: 'Profile', disabled: !isProfileDisabled,
+            onClick: () => {
+                if(isProfileDisabled) {
+                    return page.show('/profile');
+                }
+            }
+            },
+            { icon: 'language', content: 'Localization', disabled: true,
+                onClick: () => {
+                    //this.setState({ localesDropdown: !this.state.localesDropdown });
+                }
+            },
+            {
+                content: (
+                    <UserVoice>
+                        <span className="fa fa-fw fa-bullhorn" />
+                        Feedback
+                    </UserVoice>
+                )
+            },
+            {
+                onClick: () => {
+                    this.toggleAboutView();
+                },
+                icon: 'info', content: 'About'
+            },
+            {
+                onClick: () => {
+                    UserAction.logout()
+                        .catch((err) => {
+                            BroadcastAction.add(err, Action.User.Logout);
+                        });
+                },
+                icon: 'sign-out', content: 'Logout'
+            }
+        ];
+        let locales = [
+            { flag: 'fi', content: 'Suomi', onClick: () => {
+                    SettingsAction.setSetting('locale', 'fi');
+                    this.toggleDropdown();
+                }
+            },
+            { flag: 'se', content: 'Svenska', onClick: () => {
+                    SettingsAction.setSetting('locale', 'se');
+                    this.toggleDropdown();
+                }
+            },
+            { flag: 'ru', content: 'русский', onClick: () => {
+                    SettingsAction.setSetting('locale', 'ru');
+                    this.toggleDropdown();
+                }
+            },
+            { flag: 'gb', content: 'English', onClick: () => {
+                    SettingsAction.setSetting('locale', 'en');
+                    this.toggleDropdown();
+                }
+            }
+        ]
+        let user      = UserStore.getUser();
+        let name      = user.get('username');
+        let avatarURL = user.get('avatar');
+        let userType  = user.get('type');
 
-		return (
-			<nav id="nav" className="nav">
-				<img className="logo" src="/dist/assets/img/logo.svg"
-					onClick={this.showWorkspace} />
-				<h1 className="title">{this.props.title}</h1>
-				{this.CancelReview()}
-				{showBoardMembers}
-				{showInfo}
-				<div id="avatar" onClick={this.toggleDropdown} className={userButtonClass}>
-						<Avatar size={30} name={name}
-								imageurl={avatarURL}
-								isOnline={true}
-								usertype={userType}>
-						</Avatar>
-				</div>
-				<Dropdown className="options" show={this.state.dropdown} items={items} />
-				<Dropdown className="locales" show={this.state.localesDropdown} items={locales} />
-				{infoDialog}
-				{boardMembersDialog}
-				{aboutDialog}
-			</nav>
-		);
-	}
+        return (
+            <nav id="nav" className="nav">
+                <img className="logo" src="/dist/assets/img/logo.svg"
+                    onClick={this.showWorkspace} />
+                <h1 className="title">{this.props.title}</h1>
+                {this.CancelReview()}
+                {showBoardMembers}
+                {showInfo}
+                <div id="avatar" onClick={this.toggleDropdown} className={userButtonClass}>
+                        <Avatar size={30} name={name}
+                                imageurl={avatarURL}
+                                isOnline={true}
+                                usertype={userType}>
+                        </Avatar>
+                </div>
+                <Dropdown className="options" show={this.state.dropdown} items={items} />
+                <Dropdown className="locales" show={this.state.localesDropdown} items={locales} />
+                {infoDialog}
+                {boardMembersDialog}
+                {aboutDialog}
+            </nav>
+        );
+    }
 });
