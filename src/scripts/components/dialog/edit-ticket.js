@@ -4,9 +4,10 @@ import TimeAgo   from 'react-timeago';
 import TextArea  from 'react-autosize-textarea';
 import markdown  from 'markdown';
 
-import Ticket       from '../../models/ticket';
-import TicketAction from '../../actions/ticket';
-import UserStore    from '../../stores/user';
+import Ticket        from '../../models/ticket';
+import TicketAction  from '../../actions/ticket';
+import UserStore     from '../../stores/user';
+import CommentAction from '../../actions/comment';
 
 import Avatar      from '../../components/avatar';
 import Dialog      from '../../components/dialog';
@@ -56,9 +57,7 @@ export default React.createClass({
 			color:   this.state.color,
 			content: this.state.content,
 			heading: this.state.heading
-		})
-			.then(() => this.postComment({ isUnmounting: true }));
-
+		});
 		return this.props.onDismiss();
 	},
 
@@ -67,20 +66,18 @@ export default React.createClass({
 		return this.props.onDismiss();
 	},
 
-	postComment(stateInfo) {
-		if(this.state.newComment !== '') {
-			TicketAction.comment({ id: this.props.board },
-				{ id: this.props.ticket.id }, this.state.newComment);
-
-			if(!stateInfo.isUnmounting) {
-				this.setState({ newComment: '' });
-			}
-		}
-	},
-
-	comment(event) {
+	onSubmitComment() {
 		event.preventDefault();
-		this.postComment({ isUnmounting: false });
+
+		if(this.state.newComment !== '') {
+			let boardID  = this.props.board;
+			let ticketID = this.props.ticket.id;
+
+			CommentAction.createComment(
+				boardID, ticketID, this.state.newComment);
+
+			this.setState({ newComment: '' });
+		}
 		return event.stopPropagation();
 	},
 
@@ -109,39 +106,37 @@ export default React.createClass({
 					<input className="comment-input"
 						maxLength={140} tabIndex={2} placeholder="Your comment"
 						valueLink={this.linkState('newComment')} />
-					<button className="btn-primary" onClick={this.comment}>
+					<button className="btn-primary"
+							onClick={this.onSubmitComment}>
 						Add comment
 					</button>
 				</section>
 				<section className="comment-wrapper">
 					<Scrollable>
-						{this.props.comments.map((comment) => {
-							let user     = comment.get('user').toJS();
-							let username = user.name || user.username;
-							let avatar   = user.avatar;
-							let usertype = user.account_type || user.type;
+						{this.props.comments.reverse().map((comment) => {
+							let username  = comment.createdBy.name || comment.createdBy.username;
+							let usertype  = comment.createdBy.type || comment.createdBy.account_type;
+							let avatarURL = comment.createdBy.avatar;
 
-							let timestamp = comment.get('created_at');
-							let msg       = comment.get('content');
-							let timeProps = { date: timestamp }
+							let message = comment.message;
+							let timeago = { date: comment.createdAt }
 
 							return (
 								<div className="comment" key={comment.id}>
 									<section className="comment-top">
 										<Avatar size={32} name={username}
-											imageurl={avatar}
+											imageurl={avatarURL}
 											usertype={usertype}
 											isOnline={true}>
 										</Avatar>
 										<span className="comment-timestamp">
-											{React.createElement(
-												TimeAgo, timeProps)}
+											{React.createElement(TimeAgo, timeago)}
 										</span>
 										<p className="comment-username">
 											{username}
 										</p>
 									</section>
-									<p className="comment-message">{msg}</p>
+									<p className="comment-message">{message}</p>
 								</div>
 							);
 						})}

@@ -130,7 +130,9 @@ export default React.createClass({
             </div>
             );
 
-        let isProfileDisabled = UserStore.getUser().type === 'standard';
+        let isProfileDisabled = UserStore.getUser() ?
+            UserStore.getUser().type === 'standard' : true;
+
         let items = [
             { icon: 'user',     content: 'Profile', disabled: !isProfileDisabled,
             onClick: () => {

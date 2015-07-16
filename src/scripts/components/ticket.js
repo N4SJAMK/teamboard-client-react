@@ -103,7 +103,9 @@ export default React.createClass({
 	},
 
 	componentWillMount() {
-		CommentAction.loadComments(this.props.board, this.props.ticket.id);
+		if(!this.props.ticket.id.startsWith('dirty')) {
+			CommentAction.loadComments(this.props.board, this.props.ticket.id);
+		}
 	},
 
 	componentWillUnmount() {
@@ -163,8 +165,6 @@ export default React.createClass({
 		if (markupContent.includes('<a href=')) {
 			markupContent = markupContent.replace(/<a href="/g, '<a target="_blank" href="');
 		}
-
-		console.log('render:', this.state.comments.size);
 
 		let numComments = this.state.comments.size > 99
 			? '99+' : `${this.state.comments.size}`;

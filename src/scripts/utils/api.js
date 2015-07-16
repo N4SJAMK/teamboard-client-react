@@ -164,12 +164,22 @@ function getTickets(opts = {}) {
     });
 }
 
+function parseCommentFromEvent(event) {
+    return {
+        id:        event.id,
+        message:   event.data.message,
+        createdBy: event.user,
+        createdAt: event.createdAt
+    }
+}
+
 function getComments(opts = {}) {
     let options = {
         url:   `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}/comments`,
         token: opts.token
     }
-    return request.get(options).then(res => res.body);
+    return request.get(options)
+        .then(res => res.body.map(parseCommentFromEvent));
 }
 
 function createComment(opts = {}) {
@@ -178,7 +188,7 @@ function createComment(opts = {}) {
         token:   opts.token,
         payload: opts.payload
     }
-    return request.post(options).then(res => res.body);
+    return request.post(options).then(res => parseCommentFromEvent(res.body));
 }
 
 function createBoard(opts = {}) {
