@@ -164,8 +164,6 @@ export default React.createClass({
 				<div className="color" style={style.color}></div>
 				<div className="heading">
 					{this.props.ticket.heading}
-					{this.props.ticket.createdBy.username}
-					{this.props.ticket.lastEditedBy.username}
 				</div>
 				<div className="content">
 					<span dangerouslySetInnerHTML={{ __html: markupContent }} />

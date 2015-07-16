@@ -129,7 +129,8 @@ export default React.createClass({
 
 	render() {
 		let ticketCreationData = {
-			createdBy: this.props.ticket.createdBy.username
+			createdBy:    this.props.ticket.createdBy.username,
+			lastEditedBy: this.props.ticket.lastEditedBy
 		}
 		let headerArea  = null;
 		let contentArea = null;
