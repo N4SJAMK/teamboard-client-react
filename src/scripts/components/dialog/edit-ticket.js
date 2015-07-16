@@ -84,7 +84,9 @@ export default React.createClass({
 			color:   this.state.color,
 			content: this.state.content,
 			heading: this.state.heading
-		}).then((ticket) => { this.postComment({isUnmounting: true}); });
+		}).then((ticket) => {
+			this.postComment({ isUnmounting: true });
+		});
 
 		return this.props.onDismiss();
 	},
@@ -100,14 +102,14 @@ export default React.createClass({
 				id: this.props.ticket.id
 			}, this.state.newComment);
 			if(!stateInfo.isUnmounting) {
-				this.setState({newComment: ''});
+				this.setState({ newComment: '' });
 			}
 		}
 	},
 
 	comment(event) {
 		event.preventDefault();
-		this.postComment({isUnmounting: false});
+		this.postComment({ isUnmounting: false });
 		return event.stopPropagation();
 	},
 
@@ -151,7 +153,7 @@ export default React.createClass({
 
 								let timestamp = comment.get('created_at');
 								let msg       = comment.get('content');
-								let timeProps = {date: timestamp};
+								let timeProps = { date: timestamp };
 								return (
 									<div className="comment" key={comment.id}>
 										<section className="comment-top">
@@ -183,7 +185,7 @@ export default React.createClass({
 			contentArea = (
 				<section className="dialog-content">
 					<Scrollable>
-						<span dangerouslySetInnerHTML={{__html: markupContent}}
+						<span dangerouslySetInnerHTML={{ __html: markupContent }}
 							onClick={this.toggleEdit}/>
 					</Scrollable>
 				</section>

@@ -15,13 +15,16 @@
 		margin-bottom: 8px
 		height: 24px
 		background-color: $wedgewood
+		@include transition(all 0.3s)
 
 	.options
 		text-align:center
 		margin-top: 10px
 		@include flex-direction(row)
+		@include justify-content(space-around)
 
 		.option
+<<<<<<< HEAD
 			@media (max-width: 1000px)
 				margin-left: 2.5vw
 				margin-right: 2.5vw
@@ -30,3 +33,25 @@
 			cursor: pointer
 			@include flex(1)
 			@include circle(50px, inline-block)
+=======
+			height: 42px
+			width: 42px
+			@include margin(10 0 0 0)
+			border-radius: 50%
+			cursor: pointer
+			position: relative
+			@include transition(border 0.3s, opacity 0.3s)
+
+		.option:hover
+			opacity: 0.7
+
+		.active
+			box-sizing: border-box
+			border: 3px solid $neptune
+			height: 42px
+			width: 42px
+
+		.active:hover
+			box-sizing: border-box
+			opacity: 1
+>>>>>>> lasse-repo/ticket-edit-enhance
