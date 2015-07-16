@@ -1,47 +1,64 @@
-import React		from 'react/addons';
-import Dialog		from '../../components/dialog';
-import UserStore	from '../../stores/user';
-import api		from '../../utils/api';
+import React	    from 'react/addons';
+import Dialog	    from '../../components/dialog';
+import UserStore    from '../../stores/user';
+import api		    from '../../utils/api';
+import localeMixin  from '../../mixins/locale';
 
 export default React.createClass({
-	propTypes: {
-		onDismiss: React.PropTypes.func.isRequired
-	},
+	mixins: [
+		localeMixin()
+	],
 
 	getInitialState() {
-	return {
-		infoReceived:   false,
-		clientVersion:  process.env.VERSION || 'unknown',
-		apiVersion:     null,
-		imgVersion:     null
+		return {
+			clientVersion: process.env.VERSION || 'unknown',
+			apiVersion:    null,
+			imgVersion:    null
 		}
 	},
 
 	componentWillMount(){
 		let token = UserStore.getToken();
 
+		if(this.state.clientVersion === 'unknown') {
+			this.setState({
+				clientVersion: this.locale('ABOUT_UNKNOWN')
+			});
+		}
+
 		api.queryApiVersion({ token }).then((res) => {
-			this.state.apiVersion = res.version || 'unknown';
-			this.setState({ infoReceived : true });
+			let api = res.version;
+			if(api === 'unknown') {
+				api = this.locale('ABOUT_UNKNOWN');
+			}
+			if(api === 'error') {
+				api = this.locale('ABOUT_ERROR');
+			}
+			this.setState({
+				apiVersion: api
+			});
 		}, (err) => {
-			this.state.apiVersion = 'error';
-			this.setState({ infoReceived : true });
+			this.setState({
+				apiVersion: this.locale('ABOUT_ERROR')
+			});
 		});
 
 		api.queryImgVersion({ token }).then((res) => {
-		this.state.imgVersion = res.version || 'unknown';
-			this.setState({ infoReceived : true });
+			let img = res.version;
+			if(img === 'unknown') {
+				img = this.locale('ABOUT_UNKNOWN');
+			}
+			if(img === 'error') {
+				img = this.locale('ABOUT_ERROR');
+			}
+			this.setState({
+				imgVersion: img
+			});
 		}, (err) => {
-			this.state.imgVersion = 'error';
-			this.setState({ infoReceived : true });
+			this.setState({
+				imgVersion: this.locale('ABOUT_ERROR')
+			});
 		});
-	},
-
-	shouldComponentUpdate(){
-		if(!this.state.apiVersion || !this.state.imgVersion){
-			return false;
-		}
-		return true;
 	},
 
 	close(event) {
@@ -54,45 +71,59 @@ export default React.createClass({
 			<Dialog className="dialog-about"
 					onDismiss={this.props.onDismiss}>
 				<section className="dialog-header">
-					About Contriboard
+					{this.locale('ABOUT_TITLE')}
 				</section>
 				<section className="dialog-content">
 					<div className="description-area">
-						Fast open-source brainstorming tool for everyone.
+						{this.locale('ABOUT_DESCRIPTION')}
 					</div>
 					<hr className="divider" />
 					<div className="aboutTable">
 						<div className="aboutTableRow">
-							<div className="aboutTableCell-left">Developers:</div>
+							<div className="aboutTableCell-left">
+								{this.locale('ABOUT_DEVELOPERS')}
+							</div>
 							<div className="aboutTableCell">
-								<a target="_blank" href="http://n4sjamk.github.io/">n4sjamk.github.io</a>
+								<a target="_blank" href="http://n4sjamk.github.io/">
+									n4sjamk.github.io
+								</a>
 							</div>
 						</div>
 						<div className="aboutTableRow">
-							<div className="aboutTableCell-left">Contriboard homepage:</div>
+							<div className="aboutTableCell-left">
+								{this.locale('ABOUT_HOMEPAGE')}
+							</div>
 							<div className="aboutTableCell">
-								<a target="_blank" href="http://n4sjamk.github.io/contriboard">n4sjamk.github.io/contriboard</a>
+								<a target="_blank" href="http://n4sjamk.github.io/contriboard">
+									n4sjamk.github.io/contriboard
+								</a>
 							</div>
 						</div>
 					</div>
 					<div className="versionTable">
 						<div className="versionTableRow">
-							<div className="versionTableCell-left">Client version:</div>
+							<div className="versionTableCell-left">
+								{this.locale('ABOUT_CLIENT')}
+							</div>
 							<div className="versionTableCell">{this.state.clientVersion}</div>
 						</div>
 						<div className="versionTableRow">
-							<div className="versionTableCell-left">API version:</div>
+							<div className="versionTableCell-left">
+								{this.locale('ABOUT_API')}
+							</div>
 							<div className="versionTableCell">{this.state.apiVersion}</div>
 						</div>
 						<div className="versionTableRow">
-							<div className="versionTableCell-left">IMG version:</div>
+							<div className="versionTableCell-left">
+								{this.locale('ABOUT_IMG')}
+							</div>
 							<div className="versionTableCell">{this.state.imgVersion}</div>
 						</div>
 					</div>
 				</section>
 				<section className="dialog-footer">
 					<button className="btn-primary" onClick={this.close}>
-						Close
+						{this.locale('CLOSEBUTTON')}
 					</button>
 				</section>
 			</Dialog>

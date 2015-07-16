@@ -61,8 +61,6 @@ export default flux.store({
 				access:   payload.user.access,
 				username: payload.user.username,
 				avatar:   payload.user.avatar
-
-				//boards:   storedUser.boards
 			}
 			let provider = {
 				provider: payload.user.providers
@@ -78,9 +76,7 @@ export default flux.store({
 				access:   payload.user.access,
 				username: payload.user.username,
 				avatar:   payload.user.avatar
-
-				//boards:   storedUser.boards
-			}	
+			}
 			localStorage.setItem('user',  JSON.stringify(user));
 			localStorage.setItem('token', payload.token);
 		},

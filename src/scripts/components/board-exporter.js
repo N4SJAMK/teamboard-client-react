@@ -1,6 +1,8 @@
 import React     from 'react';
 import UserStore from '../stores/user';
 
+import localeMixin  from '../mixins/locale';
+
 const Format = {
 	CSV:       'csv',
 	JSON: 	   'json',
@@ -12,6 +14,10 @@ const Format = {
  *
  */
 export default React.createClass({
+	mixins: [
+		localeMixin()
+	],
+
 	propTypes: {
 		boardID: React.PropTypes.string.isRequired
 	},
@@ -34,7 +40,9 @@ export default React.createClass({
 
 		return (
 			<section className="board-exporter">
-				<label>Export Format</label>
+				<label>
+					{this.locale('EXPORTBOARD_FORMAT')}
+				</label>
 				<div className="input-group">
 					<div className="select">
 						<select id={"export-select"} onChange={this.onChange}
@@ -45,7 +53,7 @@ export default React.createClass({
 					</div>
 					<a className="btn btn-secondary" href={exportURL}
 							target="_blank">
-						Export
+						{this.locale('EXPORTBOARD_EXPORT')}
 					</a>
 				</div>
 			</section>
@@ -54,7 +62,7 @@ export default React.createClass({
 
 	renderFormats() {
 		return Object.keys(Format).map((key) => {
-			return <option key={key} value={Format[key]} id={"export-select-" + key}>{key}</option>;
+			return <option key={key} value={Format[key]} id={`export-select-${key}`}>{key}</option>;
 		});
 	}
 });

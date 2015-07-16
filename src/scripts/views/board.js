@@ -44,7 +44,7 @@ export default React.createClass({
 	},
 
 	mixins: [
-           listener(UserStore, BoardStore, SettingsStore)
+		listener(UserStore, BoardStore)
 	],
 
 	onChange() {
@@ -71,7 +71,7 @@ export default React.createClass({
 	},
 
 	componentWillMount() {
-		this.setUserActivity({isActive: true, isPoll: false});
+		this.setUserActivity({ isActive: true, isPoll: false });
 	},
 
 	componentDidMount() {
@@ -81,9 +81,9 @@ export default React.createClass({
 		// Poll server every 10 seconds to indicate we're still alive!
 		let self = this;
 		let handle = setInterval(function() {
-                self.setUserActivity({isActive:true, isPoll:true})
-                }, 10000);
-		this.setState({pollHandle: handle});
+			self.setUserActivity({ isActive:true, isPoll:true })
+		}, 10000);
+		this.setState({ pollHandle: handle });
 	},
 
 	// The componentWillUnmount handles exiting the board via the back button.
@@ -92,7 +92,7 @@ export default React.createClass({
 			clearInterval(this.state.pollHandle);
 		}
 		if(UserStore.getToken()){
-			this.setUserActivity({isActive: false, isPoll: false});
+			this.setUserActivity({ isActive: false, isPoll: false });
 		}
 		document.removeEventListener('touchmove', preventDefault);
 	},
@@ -112,8 +112,7 @@ export default React.createClass({
 	toggleReview() {
 		if(this.sendTicketsForReview().size !== 0){
 			this.setState({ reviewActive: !this.state.reviewActive });
-		}
-		else {
+		} else {
 			BroadcastAction.add({
 				type:    'broadcast',
 				content: 'You do not have any tickets to review!'
@@ -126,6 +125,25 @@ export default React.createClass({
 			showShareBoardDialog: !this.state.showShareBoardDialog
 		});
 	},
+
+	toggleMagnet() {
+		SettingsAction.setSetting('snap-to-grid',
+			!this.state.snapToGrid);
+
+		this.setState({
+			snapToGrid:  SettingsStore.getSetting('snap-to-grid')
+		});
+	},
+
+	toggleGlobe() {
+		SettingsAction.setSetting('show-minimap',
+			!this.state.showMinimap);
+
+		this.setState({
+			showMinimap: SettingsStore.getSetting('show-minimap')
+		});
+	},
+
 	setUserActivity(isActive, isPoll) {
 		BoardAction.setUserBoardActivity(this.props.id, isActive, isPoll);
 	},
@@ -140,7 +158,7 @@ export default React.createClass({
 		// If needed we can use some checks here to filter
 		// 	out unneeded tickets here
 		return this.state.board.tickets.filter((ticket) => {
-			return ticket.content !== "" || ticket.heading !== "" || ticket.comments.size !== 0
+			return ticket.content !== '' || ticket.heading !== '' || ticket.comments.size !== 0
 		});
 	},
 
@@ -150,14 +168,14 @@ export default React.createClass({
 
 		if(this.state.showEditBoardDialog) {
 			boardDialog = <EditBoardDialog board={this.state.board}
-                                    onDismiss={this.toggleEditBoardDialog} />
+									onDismiss={this.toggleEditBoardDialog} />
 		} else if(this.state.showExportBoardDialog) {
 			boardDialog = <ExportBoardDialog board={this.state.board}
-                                    onDismiss={this.toggleExportBoardDialog} />
+									onDismiss={this.toggleExportBoardDialog} />
 
 		} else if(this.state.showShareBoardDialog) {
 			boardDialog = <ShareBoardDialog board={this.state.board}
-                                    onDismiss={this.toggleShareBoardDialog} />
+									onDismiss={this.toggleShareBoardDialog} />
 		}
 
 		if(!this.state.reviewActive) {
@@ -206,18 +224,12 @@ export default React.createClass({
 				onClick: this.toggleExportBoardDialog
 			},
 			{
-				onClick: () => {
-					SettingsAction.setSetting('snap-to-grid',
-						!this.state.snapToGrid);
-				},
+				onClick: this.toggleMagnet,
 				icon:   'magnet',
 				active: this.state.snapToGrid
 			},
 			{
-				onClick: () => {
-					SettingsAction.setSetting('show-minimap',
-						!this.state.showMinimap);
-				},
+				onClick: this.toggleGlobe,
 				icon:   'globe',
 				active: this.state.showMinimap
 			}
@@ -230,9 +242,9 @@ export default React.createClass({
 				},
 				icon: 'arrow-left'
 			}
-			];
+		];
 
-			let adminOnlyControls = [
+		let adminOnlyControls = [
 			{
 				icon:    'pencil',
 				active:  this.state.showEditBoardDialog,
@@ -243,12 +255,10 @@ export default React.createClass({
 				active:  this.state.showShareBoardDialog,
 				onClick: this.toggleShareBoardDialog
 			}
-
-
 		];
 		if(this.props.user.type === User.Type.User) {
 			let currentRole    = BoardStore.getUserRole(this.state.board.id, this.props.user.id);
-			if (currentRole === "admin") {
+			if (currentRole === 'admin') {
 				controls = adminOnlyControls.concat(controls);
 			}
 

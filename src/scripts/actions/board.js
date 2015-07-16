@@ -1,3 +1,5 @@
+import page from 'page';
+
 import api  from '../utils/api';
 import uid  from '../utils/uid';
 import flux from '../utils/flux';
@@ -7,6 +9,7 @@ import Action          from '../actions';
 import UserStore       from '../stores/user';
 import BoardStore      from '../stores/board';
 import BroadcastAction from '../actions/broadcast';
+import UserAction      from '../actions/user'
 
 /**
  * Action Creator for Board related actions.
@@ -137,14 +140,14 @@ export default flux.actionCreator({
 		let token = UserStore.getToken();
 
 		return api.setUserBoardActivity({
-                      token:    token,
-                      isPoll:   payload.isPoll,
-                          id: {
-                          board:boardId
-                          },
-                          payload: { isActive: payload.isActive }
-            })
-            .then(() => {
+					  token:    token,
+					  isPoll:   payload.isPoll,
+						  id: {
+						  board:boardId
+						  },
+						  payload: { isActive: payload.isActive }
+			})
+			.then(() => {
 				return Promise.resolve();
 			})
 			.catch((err) => {
