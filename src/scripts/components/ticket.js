@@ -150,11 +150,9 @@ export default React.createClass({
 
 		let commentCount = null;
 
-		if (this.props.ticket.comments.size < 100) {
-			commentCount = this.props.ticket.comments.size
-		} else {
-			commentCount = '99+';
-		}
+		commentCount = this.props.ticket.comments.size < 100 ?
+						this.props.ticket.comments.size :
+						'99+';
 
 		return (
 			<div className="ticket" style={style.ticket}>

@@ -1,9 +1,10 @@
+import page   from 'page';
+
 import User   from '../models/user';
 import Board  from '../models/board';
 import Ticket from '../models/ticket';
 
 import request from '../utils/request';
-import page    from 'page';
 
 /**
  * NOTE We use a lot of Model.fromJS.toJS conversion here, this is so that we

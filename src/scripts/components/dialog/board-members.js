@@ -1,14 +1,22 @@
 import React      from 'react/addons';
 import TimeAgo    from 'react-timeago';
-import Dialog     from '../../components/dialog';
-import Avatar     from '../../components/avatar';
+
+import Board       from '../../models/board';
+import localeMixin from '../../mixins/locale';
+
+import Dialog     from '../dialog';
+import Avatar     from '../avatar';
 import Scrollable from './scrollable';
 
 /**
  *
  */
 export default React.createClass({
-	mixins: [ React.addons.PureRenderMixin, React.addons.LinkedStateMixin ],
+	mixins: [
+		React.addons.PureRenderMixin,
+		React.addons.LinkedStateMixin,
+		localeMixin()
+	],
 
 	propTypes: {
 		board: (props) => {
@@ -38,16 +46,26 @@ export default React.createClass({
 			return (x.isActive === y.isActive)? 0 : x.isActive? -1 : 1;
 		});
 
+		let timeFormatter = (value, unit, suffix) => {
+			if(value !== 1) {
+				unit = `${unit}s`;
+			}
+
+			unit = this.locale(`TIME_${unit.toUpperCase()}`);
+			suffix = this.locale('TIME_SUFFIX');
+
+			return `${value} ${unit} ${suffix}`;
+		};
+
 		return (
 			<Dialog className="dialog-board-members"
 					onDismiss={this.props.onDismiss}>
 
 				<section className="dialog-header">
-					Board members
+					{this.locale('BOARDMEMBERS_TITLE')}
 				</section>
 				<section className="dialog-content">
-
-						<section className="dialog-members">
+					<section className="dialog-members">
 						<Scrollable>
 							<section className="dialog-member-list">
 								{
@@ -74,7 +92,8 @@ export default React.createClass({
 													!isActive ?
 													(
 														<div className="user-last-seen">
-															Seen {React.createElement(TimeAgo, { date: member.get('lastSeen') })}
+															<TimeAgo date={member.get('lastSeen')}
+																	formatter={timeFormatter} />
 														</div>
 													) :
 													null
@@ -84,12 +103,11 @@ export default React.createClass({
 									})
 								}
 							</section>
-							</Scrollable>
-						</section>
-
+						</Scrollable>
+					</section>
 					<section className="dialog-footer">
 						<button className="btn-primary" onClick={this.submit}>
-							Done
+							{this.locale('DONEBUTTON')}
 						</button>
 					</section>
 				</section>
