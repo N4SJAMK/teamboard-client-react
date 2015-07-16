@@ -50,7 +50,7 @@ export default React.createClass({
         api.queryImgVersion({ token }).then((res) => {
             let img = res.version;
             if(img === 'unknown') {
-                img =this.locale('ABOUT_UNKNOWN');
+                img = this.locale('ABOUT_UNKNOWN');
             }
             if(img === 'error') {
                 img = this.locale('ABOUT_ERROR');

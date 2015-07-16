@@ -22,7 +22,7 @@ export default React.createClass({
         board: (props) => {
             if(!props.board instanceof Board) throw new Error();
         },
-        onDismiss: React.PropTypes.func.isRequired,
+        onDismiss: React.PropTypes.func.isRequired
     },
 
     getInitialState() {

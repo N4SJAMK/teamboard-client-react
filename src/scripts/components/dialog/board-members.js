@@ -46,7 +46,7 @@ export default React.createClass({
             return (x.isActive === y.isActive)? 0 : x.isActive? -1 : 1;
         });
 
-        let timeFormatter = ((value, unit, suffix) => {
+        let timeFormatter = (value, unit, suffix) => {
             if(value !== 1) {
                 unit = `${unit}s`;
             }
@@ -55,7 +55,7 @@ export default React.createClass({
             suffix = this.locale('TIME_SUFFIX');
 
             return `${value} ${unit} ${suffix}`;
-        });
+        };
 
         return (
             <Dialog className="dialog-board-members"

@@ -106,8 +106,8 @@ export default React.createClass({
         if (boardAdmin === undefined) {
             return;
         }
-        if(boardAdmin && typeof boardAdmin.user === 'object' && typeof boardAdmin.user.get('id') !== 'undefined') {
-            if(boardAdmin.user.get('id') === user.get('id'))  {
+
+        if(boardAdmin.user && boardAdmin.user.get('id') === user.get('id')) {
             return (
                 <div className="controls">
                     {controls.map(function(ctrl, index) {
@@ -116,24 +116,11 @@ export default React.createClass({
                 </div>
             );
         }
-        else {
-            return (
-                <div className="controls">
-                <div className="ownedby">
-                    {`${this.locale('OWNEDBY')}: ${boardAdmin.user.get('username')}`}
-                </div>
-                </div>
-            );
-        }
-        }
-        else {
-            return (
-                <div className="controls">
-                    {controls.map(function(ctrl, index) {
-                        return <Control key={index} {...ctrl} />;
-                    })}
-                </div>
-            );
-        }
+
+        return (
+            <div className="controls ownedby">
+                {`${this.locale('OWNEDBY')}: ${boardAdmin.user.get('username')}`}
+            </div>
+        );
     }
 });

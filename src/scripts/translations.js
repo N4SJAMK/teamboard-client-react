@@ -1010,7 +1010,7 @@ export default {
         jp: '分',
         ru: ''
     },
-    TIME_HOURS: {
+    TIME_HOUR: {
         en: 'hour',
         fi: 'tunti',
         se: 'timma',
@@ -1018,7 +1018,7 @@ export default {
         jp: '時間',
         ru: ''
     },
-    TIME_DAYS: {
+    TIME_DAY: {
         en: 'day',
         fi: 'päivä',
         se: 'dag',
@@ -1026,7 +1026,7 @@ export default {
         jp: '日',
         ru: ''
     },
-    TIME_WEEKS: {
+    TIME_WEEK: {
         en: 'week',
         fi: 'viikko',
         se: 'vecka',
@@ -1034,7 +1034,7 @@ export default {
         jp: '週間',
         ru: ''
     },
-    TIME_MONTHS: {
+    TIME_MONTH: {
         en: 'month',
         fi: 'kuukausi',
         se: 'månad',
@@ -1042,7 +1042,7 @@ export default {
         jp: 'ヶ月',
         ru: ''
     },
-    TIME_YEARS: {
+    TIME_YEAR: {
         en: 'year',
         fi: 'vuosi',
         se: 'år',

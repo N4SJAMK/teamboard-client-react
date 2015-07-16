@@ -1,8 +1,8 @@
 import immutable from 'immutable';
 
 const UserType = {
-	User:  'standard',
-	Guest: 'temporary'
+    User:  'standard',
+    Guest: 'temporary'
 }
 
 // A lot of these fields are not really needed (_id, vid)
@@ -11,19 +11,19 @@ const UserType = {
 // it through the JSON sanitizing function in the API schema,
 // which is annoying to say the least...
 const User = immutable.Record({
-	id:           '',
-	_id:          null,
-	__v:          null, 
-	type:         UserType.Guest,
-	account_type: UserType.Guest,
-	access:       '',
-	username:     '',
-	avatar:       null,
-	name:         '',
-	edited_at:    null,
-	created_at:   null,
-	boards:       [],
-	providers:    null
+    id:           '',
+    _id:          null,
+    __v:          null,
+    type:         UserType.Guest,
+    account_type: UserType.Guest,
+    access:       '',
+    username:     '',
+    avatar:       null,
+    name:         '',
+    edited_at:    null,
+    created_at:   null,
+    boards:       [],
+    providers:    null
 });
 
 User.Type = UserType;
@@ -32,11 +32,11 @@ User.Type = UserType;
  * Simple factoryish function to make sure we get a properly formatted record.
  */
 User.fromJS = function fromJS(user) {
-	user.type = user.type || user.account_type;
-	user.type = user.type === UserType.User
-		? UserType.User
-		: UserType.Guest;
-	return new User(user);
+    user.type = user.type || user.account_type;
+    user.type = user.type === UserType.User
+        ? UserType.User
+        : UserType.Guest;
+    return new User(user);
 }
 
 export default User;

@@ -1,7 +1,6 @@
 import flux   from '../utils/flux';
 import Action from '../actions';
 
-import Translations from '../translations';
 /**
  *
  */
@@ -17,7 +16,7 @@ export default flux.store({
             let locale = window.navigator.userLanguage || navigator.language
 
             // Fix invalid locale codes here
-            if(!(locale in ['en', 'fi', 'se', 'ru'])) {
+            if(!(locale in ['en', 'fi', 'se', 'ru', 'dk', 'jp'])) {
                 locale = 'en';
             }
 

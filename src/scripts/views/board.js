@@ -25,8 +25,6 @@ import ExportBoardDialog from '../components/dialog/export-board.js';
 import ShareBoardDialog  from '../components/dialog/share-board';
 import ReviewView        from '../components/dialog/review-view';
 
-import settingsMixin  from '../mixins/settings';
-
 /**
  * Fix issues with iOS and IScroll not working together too well...
  */
