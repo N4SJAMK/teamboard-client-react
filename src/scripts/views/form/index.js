@@ -4,12 +4,16 @@ import React from 'react';
 import Broadcaster     from '../../components/broadcaster';
 import FormData        from '../../views/form/form-map';
 import BroadcastAction from '../../actions/broadcast';
+import localeMixin     from '../../mixins/locale';
 
 /**
  *
  */
 export default React.createClass({
-	mixins: [ React.addons.LinkedStateMixin ],
+	mixins: [
+		React.addons.LinkedStateMixin,
+		localeMixin()
+	],
 
 	propTypes: {
 		formProfile: React.PropTypes.string.isRequired,
@@ -25,35 +29,25 @@ export default React.createClass({
 	},
 
 	checkPasswords(){
-		let form = this.props.formProfile;
-		let pass = this.state.passwordAgain;
-
-		if(form === 'registerForm' && pass.length > 7) {
-			let message = (pass !== this.state.passwordRegister)
-				? (
-					<span className="fa fa-times mismatch">
-						Password mismatch!
-					</span>
-				)
-				: (
-					<span className="fa fa-check match">
-						Passwords match!
-					</span>
-				);
-			return message;
+		if(this.props.formProfile === 'registerForm' && this.state.passwordAgain.length > 7) {
+			return this.state.passwordAgain !== this.state.passwordRegister ?
+				<span className="fa fa-times mismatch">{this.locale('PASSWORDMISMATCH')}</span>
+				: <span className="fa fa-check match">{this.locale('PASSWORDMATCH')}</span>;
 		}
 	},
 
 	renderFields(fields) {
 		return fields.map((field, index) => {
 			let controlattrs = {
-				title:    field.title,
+				title:    this.locale(field.title),
 				pattern:  field.pattern,
 				required: field.required
 			}
 			return (
 				<section key={field.name} className="input">
-					<label htmlFor={field.name}>{field.label}</label>
+					<label htmlFor={field.name}>
+						{this.locale(field.label)}
+					</label>
 					<input autoFocus={index === 0} name={field.name}
 						type={field.type} {...controlattrs}
 						valueLink={this.linkState(field.name)} />
@@ -76,24 +70,23 @@ export default React.createClass({
 				currentForm.submit(this.state);
 				return event.preventDefault();
 			}
-		}
-		return (event) => {
-			BroadcastAction.add({
-				type:    'Error',
-				content: 'Passwords entered do not match!'
-			});
-			return event.preventDefault();
+		} else {
+			return (event) => {
+				BroadcastAction.add({
+					type:    'Error',
+					content: this.locale('PASSWORDMISMATCH')
+				});
+				return event.preventDefault();
+			}
 		}
 	},
 
 	submitSecondary(currentForm) {
 		return (event) => {
-			if(this.props.formProfile !== 'guestLoginForm') {
-				currentForm.secondary.submit(
-					this.state, this.props.boardID, this.props.accessCode);
+			if (this.props.formProfile !== 'guestLoginForm') {
+				currentForm.secondary.submit(this.state, this.props.boardID, this.props.accessCode);
 			} else {
-				currentForm.secondary.submit(
-					this.state, this.props.boardID, this.props.accessCode);
+				currentForm.secondary.submit(this.state, this.props.boardID, this.props.accessCode);
 			}
 			return event.preventDefault();
 		}
@@ -109,11 +102,11 @@ export default React.createClass({
 	renderForm(formType) {
 		let secondaryContent = !formType.secondary ? null : (
 			<section className="secondary">
-				<p>{formType.secondary.description}</p>
+				<p>{this.locale(formType.secondary.description)}</p>
 				<button className="btn-secondary"
-						onClick={this.submitSecondary(formType,
-							this.props.boardID, this.props.accessCode)}>
-					{formType.secondary.action}
+						onClick={this.submitSecondary(formType, this.props.boardID,
+							this.props.accessCode)}>
+					{this.locale(formType.secondary.action)}
 				</button>
 			</section>
 		);
@@ -121,13 +114,17 @@ export default React.createClass({
 		let socialLogin = !formType.social ? null : (
 			<div>
 				<section className="social">
-					<h2>{formType.social.header}</h2>
+					<h2>{this.locale(formType.social.header)}</h2>
+					<a className="provider" href={formType.social.facebookUrl}>
+						<img className="provider" src={formType.social.facebookLogo} />
+					</a>
+
 					<a className="provider" href={formType.social.googleUrl}>
 						<img className="provider"
 							src={formType.social.googleLogo} />
 					</a>
 				</section>
-				<p className="basic-login">{formType.social.subHeader}</p>
+				<p className="basic-login">{this.locale(formType.social.subHeader)}</p>
 			</div>
 		);
 
@@ -153,8 +150,8 @@ export default React.createClass({
 						{this.renderFields(formType.fields)}
 						{this.checkPasswords()}
 						<input type="submit" className="btn-primary"
-							value={formType.action} />
-						<article className="help">{formType.help}</article>
+							value={this.locale(formType.action)} />
+						<article className="help">{this.locale(formType.help)}</article>
 						<section className="secondary-content">
 							{secondaryContent}
 						</section>

@@ -12,10 +12,15 @@ import Minimap           from '../components/minimap';
 import EditBoardDialog   from '../components/dialog/edit-board';
 import RemoveBoardDialog from '../components/dialog/remove-board';
 
+import localeMixin from '../mixins/locale';
 /**
  *
  */
 export default React.createClass({
+	mixins: [
+			localeMixin()
+	],
+
 	propTypes: {
 		board: (props) => {
 			if(!props.board instanceof Board) throw Error();
@@ -99,10 +104,10 @@ export default React.createClass({
 		let boardAdmin = BoardStore.getBoardAdmin(this.props.board.id);
 		let user       = UserStore.getUser();
 		if (boardAdmin === undefined) {
-			return;
+			return null;
 		}
-		if(boardAdmin && typeof boardAdmin.user === 'object' && typeof boardAdmin.user.get('id') !== 'undefined') {
-			if(boardAdmin.user.get('id') === user.get('id'))  {
+
+		if(boardAdmin.user && boardAdmin.user.get('id') === user.get('id')) {
 			return (
 				<div className="controls">
 					{controls.map(function(ctrl, index) {
@@ -111,24 +116,11 @@ export default React.createClass({
 				</div>
 			);
 		}
-		else {
-			return (
-				<div className="controls">
-				<div className="ownedby">
-					{'Owned by: ' + boardAdmin.user.get('username')}
-				</div>
-				</div>
-			);
-		}
-		}
-		else {
-			return (
-				<div className="controls">
-					{controls.map(function(ctrl, index) {
-						return <Control key={index} {...ctrl} />;
-					})}
-				</div>
-			);
-		}
+
+		return (
+			<div className="controls ownedby">
+				{`${this.locale('OWNEDBY')}: ${boardAdmin.user.get('username')}`}
+			</div>
+		);
 	}
 });

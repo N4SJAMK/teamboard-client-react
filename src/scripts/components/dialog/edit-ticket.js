@@ -9,16 +9,21 @@ import TicketAction  from '../../actions/ticket';
 import UserStore     from '../../stores/user';
 import CommentAction from '../../actions/comment';
 
-import Avatar      from '../../components/avatar';
-import Dialog      from '../../components/dialog';
-import ColorSelect from '../../components/color-select';
-import Scrollable  from '../../components/dialog/scrollable';
+import Avatar      from '../avatar';
+import Dialog      from '../dialog';
+import ColorSelect from '../color-select';
+
+import Scrollable  from './scrollable';
+import localeMixin from '../../mixins/locale';
 
 /**
  *
  */
 export default React.createClass({
-	mixins: [ React.addons.LinkedStateMixin ],
+	mixins: [
+		React.addons.LinkedStateMixin,
+		localeMixin()
+	],
 
 	propTypes: {
 		ticket: (props) => {
@@ -93,131 +98,143 @@ export default React.createClass({
 		}
 
 		this.setState({ isEditing: !this.state.isEditing });
-		return event.stopPropagation();
+		event.stopPropagation();
 	},
 
-	render() {
-		let headerArea  = null;
-		let contentArea = null;
+	getMarkup(content) {
+		let markupContent = markdown.markdown.toHTML(content);
 
-		let commentArea = (
-			<section className="dialog-comments">
-				<section className="new-comment-section">
-					<input className="comment-input"
-						maxLength={140} tabIndex={2} placeholder="Your comment"
-						valueLink={this.linkState('newComment')} />
-					<button className="btn-primary"
-							onClick={this.onSubmitComment}>
-						Add comment
-					</button>
+		markupContent = markupContent.replace(/<a href="/g, '<a target="_blank" href="');
+
+		return markupContent;
+	},
+
+	timeFormatter(value, unit, suffix) {
+		if(value !== 1) {
+			unit = `${unit}s`;
+		}
+
+		unit = this.locale(`TIME_${unit.toUpperCase()}`);
+		suffix = this.locale('TIME_SUFFIX');
+
+		return `${value} ${unit} ${suffix}`;
+	},
+
+	getComment(comment) {
+		let avatar   = comment.createdBy.avatar;
+		let username = comment.createdBy.name || comment.createdBy.username;
+		let usertype = comment.createdBy.type || comment.createdBy.account_type;
+
+		let timestamp = comment.get('created_at');
+		let msg       = comment.get('content');
+
+		return (
+			<div className="comment" key={comment.id}>
+				<section className="comment-top">
+					<Avatar size={32} name={username}
+							imageurl={avatar}
+							usertype={usertype}
+							isOnline={true}>
+					</Avatar>
+					<span className="comment-timestamp">
+						<TimeAgo date={comment.createdAt}
+								live={true}
+								formatter={this.timeFormatter} />
+					</span>
+					<p className="comment-username">{username}</p>
 				</section>
-				<section className="comment-wrapper">
-					<Scrollable>
-						{this.props.comments.reverse().map((comment) => {
-							let username  = comment.createdBy.name || comment.createdBy.username;
-							let usertype  = comment.createdBy.type || comment.createdBy.account_type;
-							let avatarURL = comment.createdBy.avatar;
-
-							let message = comment.message;
-							let timeago = { date: comment.createdAt }
-
-							return (
-								<div className="comment" key={comment.id}>
-									<section className="comment-top">
-										<Avatar size={32} name={username}
-											imageurl={avatarURL}
-											usertype={usertype}
-											isOnline={true}>
-										</Avatar>
-										<span className="comment-timestamp">
-											{React.createElement(TimeAgo, timeago)}
-										</span>
-										<p className="comment-username">
-											{username}
-										</p>
-									</section>
-									<p className="comment-message">{message}</p>
-								</div>
-							);
-						})}
-					</Scrollable>
-				</section>
-			</section>
+				<p className="comment-message">{comment.message}</p>
+			</div>
 		);
+	},
 
-		if(!this.state.isEditing && this.state.content !== '') {
-			let content       = this.state.content;
-			let markupContent = markdown.markdown.toHTML(content);
-
-			// Add target="_blank" attribute to links so they open in a new tab
-			if (markupContent.includes('<a href=')) {
-				markupContent = markupContent.replace(
-					/<a href="/g, '<a target="_blank" href="');
-			}
-
-			contentArea = (
-				<section className="dialog-content">
-					<Scrollable>
-						<span
-							dangerouslySetInnerHTML={{ __html: markupContent }}
-							onClick={this.toggleEdit} />
-					</Scrollable>
+	getHeaderArea() {
+		return this.state.isEditing || this.state.content === '' ?
+			(
+				<section className="dialog-heading">
+					<input  valueLink={this.linkState('heading')}
+						maxLength={40}
+						placeholder={this.locale('EDITTICKET_HEADER')}
+						tabIndex={1}/>
 				</section>
-			);
-
-			headerArea = (
+			) :
+			(
 				<section className="dialog-heading">
 					<span onClick={this.toggleEdit}>{this.state.heading}</span>
 				</section>
 			);
-		} else {
-			contentArea = (
+	},
+
+	getContentArea() {
+		return this.state.isEditing || this.state.content === '' ?
+			(
 				<section className="dialog-content">
 					<Scrollable>
 						<TextArea valueLink={this.linkState('content')}
-							tabIndex={2} placeholder="Ticket content"/>
+							tabIndex={2}
+							placeholder={this.locale('EDITTICKET_CONTENT')} />
+					</Scrollable>
+				</section>
+			) :
+			(
+				<section className="dialog-content">
+					<Scrollable>
+						<span dangerouslySetInnerHTML={{ __html: this.getMarkup(this.state.content) }}
+							onClick={this.toggleEdit} />
 					</Scrollable>
 				</section>
 			);
+	},
 
-			headerArea = (
-				<section className="dialog-heading">
-					<input  valueLink={this.linkState('heading')}
-						maxLength={40} tabIndex={1}
-						placeholder="Ticket heading" />
+	getCommentArea() {
+		return (
+			<section className="dialog-comments">
+				<section className="new-comment-section">
+					<input className="comment-input"
+						maxLength={140}
+						valueLink={this.linkState('newComment')}
+						placeholder={this.locale('EDITTICKET_YOURCOMMENT')}
+						tabIndex={2}/>
+					<button className="btn-primary" onClick={this.onSubmitComment}>
+						{this.locale('EDITTICKET_ADDCOMMENT')}
+					</button>
 				</section>
-			);
-		}
+				<section className="comment-wrapper">
+					<Scrollable>
+						{ this.props.comments.reverse().map(this.getComment) }
+					</Scrollable>
+				</section>
+			</section>
+		)
+	},
 
+	render() {
 		return (
 			<Dialog className="edit-ticket-dialog"
 					onDismiss={this.props.onDismiss}>
 				<section className="dialog-header">
 					<ColorSelect color={this.linkState('color')} />
 				</section>
-				<section onClick={this.state.isEditing
-						? this.toggleEdit : null}>
-					{headerArea}
-					{contentArea}
-					{commentArea}
+				<section onClick={this.state.isEditing ? this.toggleEdit : null}>
+					{this.getHeaderArea()}
+					{this.getContentArea()}
+					{this.getCommentArea()}
 					<section className="dialog-footer">
 						<button className="btn-neutral"
 								id={"ticket-dialog-cancel"}
 								onClick={this.cancel}
 								tabIndex={3}>
-							Cancel
+							{this.locale('CANCELBUTTON')}
 						</button>
 						<button className="btn-primary"
 								id={"ticket-dialog-save"}
 								onClick={this.update}
 								tabIndex={4}>
-							Save
+							{this.locale('SAVEBUTTON')}
 						</button>
 					</section>
-					<span className="deleteicon fa fa-trash-o"
-							id={"ticket-dialog-delete"}
-							onClick={this.remove}>
-						Delete
+					<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}>
+						{this.locale('DELETEBUTTON')}
 					</span>
 				</section>
 			</Dialog>

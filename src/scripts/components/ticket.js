@@ -176,7 +176,7 @@ export default React.createClass({
 					{this.props.ticket.heading}
 				</div>
 				<div className="content">
-					<span dangerouslySetInnerHTML={{__html: markupContent}} />
+					<span dangerouslySetInnerHTML={{ __html: markupContent }} />
 					<span className="count-icon">
 						<span className="fa fa-2x fa-comment comment">
 							<span className="count">{numComments}</span>
