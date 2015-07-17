@@ -5,13 +5,17 @@ import Navigation      from '../components/navigation';
 import Broadcaster     from '../components/broadcaster';
 import ProfileForms    from '../views/form/profile-forms';
 import BroadcastAction from '../actions/broadcast';
-
+import localeMixin     from '../mixins/locale';
 /**
  *
  */
 
 export default React.createClass({
-	mixins: [ React.addons.LinkedStateMixin ],
+	mixins: [
+		React.addons.LinkedStateMixin,
+		localeMixin()
+	],
+
 	propTypes: {
 		formProfile: React.PropTypes.string.isRequired
 	},
@@ -25,40 +29,40 @@ export default React.createClass({
 
 	getFieldType(field, index, controlattrs) {
 		let userNameContent = this.state.name === '' || !this.state.name ?
-		UserStore.getUser().username :
-		this.state.name;
+			UserStore.getUser().username :
+			this.state.name;
+
 		switch(field.type){
 			case 'submit': return (
-					<input name={field.name} type={"submit"}
-					value={"Hello"} {...controlattrs} />
+					<input name={field.name} type={"submit"} {...controlattrs}></input>
 				);
 			case 'text':
 			case 'password':
 			case 'file': return (
-				<section>
-					<label htmlFor={field.name}>{field.label}</label>
-					<input autoFocus={index === 0} id={field.name} name={field.name}
+				<section key={index} className="input">
+					<label htmlFor={field.name}>{this.locale(field.label)}</label>
+					<input autoFocus={index === 0} name={field.name}
 					type={field.type} {...controlattrs}
 					valueLink={this.linkState(field.name)} />
 				</section>
-				);
+			);
 			case 'email': return (
-				<section>
-				<h4>{field.title}</h4>
-				<p>{userNameContent}</p>
+				<section key={index} className="input">
+					<h4>{this.locale(field.title)}</h4>
+					<p>{userNameContent}</p>
 				</section>
 			);
 			case 'avatar': return (
 				<section>
-					<h4>{field.title}</h4>
+					<h4>{this.locale(field.title)}</h4>
 					<div className="avatar-wrapper">
 						<Avatar size={64} name={userNameContent}
 								imageurl={this.state.avatar}
 								isOnline={true}>
 						</Avatar>
 					</div>
-					<label htmlFor={field.label}>{field.label}</label>
-					<input autoFocus={index === 0} id={field.name} type={field.type}
+					<label htmlFor={field.label}>{this.locale(field.label)}</label>
+					<input autoFocus={index === 0} type={field.type}
 						{...controlattrs} valueLink={this.linkState(field.name)} />
 				</section>
 			);
@@ -69,8 +73,8 @@ export default React.createClass({
 		if(this.props.formProfile === 'loginSettings' &&
 			this.state.newPasswordAgain.length > 7) {
 			return this.state.newPasswordAgain !== this.state.newPassword ?
-				<span className="fa fa-times mismatch">Password mismatch!</span>
-				: <span className="fa fa-check match">Passwords match!</span>;
+				<span className="fa fa-times mismatch">{this.locale('PASSWORDMISMATCH')}</span>
+				: <span className="fa fa-check match">{this.locale('PASSWORDMATCH')}</span>;
 		}
 	},
 
@@ -81,13 +85,11 @@ export default React.createClass({
 				pattern:   field.pattern,
 				required:  field.required,
 				className: field.className,
-				value:     field.buttonaction,
+				value:     this.locale(field.action),
 				onChange:  field.onChange
 			}
 			return (
-				<section key={field.name} className="input">
-					{this.getFieldType(field, index, controlattrs)}
-				</section>
+				this.getFieldType(field, index, controlattrs)
 			);
 		});
 	},
@@ -101,13 +103,14 @@ export default React.createClass({
 				currentForm.submit(this.state);
 				return event.preventDefault();
 			}
-		}
-		else return (event) => {
-			BroadcastAction.add({
-				type:    'Error',
-				content: 'Password mismatch!'
-			});
-			return event.preventDefault();
+		} else {
+			return (event) => {
+				BroadcastAction.add({
+					type:    'Error',
+					content: this.locale('PASSWORDMISMATCH')
+				});
+				return event.preventDefault();
+			}
 		}
 	},
 
@@ -124,7 +127,7 @@ export default React.createClass({
 					<li id={field.name} className={className}>
 						<p  onClick={field.onClick}>
 						<span className={`fa fa-${field.icon}`}></span>
-						{field.name}
+						{this.locale(field.name)}
 						</p>
 					</li>
 				);
@@ -151,7 +154,7 @@ export default React.createClass({
 					<div className="form-container">
 						<form className="login-info"
 							onSubmit={this.submitPrimary(formType)}>
-							<h3>{formType.title}</h3>
+							<h3>{this.locale(formType.title)}</h3>
 							{this.renderFields(formType.fields)}
 							<article className="help">{formType.help}</article>
 							<section className="secondary-content">
@@ -166,6 +169,5 @@ export default React.createClass({
 
 	render() {
 		return this.renderForm(ProfileForms[this.props.formProfile])
-
 	}
 });

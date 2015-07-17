@@ -40,9 +40,7 @@ export default React.createClass({
 			fontSize = this.props.size * 0.55;
 			if (this.props.usertype === 'guest' || this.props.usertype === 'temporary') {
 				backgroundColor = bgcolors.guest;
-			}
-
-			else {
+			} else {
 				// Background color is determined by modulo of the initials char colors
 				if (initials.charCodeAt(1)) {
 					backgroundColor = bgcolors.user[(initials.charCodeAt(0) + initials.charCodeAt(1)) % 4];
@@ -50,17 +48,14 @@ export default React.createClass({
 					backgroundColor = bgcolors.user[initials.charCodeAt(0) % 4];
 				}
 			}
-		}
-
-		else {
-			backgroundURL = "url('" + this.props.imageurl + "')"
+		} else {
+			backgroundURL = `url('${this.props.imageurl}')`;
 		}
 
 		if (!this.props.isOnline) {
-			avatarClass = "avatar offline";
-		}
-		else {
-			avatarClass = "avatar online";
+			avatarClass = 'avatar offline';
+		} else {
+			avatarClass = 'avatar online';
 		}
 
 		let style = {
@@ -73,7 +68,7 @@ export default React.createClass({
 		}
 
 		return (
-			<div className={avatarClass} style={style} id={'avatar-' + this.props.size}>
+			<div className={avatarClass} style={style} id={`avatar-${this.props.size}`}>
 				{initials}
 			</div>
 		);

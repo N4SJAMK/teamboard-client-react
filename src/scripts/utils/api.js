@@ -1,9 +1,10 @@
+import page   from 'page';
+
 import User   from '../models/user';
 import Board  from '../models/board';
 import Ticket from '../models/ticket';
 
 import request from '../utils/request';
-import page    from 'page';
 
 /**
  * NOTE We use a lot of Model.fromJS.toJS conversion here, this is so that we
@@ -21,6 +22,7 @@ export default {
 	getBoards:       getBoards,
 	getTicket:       getTicket,
 	getTickets:      getTickets,
+    getComments:     getComments,
 
 	updateUserPassword: updateUserPassword,
 	updateUser:         updateUser,
@@ -162,6 +164,33 @@ function getTickets(opts = {}) {
 	});
 }
 
+function parseCommentFromEvent(event) {
+    return {
+        id:        event.id,
+        message:   event.data.message,
+        createdBy: event.user,
+        createdAt: event.createdAt
+    }
+}
+
+function getComments(opts = {}) {
+    let options = {
+        url:   `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}/comments`,
+        token: opts.token
+    }
+    return request.get(options)
+        .then(res => res.body.map(parseCommentFromEvent));
+}
+
+function createComment(opts = {}) {
+    let options = {
+        url:     `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}/comments`,
+        token:   opts.token,
+        payload: opts.payload
+    }
+    return request.post(options).then(res => parseCommentFromEvent(res.body));
+}
+
 function createBoard(opts = {}) {
 	let options = {
 		url:     `${API_URL}/boards`,
@@ -203,18 +232,6 @@ function updateUserPassword(opts = {}) {
 	}
 	return request.put(options).then((res) => {
 		return User.fromJS(res.body).toJS();
-	});
-}
-
-function createComment(opts = {}) {
-	let options = {
-		url:     `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}/comments`,
-		token:   opts.token,
-		payload: opts.payload
-	}
-
-	return request.post(options).then((res) => {
-		return Ticket.fromJS(res.body).toJS();
 	});
 }
 

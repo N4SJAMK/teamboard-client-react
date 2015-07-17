@@ -19,17 +19,16 @@ export default
 		],
 		registerForm: {
 			fields: [
-
 				{
 					name:     'email',
 					type:     'email',
-					label:    'Email',
+					label:    'EMAIL',
 					required: true
 				},
 				{
 					name:     'passwordRegister',
 					type:     'password',
-					label:    'Password',
+					label:    'PASSWORD',
 					title:    'Minimum of 8 characters required.',
 					pattern:  '.{8,}',
 					required: true
@@ -37,8 +36,8 @@ export default
 				{
 					name:     'passwordAgain',
 					type:     'password',
-					label:    'Confirm password',
-					title:    'Minimum of 8 characters required.',
+					label:    'LOGIN_CONFIRMPASSWORD',
+					title:    'LOGIN_PASSWORDLENGTH',
 					pattern:  '.{8,}',
 					required: true
 				}
@@ -47,35 +46,35 @@ export default
 				submit: () => {
 					return page.show('/login');
 				},
-				action:      'Login',
-				description: 'Already registered?'
+				action:      'LOGIN_LOGIN',
+				description: 'LOGIN_ALREADYREGISTERED'
 			},
 			submit: (state) => {
 				return UserAction.register(state).then(() => {
 					return UserAction.login(state).then(() => {
 						BroadcastAction.add({
 							type:    'broadcast',
-							content: 'Welcome!'
+							content: 'SUCCESS'
 						});
 						return page.show('/boards');
 					});
 				});
 			},
-			help:   'Passwords must be at least 8 characters long.',
-			action: 'Register'
+			help:   'LOGIN_PASSWORDLENGTH',
+			action: 'LOGIN_REGISTER'
 		},
 		loginForm: {
 			fields: [
 				{
 					name:     'email',
 					type:     'email',
-					label:    'Email',
+					label:    'EMAIL',
 					required: true
 				},
 				{
 					name:     'password',
 					type:     'password',
-					label:    'Password',
+					label:    'PASSWORD',
 					required: true
 				}
 			],
@@ -83,47 +82,47 @@ export default
 				submit: () => {
 					return page.show('/register');
 				},
-				action:      'Register',
-				description: 'Not registered?'
+				action:      'LOGIN_REGISTER',
+				description: 'LOGIN_NOTREGISTERED'
 			},
 			social: {
-				header: 'Login',
-				subHeader: 'or',
+				header: 'LOGIN_LOGIN',
+				subHeader: '',
 				googleUrl: API_URL+'/auth/google/login',
-				googleLogo: '/dist/assets/img/providers/google.png'
+				googleLogo: '/dist/assets/img/providers/google.png',
+				facebookUrl: API_URL+'/auth/facebook/login',
+				facebookLogo: '/dist/assets/img/providers/facebook.png'
 			},
 			submit: (state) => {
 				return UserAction.login(state).then(() => {
 					return page.show('/boards');
 				});
 			},
-			action: 'Login'
+			action: 'LOGIN_LOGIN'
 		},
 	guestLoginForm: {
 		fields: [
 			{
 				name:     'username',
 				type:     'text',
-				label:    'Username',
-				title:    'Username must be at least 3 characters.',
+				label:    'LOGIN_GUEST_USERNAME',
+				title:    'LOGIN_GUEST_USERNAMELENGTH',
 				pattern:  '.{3,}',
 				required: true
 			}
 		],
 		secondary: {
 			submit: (formType, boardID, accessCode) => {
-
 				if(UserStore.getToken()) {
 					return UserAction.giveBoardAccess(boardID, accessCode).then(() => {
 						return page.show(`/boards/${boardID}`);
 					}, (err) => {console.log(err)});
-				}
-				else {
+				} else {
 					return page.show(`/userlogin/boards/${boardID}/access/${accessCode}`);
 				}
 			},
-			action:      'Log in',
-			description: 'Got an account?'
+			action:      'LOGIN_LOGIN',
+			description: 'LOGIN_GUEST_GOTACCOUNT'
 		},
 		submit: (state, boardID, accessCode) => {
 			let credentials = Object.assign(state, {
@@ -132,30 +131,32 @@ export default
 			});
 			return UserAction.login(credentials, true).then(() => {
 				return page.show(`/boards/${boardID}`);
-			}, (err) => {});
+			}, () => {});
 		},
-		action: 'Login as Guest'
+		action: 'LOGIN_GUEST_LOGINASGUEST'
 	},
 	userAccessForm: {
 		fields: [
 			{
 				name:     'email',
 				type:     'email',
-				label:    'Email',
+				label:    'EMAIL',
 				required: true
 			},
 			{
 				name:     'password',
 				type:     'password',
-				label:    'Password',
+				label:    'PASSWORD',
 				required: true
 			}
 		],
 		social: {
-				header: 'Login',
-				subHeader: 'or',
+				header: 'LOGIN_LOGIN',
+				subHeader: '',
 				googleUrl: API_URL+'/auth/google/login',
-				googleLogo: '/dist/assets/img/providers/google.png'
+				googleLogo: '/dist/assets/img/providers/google.png',
+				facebookUrl: API_URL+'/auth/facebook/login',
+				facebookLogo: '/dist/assets/img/providers/facebook.png'
 			},
 		secondary: {
 			submit: (formType, boardID, accessCode) => {
@@ -163,8 +164,8 @@ export default
 				localStorage.removeItem('share_accessCode');
 				return page.show(`/boards/${boardID}/access/${accessCode}`);
 			},
-			action:      'Guest login',
-			description: 'No account?'
+			action:      'LOGIN_GUEST_LOGINASGUEST',
+			description: 'LOGIN_NOTREGISTERED'
 		},
 		submit: (state, boardID, accessCode) => {
 			return UserAction.login(state).then(() => {
@@ -172,13 +173,11 @@ export default
 					localStorage.removeItem('share_board');
 					localStorage.removeItem('share_accessCode');
 					return page.show(`/boards/${boardID}`);
-				}, (err) => {console.log(err)});
-
-			}, (err) => {
+				}, () => {});
+			}, () => {
 				return page.redirect(`/boards/${boardID}/access/${accessCode}`)
 			});
-
 		},
-		action: 'Login'
+		action: 'LOGIN_LOGIN'
 	}
 	}

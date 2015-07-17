@@ -1,10 +1,10 @@
 import page            from 'page';
 import UserAction      from '../../actions/user';
 import BroadcastAction from '../../actions/broadcast';
+
 /*
  *
  */
-
 export default {
 		fieldNames: [
 			'oldPassword',
@@ -15,26 +15,26 @@ export default {
 			'avatar'
 		],
 		loginSettings: {
-			title: 'Change password',
+			title: 'PROFILE_CHANGEPASSWORD',
 			fields: [
 				{
 					name:     'oldPassword',
 					type:     'password',
-					label:    'Enter current password',
+					label:    'PROFILE_CURRENTPASSWORD',
 					pattern:  '.{8,}',
 					required: true
 				},
 				{
 					name:     'newPassword',
 					type:     'password',
-					label:    'Enter a new password',
+					label:    'PROFILE_NEWPASSWORD',
 					pattern:  '.{8,}',
 					required: true
 				},
 				{
 					name:     'newPasswordAgain',
 					type:     'password',
-					label:    'Confirm new password',
+					label:    'PROFILE_CONFIRMPASSWORD',
 					pattern:  '.{8,}',
 					required: true
 				},
@@ -42,73 +42,73 @@ export default {
 					name:     'submitPassword',
 					type:     'submit',
 					className: 'btn-primary',
-					action:    'Update Password'
+					action:    'PROFILE_SAVECHANGES'
 				}
 			],
 			submit: (state) => {
 				return UserAction.updatePassword(state.newPassword, state.oldPassword).then(() => {
 					BroadcastAction.add({
 						type:    'broadcast',
-						content: 'Success!'
+						content: 'SUCCESS'
 					});
 				}).catch(() => {});
 			},
 			action: 'Save changes'
 		},
 		profileSettings: {
-			title: 'Profile information',
+			title: 'PROFILE_INFO',
 			fields: [
 				{
 					name:     'avatar',
 					type:     'avatar',
-					title:    'Your avatar:',
-					label:    'Enter an URL to an image'
+					title:    'PROFILE_YOURAVATAR',
+					label:    'PROFILE_ENTERURL'
 				},
 				{
 					type:     'email',
-					title:    'Your username:'
+					title:    'PROFILE_YOURNAME'
 				},
 				{
 					name:     'name',
 					type:     'text',
-					label:    'Enter a username'
+					label:    'PROFILE_ENTERUSER'
 				},
 				{
 					name:     'submitProfile',
 					type:     'submit',
 					className: 'btn-primary',
-					action:    'Modify Profile'
+					action:    'PROFILE_SAVECHANGES'
 				}
 			],
 			submit: (state) => {
 				return UserAction.updateUser(state.name, state.avatar).then(() => {
 					BroadcastAction.add({
 						type:    'broadcast',
-						content: 'Success!'
+						content: 'SUCCESS'
 					});
 				}).catch(() => {});
 			},
-			action: 'Save changes'
+			action: 'PROFILE_SAVECHANGES'
 		},
 	linkItems: [
 			{
 				activeWhile: '',
 				icon: 'arrow-left',
-				name: 'Workspace',
+				name: 'PROFILE_WORKSPACE',
 				onClick: () => {
 					return page.show('/boards');
 				}
 			},
 			{
 				activeWhile: 'profileSettings',
-				name: 'Profile settings',
+				name: 'PROFILE_SETTINGS',
 				onClick: () => {
 					return page.show('/profile');
 				}
 			},
 			{
 				activeWhile: 'loginSettings',
-				name: 'Password',
+				name: 'PROFILE_CHANGEPASSWORD',
 				onClick: () => {
 					return page.show('/profile/login');
 				}

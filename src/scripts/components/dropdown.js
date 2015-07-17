@@ -26,14 +26,22 @@ const DropdownItem = React.createClass({
 			disabled: this.props.disabled
 		});
 		let flag = !this.props.flag ? null : (
-			<img className='fa fa-fw' src={`/src/assets/img/${this.props.flag}.png`} alt="flag"/>
+			<img className="fa fa-fw" src={`/dist/assets/img/flag/${this.props.flag}.png`} alt="flag"/>
 		);
 		let icon = !this.props.icon ? null : (
 			<span className={`fa fa-fw fa-${this.props.icon}`} />
 		);
+
+		let contentClass = this.props.customclass ?
+							this.props.customclass :
+							'dropdown-content';
+
+		let content = this.props.nospan ?
+						this.props.content :
+						(<span className={contentClass}>{this.props.content}</span>);
 		return (
-			<li className={itemClasses} id={"options-" + this.props.icon} onClick={this.props.onClick}>
-				{flag}{icon}{this.props.content}
+			<li className={itemClasses} id={`options-${this.props.icon}`} onClick={this.props.onClick}>
+				{flag}{icon}{content}
 			</li>
 		);
 	}
