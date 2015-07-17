@@ -71,7 +71,7 @@ export default React.createClass({
 		return this.props.onDismiss();
 	},
 
-	onSubmitComment() {
+	onSubmitComment(event) {
 		event.preventDefault();
 
 		if(this.state.newComment !== '') {
