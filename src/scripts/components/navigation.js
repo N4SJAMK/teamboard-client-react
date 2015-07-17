@@ -164,10 +164,10 @@ export default React.createClass({
 				}
 			},
 			{
+				icon: 'bullhorn',
 				nospan: true,
 				content: (
 					<UserVoice>
-						<span className="fa fa-fw fa-bullhorn" />
 						{this.locale('DROPDOWN_FEEDBACK')}
 					</UserVoice>
 				)
