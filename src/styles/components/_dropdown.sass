@@ -2,9 +2,10 @@
  *
  */
 .dropdown
-    width:            250px
+    //width:            250px
     border-radius:    2px
     background-color: $bastille
+    display: inline-block
 
     @include layer(1000)
 
@@ -12,7 +13,7 @@
         @include position(relative)
         @include transition(all, 0.2s)
 
-        width: 250px
+        //width: auto
         height: 28px
         padding: 8px 0px
 
@@ -20,6 +21,9 @@
         cursor:      pointer
         line-height: 28px
         overflow:    hidden
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
 
         .fa-fw
             float: left
@@ -27,19 +31,15 @@
             margin: 0px 8px
 
         .dropdown-content
-            float: right
-            width: 190px
-            overflow: hidden
-            text-overflow: ellipsis
-            white-space: nowrap
 
         .profile-name
             font-size: 16px
-            width: 230px
+            max-width: 198px
             text-align: center
             overflow: hidden
             text-overflow: ellipsis
             white-space: nowrap
+            margin-left: 10px
 
         &:first-child
             border-top-left-radius:  2px
@@ -56,8 +56,8 @@
             cursor: default
 
         span
+            @include margin(0 10 0 0)
             float:        left
-            margin:       0px 12px
             line-height:  28px
 
         &:not(.disabled):hover
@@ -69,4 +69,5 @@
 
         img
             float: left
-            margin: 3px 0 0 14px
+            @include margin(4 10 0 14)
+            height: 20px
