@@ -43,6 +43,9 @@ export default flux.actionCreator({
 				}
 			})
 			: api.login({ payload: credentials });
+		if(UserStore.getUser() && UserStore.getToken()) {
+			return page.redirect('/boards');
+		}
 		return loginPromise
 			.then((response) => {
 				this.dispatch(Action.User.Login, {
@@ -99,6 +102,9 @@ export default flux.actionCreator({
 	 *
 	 */
 	register(credentials) {
+		if(UserStore.getUser() && UserStore.getToken()) {
+			return page.redirect('/boards');
+		}
 		return api.register({ payload: credentials })
 			.then((user) => {
 				this.dispatch(Action.User.Register, { user });
