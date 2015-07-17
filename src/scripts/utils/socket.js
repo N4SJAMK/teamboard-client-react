@@ -6,6 +6,7 @@ import Action          from '../actions';
 import BoardStore      from '../stores/board';
 import BoardAction     from '../actions/board';
 import TicketAction    from '../actions/ticket';
+import CommentAction   from '../actions/comment';
 import BroadcastAction from '../actions/broadcast';
 import UserAction      from '../actions/user';
 
@@ -141,9 +142,10 @@ const Event = {
 		Update: 'BOARD_EDIT'
 	},
 	Ticket: {
-		Create: 'TICKET_CREATE',
-		Update: 'TICKET_EDIT',
-		Delete: 'TICKET_REMOVE'
+		Create:  'TICKET_CREATE',
+		Update:  'TICKET_EDIT',
+		Delete:  'TICKET_REMOVE',
+		Comment: 'TICKET_COMMENT'
 	}
 }
 
@@ -175,10 +177,13 @@ const PayloadHandler = {
 		let board = {
 			id: payload.board
 		}
+		
 		let ticket = Object.assign({ id: payload.data.id },
 			payload.data.newAttributes);
+
 		ticket.content = utf8.decode(ticket.content);
 		ticket.heading = utf8.decode(ticket.heading);
+
 		if(ticket.comments) {
 			ticket.comments.map(function (comment) {
 				comment.content   = utf8.decode(comment.content)
@@ -186,6 +191,16 @@ const PayloadHandler = {
 			});
 		}
 		return TicketAction.edit(board, ticket);
+	},
+	[Event.Ticket.Comment](payload) {
+		let comment = {
+			id:        payload.id,
+			message:   utf8.decode(payload.data.message),
+			createdAt: payload.createdAt,
+			createdBy: payload.user
+		}
+		comment.createdBy.username = utf8.decode(comment.createdBy.username);
+		return CommentAction.addComment(payload.data.ticket_id, comment);
 	},
 	[Event.Ticket.Delete](payload) {
 		let board = {

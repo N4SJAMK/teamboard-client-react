@@ -14,6 +14,7 @@ export default React.createClass({
 		React.addons.LinkedStateMixin,
 		localeMixin()
 	],
+
 	propTypes: {
 		formProfile: React.PropTypes.string.isRequired,
 		boardID: React.PropTypes.string,
@@ -54,18 +55,22 @@ export default React.createClass({
 			);
 		});
 	},
-	//submit will execute in all cases other than when
-	//passwords given in registration do not match
+
+	/**
+	 * Submit will execute in all cases other than when the passwords given in
+	 * registration do not match.
+	 */
 	submitPrimary(currentForm) {
-		if(this.props.formProfile !== 'registerForm' ||
-			this.state.passwordAgain === this.state.passwordRegister) {
+		if(this.props.formProfile !== 'registerForm'
+		|| this.state.passwordAgain === this.state.passwordRegister) {
 			return (event) => {
-				if(this.props.formProfile === 'registerForm')
+				if(this.props.formProfile === 'registerForm') {
 					this.state.password = this.state.passwordRegister;
+				}
 				currentForm.submit(this.state);
 				return event.preventDefault();
 			}
-		}else {
+		} else {
 			return (event) => {
 				BroadcastAction.add({
 					type:    'Error',
@@ -93,6 +98,7 @@ export default React.createClass({
 			return event.preventDefault();
 		}
 	},
+
 	renderForm(formType) {
 		let secondaryContent = !formType.secondary ? null : (
 			<section className="secondary">
@@ -104,6 +110,7 @@ export default React.createClass({
 				</button>
 			</section>
 		);
+
 		let socialLogin = !formType.social ? null : (
 			<div>
 				<section className="social">
@@ -113,15 +120,22 @@ export default React.createClass({
 					</a>
 
 					<a className="provider" href={formType.social.googleUrl}>
-						<img className="provider" src={formType.social.googleLogo} />
+						<img className="provider"
+							src={formType.social.googleLogo} />
 					</a>
 				</section>
 				<p className="basic-login">{this.locale(formType.social.subHeader)}</p>
 			</div>
 		);
-		let primarySubmit = this.props.formProfile !== 'guestLoginForm' && this.props.formProfile !== 'userAccessForm' ?
-			this.submitPrimary(formType) :
-			this.submitGuest(formType, this.props.accessCode, this.props.boardID)
+
+		let primarySubmit = (
+			this.props.formProfile !== 'guestLoginForm' &&
+			this.props.formProfile !== 'userAccessForm'
+		)
+			? this.submitPrimary(formType)
+			: this.submitGuest(
+				formType, this.props.accessCode, this.props.boardID);
+
 		return (
 			<div className="view view-form">
 				<Broadcaster />

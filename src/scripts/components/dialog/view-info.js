@@ -13,7 +13,6 @@ import localeMixin from '../../mixins/locale';
 /**
  *
  */
-
 export default React.createClass({
 	mixins: [
 		Carousel.ControllerMixin,

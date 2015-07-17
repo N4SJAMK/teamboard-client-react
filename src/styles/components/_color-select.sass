@@ -1,19 +1,45 @@
 /**
  *
  */
+
+.creator
+	padding-left: 16px
+	font-size:   9pt
+	color:       $silver-chalice
+
 .color-select
 	// We use negative margin here to offset the padding set in the dialog
 	margin: -16px -16px -8px -16px
 
 	.value
+		margin-bottom: 8px
 		height: 24px
 		background-color: $wedgewood
+		@include transition(all 0.3s)
 
 	.options
-		@include display(flex)
+		text-align:center
+		margin-top: 10px
 		@include flex-direction(row)
+		@include justify-content(space-around)
 
 		.option
-			height: 24px
+			@media (max-width: 1000px)
+				margin-left: 2.5vw
+				margin-right: 2.5vw
+			margin-left: 20px
+			margin-right: 20px
 			cursor: pointer
 			@include flex(1)
+			@include circle(45px, inline-block)
+
+		.option:hover
+			opacity: 0.7
+
+		.active
+			box-sizing: border-box
+			border: 3px solid $neptune
+
+		.active:hover
+			box-sizing: border-box
+			opacity: 1
