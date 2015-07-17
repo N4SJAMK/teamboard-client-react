@@ -55,6 +55,8 @@ Ticket.fromJS = function fromJS(ticket) {
 	if(ticket.createdBy) {
 		ticket.createdBy = new User(ticket.createdBy);
 	}
+	
+	console.log(typeof ticket.lastEditedBy === 'string')
 
 	if(ticket.lastEditedBy instanceof String) {
 		delete ticket.lastEditedBy;

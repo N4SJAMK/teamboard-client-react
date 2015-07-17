@@ -224,7 +224,7 @@ export default React.createClass({
 				<section className="dialog-header">			
 					<ColorSelect color={this.linkState('color')} ticketData={ticketCreationData}/>
 				</section>
-				<section style={{marginTop: 65}} onClick={this.state.isEditing ? this.toggleEdit : null}>
+				<section onClick={this.state.isEditing ? this.toggleEdit : null}>
 					{headerArea}
 					{contentArea}
 					{commentArea}
