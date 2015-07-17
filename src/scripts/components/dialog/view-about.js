@@ -17,7 +17,7 @@ export default React.createClass({
 		}
 	},
 
-	componentWillMount(){
+	componentWillMount() {
 		let token = UserStore.getToken();
 
 		if(this.state.clientVersion === 'unknown') {
@@ -68,6 +68,7 @@ export default React.createClass({
 
 	render() {
 		return (
+			/* eslint-disable */
 			<Dialog className="dialog-about"
 					onDismiss={this.props.onDismiss}>
 				<section className="dialog-header">
@@ -127,6 +128,7 @@ export default React.createClass({
 					</button>
 				</section>
 			</Dialog>
+			/* eslint-enable */
 		);
 	}
 });

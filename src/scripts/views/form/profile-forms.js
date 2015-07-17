@@ -1,10 +1,10 @@
 import page            from 'page';
 import UserAction      from '../../actions/user';
 import BroadcastAction from '../../actions/broadcast';
+
 /*
  *
  */
-
 export default {
 		fieldNames: [
 			'oldPassword',

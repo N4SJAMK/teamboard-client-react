@@ -3,8 +3,8 @@ import React from 'react/addons';
 import Board       from '../../models/board';
 import BoardAction from '../../actions/board';
 
-import Dialog           from '../../components/dialog';
-import BoardExporter    from '../../components/board-exporter';
+import Dialog        from '../../components/dialog';
+import BoardExporter from '../../components/board-exporter';
 
 import localeMixin  from '../../mixins/locale';
 /**
