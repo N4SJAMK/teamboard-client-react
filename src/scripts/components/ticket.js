@@ -10,6 +10,10 @@ import doubletap from '../utils/doubletap';
 import Ticket       from '../models/ticket';
 import TicketAction from '../actions/ticket';
 
+import listener      from '../mixins/listener';
+import CommentStore  from '../stores/comment';
+import CommentAction from '../actions/comment';
+
 import DraggableMixin   from '../mixins/draggable';
 import EditTicketDialog from '../components/dialog/edit-ticket';
 
@@ -17,7 +21,7 @@ import EditTicketDialog from '../components/dialog/edit-ticket';
  *
  */
 export default React.createClass({
-	mixins: [ DraggableMixin, TweenState.Mixin ],
+	mixins: [ DraggableMixin, TweenState.Mixin, listener(CommentStore) ],
 
 	propTypes: {
 		ticket: (props) => {
@@ -25,6 +29,12 @@ export default React.createClass({
 		},
 		snap:  React.PropTypes.bool,
 		board: React.PropTypes.string.isRequired
+	},
+
+	onChange() {
+		this.setState({
+			comments: CommentStore.getComments(this.props.ticket.id)
+		});
 	},
 
 	getDefaultProps() {
@@ -35,6 +45,7 @@ export default React.createClass({
 		return {
 			x: this.props.ticket.position.x,
 			y: this.props.ticket.position.y,
+			comments: CommentStore.getComments(this.props.ticket.id),
 			showEditDialog: false
 		}
 	},
@@ -44,14 +55,15 @@ export default React.createClass({
 		let prevState = this.state;
 
 		let hasStateChanged = (
-			prevState.x                 !== nextState.x              ||
-			prevState.y                 !== nextState.y              ||
-			prevState.showEditDialog    !== nextState.showEditDialog
+			prevState.x              !== nextState.x              ||
+			prevState.y              !== nextState.y              ||
+			prevState.showEditDialog !== nextState.showEditDialog ||
+			!immutable.is(prevState.comments, nextState.comments)
 		);
 
 		let havePropsChanged = (
-			prevProps.snap  !== nextProps.snap                ||
-			prevProps.board !== nextProps.board               ||
+			prevProps.snap  !== nextProps.snap  ||
+			prevProps.board !== nextProps.board ||
 			!immutable.is(prevProps.ticket, nextProps.ticket)
 		);
 
@@ -88,7 +100,12 @@ export default React.createClass({
 				});
 			}
 		});
+	},
 
+	componentWillMount() {
+		if(!this.props.ticket.id.startsWith('dirty')) {
+			CommentAction.loadComments(this.props.board, this.props.ticket.id);
+		}
 	},
 
 	componentWillUnmount() {
@@ -138,6 +155,7 @@ export default React.createClass({
 		let editTicketDialog = !this.state.showEditDialog ? null : (
 			<EditTicketDialog board={this.props.board}
 				ticket={this.props.ticket}
+				comments={this.state.comments}
 				onDismiss={this.toggleEditDialog} />
 		);
 
@@ -148,9 +166,8 @@ export default React.createClass({
 			markupContent = markupContent.replace(/<a href="/g, '<a target="_blank" href="');
 		}
 
-		let commentCount = null;
-
-		this.props.ticket.comments.size < 100 ? commentCount = this.props.ticket.comments.size : commentCount = "99+";
+		let numComments = this.state.comments.size > 99
+			? '99+' : `${this.state.comments.size}`;
 
 		return (
 			<div className="ticket" style={style.ticket}>
@@ -159,10 +176,10 @@ export default React.createClass({
 					{this.props.ticket.heading}
 				</div>
 				<div className="content">
-					<span dangerouslySetInnerHTML={{__html: markupContent}} />
+					<span dangerouslySetInnerHTML={{ __html: markupContent }} />
 					<span className="count-icon">
 						<span className="fa fa-2x fa-comment comment">
-							<span className="count">{commentCount}</span>
+							<span className="count">{numComments}</span>
 						</span>
 					</span>
 				</div>

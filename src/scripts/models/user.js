@@ -13,7 +13,7 @@ const UserType = {
 const User = immutable.Record({
 	id:           '',
 	_id:          null,
-	__v:          null, 
+	__v:          null,
 	type:         UserType.Guest,
 	account_type: UserType.Guest,
 	access:       '',

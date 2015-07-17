@@ -1,10 +1,12 @@
 import io   from 'socket.io-client';
 import utf8 from 'utf8';
+import page from 'page';
 
 import Action          from '../actions';
 import BoardStore      from '../stores/board';
 import BoardAction     from '../actions/board';
 import TicketAction    from '../actions/ticket';
+import CommentAction   from '../actions/comment';
 import BroadcastAction from '../actions/broadcast';
 import UserAction      from '../actions/user';
 
@@ -140,9 +142,10 @@ const Event = {
 		Update: 'BOARD_EDIT'
 	},
 	Ticket: {
-		Create: 'TICKET_CREATE',
-		Update: 'TICKET_EDIT',
-		Delete: 'TICKET_REMOVE'
+		Create:  'TICKET_CREATE',
+		Update:  'TICKET_EDIT',
+		Delete:  'TICKET_REMOVE',
+		Comment: 'TICKET_COMMENT'
 	}
 }
 
@@ -185,6 +188,16 @@ const PayloadHandler = {
 			});
 		}
 		return TicketAction.edit(board, ticket);
+	},
+	[Event.Ticket.Comment](payload) {
+		let comment = {
+			id:        payload.id,
+			message:   utf8.decode(payload.data.message),
+			createdAt: payload.createdAt,
+			createdBy: payload.user
+		}
+		comment.createdBy.username = utf8.decode(comment.createdBy.username);
+		return CommentAction.addComment(payload.data.ticket_id, comment);
 	},
 	[Event.Ticket.Delete](payload) {
 		let board = {

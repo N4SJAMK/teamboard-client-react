@@ -4,11 +4,17 @@ import Board       from '../../models/board';
 import BoardAction from '../../actions/board';
 import Dialog      from '../../components/dialog';
 
+import localeMixin  from '../../mixins/locale';
+
 /**
  *
  */
 export default React.createClass({
-	mixins: [ React.addons.PureRenderMixin, React.addons.LinkedStateMixin ],
+	mixins: [
+		React.addons.PureRenderMixin,
+		React.addons.LinkedStateMixin,
+		localeMixin()
+	],
 
 	propTypes: {
 		board: (props) => {
@@ -28,12 +34,13 @@ export default React.createClass({
 
 	share() {
 		BoardAction.generateAccessCode({ id: this.props.board.id });
-		return window.setTimeout(this.highlight, 50);
+
+		window.setTimeout(this.highlight, 50);
 	},
 
 	highlight() {
 		let input = this.refs.shareInput.getDOMNode();
-		return input.setSelectionRange(0, input.value.length);
+		input.setSelectionRange(0, input.value.length);
 	},
 
 	render() {
@@ -41,41 +48,46 @@ export default React.createClass({
 		let code = this.props.board.accessCode;
 
 		let sharedURL = code !== null && code.length > 0
-			/* eslint-disable */
 			? location.protocol + '//' + location.host + '/boards/' + id + '/access/' + code + ''
 			: '';
-			/* eslint-enable */
 
 		let shareButtonClass = sharedURL.length > 0 ? 'neutral' : 'secondary';
 		let shareButtonClick = sharedURL.length > 0 ? this.hide : this.share;
 		let shareButton = (
 			<button className={`btn-${shareButtonClass}`}
 					onClick={shareButtonClick}>
-				{ sharedURL.length > 0 ? 'Hide' : 'Share' }
+				{ sharedURL.length > 0 ?
+					this.locale('SHAREBOARD_HIDE') :
+					this.locale('SHAREBOARD_SHOW') }
 			</button>
 		);
 
 		return (
 			<Dialog className="dialog-edit-board"
-					onDismiss={this.props.onDismiss}>
+					onDismiss={this.props.onDismiss[this.state.locale]}>
 				<section className="dialog-header">
-					Share board
+					{this.locale('SHAREBOARD_TITLE')}
 				</section>
 				<section className="dialog-content">
 
-					<label htmlFor="board-share">Shared link</label>
+					<label htmlFor="board-share">
+						{this.locale('SHAREBOARD_LINK')}
+					</label>
 					<section className="input-group">
 						<input ref="shareInput"
 							onClick={this.highlight}
-							name="board-share" placeholder="Shared link"
-							readOnly={true} value={sharedURL} tabIndex={-1}/>
+							name="board-share"
+							placeholder={this.locale('SHAREBOARD_LINK')}
+							readOnly={true}
+							value={sharedURL}
+							tabIndex={-1}/>
 						{shareButton}
 					</section>
 
 				</section>
 				<section className="dialog-footer">
 					<button className="btn-primary" onClick={this.submit}>
-						Done
+						{this.locale('DONEBUTTON')}
 					</button>
 				</section>
 			</Dialog>
