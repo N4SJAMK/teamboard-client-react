@@ -8,6 +8,7 @@ import gridify   from '../utils/gridify';
 import doubletap from '../utils/doubletap';
 
 import Ticket       from '../models/ticket';
+import Board        from '../models/board';
 import TicketAction from '../actions/ticket';
 
 import listener      from '../mixins/listener';
@@ -27,8 +28,10 @@ export default React.createClass({
 		ticket: (props) => {
 			if(!props.ticket instanceof Ticket) throw new Error();
 		},
-		snap:  React.PropTypes.bool,
-		board: React.PropTypes.string.isRequired
+		board: (props) => {
+			if(!props.board instanceof Board) throw new Error();
+		},
+		snap:  React.PropTypes.bool
 	},
 
 	onChange() {
@@ -62,8 +65,8 @@ export default React.createClass({
 		);
 
 		let havePropsChanged = (
-			prevProps.snap  !== nextProps.snap  ||
-			prevProps.board !== nextProps.board ||
+			prevProps.snap  !== nextProps.snap                ||
+			prevProps.board.id !== nextProps.board.id               ||
 			!immutable.is(prevProps.ticket, nextProps.ticket)
 		);
 
@@ -94,7 +97,7 @@ export default React.createClass({
 				}
 				else this.setState({ x: position.x, y: position.y });
 
-				TicketAction.update({ id: this.props.board }, {
+				TicketAction.update({ id: this.props.board.id }, {
 					id: this.props.ticket.id,
 					position: { x: this.state.x, y: this.state.y }
 				});
@@ -104,7 +107,7 @@ export default React.createClass({
 
 	componentWillMount() {
 		if(!this.props.ticket.id.startsWith('dirty')) {
-			CommentAction.loadComments(this.props.board, this.props.ticket.id);
+			CommentAction.loadComments(this.props.board.id, this.props.ticket.id);
 		}
 	},
 
@@ -165,10 +168,8 @@ export default React.createClass({
 		if (markupContent.includes('<a href=')) {
 			markupContent = markupContent.replace(/<a href="/g, '<a target="_blank" href="');
 		}
-
 		let numComments = this.state.comments.size > 99
 			? '99+' : `${this.state.comments.size}`;
-
 		return (
 			<div className="ticket" style={style.ticket}>
 				<div className="color" style={style.color}></div>
@@ -176,7 +177,7 @@ export default React.createClass({
 					{this.props.ticket.heading}
 				</div>
 				<div className="content">
-					<span dangerouslySetInnerHTML={{ __html: markupContent }} />
+					<span dangerouslySetInnerHTML={{__html: markupContent}} />
 					<span className="count-icon">
 						<span className="fa fa-2x fa-comment comment">
 							<span className="count">{numComments}</span>

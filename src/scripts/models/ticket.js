@@ -13,13 +13,14 @@ const Position = immutable.Record({
 });
 
 const Ticket = immutable.Record({
-	id:        '',
-	ua:        Date.now(),
-	color:     Color.VIOLET,
-	content:   '',
-	heading:   '',
+	id:       '',
+	ua:       Date.now(),
+	color:    Color.VIOLET,
+	content:  '',
+	heading:  '',
 	createdBy: new User(),
-	position:  new Position()
+	lastEditedBy: new User(),
+	position: new Position(),
 });
 
 Ticket.Width    = 192;
@@ -38,7 +39,20 @@ Ticket.fromJS = function fromJS(ticket) {
 
 	ticket.color    = hascolor ? ticket.color : Ticket.Color.VIOLET;
 	ticket.position = new Position(ticket.position);
+	
+	if(ticket.createdBy instanceof String) {
+		delete ticket.createdBy;
+	}
 
+	if(ticket.createdBy) {
+		ticket.createdBy = new User(ticket.createdBy);
+	}
+
+	if(ticket.lastEditedBy instanceof String) {
+		delete ticket.lastEditedBy;
+	}
+
+	if(ticket.lastEditedBy) ticket.lastEditedBy = new User(ticket.lastEditedBy);
 	return new Ticket(ticket);
 }
 

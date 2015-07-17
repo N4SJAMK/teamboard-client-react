@@ -56,9 +56,7 @@ export default flux.actionCreator({
 				// Let's just ignore the stuff server gives us, expect the id,
 				// because why the hell not! This is not good... But what is?
 				let dirty = { id: payload.id }
-				let clean = Object.assign(payload, { id: ticket.id });
-
-				this.dispatch(Action.Ticket.Add, { board, ticket: clean }, {
+				this.dispatch(Action.Ticket.Add, { board, ticket: ticket }, {
 					silent: true
 				});
 				this.dispatch(Action.Ticket.Remove, { board, ticket: dirty });

@@ -274,13 +274,11 @@ function deleteBoard(opts = {}) {
 }
 
 function deleteTicket(opts = {}) {
-	let options = {
-		url:   `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}`,
-		token: opts.token
-	}
-	return request.del(options).then((res) => {
-		return Ticket.fromJS(res.body).toJS();
-	});
+    let options = {
+        url:   `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}`,
+        token: opts.token
+    }
+    return request.del(options)
 }
 
 function setUserBoardActivity(opts = {}) {

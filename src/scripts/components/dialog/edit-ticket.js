@@ -29,10 +29,12 @@ export default React.createClass({
 		ticket: (props) => {
 			if(!props.ticket instanceof Ticket) throw new Error();
 		},
+		board: (props) => {
+			if(!props.board instanceof Board) throw new Error();
+		},
 		comments: (props) => {
 			if(!props.comments instanceof immutable.List) throw new Error();
 		},
-		board:     React.PropTypes.string.isRequired,
 		onDismiss: React.PropTypes.func.isRequired
 	},
 
@@ -46,9 +48,38 @@ export default React.createClass({
 		}
 	},
 
+	componentDidMount() {
+		this.position = {
+			x: this.props.ticket.position.x + Ticket.Width / 5,
+			y: this.props.ticket.position.y + Ticket.Height / 2.5,
+			z: this.props.ticket.position.z,
+		};
+	},
+
+	copy(event) {
+		let size = {
+				width:  this.props.board.size.width  * Ticket.Width,
+				height: this.props.board.size.height * Ticket.Height
+		};
+		this.position.x = (this.position.x + Ticket.Width * 1.2) > size.width
+			? size.width - Ticket.Width
+			: this.position.x + Ticket.Width / 5;
+		this.position.y = (this.position.y + Ticket.Height * 1.4) > size.height
+			? size.height - Ticket.Height
+			: this.position.y + Ticket.Height / 2.5;
+
+		event.preventDefault();
+		TicketAction.create({ id: this.props.board.id }, {
+			color:     this.state.color,
+			content:   this.state.content,
+			heading:   this.state.heading,
+			position:  this.position
+		});
+	},
+
 	remove(event) {
 		event.preventDefault();
-		TicketAction.delete({ id: this.props.board }, {
+		TicketAction.delete({ id: this.props.board.id }, {
 			id: this.props.ticket.id
 		});
 		return this.props.onDismiss();
@@ -56,8 +87,7 @@ export default React.createClass({
 
 	update(event) {
 		event.preventDefault();
-
-		TicketAction.update({ id: this.props.board }, {
+		TicketAction.update({ id: this.props.board.id }, {
 			id:      this.props.ticket.id,
 			color:   this.state.color,
 			content: this.state.content,
@@ -75,7 +105,7 @@ export default React.createClass({
 		event.preventDefault();
 
 		if(this.state.newComment !== '') {
-			let boardID  = this.props.board;
+			let boardID  = this.props.board.id;
 			let ticketID = this.props.ticket.id;
 
 			CommentAction.createComment(
@@ -209,11 +239,15 @@ export default React.createClass({
 	},
 
 	render() {
+		let ticketCreationData = {
+			createdBy:    this.props.ticket.createdBy.username,
+			lastEditedBy: this.props.ticket.lastEditedBy
+		}
 		return (
 			<Dialog className="edit-ticket-dialog"
 					onDismiss={this.props.onDismiss}>
-				<section className="dialog-header">
-					<ColorSelect color={this.linkState('color')} />
+				<section className="dialog-header">			
+					<ColorSelect color={this.linkState('color')} ticketData={ticketCreationData}/>
 				</section>
 				<section onClick={this.state.isEditing ? this.toggleEdit : null}>
 					{this.getHeaderArea()}
@@ -236,6 +270,7 @@ export default React.createClass({
 					<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}>
 						{this.locale('DELETEBUTTON')}
 					</span>
+					<span className="deleteicon fa fa-copy" id={"ticket-dialog-copy"} onClick={this.copy}> Clone this ticket</span>
 				</section>
 			</Dialog>
 		);
