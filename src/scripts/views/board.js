@@ -51,7 +51,6 @@ export default React.createClass({
 	],
 
 	onChange() {
-		console.log(ActivityStore.getActiveMembers(this.props.id).size);
 		return this.setState(this.getState());
 	},
 
