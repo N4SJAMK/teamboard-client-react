@@ -6,6 +6,15 @@
 	z-index:    $index
 	box-shadow: 2px 2px 4px $dove-gray
 
+@mixin circle($size, $display)
+    display: $display
+    line-height: $size
+    width: $size
+    height: $size
+    -webkit-border-radius: $size/2
+    -moz-border-radius: $size/2
+    border-radius: $size/2
+
 @mixin slide($index, $role, $icon)
 	&.slide-#{$index}-#{$role}
 		.view-board

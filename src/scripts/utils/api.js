@@ -22,6 +22,7 @@ export default {
 	getBoards:       getBoards,
 	getTicket:       getTicket,
 	getTickets:      getTickets,
+    getComments:     getComments,
 
 	updateUserPassword: updateUserPassword,
 	updateUser:         updateUser,
@@ -163,6 +164,33 @@ function getTickets(opts = {}) {
 	});
 }
 
+function parseCommentFromEvent(event) {
+    return {
+        id:        event.id,
+        message:   event.data.message,
+        createdBy: event.user,
+        createdAt: event.createdAt
+    }
+}
+
+function getComments(opts = {}) {
+    let options = {
+        url:   `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}/comments`,
+        token: opts.token
+    }
+    return request.get(options)
+        .then(res => res.body.map(parseCommentFromEvent));
+}
+
+function createComment(opts = {}) {
+    let options = {
+        url:     `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}/comments`,
+        token:   opts.token,
+        payload: opts.payload
+    }
+    return request.post(options).then(res => parseCommentFromEvent(res.body));
+}
+
 function createBoard(opts = {}) {
 	let options = {
 		url:     `${API_URL}/boards`,
@@ -207,18 +235,6 @@ function updateUserPassword(opts = {}) {
 	});
 }
 
-function createComment(opts = {}) {
-	let options = {
-		url:     `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}/comments`,
-		token:   opts.token,
-		payload: opts.payload
-	}
-
-	return request.post(options).then((res) => {
-		return Ticket.fromJS(res.body).toJS();
-	});
-}
-
 function updateBoard(opts = {}) {
 	let options = {
 		url:     `${API_URL}/boards/${opts.id.board}`,
@@ -258,13 +274,11 @@ function deleteBoard(opts = {}) {
 }
 
 function deleteTicket(opts = {}) {
-	let options = {
-		url:   `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}`,
-		token: opts.token
-	}
-	return request.del(options).then((res) => {
-		return Ticket.fromJS(res.body).toJS();
-	});
+    let options = {
+        url:   `${API_URL}/boards/${opts.id.board}/tickets/${opts.id.ticket}`,
+        token: opts.token
+    }
+    return request.del(options)
 }
 
 function setUserBoardActivity(opts = {}) {

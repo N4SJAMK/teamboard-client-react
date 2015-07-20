@@ -4,16 +4,18 @@ import TimeAgo   from 'react-timeago';
 import TextArea  from 'react-autosize-textarea';
 import markdown  from 'markdown';
 
-import Ticket       from '../../models/ticket';
-import TicketAction from '../../actions/ticket';
-import UserStore    from '../../stores/user';
-import localeMixin  from '../../mixins/locale';
+import Board         from '../../models/board';
+import Ticket        from '../../models/ticket';
+import TicketAction  from '../../actions/ticket';
+import UserStore     from '../../stores/user';
+import CommentAction from '../../actions/comment';
 
 import Avatar      from '../avatar';
 import Dialog      from '../dialog';
 import ColorSelect from '../color-select';
 
 import Scrollable  from './scrollable';
+import localeMixin from '../../mixins/locale';
 
 /**
  *
@@ -28,7 +30,12 @@ export default React.createClass({
 		ticket: (props) => {
 			if(!props.ticket instanceof Ticket) throw new Error();
 		},
-		board:     React.PropTypes.string.isRequired,
+		board: (props) => {
+			if(!props.board instanceof Board) throw new Error();
+		},
+		comments: (props) => {
+			if(!props.comments instanceof immutable.List) throw new Error();
+		},
 		onDismiss: React.PropTypes.func.isRequired
 	},
 
@@ -41,9 +48,39 @@ export default React.createClass({
 			newComment: ''
 		}
 	},
+
+	componentDidMount() {
+		this.position = {
+			x: this.props.ticket.position.x + Ticket.Width / 5,
+			y: this.props.ticket.position.y + Ticket.Height / 2.5,
+			z: this.props.ticket.position.z,
+		};
+	},
+
+	copy(event) {
+		let size = {
+			width:  this.props.board.size.width  * Ticket.Width,
+			height: this.props.board.size.height * Ticket.Height
+		}
+		this.position.x = (this.position.x + Ticket.Width * 1.2) > size.width
+			? size.width - Ticket.Width
+			: this.position.x + Ticket.Width / 5;
+		this.position.y = (this.position.y + Ticket.Height * 1.4) > size.height
+			? size.height - Ticket.Height
+			: this.position.y + Ticket.Height / 2.5;
+
+		event.preventDefault();
+		TicketAction.create({ id: this.props.board.id }, {
+			color:     this.state.color,
+			content:   this.state.content,
+			heading:   this.state.heading,
+			position:  this.position
+		});
+	},
+
 	remove(event) {
 		event.preventDefault();
-		TicketAction.delete({ id: this.props.board }, {
+		TicketAction.delete({ id: this.props.board.id }, {
 			id: this.props.ticket.id
 		});
 		return this.props.onDismiss();
@@ -51,16 +88,12 @@ export default React.createClass({
 
 	update(event) {
 		event.preventDefault();
-
-		TicketAction.update({ id: this.props.board }, {
+		TicketAction.update({ id: this.props.board.id }, {
 			id:      this.props.ticket.id,
 			color:   this.state.color,
 			content: this.state.content,
 			heading: this.state.heading
-		}).then(() => {
-			this.postComment({ isUnmounting: true });
 		});
-
 		return this.props.onDismiss();
 	},
 
@@ -69,31 +102,30 @@ export default React.createClass({
 		return this.props.onDismiss();
 	},
 
-	postComment(stateInfo) {
-		if (this.state.newComment !== '') {
-			TicketAction.comment({ id: this.props.board }, {
-				id: this.props.ticket.id
-			}, this.state.newComment);
-			if(!stateInfo.isUnmounting) {
-				this.setState({ newComment: '' });
-			}
-		}
-	},
-
-	comment(event) {
+	onSubmitComment(event) {
 		event.preventDefault();
-		this.postComment({ isUnmounting: false });
+
+		if(this.state.newComment !== '') {
+			let boardID  = this.props.board.id;
+			let ticketID = this.props.ticket.id;
+
+			CommentAction.createComment(
+				boardID, ticketID, this.state.newComment);
+
+			this.setState({ newComment: '' });
+		}
 		return event.stopPropagation();
 	},
 
 	toggleEdit(event) {
-		// This handler is a no-op if we are clicking on the text-area or text input.
-		// Also, don't exit editing mode if we click a link or if ticket has no content
-		if( event.target instanceof HTMLTextAreaElement ||
-			event.target    instanceof HTMLInputElement ||
-			event.target   instanceof HTMLAnchorElement ||
-			this.state.content === '') {
-			return;
+		// This handler is a no-op if we are clicking on the text-area or text
+		// input. Also don't exit editing mode if we click a link or if ticket
+		// has no content.
+		if(event.target instanceof HTMLTextAreaElement
+		|| event.target instanceof HTMLInputElement
+		|| event.target instanceof HTMLAnchorElement
+		|| this.state.content === '') {
+			return null;
 		}
 
 		this.setState({ isEditing: !this.state.isEditing });
@@ -120,10 +152,9 @@ export default React.createClass({
 	},
 
 	getComment(comment) {
-		let user     = comment.get('user').toJS();
-		let username = user.name || user.username;
-		let avatar   = user.avatar;
-		let usertype = user.account_type || user.type;
+		let avatar   = comment.createdBy.avatar;
+		let username = comment.createdBy.name || comment.createdBy.username;
+		let usertype = comment.createdBy.type || comment.createdBy.account_type;
 
 		let timestamp = comment.get('created_at');
 		let msg       = comment.get('content');
@@ -137,13 +168,13 @@ export default React.createClass({
 							isOnline={true}>
 					</Avatar>
 					<span className="comment-timestamp">
-						<TimeAgo date={timestamp}
+						<TimeAgo date={comment.createdAt}
 								live={true}
 								formatter={this.timeFormatter} />
 					</span>
 					<p className="comment-username">{username}</p>
 				</section>
-				<p className="comment-message">{msg}</p>
+				<p className="comment-message">{comment.message}</p>
 			</div>
 		);
 	},
@@ -171,8 +202,8 @@ export default React.createClass({
 				<section className="dialog-content">
 					<Scrollable>
 						<TextArea valueLink={this.linkState('content')}
-								tabIndex={2}
-								placeholder={this.locale('EDITTICKET_CONTENT')}/>
+							tabIndex={2}
+							placeholder={this.locale('EDITTICKET_CONTENT')} />
 					</Scrollable>
 				</section>
 			) :
@@ -180,7 +211,7 @@ export default React.createClass({
 				<section className="dialog-content">
 					<Scrollable>
 						<span dangerouslySetInnerHTML={{ __html: this.getMarkup(this.state.content) }}
-							onClick={this.toggleEdit}/>
+							onClick={this.toggleEdit} />
 					</Scrollable>
 				</section>
 			);
@@ -195,13 +226,13 @@ export default React.createClass({
 						valueLink={this.linkState('newComment')}
 						placeholder={this.locale('EDITTICKET_YOURCOMMENT')}
 						tabIndex={2}/>
-					<button className="btn-primary" onClick={this.comment}>
+					<button className="btn-primary" onClick={this.onSubmitComment}>
 						{this.locale('EDITTICKET_ADDCOMMENT')}
 					</button>
 				</section>
 				<section className="comment-wrapper">
 					<Scrollable>
-						{ this.props.ticket.comments.map(this.getComment) }
+						{ this.props.comments.reverse().map(this.getComment) }
 					</Scrollable>
 				</section>
 			</section>
@@ -209,22 +240,30 @@ export default React.createClass({
 	},
 
 	render() {
+		let ticketCreationData = {
+			createdBy:    this.props.ticket.createdBy.username,
+			lastEditedBy: this.props.ticket.lastEditedBy
+		}
 		return (
 			<Dialog className="edit-ticket-dialog"
 					onDismiss={this.props.onDismiss}>
 				<section className="dialog-header">
-					<ColorSelect color={this.linkState('color')} />
+					<ColorSelect color={this.linkState('color')} ticketData={ticketCreationData}/>
 				</section>
 				<section onClick={this.state.isEditing ? this.toggleEdit : null}>
 					{this.getHeaderArea()}
 					{this.getContentArea()}
 					{this.getCommentArea()}
 					<section className="dialog-footer">
-						<button className="btn-neutral" id={"ticket-dialog-cancel"} onClick={this.cancel}
+						<button className="btn-neutral"
+								id={"ticket-dialog-cancel"}
+								onClick={this.cancel}
 								tabIndex={3}>
 							{this.locale('CANCELBUTTON')}
 						</button>
-						<button className="btn-primary" id={"ticket-dialog-save"} onClick={this.update}
+						<button className="btn-primary"
+								id={"ticket-dialog-save"}
+								onClick={this.update}
 								tabIndex={4}>
 							{this.locale('SAVEBUTTON')}
 						</button>
@@ -232,6 +271,7 @@ export default React.createClass({
 					<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}>
 						{this.locale('DELETEBUTTON')}
 					</span>
+					<span className="deleteicon fa fa-copy" id={"ticket-dialog-copy"} onClick={this.copy}> Clone this ticket</span>
 				</section>
 			</Dialog>
 		);

@@ -50,6 +50,13 @@ const middleware = {
 						}
 						return page.redirect(`/boards/${ctx.user.access}`);
 					}
+
+					if(!userHasType){
+						UserAction.logout()
+						.then(() => {
+							return page.redirect('/login');
+						});
+					}
 				}
 				return page.redirect('/login');
 			}
@@ -63,6 +70,10 @@ const middleware = {
 							return page.redirect(`/boards/${ctx.user.access}`);
 						}
 					}
+				} else {
+					UserAction.giveBoardAccess(ctx.params.id, ctx.params.code).then(() => {
+						return page.show(`/boards/${ctx.params.id}`);
+					});
 				}
 			}
 			return next();

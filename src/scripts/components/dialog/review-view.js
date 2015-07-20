@@ -1,18 +1,36 @@
-import React      from 'react/addons';
-import Carousel   from 'nuka-carousel';
-import markdown   from 'markdown';
+import React    from 'react/addons';
+import Carousel from 'nuka-carousel';
+import markdown from 'markdown';
 
-import Dialog     from '../../components/dialog';
-import Avatar     from '../../components/avatar';
+import Dialog from '../../components/dialog';
+import Avatar from '../../components/avatar';
+
+import listener from '../../mixins/listener';
+import CommentStore from '../../stores/comment';
+
+function getCommentMap(tickets) {
+	return tickets.reduce((map, ticket) => {
+		map[ticket.id] = CommentStore.getComments(ticket.id);
+		return map;
+	}, { });
+}
 
 /**
  *
-*/
-
+ */
 export default React.createClass({
-	mixins: [ Carousel.ControllerMixin ],
+	mixins: [ Carousel.ControllerMixin, listener(CommentStore) ],
+
 	propTypes: {
-		tickets: React.PropTypes.array
+		tickets: React.PropTypes.object
+	},
+
+	getInitialState() {
+		return { comments: getCommentMap(this.props.tickets) }
+	},
+
+	onChange() {
+		return this.setState({ comments: getCommentMap(this.props.tickets) });
 	},
 
 	componentWillUpdate() {
@@ -66,7 +84,6 @@ export default React.createClass({
 						if(this.props.currentSlide !== 0 && this.props.slideCount > 0) {
 							style = { opacity: 1, cursor: 'pointer' }
 						}
-
 						return (
 							<span style={ style }
 							onClick={this.props.previousSlide}
@@ -74,10 +91,10 @@ export default React.createClass({
 						);
 					}
 				}),
+
 				position: 'CenterLeft',
-				style: {
-					padding: 10
-				}
+
+				style: { padding: 10 }
 			},
 			{
 				component: React.createClass({
@@ -86,7 +103,6 @@ export default React.createClass({
 						if(this.props.currentSlide !== --this.props.slideCount) {
 							style = { opacity: 1, cursor: 'pointer' }
 						}
-
 						return (
 							<span style={style}
 							onClick={this.props.nextSlide}
@@ -94,18 +110,20 @@ export default React.createClass({
 						);
 					}
 				}),
+
 				position: 'CenterRight',
-				style: {
-					padding: 10
-				}
+
+				style: { padding: 10 }
 			}
 		];
 	},
 
 	renderComments(ticket) {
-		return ticket.comments.map((comment) => {
-			let user     = comment.user;
-			let content  = comment.content;
+		if(!this.state.comments[ticket.id]) return null;
+
+		return this.state.comments[ticket.id].map((comment) => {
+			let user     = comment.createdBy;
+			let content  = comment.message;
 			let username = user.username || user.name;
 			let avatar   = user.avatar;
 			let usertype = user.account_type || user.type;
@@ -113,9 +131,9 @@ export default React.createClass({
 			return (
 				<div className="review-comment" key={comment.id}>
 					<Avatar size={32} name={username}
-							imageurl={avatar}
-							usertype={usertype}
-							isOnline={true}>
+						imageurl={avatar}
+						usertype={usertype}
+						isOnline={true}>
 					</Avatar>
 					<p className="review-comment-username">{username}</p>
 					<p className="review-comment-message">{content}</p>
@@ -136,10 +154,14 @@ export default React.createClass({
 			return (
 				<div className="review-dialog-container">
 					<div className={dialogClasses}>
-						<section style={ticketColor} className="review-dialog-header"/>
+						<section style={ticketColor}
+							className="review-dialog-header"/>
 						<div className="content-wrapper">
 							{ticketNumber}
-							<p className="ticket-header-text" title={ticket.heading}>{ticket.heading}</p>
+							<p className="ticket-header-text"
+									title={ticket.heading}>
+								{ticket.heading}
+							</p>
 							<span className="review-dialog-content"
 								dangerouslySetInnerHTML={{ __html: markupContent }}>
 							</span>
@@ -156,12 +178,14 @@ export default React.createClass({
 	},
 
 	render() {
-		let currentTicket = `${this.currentSlide+1} / ${this.ticketArrayLength}`;
+		let currentTicket =
+			`${this.currentSlide + 1} / ${this.ticketArrayLength}`;
+
 		return (
 			<Dialog className="review" viewProfile="review"
 					onDismiss={this.props.onDismiss}>
 				<Carousel ref="carousel" className="infocarousel"
-					data={this.setCarouselData.bind(this, 'carousel')}
+						data={this.setCarouselData.bind(this, 'carousel')}
 						decorators={this.getDecorations()}
 						slideWidth={0.70}
 						cellAlign="center"

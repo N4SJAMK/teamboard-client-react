@@ -6,8 +6,11 @@ import Action          from '../actions';
 import BoardStore      from '../stores/board';
 import BoardAction     from '../actions/board';
 import TicketAction    from '../actions/ticket';
+import CommentAction   from '../actions/comment';
 import BroadcastAction from '../actions/broadcast';
 import UserAction      from '../actions/user';
+import SocketAction    from '../actions/socket';
+import ActivityAction  from '../actions/activity';
 
 export default {
 	connect:    connect,
@@ -21,6 +24,9 @@ const DATA_EVENT    = 'board:event';
 
 let rooms  = [ ];
 let socket = null;
+
+// Listen to events from SocketAction and push them to the actual socket...
+SocketAction.addListener((event) => socket.emit(event.name, event.data));
 
 /**
  * Creates a new 'socket.io' connection. Doesn't do anything if a connection is
@@ -138,12 +144,15 @@ function joinBoards() {
  */
 const Event = {
 	Board: {
+		Ping:   'BOARD_PING',
 		Update: 'BOARD_EDIT'
 	},
 	Ticket: {
-		Create: 'TICKET_CREATE',
-		Update: 'TICKET_EDIT',
-		Delete: 'TICKET_REMOVE'
+		Create:   'TICKET_CREATE',
+		Update:   'TICKET_EDIT',
+		Delete:   'TICKET_REMOVE',
+		Comment:  'TICKET_COMMENT',
+		Activity: 'TICKET_ACTIVITY'
 	}
 }
 
@@ -151,6 +160,10 @@ const Event = {
  * The implementation of the 'event' handlers.
  */
 const PayloadHandler = {
+	[Event.Board.Ping](payload) {
+		return ActivityAction.addPing(payload);
+	},
+
 	[Event.Board.Update](payload) {
 		let board = Object.assign({ id: payload.board },
 			payload.data.newAttributes);
@@ -177,8 +190,10 @@ const PayloadHandler = {
 		}
 		let ticket = Object.assign({ id: payload.data.id },
 			payload.data.newAttributes);
+
 		ticket.content = utf8.decode(ticket.content);
 		ticket.heading = utf8.decode(ticket.heading);
+
 		if(ticket.comments) {
 			ticket.comments.map(function (comment) {
 				comment.content   = utf8.decode(comment.content)
@@ -187,12 +202,25 @@ const PayloadHandler = {
 		}
 		return TicketAction.edit(board, ticket);
 	},
+	[Event.Ticket.Comment](payload) {
+		let comment = {
+			id:        payload.id,
+			message:   utf8.decode(payload.data.message),
+			createdAt: payload.createdAt,
+			createdBy: payload.user
+		}
+		comment.createdBy.username = utf8.decode(comment.createdBy.username);
+		return CommentAction.addComment(payload.data.ticket_id, comment);
+	},
 	[Event.Ticket.Delete](payload) {
 		let board = {
 			id: payload.board
 		}
 		let ticket = payload.data;
 		return TicketAction.remove(board, ticket);
+	},
+	[Event.Ticket.Activity](payload) {
+		return ActivityAction.addTicketActivity(payload);
 	}
 }
 

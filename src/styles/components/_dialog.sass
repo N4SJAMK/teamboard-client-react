@@ -29,7 +29,7 @@
 			font-size:      18px
 			letter-spacing: 1px
 
-			height: 2vh
+			//height: 2vh
 
 		.dialog-heading
 			font-weight: bold
@@ -263,7 +263,7 @@
 				.user-name
 					width: 70%
 					float: left
-					margin-top: 5%
+					margin-top: 0%
 					margin-left: 5%
 					white-space: nowrap
 					overflow: hidden
@@ -271,6 +271,14 @@
 
 				.profile-picture
 					float: left
+
+				.user-last-seen
+					margin-top: 0%
+					margin-left: 5%
+					span
+						font-size: 11px
+					span:first-child
+						margin-left: 5%
 
 			.member-info-offline
 				@include margin(null 16px null null)
@@ -289,12 +297,15 @@
 				.user-name
 					width: 73%
 					float: left
+					margin-top: 0%
 					margin-left: 5%
 					white-space: nowrap
 					overflow: hidden
 					text-overflow: ellipsis
 
 				.user-last-seen
+					margin-top: 0%
+					margin-left: 5%
 					span
 						font-size: 11px
 					span:first-child

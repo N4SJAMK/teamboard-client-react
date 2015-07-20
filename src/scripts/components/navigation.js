@@ -1,5 +1,6 @@
 import page  	  from 'page';
 import React 	  from 'react';
+import Immutable  from 'immutable';
 import classNames from 'classnames';
 
 import Action          from '../actions';
@@ -18,6 +19,9 @@ import AboutView from './dialog/view-about';
 
 import Board from '../models/board';
 
+import ActivityStore from '../stores/activity';
+
+import listener    from '../mixins/listener';
 import localeMixin from '../mixins/locale';
 
 /**
@@ -25,6 +29,7 @@ import localeMixin from '../mixins/locale';
  */
 export default React.createClass({
 	mixins: [
+		listener(ActivityStore),
 		localeMixin()
 	],
 
@@ -38,8 +43,19 @@ export default React.createClass({
 		}
 	},
 
+	onChange() {
+		this.setState({
+			members: this.props.board
+				? ActivityStore.getActiveMembers(this.props.board.id)
+				: Immutable.List()
+		});
+	},
+
 	getInitialState() {
 		return {
+			members: this.props.board
+				? ActivityStore.getActiveMembers(this.props.board.id)
+				: Immutable.List(),
 			dropdown: false, localesDropdown: false,
 			feedback: false, infoActive: false,
 			aboutActive: false, membersActive: false
@@ -79,6 +95,16 @@ export default React.createClass({
 			</div>
 		);
 	},
+
+	boardMembersAmount() {
+	   if(!this.props.board) {
+		   return null;
+	   }
+
+	   return this.props.board.members.filter((member) => {
+		   return member.get('isActive');
+	   }).size
+   },
 
 	render() {
 		let infoDialog = null;
@@ -120,14 +146,14 @@ export default React.createClass({
 		let boardMembersDialog = null;
 
 		if (this.state.membersActive) {
-			boardMembersDialog = <MemberDialog board={this.props.board} onDismiss={this.toggleMembersDialog}/>
+			boardMembersDialog = <MemberDialog members={this.state.members} onDismiss={this.toggleMembersDialog}/>
 		}
 
 		let showBoardMembers = !this.props.showBoardMembers ? null : (
 			<div id="members" onClick={this.toggleMembersDialog} className={membersButtonClass}>
 				<span className="fa fa-fw fa-users">
 					<span className="user-amount">
-						{this.props.board.members.size}
+						{this.boardMembersAmount()}
 					</span>
 				</span>
 			</div>
@@ -138,6 +164,11 @@ export default React.createClass({
 				<span className={`fa fa-fw fa-${infoIcon}`}></span>
 			</div>
 			);
+
+		// If userstore is empty then go back to login
+		if(!UserStore.getUser()) {
+			page.redirect('/login');
+		}
 
 		let isProfileDisabled = UserStore.getUser().type === 'standard';
 		let items = [
@@ -164,10 +195,10 @@ export default React.createClass({
 				}
 			},
 			{
+				icon: 'bullhorn',
 				nospan: true,
 				content: (
 					<UserVoice>
-						<span className="fa fa-fw fa-bullhorn" />
 						{this.locale('DROPDOWN_FEEDBACK')}
 					</UserVoice>
 				)
