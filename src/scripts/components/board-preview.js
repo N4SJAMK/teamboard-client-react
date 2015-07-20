@@ -106,6 +106,12 @@ export default React.createClass({
 		if (boardAdmin === undefined) {
 			return null;
 		}
+		
+		// If userstore is empty then go back to login
+		if (!user) {
+			page.redirect('/login');
+			return null;
+		}
 
 		if(boardAdmin.user && boardAdmin.user.get('id') === user.get('id')) {
 			return (

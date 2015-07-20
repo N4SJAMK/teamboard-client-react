@@ -96,6 +96,16 @@ export default React.createClass({
 		);
 	},
 
+	boardMembersAmount() {
+	   if(!this.props.board) {
+		   return null;
+	   }
+
+	   return this.props.board.members.filter((member) => {
+		   return member.get('isActive');
+	   }).size
+   },
+
 	render() {
 		let infoDialog = null;
 		let aboutDialog = null;
@@ -143,7 +153,7 @@ export default React.createClass({
 			<div id="members" onClick={this.toggleMembersDialog} className={membersButtonClass}>
 				<span className="fa fa-fw fa-users">
 					<span className="user-amount">
-						{this.state.members.size}
+						{this.boardMembersAmount()}
 					</span>
 				</span>
 			</div>
@@ -154,6 +164,11 @@ export default React.createClass({
 				<span className={`fa fa-fw fa-${infoIcon}`}></span>
 			</div>
 			);
+
+		// If userstore is empty then go back to login
+		if(!UserStore.getUser()) {
+			page.redirect('/login');
+		}
 
 		let isProfileDisabled = UserStore.getUser().type === 'standard';
 		let items = [
