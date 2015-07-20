@@ -18,6 +18,9 @@ import AboutView from './dialog/view-about';
 
 import Board from '../models/board';
 
+import ActivityStore from '../stores/activity';
+
+import listener    from '../mixins/listener';
 import localeMixin from '../mixins/locale';
 
 /**
@@ -25,6 +28,7 @@ import localeMixin from '../mixins/locale';
  */
 export default React.createClass({
 	mixins: [
+		listener(ActivityStore),
 		localeMixin()
 	],
 
@@ -38,8 +42,15 @@ export default React.createClass({
 		}
 	},
 
+	onChange() {
+		this.setState({
+			members: ActivityStore.getActiveMembers(this.props.board.id)
+		});
+	},
+
 	getInitialState() {
 		return {
+			members:  ActivityStore.getActiveMembers(this.props.board.id),
 			dropdown: false, localesDropdown: false,
 			feedback: false, infoActive: false,
 			aboutActive: false, membersActive: false
@@ -120,14 +131,14 @@ export default React.createClass({
 		let boardMembersDialog = null;
 
 		if (this.state.membersActive) {
-			boardMembersDialog = <MemberDialog board={this.props.board} onDismiss={this.toggleMembersDialog}/>
+			boardMembersDialog = <MemberDialog members={this.state.members} onDismiss={this.toggleMembersDialog}/>
 		}
 
 		let showBoardMembers = !this.props.showBoardMembers ? null : (
 			<div id="members" onClick={this.toggleMembersDialog} className={membersButtonClass}>
 				<span className="fa fa-fw fa-users">
 					<span className="user-amount">
-						{this.props.board.members.size}
+						{this.state.members.size}
 					</span>
 				</span>
 			</div>
