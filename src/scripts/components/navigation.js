@@ -44,13 +44,13 @@ export default React.createClass({
 
 	onChange() {
 		this.setState({
-			members: ActivityStore.getActiveMembers(this.props.board.id)
+			members: this.props.board ? ActivityStore.getActiveMembers(this.props.board.id) : []
 		});
 	},
 
 	getInitialState() {
 		return {
-			members:  ActivityStore.getActiveMembers(this.props.board.id),
+			members:  this.props.board ? ActivityStore.getActiveMembers(this.props.board.id) : [],
 			dropdown: false, localesDropdown: false,
 			feedback: false, infoActive: false,
 			aboutActive: false, membersActive: false
@@ -90,6 +90,16 @@ export default React.createClass({
 			</div>
 		);
 	},
+
+	boardMembersAmount() {
+	   if(!this.props.board) {
+		   return null;
+	   }
+
+	   return this.props.board.members.filter((member) => {
+		   return member.get('isActive');
+	   }).size
+   },
 
 	render() {
 		let infoDialog = null;
@@ -138,11 +148,7 @@ export default React.createClass({
 			<div id="members" onClick={this.toggleMembersDialog} className={membersButtonClass}>
 				<span className="fa fa-fw fa-users">
 					<span className="user-amount">
-						{
-							this.props.board.members.filter((member) => {
-								return member.get('isActive');
-							}).size
-						}
+						{this.boardMembersAmount()}
 					</span>
 				</span>
 			</div>
