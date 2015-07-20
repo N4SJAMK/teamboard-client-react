@@ -127,7 +127,11 @@ export default React.createClass({
 			<div id="members" onClick={this.toggleMembersDialog} className={membersButtonClass}>
 				<span className="fa fa-fw fa-users">
 					<span className="user-amount">
-						{this.props.board.members.size}
+						{
+							this.props.board.members.filter((member) => {
+								return member.get('isActive');
+							}).size
+						}
 					</span>
 				</span>
 			</div>
@@ -139,7 +143,7 @@ export default React.createClass({
 			</div>
 			);
 
-		// If userstore is empty then go back to login    
+		// If userstore is empty then go back to login
 		if(!UserStore.getUser()) {
 			page.redirect('/login');
 		}
