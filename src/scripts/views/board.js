@@ -115,7 +115,7 @@ export default React.createClass({
 		} else {
 			BroadcastAction.add({
 				type:    'broadcast',
-				content: 'You do not have any tickets to review!'
+				content: 'BROADCAST_NO_REVIEWTICKETS'
 			});
 		}
 	},

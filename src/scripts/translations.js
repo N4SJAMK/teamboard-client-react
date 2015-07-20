@@ -202,7 +202,7 @@ export default {
 		jp: 'パスワードの長さが8文字に',
 		ru: ''
 	},
-	LOGIN_REGISTERFAIL: {
+	LOGIN_REGISTER_FAILED: {
 		en: 'Registration failed!',
 		fi: 'Rekistöröinti epäonnistui!',
 		se: 'Registrering misslyckades!',
@@ -224,6 +224,18 @@ export default {
 		se: 'Konto finns redan?',
 		dk: 'Allerede registreret??',
 		jp: '登録済み?',
+		ru: ''
+	},
+
+	/********************************
+	/    BROADCAST                  *
+	********************************/
+	BROADCAST_NO_REVIEWTICKETS: {
+		en: 'You do not have any tickets to review!',
+		fi: 'Sinulla ei ole yhtääb tikettiä näytettäväksi!',
+		se: '',
+		dk: '',
+		jp: '',
 		ru: ''
 	},
 
