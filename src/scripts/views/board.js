@@ -25,6 +25,9 @@ import ExportBoardDialog from '../components/dialog/export-board.js';
 import ShareBoardDialog  from '../components/dialog/share-board';
 import ReviewView        from '../components/dialog/review-view';
 
+import ActivityStore  from '../stores/activity';
+import ActivityAction from '../actions/activity';
+
 /**
  * Fix issues with iOS and IScroll not working together too well...
  */
@@ -44,10 +47,11 @@ export default React.createClass({
 	},
 
 	mixins: [
-		listener(UserStore, BoardStore)
+		listener(UserStore, BoardStore, ActivityStore)
 	],
 
 	onChange() {
+		console.log(ActivityStore.getActiveMembers(this.props.id).size);
 		return this.setState(this.getState());
 	},
 
@@ -71,6 +75,9 @@ export default React.createClass({
 	},
 
 	componentWillMount() {
+		this.pinger = setInterval(
+			() => ActivityAction.createPing(this.props.id), 2000);
+
 		this.setUserActivity({ isActive: true, isPoll: false });
 	},
 
@@ -88,6 +95,8 @@ export default React.createClass({
 
 	// The componentWillUnmount handles exiting the board via the back button.
 	componentWillUnmount() {
+		clearInterval(this.pinger);
+
 		if (this.state.pollHandle) {
 			clearInterval(this.state.pollHandle);
 		}
