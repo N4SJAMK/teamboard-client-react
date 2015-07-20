@@ -31,7 +31,8 @@ export default flux.actions({
 		Add:    null,
 		Load:   null,
 		Edit:   null,
-		Remove: null
+		Remove: null,
+		Ping:   null
 	},
 	Ticket: {
 		Add:    null,
@@ -42,6 +43,10 @@ export default flux.actions({
 	Comment: {
 		Add:    null,
 		Load:   null,
+		Remove: null
+	},
+	Activity: {
+		Add:    null,
 		Remove: null
 	}
 });
