@@ -139,6 +139,11 @@ export default React.createClass({
 			</div>
 			);
 
+		// If userstore is empty then go back to login    
+		if(!UserStore.getUser()) {
+			page.redirect('/login');
+		}
+
 		let isProfileDisabled = UserStore.getUser().type === 'standard';
 		let items = [
 			{
