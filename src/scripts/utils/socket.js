@@ -148,10 +148,11 @@ const Event = {
 		Update: 'BOARD_EDIT'
 	},
 	Ticket: {
-		Create:  'TICKET_CREATE',
-		Update:  'TICKET_EDIT',
-		Delete:  'TICKET_REMOVE',
-		Comment: 'TICKET_COMMENT'
+		Create:   'TICKET_CREATE',
+		Update:   'TICKET_EDIT',
+		Delete:   'TICKET_REMOVE',
+		Comment:  'TICKET_COMMENT',
+		Activity: 'TICKET_ACTIVITY'
 	}
 }
 
@@ -217,6 +218,9 @@ const PayloadHandler = {
 		}
 		let ticket = payload.data;
 		return TicketAction.remove(board, ticket);
+	},
+	[Event.Ticket.Activity](payload) {
+		return ActivityAction.addTicketActivity(payload);
 	}
 }
 

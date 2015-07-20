@@ -8,7 +8,6 @@ let emitter = events();
  */
 export default {
 	create(event, data) {
-		console.log('hei', event);
 		emitter.emit('event', { name: event, data: data });
 	},
 

@@ -1,8 +1,24 @@
+import throttle from 'lodash.throttle';
+
 import uid          from '../utils/uid';
 import flux         from '../utils/flux';
 import Action       from '../actions';
 import UserStore    from '../stores/user';
 import SocketAction from '../actions/socket';
+
+/**
+ *
+ */
+function createActivity(boardID, ticketID) {
+	let data = {
+		user: UserStore.getUser().toJS(),
+		board: boardID, ticket: ticketID
+	}
+	SocketAction.create('ticket:activity', data);
+	ActivityActionCreator.addTicketActivity(data);
+}
+
+let throttledActivityCreate = throttle(createActivity, 2000);
 
 /**
  *
@@ -28,7 +44,7 @@ const ActivityActionCreator = flux.actionCreator({
 		return setTimeout(
 			ActivityActionCreator.removeTicketActivity
 				.bind(this, activity.ticket, activity.id),
-			5000
+			2500
 		);
 	},
 
@@ -39,12 +55,7 @@ const ActivityActionCreator = flux.actionCreator({
 	},
 
 	createTicketActivity(boardID, ticketID) {
-		let data = {
-			user: UserStore.getUser().toJS(),
-			board: boardID, ticket: ticketID
-		}
-		SocketAction.create('ticket:activity', data);
-		ActivityActionCreator.addTicketActivity(data);
+		throttledActivityCreate(boardID, ticketID);
 	}
 });
 

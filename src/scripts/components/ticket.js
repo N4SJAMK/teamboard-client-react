@@ -1,5 +1,6 @@
 import React      from 'react/addons';
 import Hammer     from 'hammerjs';
+import throttle   from 'lodash.throttle';
 import immutable  from 'immutable';
 import TweenState from 'react-tween-state';
 import markdown   from 'markdown';
@@ -43,6 +44,10 @@ export default React.createClass({
 			activity: ActivityStore.getActivity(this.props.ticket.id),
 			comments: CommentStore.getComments(this.props.ticket.id)
 		});
+
+		if(this.state.activity.size > 0) {
+			console.log(this.state.activity.toJS());
+		}
 	},
 
 	getDefaultProps() {
@@ -84,6 +89,11 @@ export default React.createClass({
 	componentDidMount() {
 		this.hammer = doubletap(this.getDOMNode());
 		this.hammer.on('doubletap', this.toggleEditDialog);
+
+		// dragging the ticket will continuously send activity notifications
+		this.draggable.on('dragMove', throttle(() => {
+			ActivityAction.createTicketActivity(this.props.board.id, this.props.ticket.id);
+		}, 500));
 
 		this.draggable.on('dragEnd', () => {
 			if(this.draggable && !this.props.ticket.id.startsWith('dirty_')) {
