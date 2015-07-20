@@ -5,7 +5,6 @@ import User   from '../models/user';
 import Action from '../actions';
 
 let members = Immutable.Map();
-
 /**
  *
  */
@@ -15,6 +14,9 @@ export default flux.store({
 	},
 
 	handlers: {
+		[Action.Board.Tap]() {
+			
+		}
 		[Action.Board.Ping](payload) {
 			let users   = members.get(payload.board, Immutable.List());
 			let useridx = users.findIndex((m) => {
