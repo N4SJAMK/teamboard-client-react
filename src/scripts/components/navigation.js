@@ -1,5 +1,6 @@
 import page  	  from 'page';
 import React 	  from 'react';
+import Immutable  from 'immutable';
 import classNames from 'classnames';
 
 import Action          from '../actions';
@@ -44,13 +45,17 @@ export default React.createClass({
 
 	onChange() {
 		this.setState({
-			members: this.props.board ? ActivityStore.getActiveMembers(this.props.board.id) : []
+			members: this.props.board
+				? ActivityStore.getActiveMembers(this.props.board.id)
+				: Immutable.List()
 		});
 	},
 
 	getInitialState() {
 		return {
-			members:  this.props.board ? ActivityStore.getActiveMembers(this.props.board.id) : [],
+			members: this.props.board
+				? ActivityStore.getActiveMembers(this.props.board.id)
+				: Immutable.List(),
 			dropdown: false, localesDropdown: false,
 			feedback: false, infoActive: false,
 			aboutActive: false, membersActive: false
