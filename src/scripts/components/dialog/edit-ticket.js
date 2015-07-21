@@ -152,8 +152,8 @@ export default React.createClass({
 
 	getComment(comment) {
 		let avatar   = comment.createdBy.avatar;
-		let username = comment.createdBy.name || comment.createdBy.username;
-		let usertype = comment.createdBy.type || comment.createdBy.account_type;
+		let username = comment.createdBy.name         || comment.createdBy.username;
+		let usertype = comment.createdBy.account_type || comment.createdBy.type;
 
 		let timestamp = comment.get('created_at');
 		let msg       = comment.get('content');
