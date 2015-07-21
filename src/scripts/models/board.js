@@ -9,7 +9,7 @@ const Background = {
 	},
 	CUSTOM: {
 		url:         null,
-		description: 'Choose our own'
+		description: 'Use your own background'
 	},
 	BLANK: {
 		url:         null,
