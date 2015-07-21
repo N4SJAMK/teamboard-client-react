@@ -195,24 +195,25 @@ export default React.createClass({
 	},
 
 	getEditors() {
-		let editIcon = this.state.activity.size === 0 ? null
-			: <span className="fa fa-pencil-square-o edit-icon" />
-		let avatars = this.state.activity.toJS().map((item) => {
-			let user = item.user;
-			return (
-				<Avatar size={30} name={user.username}
-					imageurl={user.avatar}
-					usertype={user.type}
-					isOnline={true}>
-				</Avatar>
-			);
-		});
+		if(this.state.activity.size > 0) {
+			let avatars = this.state.activity.toJS().map((item) => {
+				let user = item.user;
+				return (
+					<Avatar size={30} name={user.username}
+						imageurl={user.avatar}
+						usertype={user.type}
+						isOnline={true}>
+					</Avatar>
+				);
+			});
 			return (
 				<section className="edit-ticket-avatars">
-					{editIcon}
+					<span className="fa fa-pencil-square-o" />
 					{avatars}
 				</section>
 			);
+		}
+		else return null;
 	},
 
 	getHeaderArea() {
@@ -286,6 +287,15 @@ export default React.createClass({
 	},
 
 	render() {
+		/*
+		<section className="edit-ticket-avatars">
+	<span style={{ fontSize: 13 }}>People<br/>editing:</span>
+		<Avatar size={31} name={UserStore.getUser().username}
+			imageurl={UserStore.getUser().avatar}
+			usertype={UserStore.getUser().type}
+			isOnline={true}>
+		</Avatar>
+</section>*/
 		let ticketCreationData = {
 			createdBy:    this.props.ticket.createdBy.username,
 			lastEditedBy: this.props.ticket.lastEditedBy
@@ -300,15 +310,7 @@ export default React.createClass({
 					{this.getHeaderArea()}
 					{this.getContentArea()}
 					{this.getCommentArea()}
-					
-<section className="edit-ticket-avatars">
-	<span style={{ fontSize: 13 }}>People<br/>editing:</span>
-		<Avatar size={31} name={UserStore.getUser().username}
-			imageurl={UserStore.getUser().avatar}
-			usertype={UserStore.getUser().type}
-			isOnline={true}>
-		</Avatar>
-</section>
+					{this.getEditors()}
 					<section className="dialog-footer">
 						<button className="btn-neutral"
 								id={"ticket-dialog-cancel"}
