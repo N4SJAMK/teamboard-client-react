@@ -3,41 +3,45 @@ import Ticket    from '../models/ticket';
 import User      from '../models/user';
 
 const Background = {
-	NONE: {
-		url:         null,
-		description: 'Blank'
+	DEFAULT: {
+		url:         '/dist/assets/img/bg/1.png',
+		description: 'Welcome'
 	},
 	CUSTOM: {
 		url:         null,
-		description: 'Custom'
+		description: 'Choose our own'
 	},
-	PLAY: {
-		url:         '/dist/assets/img/bg/play.png',
-		description: 'Play!'
+	BLANK: {
+		url:         null,
+		description: 'Blank'
 	},
 	SWOT: {
-		url:         '/dist/assets/img/bg/swot.png',
-		description: 'SWOT'
+		url:         '/dist/assets/img/bg/4.png',
+		description: 'Example 1 - SWOT'
 	},
-	SCRUM: {
-		url:         '/dist/assets/img/bg/scrum.png',
-		description: 'Scrum'
+	PLAY: {
+		url:         '/dist/assets/img/bg/5.png',
+		description: 'Example 2 - Play Ground'
 	},
 	KANBAN: {
-		url:         '/dist/assets/img/bg/kanban.png',
-		description: 'Kanban'
+		url:         '/dist/assets/img/bg/6.png',
+		description: 'Example 3 - Kanban'
 	},
 	KEEP_DROP_TRY: {
-		url:         '/dist/assets/img/bg/keep_drop_try.png',
-		description: 'Keep, Drop, Try'
+		url:         '/dist/assets/img/bg/7.png',
+		description: 'Example 4 - Keep, Drop and Try'
 	},
-	CUSTOMER_JOURNEY_MAP: {
-		url:         '/dist/assets/img/bg/customer_journey_map.png',
-		description: 'Customer Journey Map'
+	SMOOTH_BRAINSTORMING: {
+		url:         '/dist/assets/img/bg/8.gif',
+		description: 'Example 5 - Smooth Brainstorming'
 	},
-	BUSINESS_MODEL_CANVAS: {
-		url:         '/dist/assets/img/bg/business_model_canvas.png',
-		description: 'Business Model Canvas'
+	LEAN_CANVAS: {
+		url:         '/dist/assets/img/bg/9.png',
+		description: 'Example 6 - Lean Canvas'
+	},
+	IDEA_GATHERING: {
+		url:         '/dist/assets/img/bg/10.png',
+		description: 'Example 7 - Idea Gathering'
 	}
 }
 
@@ -55,11 +59,11 @@ const Member = immutable.Record({
 });
 
 const Board = immutable.Record({
-    id:               '',
+	id:               '',
 	name:             '',
 	size:             new Size(),
 	tickets:          immutable.List(),
-	background:       'NONE',
+	background:       'DEFAULT',
 	accessCode:       null,
 	customBackground: null,
 	members:          immutable.List()
@@ -92,7 +96,13 @@ Board.fromJS = function fromJS(board) {
 	}
 
 	if(!Board.Background.hasOwnProperty(board.background)) {
-		board.background = 'NONE';
+		board.background = 'DEFAULT';
+	}
+
+	// User might have old background in use so we need to
+	// change it to new default
+	if(! Background[board.background]) {
+		board.background = 'DEFAULT';
 	}
 
 	return new Board(board);
