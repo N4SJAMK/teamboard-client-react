@@ -99,8 +99,8 @@ export default {
 		ru: ''
 	},
 	COPYBUTTON: {
-		en: 'Copy',
-		fi: 'Kopioi',
+		en: 'Copy this ticket',
+		fi: 'Kopioi tämä lappu',
 		se: 'Kopiera',
 		dk: 'Kopiere',
 		jp: 'コピー',
@@ -232,7 +232,7 @@ export default {
 	********************************/
 	BROADCAST_NO_REVIEWTICKETS: {
 		en: 'You do not have any tickets to review!',
-		fi: 'Sinulla ei ole yhtääb tikettiä näytettäväksi!',
+		fi: 'Sinulla ei ole yhtään tikettiä näytettäväksi!',
 		se: '',
 		dk: '',
 		jp: '',
