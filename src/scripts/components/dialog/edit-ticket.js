@@ -1,7 +1,6 @@
 import React     from 'react/addons';
 import immutable from 'immutable';
 import TimeAgo   from 'react-timeago';
-import TextArea  from 'react-autosize-textarea';
 import markdown  from 'markdown';
 
 import Board         from '../../models/board';
@@ -183,10 +182,9 @@ export default React.createClass({
 		return this.state.isEditing || this.state.content === '' ?
 			(
 				<section className="dialog-heading">
-					<input  valueLink={this.linkState('heading')}
+					<input valueLink={this.linkState('heading')}
 						maxLength={40}
-						placeholder={this.locale('EDITTICKET_HEADER')}
-						tabIndex={1}/>
+						placeholder={this.locale('EDITTICKET_HEADER')} />
 				</section>
 			) :
 			(
@@ -201,8 +199,7 @@ export default React.createClass({
 			(
 				<section className="dialog-content">
 					<Scrollable>
-						<TextArea valueLink={this.linkState('content')}
-							tabIndex={2}
+						<textarea valueLink={this.linkState('content')}
 							placeholder={this.locale('EDITTICKET_CONTENT')} />
 					</Scrollable>
 				</section>
