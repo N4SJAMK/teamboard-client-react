@@ -25,6 +25,9 @@ import ExportBoardDialog from '../components/dialog/export-board.js';
 import ShareBoardDialog  from '../components/dialog/share-board';
 import ReviewView        from '../components/dialog/review-view';
 
+import ActivityStore  from '../stores/activity';
+import ActivityAction from '../actions/activity';
+
 /**
  * Fix issues with iOS and IScroll not working together too well...
  */
@@ -44,7 +47,7 @@ export default React.createClass({
 	},
 
 	mixins: [
-		listener(UserStore, BoardStore)
+		listener(UserStore, BoardStore, ActivityStore)
 	],
 
 	onChange() {
@@ -65,35 +68,19 @@ export default React.createClass({
 			showExportBoardDialog: false,
 			showShareBoardDialog:  false,
 			reviewActive:          false,
-			reviewTickets:         [],
-			pollHandle:            null
+			reviewTickets:         []
 		});
 	},
 
-	componentWillMount() {
-		this.setUserActivity({ isActive: true, isPoll: false });
-	},
-
 	componentDidMount() {
+		this.pinger = setInterval(
+			() => ActivityAction.createPing(this.props.id), 2000);
 		BoardAction.load(this.props.id);
 		document.addEventListener('touchmove', preventDefault);
-
-		// Poll server every 10 seconds to indicate we're still alive!
-		let self = this;
-		let handle = setInterval(function() {
-			self.setUserActivity({ isActive:true, isPoll:true })
-		}, 10000);
-		this.setState({ pollHandle: handle });
 	},
 
-	// The componentWillUnmount handles exiting the board via the back button.
 	componentWillUnmount() {
-		if (this.state.pollHandle) {
-			clearInterval(this.state.pollHandle);
-		}
-		if(UserStore.getToken()){
-			this.setUserActivity({ isActive: false, isPoll: false });
-		}
+		clearInterval(this.pinger);
 		document.removeEventListener('touchmove', preventDefault);
 	},
 
@@ -144,10 +131,6 @@ export default React.createClass({
 		});
 	},
 
-	setUserActivity(isActive, isPoll) {
-		BoardAction.setUserBoardActivity(this.props.id, isActive, isPoll);
-	},
-
 	setReviewClosingButton(mode) {
 		this.setState({
 			reviewActive: mode
@@ -155,8 +138,8 @@ export default React.createClass({
 	},
 
 	sendTicketsForReview() {
-		// If needed we can use some checks here to filter
-		// 	out unneeded tickets here
+		// If needed we can use some checks here to filter out unneeded tickets
+		// in here
 		return this.state.board.tickets.filter((ticket) => {
 			return ticket.content !== '' || ticket.heading !== '';
 		});

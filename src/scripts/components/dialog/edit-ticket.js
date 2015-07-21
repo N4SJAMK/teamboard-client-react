@@ -4,6 +4,7 @@ import TimeAgo   from 'react-timeago';
 import TextArea  from 'react-autosize-textarea';
 import markdown  from 'markdown';
 
+import Board         from '../../models/board';
 import Ticket        from '../../models/ticket';
 import TicketAction  from '../../actions/ticket';
 import UserStore     from '../../stores/user';
@@ -58,9 +59,9 @@ export default React.createClass({
 
 	copy(event) {
 		let size = {
-				width:  this.props.board.size.width  * Ticket.Width,
-				height: this.props.board.size.height * Ticket.Height
-		};
+			width:  this.props.board.size.width  * Ticket.Width,
+			height: this.props.board.size.height * Ticket.Height
+		}
 		this.position.x = (this.position.x + Ticket.Width * 1.2) > size.width
 			? size.width - Ticket.Width
 			: this.position.x + Ticket.Width / 5;
@@ -246,7 +247,7 @@ export default React.createClass({
 		return (
 			<Dialog className="edit-ticket-dialog"
 					onDismiss={this.props.onDismiss}>
-				<section className="dialog-header">			
+				<section className="dialog-header">
 					<ColorSelect color={this.linkState('color')} ticketData={ticketCreationData}/>
 				</section>
 				<section onClick={this.state.isEditing ? this.toggleEdit : null}>

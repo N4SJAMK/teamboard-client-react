@@ -50,6 +50,13 @@ const middleware = {
 						}
 						return page.redirect(`/boards/${ctx.user.access}`);
 					}
+
+					if(!userHasType){
+						UserAction.logout()
+						.then(() => {
+							return page.redirect('/login');
+						});
+					}
 				}
 				return page.redirect('/login');
 			}

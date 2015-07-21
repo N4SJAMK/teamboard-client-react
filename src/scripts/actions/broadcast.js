@@ -1,3 +1,5 @@
+import page from 'page';
+
 import flux from '../utils/flux';
 
 import Action    from '../actions';
@@ -22,6 +24,11 @@ export default flux.actionCreator({
 			// Having this here is a bit hackish, but whatever tbh...
 			if(broadcast.statusCode === 401) {
 				this.dispatch(Action.User.Logout);
+			}
+
+			// More hacks
+			if(broadcast.statusCode === 403 || broadcast.statusCode === 404) {
+				page.redirect('/login');
 			}
 		}
 		this.dispatch(Action.Broadcast.Add, broadcast);
