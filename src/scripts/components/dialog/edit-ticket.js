@@ -184,6 +184,7 @@ export default React.createClass({
 				<section className="dialog-heading">
 					<input valueLink={this.linkState('heading')}
 						maxLength={40}
+						tabIndex={1}
 						placeholder={this.locale('EDITTICKET_HEADER')} />
 				</section>
 			) :
@@ -200,6 +201,7 @@ export default React.createClass({
 				<section className="dialog-content">
 					<Scrollable>
 						<textarea valueLink={this.linkState('content')}
+							tabIndex={2}
 							placeholder={this.locale('EDITTICKET_CONTENT')} />
 					</Scrollable>
 				</section>
