@@ -36,7 +36,7 @@ export default React.createClass({
 		board: (props) => {
 			if(!props.board instanceof Board) throw new Error();
 		},
-		snap:  React.PropTypes.bool
+		snap: React.PropTypes.bool
 	},
 
 	onChange() {
@@ -44,10 +44,6 @@ export default React.createClass({
 			activity: ActivityStore.getActivity(this.props.ticket.id),
 			comments: CommentStore.getComments(this.props.ticket.id)
 		});
-
-		if(this.state.activity.size > 0) {
-			console.log(this.state.activity.toJS());
-		}
 	},
 
 	getDefaultProps() {
