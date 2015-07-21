@@ -57,9 +57,6 @@ export default React.createClass({
 	},
 
 	componentDidMount() {
-		this.throttle = throttle(() => {
-			ActivityAction.createTicketActivity(this.props.board.id, this.props.ticket.id);
-		}, 500)
 		this.position = {
 			x: this.props.ticket.position.x + Ticket.Width / 5,
 			y: this.props.ticket.position.y + Ticket.Height / 2.5,
@@ -72,7 +69,6 @@ export default React.createClass({
 			activity: ActivityStore.getActivity(this.props.ticket.id)
 		});
 		if(this.state.activity.size > 0) {
-			console.log(this.state.activity.toJS());
 		}
 	},
 
@@ -198,12 +194,32 @@ export default React.createClass({
 		);
 	},
 
+	getEditors() {
+		let editIcon = this.state.activity.size === 0 ? null
+			: <span className="fa fa-pencil-square-o edit-icon" />
+		let avatars = this.state.activity.toJS().map((item) => {
+			let user = item.user;
+			return (
+				<Avatar size={30} name={user.username}
+					imageurl={user.avatar}
+					usertype={user.type}
+					isOnline={true}>
+				</Avatar>
+			);
+		});
+			return (
+				<section className="edit-ticket-avatars">
+					{editIcon}
+					{avatars}
+				</section>
+			);
+	},
+
 	getHeaderArea() {
 		return this.state.isEditing || this.state.content === '' ?
 			(
 				<section className="dialog-heading">
-					<input  valueLink={this.linkState('heading')}
-						onkeypress={this.throttle}
+					<input  valueLink={this.createLinkWithActivity('heading')}
 						maxLength={40}
 						placeholder={this.locale('EDITTICKET_HEADER')}
 						tabIndex={1}/>
@@ -221,8 +237,7 @@ export default React.createClass({
 			(
 				<section className="dialog-content">
 					<Scrollable>
-						<TextArea valueLink={this.linkState('content')}
-							onkeypress={this.throttle}
+						<TextArea valueLink={this.createLinkWithActivity('content')}
 							tabIndex={2}
 							placeholder={this.locale('EDITTICKET_CONTENT')} />
 					</Scrollable>
@@ -242,7 +257,7 @@ export default React.createClass({
 		return (
 			<section className="dialog-comments">
 				<section className="new-comment-section">
-					<input className="comment-input" onkeypress={this.throttle}
+					<input className="comment-input"
 						maxLength={140}
 						valueLink={this.linkState('newComment')}
 						placeholder={this.locale('EDITTICKET_YOURCOMMENT')}
@@ -260,6 +275,16 @@ export default React.createClass({
 		)
 	},
 
+	createLinkWithActivity(attr) {
+		return {
+			value: this.state[attr],
+			requestChange: (value) => {
+				ActivityAction.createTicketActivity(this.props.board.id, this.props.ticket.id);
+				this.setState({ [attr]: value });
+			}
+		}
+	},
+
 	render() {
 		let ticketCreationData = {
 			createdBy:    this.props.ticket.createdBy.username,
@@ -269,12 +294,21 @@ export default React.createClass({
 			<Dialog className="edit-ticket-dialog"
 					onDismiss={this.props.onDismiss}>
 				<section className="dialog-header">
-					<ColorSelect color={this.linkState('color')} ticketData={ticketCreationData}/>
+					<ColorSelect color={this.createLinkWithActivity('color')} ticketData={ticketCreationData}/>
 				</section>
 				<section onClick={this.state.isEditing ? this.toggleEdit : null}>
 					{this.getHeaderArea()}
 					{this.getContentArea()}
 					{this.getCommentArea()}
+					
+<section className="edit-ticket-avatars">
+	<span style={{ fontSize: 13 }}>People<br/>editing:</span>
+		<Avatar size={31} name={UserStore.getUser().username}
+			imageurl={UserStore.getUser().avatar}
+			usertype={UserStore.getUser().type}
+			isOnline={true}>
+		</Avatar>
+</section>
 					<section className="dialog-footer">
 						<button className="btn-neutral"
 								id={"ticket-dialog-cancel"}
