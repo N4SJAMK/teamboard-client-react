@@ -3,12 +3,16 @@ import immutable from 'immutable';
 import TimeAgo   from 'react-timeago';
 import TextArea  from 'react-autosize-textarea';
 import markdown  from 'markdown';
+import throttle  from 'lodash.throttle';
+import listener  from '../../mixins/listener';
 
 import Board         from '../../models/board';
 import Ticket        from '../../models/ticket';
 import TicketAction  from '../../actions/ticket';
 import UserStore     from '../../stores/user';
 import CommentAction from '../../actions/comment';
+import ActivityStore  from '../../stores/activity';
+import ActivityAction from '../../actions/activity';
 
 import Avatar      from '../avatar';
 import Dialog      from '../dialog';
@@ -23,6 +27,7 @@ import localeMixin from '../../mixins/locale';
 export default React.createClass({
 	mixins: [
 		React.addons.LinkedStateMixin,
+		listener(ActivityStore),
 		localeMixin()
 	],
 
@@ -36,11 +41,13 @@ export default React.createClass({
 		comments: (props) => {
 			if(!props.comments instanceof immutable.List) throw new Error();
 		},
-		onDismiss: React.PropTypes.func.isRequired
+		onDismiss: React.PropTypes.func.isRequired,
+		editing:   React.PropTypes.func
 	},
 
 	getInitialState() {
 		return {
+			activity:   ActivityStore.getActivity(this.props.ticket.id),
 			color:      this.props.ticket.color,
 			content:    this.props.ticket.content,
 			heading:    this.props.ticket.heading,
@@ -50,11 +57,23 @@ export default React.createClass({
 	},
 
 	componentDidMount() {
+		this.throttle = throttle(() => {
+			ActivityAction.createTicketActivity(this.props.board.id, this.props.ticket.id);
+		}, 500)
 		this.position = {
 			x: this.props.ticket.position.x + Ticket.Width / 5,
 			y: this.props.ticket.position.y + Ticket.Height / 2.5,
 			z: this.props.ticket.position.z,
 		};
+	},
+
+	onChange() {
+		this.setState({
+			activity: ActivityStore.getActivity(this.props.ticket.id)
+		});
+		if(this.state.activity.size > 0) {
+			console.log(this.state.activity.toJS());
+		}
 	},
 
 	copy(event) {
@@ -184,6 +203,7 @@ export default React.createClass({
 			(
 				<section className="dialog-heading">
 					<input  valueLink={this.linkState('heading')}
+						onkeypress={this.throttle}
 						maxLength={40}
 						placeholder={this.locale('EDITTICKET_HEADER')}
 						tabIndex={1}/>
@@ -202,6 +222,7 @@ export default React.createClass({
 				<section className="dialog-content">
 					<Scrollable>
 						<TextArea valueLink={this.linkState('content')}
+							onkeypress={this.throttle}
 							tabIndex={2}
 							placeholder={this.locale('EDITTICKET_CONTENT')} />
 					</Scrollable>
@@ -221,7 +242,7 @@ export default React.createClass({
 		return (
 			<section className="dialog-comments">
 				<section className="new-comment-section">
-					<input className="comment-input"
+					<input className="comment-input" onkeypress={this.throttle}
 						maxLength={140}
 						valueLink={this.linkState('newComment')}
 						placeholder={this.locale('EDITTICKET_YOURCOMMENT')}

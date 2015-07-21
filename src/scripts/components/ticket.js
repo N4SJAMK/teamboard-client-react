@@ -87,6 +87,9 @@ export default React.createClass({
 	},
 
 	componentDidMount() {
+		this.throttle = throttle(() => {
+			ActivityAction.createTicketActivity(this.props.board.id, this.props.ticket.id);
+		}, 500)
 		this.hammer = doubletap(this.getDOMNode());
 		this.hammer.on('doubletap', this.toggleEditDialog);
 
