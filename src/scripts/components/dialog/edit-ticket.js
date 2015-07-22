@@ -1,13 +1,18 @@
 import React     from 'react/addons';
 import immutable from 'immutable';
 import TimeAgo   from 'react-timeago';
+import TextArea  from 'react-autosize-textarea';
 import markdown  from 'markdown';
+import throttle  from 'lodash.throttle';
+import listener  from '../../mixins/listener';
 
 import Board         from '../../models/board';
 import Ticket        from '../../models/ticket';
 import TicketAction  from '../../actions/ticket';
 import UserStore     from '../../stores/user';
 import CommentAction from '../../actions/comment';
+import ActivityStore  from '../../stores/activity';
+import ActivityAction from '../../actions/activity';
 
 import Avatar      from '../avatar';
 import Dialog      from '../dialog';
@@ -22,6 +27,7 @@ import localeMixin from '../../mixins/locale';
 export default React.createClass({
 	mixins: [
 		React.addons.LinkedStateMixin,
+		listener(ActivityStore),
 		localeMixin()
 	],
 
@@ -35,11 +41,13 @@ export default React.createClass({
 		comments: (props) => {
 			if(!props.comments instanceof immutable.List) throw new Error();
 		},
-		onDismiss: React.PropTypes.func.isRequired
+		onDismiss: React.PropTypes.func.isRequired,
+		editing:   React.PropTypes.func
 	},
 
 	getInitialState() {
 		return {
+			activity:   ActivityStore.getActivity(this.props.ticket.id),
 			color:      this.props.ticket.color,
 			content:    this.props.ticket.content,
 			heading:    this.props.ticket.heading,
@@ -52,8 +60,14 @@ export default React.createClass({
 		this.position = {
 			x: this.props.ticket.position.x + Ticket.Width / 5,
 			y: this.props.ticket.position.y + Ticket.Height / 2.5,
-			z: this.props.ticket.position.z,
+			z: this.props.ticket.position.z
 		};
+	},
+
+	onChange() {
+		this.setState({
+			activity: ActivityStore.getActivity(this.props.ticket.id)
+		});
 	},
 
 	copy(event) {
@@ -178,11 +192,64 @@ export default React.createClass({
 		);
 	},
 
+	createLinkWithActivity(attr) {
+		return {
+			value: this.state[attr],
+			requestChange: (value) => {
+				ActivityAction.createTicketActivity(this.props.board.id, this.props.ticket.id);
+				this.setState({ [attr]: value });
+			}
+		}
+	},
+
+	getEditors() {
+		if(this.state.activity.size > 0) {
+			let avatars = this.state.activity.map((item) => {
+				let user = item.get('user');
+				return (
+					<Avatar size={30} name={user.username}
+						imageurl={user.avatar}
+						usertype={user.type}
+						isOnline={true}>
+					</Avatar>
+				);
+			});
+			return (
+				<section className="editor-area">
+					<span>People editing:</span>
+					<section className="edit-ticket-avatars">
+						{avatars}
+					</section>
+				</section>
+			);
+		}
+		else {
+			let person = this.props.ticket.lastEditedBy === null
+				? {
+					action: "Created by", body: this.props.ticket.createdBy
+				}
+				: {
+					action: "Last modified by", body: this.props.ticket.lastEditedBy.toJS()
+				}
+			return (
+				<section className="editor-area">
+					<span>{person.action}</span>
+					<section className="edit-ticket-avatars">
+					<Avatar size={30} name={person.body.username}
+						imageurl={person.body.avatar}
+						usertype={person.body.type}
+						isOnline={true}>
+					</Avatar>
+					</section>
+				</section>
+			);
+		};
+	},
 	getHeaderArea() {
 		return this.state.isEditing || this.state.content === '' ?
 			(
 				<section className="dialog-heading">
-					<input valueLink={this.linkState('heading')}
+					<input  valueLink={this.createLinkWithActivity('heading')}
 						maxLength={40}
 						tabIndex={1}
 						placeholder={this.locale('EDITTICKET_HEADER')} />
@@ -200,7 +267,7 @@ export default React.createClass({
 			(
 				<section className="dialog-content">
 					<Scrollable>
-						<textarea valueLink={this.linkState('content')}
+						<TextArea valueLink={this.createLinkWithActivity('content')}
 							tabIndex={2}
 							placeholder={this.locale('EDITTICKET_CONTENT')} />
 					</Scrollable>
@@ -239,20 +306,15 @@ export default React.createClass({
 	},
 
 	render() {
-		let ticketCreationData = {
-			createdBy:    this.props.ticket.createdBy.username,
-			lastEditedBy: this.props.ticket.lastEditedBy
-		}
 		return (
 			<Dialog className="edit-ticket-dialog"
 					onDismiss={this.props.onDismiss}>
 				<section className="dialog-header">
-					<ColorSelect color={this.linkState('color')} ticketData={ticketCreationData}/>
+					<ColorSelect color={this.createLinkWithActivity('color')} />
 				</section>
 				<section onClick={this.state.isEditing ? this.toggleEdit : null}>
 					{this.getHeaderArea()}
 					{this.getContentArea()}
-					{this.getCommentArea()}
 					<section className="dialog-footer">
 						<button className="btn-neutral"
 								id={"ticket-dialog-cancel"}
@@ -267,6 +329,8 @@ export default React.createClass({
 							{this.locale('SAVEBUTTON')}
 						</button>
 					</section>
+					{this.getEditors()}
+					{this.getCommentArea()}
 					<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}>
 						{this.locale('DELETEBUTTON')}
 					</span>
