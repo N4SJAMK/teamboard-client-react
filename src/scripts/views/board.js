@@ -28,6 +28,8 @@ import ReviewView        from '../components/dialog/review-view';
 import ActivityStore  from '../stores/activity';
 import ActivityAction from '../actions/activity';
 
+import localeMixin from '../mixins/locale';
+
 /**
  * Fix issues with iOS and IScroll not working together too well...
  */
@@ -47,7 +49,8 @@ export default React.createClass({
 	},
 
 	mixins: [
-		listener(UserStore, BoardStore, ActivityStore)
+		listener(UserStore, BoardStore, ActivityStore),
+		localeMixin()
 	],
 
 	onChange() {
@@ -102,7 +105,7 @@ export default React.createClass({
 		} else {
 			BroadcastAction.add({
 				type:    'broadcast',
-				content: 'You do not have any tickets to review!'
+				content: this.locale('BROADCAST_NO_TICKETS')
 			});
 		}
 	},

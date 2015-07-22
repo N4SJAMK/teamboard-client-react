@@ -116,6 +116,58 @@ export default {
 	},
 
 	/********************************
+	/   BROADCAST                   *
+	********************************/
+	BROADCAST_INVALID_CREDENTIALS: {
+		en: 'Wrong username and/or password!',
+		fi: 'Väärä käyttäjä nimi ja/tai salasana!',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	BROADCAST_LOGIN_FAILED: {
+		en: 'Login failed!',
+		fi: 'Väärä käyttäjä nimi ja/tai salasana!',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	BROADCAST_BAD_CREDENTIALS: {
+		en: 'Bad email and/or password!',
+		fi: 'Virheellinen sähköposti ja/tai salasana!',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	BROADCAST_USER_EXISTS: {
+		en: 'User already exists!',
+		fi: 'Käyttäjä on jo olemassa!',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	BROADCAST_REGISTER_FAILED: {
+		en: 'Register failed!',
+		fi: 'Rekisteröinti epäonnistui!',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	BROADCAST_NO_TICKETS: {
+		en: 'No tickets for review!',
+		fi: 'Ei lappuja näytettäväksi!',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+
+	/********************************
 	/   DROPDOWN                    *
 	********************************/
 	DROPDOWN_HELLO: {
