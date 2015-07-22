@@ -20,7 +20,6 @@ export default React.createClass({
 	},
 
 	render() {
-
 		let initials        = null;
 		let backgroundColor = null;
 		let backgroundURL   = null;

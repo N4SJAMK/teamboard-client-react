@@ -1,5 +1,4 @@
 import io   from 'socket.io-client';
-import utf8 from 'utf8';
 import page from 'page';
 
 import Action          from '../actions';

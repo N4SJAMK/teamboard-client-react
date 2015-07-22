@@ -97,13 +97,11 @@ export default React.createClass({
 	},
 
 	boardMembersAmount() {
-	   if(!this.props.board) {
-		   return null;
-	   }
+		if(!this.props.board) return null;
 
-	   return this.props.board.members.filter((member) => {
-		   return member.get('isActive');
-	   }).size
+		return this.state.members.filter((member) => {
+			return member.get('date') > new Date(new Date().getTime() - (5 * 60000));
+		}).size;
    },
 
 	render() {
