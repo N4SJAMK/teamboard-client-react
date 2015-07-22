@@ -60,7 +60,7 @@ export default React.createClass({
 		this.position = {
 			x: this.props.ticket.position.x + Ticket.Width / 5,
 			y: this.props.ticket.position.y + Ticket.Height / 2.5,
-			z: this.props.ticket.position.z,
+			z: this.props.ticket.position.z
 		};
 	},
 
@@ -68,8 +68,6 @@ export default React.createClass({
 		this.setState({
 			activity: ActivityStore.getActivity(this.props.ticket.id)
 		});
-		if(this.state.activity.size > 0) {
-		}
 	},
 
 	copy(event) {
@@ -233,7 +231,6 @@ export default React.createClass({
 				: {
 					action: "Last modified by", body: this.props.ticket.lastEditedBy.toJS()
 				}
-
 			return (
 				<section className="editor-area">
 					<span>{person.action}</span>
@@ -309,17 +306,6 @@ export default React.createClass({
 	},
 
 	render() {
-		/*<section className="editor-area">
-					<span style={{ fontSize: 13 }}>People editing:</span>
-		<section className="edit-ticket-avatars">
-		<Avatar size={31} name={UserStore.getUser().username}
-			imageurl={UserStore.getUser().avatar}
-			usertype={UserStore.getUser().type}
-			isOnline={true}>
-		</Avatar>
-</section></section>
-					
-		*/
 		return (
 			<Dialog className="edit-ticket-dialog"
 					onDismiss={this.props.onDismiss}>

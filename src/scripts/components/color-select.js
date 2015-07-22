@@ -22,7 +22,7 @@ const ColorButton = React.createClass({
 	},
 
 	render() {
-		let active = this.props.color == this.props.active ? 'option active' : 'option';
+		let active = this.props.color === this.props.active ? 'option active' : 'option';
 		return <div className={active}
 			style={{ backgroundColor: this.props.color }} id={'color-' + this.props.color} />;
 	}
@@ -42,7 +42,7 @@ export default React.createClass({
 	},
 
 	selectColor(newColor) {
-		this.activeColor=newColor;
+		this.activeColor = newColor;
 		this.props.color.requestChange(newColor);
 	},
 

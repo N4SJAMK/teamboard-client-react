@@ -20,7 +20,7 @@ const Ticket = immutable.Record({
 	heading:  '',
 	createdBy: new User(),
 	lastEditedBy: null,
-	position: new Position(),
+	position: new Position()
 });
 
 Ticket.Width    = 192;
@@ -39,7 +39,7 @@ Ticket.fromJS = function fromJS(ticket) {
 
 	ticket.color    = hascolor ? ticket.color : Ticket.Color.VIOLET;
 	ticket.position = new Position(ticket.position);
-	
+
 	if(ticket.createdBy instanceof String) {
 		delete ticket.createdBy;
 	}
