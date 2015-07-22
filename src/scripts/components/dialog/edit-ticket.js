@@ -1,6 +1,7 @@
 import React     from 'react/addons';
 import immutable from 'immutable';
 import TimeAgo   from 'react-timeago';
+import TextArea  from 'react-autosize-textarea';
 import markdown  from 'markdown';
 import throttle  from 'lodash.throttle';
 import listener  from '../../mixins/listener';
@@ -193,14 +194,20 @@ export default React.createClass({
 		);
 	},
 
-	getEditors() {
-		let person = !this.props.ticket.lastEditedBy ?
-		`Created by ${this.props.ticket.createdBy.username}` :
-		`Last edited by ${this.props.ticket.lastEditedBy.username}`;
+	createLinkWithActivity(attr) {
+		return {
+			value: this.state[attr],
+			requestChange: (value) => {
+				ActivityAction.createTicketActivity(this.props.board.id, this.props.ticket.id);
+				this.setState({ [attr]: value });
+			}
+		}
+	},
 
+	getEditors() {
 		if(this.state.activity.size > 0) {
-			let avatars = this.state.activity.toJS().map((item) => {
-				let user = item.user;
+			let avatars = this.state.activity.map((item) => {
+				let user = item.get('user');
 				return (
 					<Avatar size={30} name={user.username}
 						imageurl={user.avatar}
@@ -219,10 +226,25 @@ export default React.createClass({
 			);
 		}
 		else {
+			let person = this.props.ticket.lastEditedBy === null
+				? {
+					action: "Created by", body: this.props.ticket.createdBy
+				}
+				: {
+					action: "Last modified by", body: this.props.ticket.lastEditedBy.toJS()
+				}
+
 			return (
-				<span className="creator">
-					{person}
-				</span>
+				<section className="editor-area">
+					<span>{person.action}</span>
+					<section className="edit-ticket-avatars">
+					<Avatar size={30} name={person.body.username}
+						imageurl={person.body.avatar}
+						usertype={person.body.type}
+						isOnline={true}>
+					</Avatar>
+					</section>
+				</section>
 			);
 		};
 	},
@@ -286,16 +308,6 @@ export default React.createClass({
 		)
 	},
 
-	createLinkWithActivity(attr) {
-		return {
-			value: this.state[attr],
-			requestChange: (value) => {
-				ActivityAction.createTicketActivity(this.props.board.id, this.props.ticket.id);
-				this.setState({ [attr]: value });
-			}
-		}
-	},
-
 	render() {
 		/*<section className="editor-area">
 					<span style={{ fontSize: 13 }}>People editing:</span>
@@ -317,8 +329,6 @@ export default React.createClass({
 				<section onClick={this.state.isEditing ? this.toggleEdit : null}>
 					{this.getHeaderArea()}
 					{this.getContentArea()}
-					{this.getEditors()}
-					{this.getCommentArea()}
 					<section className="dialog-footer">
 						<button className="btn-neutral"
 								id={"ticket-dialog-cancel"}
@@ -333,6 +343,8 @@ export default React.createClass({
 							{this.locale('SAVEBUTTON')}
 						</button>
 					</section>
+					{this.getEditors()}
+					{this.getCommentArea()}
 					<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}>
 						{this.locale('DELETEBUTTON')}
 					</span>

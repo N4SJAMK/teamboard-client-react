@@ -19,7 +19,7 @@ const Ticket = immutable.Record({
 	content:  '',
 	heading:  '',
 	createdBy: new User(),
-	lastEditedBy: new User(),
+	lastEditedBy: null,
 	position: new Position(),
 });
 

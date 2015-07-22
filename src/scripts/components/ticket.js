@@ -67,7 +67,7 @@ export default React.createClass({
 		let avatars = this.state.activity.toJS().map((item) => {
 			let user = item.user;
 			return (
-				<Avatar size={19} name={user.username}
+				<Avatar size={16} name={user.username}
 					imageurl={user.avatar}
 					usertype={user.type}
 					isOnline={true}>
@@ -164,10 +164,6 @@ export default React.createClass({
 
 	toggleEditDialog() {
 		if(!this.props.ticket.id.startsWith('dirty_')) {
-			if(!this.state.showEditDialog) {
-				ActivityAction.createTicketActivity(
-					this.props.board.id, this.props.ticket.id);
-			}
 			this.setState({ showEditDialog: !this.state.showEditDialog });
 		}
 	},
