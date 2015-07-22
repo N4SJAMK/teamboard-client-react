@@ -270,7 +270,9 @@ export default React.createClass({
 					<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}>
 						{this.locale('DELETEBUTTON')}
 					</span>
-					<span className="deleteicon fa fa-copy" id={"ticket-dialog-copy"} onClick={this.copy}> Clone this ticket</span>
+					<span className="deleteicon fa fa-copy" id={"ticket-dialog-copy"} onClick={this.copy}>
+						{this.locale('COPYBUTTON')}
+					</span>
 				</section>
 			</Dialog>
 		);

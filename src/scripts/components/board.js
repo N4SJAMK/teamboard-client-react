@@ -100,6 +100,8 @@ export default React.createClass({
 			return (
 				<div className="board-helper">
 					{this.locale('BOARD_TAP')}
+					<br />
+					<img draggable="false" src="/dist/assets/img/double_tap_icon.png" alt="board-tap" />
 				</div>
 			);
 		}

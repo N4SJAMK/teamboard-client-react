@@ -1,6 +1,9 @@
 import immutable from 'immutable';
 import Action    from '../actions';
 
+import Translation from '../translations';
+import Settings from '../stores/settings';
+
 /**
  *
  */
@@ -15,16 +18,16 @@ const BroadcastType = {
 BroadcastType.Error.Message = {
 	[Action.User.Login]: {
 		status: {
-			[401]: 'Wrong username and/or password!'
+			[401]: Translation.BROADCAST_INVALID_CREDENTIALS[Settings.getLocale()]
 		},
-		default: 'Login failed!'
+		default: Translation.BROADCAST_LOGIN_FAILED[Settings.getLocale()]
 	},
 	[Action.User.Register]: {
 		status: {
-			[400]: 'Bad email and/or password!',
-			[409]: 'User already exists.'
+			[400]: Translation.BROADCAST_BAD_CREDENTIALS[Settings.getLocale()],
+			[409]: Translation.BROADCAST_USER_EXISTS[Settings.getLocale()]
 		},
-		default: 'Register failed!'
+		default: Translation.BROADCAST_REGISTER_FAILED[Settings.getLocale()]
 	}
 }
 

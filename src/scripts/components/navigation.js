@@ -85,6 +85,10 @@ export default React.createClass({
 		this.setState({ aboutActive: !this.state.aboutActive });
 	},
 
+	toggleLocaleDropdown() {
+		this.setState({ localesDropdown: !this.state.localesDropdown });
+	},
+
 	CancelReview(){
 		return !this.props.reviewActive ? null : (
 			<div onClick={() => {
@@ -124,22 +128,22 @@ export default React.createClass({
 		}
 
 		let infoButtonClass =
-			classNames({
-				infobutton: true,
-				active: this.state.infoActive
-			});
+			classNames(
+				'infobutton',
+				{ active: this.state.infoActive }
+			);
 
 		let userButtonClass =
-			classNames({
-				'avatar-wrapper': true,
-				active: this.state.dropdown
-			});
+			classNames(
+				'avatar-wrapper',
+				{ active: this.state.dropdown }
+			);
 
 		let membersButtonClass =
-			classNames({
-				members: true,
-				active: this.state.membersActive
-			});
+			classNames(
+				'members',
+				{ active: this.state.membersActive }
+			);
 
 		let boardMembersDialog = null;
 
@@ -189,7 +193,7 @@ export default React.createClass({
 				icon: 'language',
 				content: this.locale('DROPDOWN_LOCALE'),
 				onClick: () => {
-					this.setState({ localesDropdown: !this.state.localesDropdown });
+					this.toggleLocaleDropdown()
 				}
 			},
 			{
