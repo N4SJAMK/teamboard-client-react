@@ -195,6 +195,10 @@ export default React.createClass({
 	},
 
 	getEditors() {
+		let person = !this.props.ticket.lastEditedBy ?
+		`Created by ${this.props.ticket.createdBy.username}` :
+		`Last edited by ${this.props.ticket.lastEditedBy.username}`;
+
 		if(this.state.activity.size > 0) {
 			let avatars = this.state.activity.toJS().map((item) => {
 				let user = item.user;
@@ -207,15 +211,22 @@ export default React.createClass({
 				);
 			});
 			return (
-				<section className="edit-ticket-avatars">
-					<span className="fa fa-pencil-square-o" />
-					{avatars}
+				<section className="editor-area">
+					<span>People editing:</span>
+					<section className="edit-ticket-avatars">
+						{avatars}
+					</section>
 				</section>
 			);
 		}
-		else return null;
+		else {
+			return (
+				<span className="creator">
+					{person}
+				</span>
+			);
+		};
 	},
-
 	getHeaderArea() {
 		return this.state.isEditing || this.state.content === '' ?
 			(
@@ -287,30 +298,28 @@ export default React.createClass({
 	},
 
 	render() {
-		/*
+		/*<section className="editor-area">
+					<span style={{ fontSize: 13 }}>People editing:</span>
 		<section className="edit-ticket-avatars">
-	<span style={{ fontSize: 13 }}>People<br/>editing:</span>
 		<Avatar size={31} name={UserStore.getUser().username}
 			imageurl={UserStore.getUser().avatar}
 			usertype={UserStore.getUser().type}
 			isOnline={true}>
 		</Avatar>
-</section>*/
-		let ticketCreationData = {
-			createdBy:    this.props.ticket.createdBy.username,
-			lastEditedBy: this.props.ticket.lastEditedBy
-		}
+</section></section>
+					
+		*/
 		return (
 			<Dialog className="edit-ticket-dialog"
 					onDismiss={this.props.onDismiss}>
 				<section className="dialog-header">
-					<ColorSelect color={this.createLinkWithActivity('color')} ticketData={ticketCreationData}/>
+					<ColorSelect color={this.createLinkWithActivity('color')} />
 				</section>
 				<section onClick={this.state.isEditing ? this.toggleEdit : null}>
 					{this.getHeaderArea()}
 					{this.getContentArea()}
-					{this.getCommentArea()}
 					{this.getEditors()}
+					{this.getCommentArea()}
 					<section className="dialog-footer">
 						<button className="btn-neutral"
 								id={"ticket-dialog-cancel"}
