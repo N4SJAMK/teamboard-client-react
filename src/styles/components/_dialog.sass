@@ -96,7 +96,7 @@
 
 		.dialog-content
 			padding:    8px 16px
-			max-height: 20vh
+			max-height: 20vh !important
 
 			textarea
 				width:     100%
@@ -147,6 +147,8 @@
 
 			@include display(flex)
 			@include flex-direction(column)
+			overflow-x: hidden
+			overflow-y: auto
 
 		.preview-container
 			height:   116px
