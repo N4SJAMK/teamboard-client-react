@@ -1,5 +1,6 @@
 import page  	  from 'page';
 import React 	  from 'react';
+import Immutable  from 'immutable';
 import classNames from 'classnames';
 
 import Action          from '../actions';
@@ -44,13 +45,17 @@ export default React.createClass({
 
 	onChange() {
 		this.setState({
-			members: ActivityStore.getActiveMembers(this.props.board.id)
+			members: this.props.board
+				? ActivityStore.getActiveMembers(this.props.board.id)
+				: Immutable.List()
 		});
 	},
 
 	getInitialState() {
 		return {
-			members:  ActivityStore.getActiveMembers(this.props.board.id),
+			members: this.props.board
+				? ActivityStore.getActiveMembers(this.props.board.id)
+				: Immutable.List(),
 			dropdown: false, localesDropdown: false,
 			feedback: false, infoActive: false,
 			aboutActive: false, membersActive: false
@@ -90,6 +95,11 @@ export default React.createClass({
 			</div>
 		);
 	},
+
+	boardMembersAmount() {
+	   if(!this.props.board) return null;
+	   return this.state.members.size;
+   },
 
 	render() {
 		let infoDialog = null;
@@ -138,7 +148,7 @@ export default React.createClass({
 			<div id="members" onClick={this.toggleMembersDialog} className={membersButtonClass}>
 				<span className="fa fa-fw fa-users">
 					<span className="user-amount">
-						{this.state.members.size}
+						{this.boardMembersAmount()}
 					</span>
 				</span>
 			</div>
@@ -149,6 +159,11 @@ export default React.createClass({
 				<span className={`fa fa-fw fa-${infoIcon}`}></span>
 			</div>
 			);
+
+		// If userstore is empty then go back to login
+		if(!UserStore.getUser()) {
+			page.redirect('/login');
+		}
 
 		let isProfileDisabled = UserStore.getUser().type === 'standard';
 		let items = [

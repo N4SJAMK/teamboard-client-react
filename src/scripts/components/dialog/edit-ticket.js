@@ -1,9 +1,9 @@
 import React     from 'react/addons';
 import immutable from 'immutable';
 import TimeAgo   from 'react-timeago';
-import TextArea  from 'react-autosize-textarea';
 import markdown  from 'markdown';
 
+import Board         from '../../models/board';
 import Ticket        from '../../models/ticket';
 import TicketAction  from '../../actions/ticket';
 import UserStore     from '../../stores/user';
@@ -58,9 +58,9 @@ export default React.createClass({
 
 	copy(event) {
 		let size = {
-				width:  this.props.board.size.width  * Ticket.Width,
-				height: this.props.board.size.height * Ticket.Height
-		};
+			width:  this.props.board.size.width  * Ticket.Width,
+			height: this.props.board.size.height * Ticket.Height
+		}
 		this.position.x = (this.position.x + Ticket.Width * 1.2) > size.width
 			? size.width - Ticket.Width
 			: this.position.x + Ticket.Width / 5;
@@ -152,8 +152,8 @@ export default React.createClass({
 
 	getComment(comment) {
 		let avatar   = comment.createdBy.avatar;
-		let username = comment.createdBy.name || comment.createdBy.username;
-		let usertype = comment.createdBy.type || comment.createdBy.account_type;
+		let username = comment.createdBy.name         || comment.createdBy.username;
+		let usertype = comment.createdBy.account_type || comment.createdBy.type;
 
 		let timestamp = comment.get('created_at');
 		let msg       = comment.get('content');
@@ -182,10 +182,10 @@ export default React.createClass({
 		return this.state.isEditing || this.state.content === '' ?
 			(
 				<section className="dialog-heading">
-					<input  valueLink={this.linkState('heading')}
+					<input valueLink={this.linkState('heading')}
 						maxLength={40}
-						placeholder={this.locale('EDITTICKET_HEADER')}
-						tabIndex={1}/>
+						tabIndex={1}
+						placeholder={this.locale('EDITTICKET_HEADER')} />
 				</section>
 			) :
 			(
@@ -200,7 +200,7 @@ export default React.createClass({
 			(
 				<section className="dialog-content">
 					<Scrollable>
-						<TextArea valueLink={this.linkState('content')}
+						<textarea valueLink={this.linkState('content')}
 							tabIndex={2}
 							placeholder={this.locale('EDITTICKET_CONTENT')} />
 					</Scrollable>
@@ -246,7 +246,7 @@ export default React.createClass({
 		return (
 			<Dialog className="edit-ticket-dialog"
 					onDismiss={this.props.onDismiss}>
-				<section className="dialog-header">			
+				<section className="dialog-header">
 					<ColorSelect color={this.linkState('color')} ticketData={ticketCreationData}/>
 				</section>
 				<section onClick={this.state.isEditing ? this.toggleEdit : null}>

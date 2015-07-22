@@ -1,5 +1,4 @@
 import io   from 'socket.io-client';
-import utf8 from 'utf8';
 import page from 'page';
 
 import Action          from '../actions';
@@ -148,10 +147,11 @@ const Event = {
 		Update: 'BOARD_EDIT'
 	},
 	Ticket: {
-		Create:  'TICKET_CREATE',
-		Update:  'TICKET_EDIT',
-		Delete:  'TICKET_REMOVE',
-		Comment: 'TICKET_COMMENT'
+		Create:   'TICKET_CREATE',
+		Update:   'TICKET_EDIT',
+		Delete:   'TICKET_REMOVE',
+		Comment:  'TICKET_COMMENT',
+		Activity: 'TICKET_ACTIVITY'
 	}
 }
 
@@ -166,11 +166,7 @@ const PayloadHandler = {
 	[Event.Board.Update](payload) {
 		let board = Object.assign({ id: payload.board },
 			payload.data.newAttributes);
-		board.name = utf8.decode(board.name);
 
-		board.members.map(function (member) {
-			member.user.name = utf8.decode(member.user.name);
-		});
 		return BoardAction.edit(board);
 	},
 	[Event.Ticket.Create](payload) {
@@ -179,7 +175,6 @@ const PayloadHandler = {
 		}
 		let ticket = payload.data;
 		if(!BoardStore.getTicket(board.id, ticket.id)) {
-			ticket.content = utf8.decode(ticket.content);
 			return TicketAction.add(board, ticket);
 		}
 	},
@@ -190,25 +185,15 @@ const PayloadHandler = {
 		let ticket = Object.assign({ id: payload.data.id },
 			payload.data.newAttributes);
 
-		ticket.content = utf8.decode(ticket.content);
-		ticket.heading = utf8.decode(ticket.heading);
-
-		if(ticket.comments) {
-			ticket.comments.map(function (comment) {
-				comment.content   = utf8.decode(comment.content)
-				comment.user.name = utf8.decode(comment.user.name);
-			});
-		}
 		return TicketAction.edit(board, ticket);
 	},
 	[Event.Ticket.Comment](payload) {
 		let comment = {
 			id:        payload.id,
-			message:   utf8.decode(payload.data.message),
+			message:   payload.data.message,
 			createdAt: payload.createdAt,
 			createdBy: payload.user
 		}
-		comment.createdBy.username = utf8.decode(comment.createdBy.username);
 		return CommentAction.addComment(payload.data.ticket_id, comment);
 	},
 	[Event.Ticket.Delete](payload) {
@@ -217,6 +202,9 @@ const PayloadHandler = {
 		}
 		let ticket = payload.data;
 		return TicketAction.remove(board, ticket);
+	},
+	[Event.Ticket.Activity](payload) {
+		return ActivityAction.addTicketActivity(payload);
 	}
 }
 
