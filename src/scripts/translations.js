@@ -99,11 +99,11 @@ export default {
 		ru: ''
 	},
 	COPYBUTTON: {
-		en: 'Copy',
-		fi: 'Kopioi',
-		se: 'Kopiera',
-		dk: 'Kopiere',
-		jp: 'コピー',
+		en: 'Duplicate ticket',
+		fi: 'Kopioi lappu',
+		se: '',
+		dk: '',
+		jp: '',
 		ru: ''
 	},
 	OWNEDBY: {
