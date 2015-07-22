@@ -1,7 +1,6 @@
 import React     from 'react/addons';
 import immutable from 'immutable';
 import TimeAgo   from 'react-timeago';
-import TextArea  from 'react-autosize-textarea';
 import markdown  from 'markdown';
 import throttle  from 'lodash.throttle';
 import listener  from '../../mixins/listener';
@@ -226,10 +225,10 @@ export default React.createClass({
 		else {
 			let person = this.props.ticket.lastEditedBy === null
 				? {
-					action: "Created by", body: this.props.ticket.createdBy
+					action: this.locale('EDITTICKET_CREATEDBY'), body: this.props.ticket.createdBy
 				}
 				: {
-					action: "Last modified by", body: this.props.ticket.lastEditedBy.toJS()
+					action: this.locale('EDITTICKET_MODIFIEDBY'), body: this.props.ticket.lastEditedBy.toJS()
 				}
 			return (
 				<section className="editor-area">
@@ -249,7 +248,7 @@ export default React.createClass({
 		return this.state.isEditing || this.state.content === '' ?
 			(
 				<section className="dialog-heading">
-					<input  valueLink={this.createLinkWithActivity('heading')}
+					<input valueLink={this.createLinkWithActivity('heading')}
 						maxLength={40}
 						tabIndex={1}
 						placeholder={this.locale('EDITTICKET_HEADER')} />
@@ -267,7 +266,7 @@ export default React.createClass({
 			(
 				<section className="dialog-content">
 					<Scrollable>
-						<TextArea valueLink={this.createLinkWithActivity('content')}
+						<textarea valueLink={this.createLinkWithActivity('content')}
 							tabIndex={2}
 							placeholder={this.locale('EDITTICKET_CONTENT')} />
 					</Scrollable>
