@@ -97,13 +97,8 @@ export default React.createClass({
 	},
 
 	boardMembersAmount() {
-	   if(!this.props.board) {
-		   return null;
-	   }
-
-	   return this.props.board.members.filter((member) => {
-		   return member.get('isActive');
-	   }).size
+	   if(!this.props.board) return null;
+	   return this.state.members.size;
    },
 
 	render() {
