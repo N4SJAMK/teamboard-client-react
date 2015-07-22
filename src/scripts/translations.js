@@ -925,7 +925,7 @@ export default {
 		jp: 'Contriboardについて',
 		ru: ''
 	},
-	ABOUT_ABOUT: {
+	ABOUT_DESCRIPTION: {
 		en: 'Contriboard is a fast, open-sourced brainstorming tool for everyone',
 		fi: 'Contriboard on nopea, avoimen lähdekoodin brainstorm-työkalu kaikille',
 		se: 'Contriboard är en snabb, öppen källkod brainstorming verktyg för alla',
@@ -1059,7 +1059,7 @@ export default {
 	},
 	TIME_MINUTES: {
 		en: 'minutes',
-		fi: 'minuutteja',
+		fi: 'minuuttia',
 		se: 'minuter',
 		dk: 'minuter',
 		jp: '分',
@@ -1112,5 +1112,13 @@ export default {
 		dk: 'siden',
 		jp: '前に',
 		ru: ''
-	}
+	},
+	TIME_NOW: {
+		en: 'Just now',
+		fi: 'Juuri nyt',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
 }
