@@ -1,7 +1,6 @@
 import React     from 'react/addons';
 import immutable from 'immutable';
 import TimeAgo   from 'react-timeago';
-import TextArea  from 'react-autosize-textarea';
 import markdown  from 'markdown';
 import throttle  from 'lodash.throttle';
 import listener  from '../../mixins/listener';
@@ -168,8 +167,8 @@ export default React.createClass({
 
 	getComment(comment) {
 		let avatar   = comment.createdBy.avatar;
-		let username = comment.createdBy.name || comment.createdBy.username;
-		let usertype = comment.createdBy.type || comment.createdBy.account_type;
+		let username = comment.createdBy.name         || comment.createdBy.username;
+		let usertype = comment.createdBy.account_type || comment.createdBy.type;
 
 		let timestamp = comment.get('created_at');
 		let msg       = comment.get('content');
@@ -233,8 +232,8 @@ export default React.createClass({
 				<section className="dialog-heading">
 					<input  valueLink={this.createLinkWithActivity('heading')}
 						maxLength={40}
-						placeholder={this.locale('EDITTICKET_HEADER')}
-						tabIndex={1}/>
+						tabIndex={1}
+						placeholder={this.locale('EDITTICKET_HEADER')} />
 				</section>
 			) :
 			(
