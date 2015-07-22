@@ -29,7 +29,13 @@ export default function() {
 				return id;
 			}
 
-			return this.state.translations[id][this.state.locale]
+			// If text is not translated to that language then return ID
+			// to more easily notice missing translation
+			if(this.state.translations[id][this.state.locale] === '') {
+				return id;
+			}
+
+			return this.state.translations[id][this.state.locale];
 		}
 	}
 }
