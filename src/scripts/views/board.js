@@ -121,7 +121,7 @@ export default React.createClass({
 			!this.state.snapToGrid);
 
 		this.setState({
-			snapToGrid:  SettingsStore.getSetting('snap-to-grid')
+			snapToGrid: !this.state.snapToGrid
 		});
 	},
 
@@ -130,7 +130,7 @@ export default React.createClass({
 			!this.state.showMinimap);
 
 		this.setState({
-			showMinimap: SettingsStore.getSetting('show-minimap')
+			showMinimap: !this.state.showMinimap
 		});
 	},
 
