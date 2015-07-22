@@ -166,6 +166,22 @@ export default {
 		jp: '',
 		ru: ''
 	},
+	BROADCAST_BOARD_NOTFOUND: {
+		en: 'Board not found! Admin may have deleted it!',
+		fi: 'Lankkua ei löydetty! Admin on saattanut poistaa sen!',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	BROADCAST_BOARD_ERROR: {
+		en: 'Board error!',
+		fi: 'Lankku virhe!',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
 
 	/********************************
 	/   DROPDOWN                    *
@@ -935,6 +951,22 @@ export default {
 		se: 'Lägga till kommentar',
 		dk: 'Tilføj kommentar',
 		jp:  'コメントの追加',
+		ru: ''
+	},
+	EDITTICKET_CREATEDBY: {
+		en: 'Created by',
+		fi: 'Luonut',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	EDITTICKET_MODIFIEDBY: {
+		en: 'Last modified by',
+		fi: 'Viimeksi muokannut',
+		se: '',
+		dk: '',
+		jp: '',
 		ru: ''
 	},
 
