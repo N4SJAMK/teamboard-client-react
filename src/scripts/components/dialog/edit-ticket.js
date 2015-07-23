@@ -164,9 +164,9 @@ export default React.createClass({
 		return `${value} ${unit} ${suffix}`;
 	},
 
-	handleKeyDown(e) {
+	handleKeyDown(event) {
 		let enter = 13;
-		if(e.keyCode == enter) {
+		if(event.keyCode == enter) {
 			return this.onSubmitComment(event);
 		}
 	},
