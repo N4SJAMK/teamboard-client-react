@@ -16,6 +16,18 @@ const BroadcastType = {
  *
  */
 BroadcastType.Error.Message = {
+	[Action.Ticket.Add]: {
+		status: {
+			[404]: Translation.BROADCAST_BOARD_NOTFOUND[Settings.getLocale()]
+		},
+		default: Translation.BROADCAST_BOARD_ERROR[Settings.getLocale()]
+	},
+	[Action.Ticket.Edit]: {
+		status: {
+			[404]: Translation.BROADCAST_BOARD_NOTFOUND[Settings.getLocale()]
+		},
+		default: Translation.BROADCAST_BOARD_ERROR[Settings.getLocale()]
+	},
 	[Action.User.Login]: {
 		status: {
 			[401]: Translation.BROADCAST_INVALID_CREDENTIALS[Settings.getLocale()]

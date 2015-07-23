@@ -1,7 +1,6 @@
 import React     from 'react/addons';
 import immutable from 'immutable';
 import TimeAgo   from 'react-timeago';
-import TextArea  from 'react-autosize-textarea';
 import markdown  from 'markdown';
 import throttle  from 'lodash.throttle';
 import listener  from '../../mixins/listener';
@@ -10,8 +9,10 @@ import Board         from '../../models/board';
 import Ticket        from '../../models/ticket';
 import TicketAction  from '../../actions/ticket';
 import UserStore     from '../../stores/user';
+import CommentStore  from '../../stores/comment';
 import CommentAction from '../../actions/comment';
-import ActivityStore  from '../../stores/activity';
+
+import ActivityStore  from '../../stores/ticket-activity';
 import ActivityAction from '../../actions/activity';
 
 import Avatar      from '../avatar';
@@ -27,7 +28,7 @@ import localeMixin from '../../mixins/locale';
 export default React.createClass({
 	mixins: [
 		React.addons.LinkedStateMixin,
-		listener(ActivityStore),
+		listener(CommentStore),
 		localeMixin()
 	],
 
@@ -38,16 +39,13 @@ export default React.createClass({
 		board: (props) => {
 			if(!props.board instanceof Board) throw new Error();
 		},
-		comments: (props) => {
-			if(!props.comments instanceof immutable.List) throw new Error();
-		},
 		onDismiss: React.PropTypes.func.isRequired,
 		editing:   React.PropTypes.func
 	},
 
 	getInitialState() {
 		return {
-			activity:   ActivityStore.getActivity(this.props.ticket.id),
+			comments:   CommentStore.getComments(this.props.ticket.id),
 			color:      this.props.ticket.color,
 			content:    this.props.ticket.content,
 			heading:    this.props.ticket.heading,
@@ -62,11 +60,12 @@ export default React.createClass({
 			y: this.props.ticket.position.y + Ticket.Height / 2.5,
 			z: this.props.ticket.position.z
 		};
+		return CommentAction.loadComments(this.props.board.id, this.props.ticket.id);
 	},
 
 	onChange() {
 		this.setState({
-			activity: ActivityStore.getActivity(this.props.ticket.id)
+			comments: CommentStore.getComments(this.props.ticket.id)
 		});
 	},
 
@@ -168,7 +167,7 @@ export default React.createClass({
 	handleKeyDown(e) {
 		let enter = 13;
 		if(e.keyCode == enter) {
-            return this.onSubmitComment(event);
+			return this.onSubmitComment(event);
 		}
 	},
 
@@ -211,9 +210,8 @@ export default React.createClass({
 	},
 
 	getEditors() {
-		if(this.state.activity.size > 0) {
-			let avatars = this.state.activity.map((item) => {
-				let user = item.get('user');
+		if(this.props.editors.size > 0) {
+			let avatars = this.props.editors.map((user) => {
 				return (
 					<Avatar size={30} name={user.username}
 						imageurl={user.avatar}
@@ -234,10 +232,10 @@ export default React.createClass({
 		else {
 			let person = this.props.ticket.lastEditedBy === null
 				? {
-					action: "Created by", body: this.props.ticket.createdBy
+					action: this.locale('EDITTICKET_CREATEDBY'), body: this.props.ticket.createdBy
 				}
 				: {
-					action: "Last modified by", body: this.props.ticket.lastEditedBy.toJS()
+					action: this.locale('EDITTICKET_MODIFIEDBY'), body: this.props.ticket.lastEditedBy.toJS()
 				}
 			return (
 				<section className="editor-area">
@@ -245,19 +243,19 @@ export default React.createClass({
 					<section className="edit-ticket-avatars">
 					<Avatar size={30} name={person.body.username}
 						imageurl={person.body.avatar}
-						usertype={person.body.type}
+						usertype={person.body.account_type}
 						isOnline={true}>
 					</Avatar>
 					</section>
 				</section>
 			);
-		};
+		}
 	},
 	getHeaderArea() {
 		return this.state.isEditing || this.state.content === '' ?
 			(
 				<section className="dialog-heading">
-					<input  valueLink={this.createLinkWithActivity('heading')}
+					<input valueLink={this.createLinkWithActivity('heading')}
 						maxLength={40}
 						tabIndex={1}
 						placeholder={this.locale('EDITTICKET_HEADER')} />
@@ -275,7 +273,7 @@ export default React.createClass({
 			(
 				<section className="dialog-content">
 					<Scrollable>
-						<TextArea valueLink={this.createLinkWithActivity('content')}
+						<textarea valueLink={this.createLinkWithActivity('content')}
 							tabIndex={2}
 							placeholder={this.locale('EDITTICKET_CONTENT')} />
 					</Scrollable>
@@ -301,13 +299,13 @@ export default React.createClass({
 						placeholder={this.locale('EDITTICKET_YOURCOMMENT')}
 						tabIndex={2}
 						onKeyDown={this.handleKeyDown}/>
-					<button className="btn-primary" onClick={this.onSubmitComment}>
+					<button id="addCommentButton" className="btn-primary" onClick={this.onSubmitComment}>
 						{this.locale('EDITTICKET_ADDCOMMENT')}
 					</button>
 				</section>
 				<section className="comment-wrapper">
 					<Scrollable>
-						{ this.props.comments.reverse().map(this.getComment) }
+						{ this.state.comments.reverse().map(this.getComment) }
 					</Scrollable>
 				</section>
 			</section>

@@ -1,11 +1,12 @@
 import React           from 'react';
-import UserStore       from '../stores/user';
-import Avatar          from '../components/avatar';
-import Navigation      from '../components/navigation';
-import Broadcaster     from '../components/broadcaster';
-import ProfileForms    from '../views/form/profile-forms';
-import BroadcastAction from '../actions/broadcast';
-import localeMixin     from '../mixins/locale';
+import classNames      from 'classnames';
+import UserStore       from '../../stores/user';
+import Avatar          from '../avatar';
+import Broadcaster     from '../broadcaster';
+import ProfileForms    from '../../views/form/profile-forms';
+import BroadcastAction from '../../actions/broadcast';
+import localeMixin     from '../../mixins/locale';
+import Dialog          from '../../components/dialog';
 /**
  *
  */
@@ -17,14 +18,21 @@ export default React.createClass({
 	],
 
 	propTypes: {
-		formProfile: React.PropTypes.string.isRequired
+		formProfile: React.PropTypes.string.isRequired,
+		onDismiss: React.PropTypes.func.isRequired
 	},
 	getInitialState() {
-		return 	ProfileForms.fieldNames.reduce((state, field) => {
-				state[field] = field !== 'avatar' ?
-					'' : UserStore.getUser().avatar;
-					return state;
-				}, {});
+		return	ProfileForms.fieldNames.reduce((state, field) => {
+			state[field] = field === 'avatar' ?
+				UserStore.getUser().avatar : field === 'currentView' ?
+				'profileSettings' : '';
+				return state;
+		}, {});
+	},
+
+	changeView(view) {
+		let newView = ProfileForms.linkItems[view].activeWhile;
+		this.setState({ currentView: newView });
 	},
 
 	getFieldType(field, index, controlattrs) {
@@ -33,9 +41,6 @@ export default React.createClass({
 			this.state.name;
 
 		switch(field.type){
-			case 'submit': return (
-					<input name={field.name} type={"submit"} {...controlattrs}></input>
-				);
 			case 'text':
 			case 'password':
 			case 'file': return (
@@ -48,29 +53,25 @@ export default React.createClass({
 			);
 			case 'email': return (
 				<section key={index} className="input">
-					<h4>{this.locale(field.title)}</h4>
 					<p>{userNameContent}</p>
 				</section>
 			);
 			case 'avatar': return (
 				<section>
-					<h4>{this.locale(field.title)}</h4>
 					<div className="avatar-wrapper">
 						<Avatar size={64} name={userNameContent}
 								imageurl={this.state.avatar}
 								isOnline={true}>
 						</Avatar>
+						<h4>{userNameContent}</h4>
 					</div>
-					<label htmlFor={field.label}>{this.locale(field.label)}</label>
-					<input autoFocus={index === 0} type={field.type}
-						{...controlattrs} valueLink={this.linkState(field.name)} />
 				</section>
 			);
 		}
 	},
 
 	checkPasswords(){
-		if(this.props.formProfile === 'loginSettings' &&
+		if(this.state.currentView === 'loginSettings' &&
 			this.state.newPasswordAgain.length > 7) {
 			return this.state.newPasswordAgain !== this.state.newPassword ?
 				<span className="fa fa-times mismatch">{this.locale('PASSWORDMISMATCH')}</span>
@@ -94,6 +95,11 @@ export default React.createClass({
 		});
 	},
 
+	close(event) {
+		event.preventDefault();
+		return this.props.onDismiss();
+	},
+
 	//submit will execute in all cases other than when
 	//passwords given do not match
 	submitPrimary(currentForm) {
@@ -114,18 +120,20 @@ export default React.createClass({
 		}
 	},
 
-	toggleNav() {
-		document.getElementById("menu").classList.toggle('active');
-	},
-
 	renderSidelinks() {
-		return ProfileForms.linkItems.map((field) => {
+		return ProfileForms.linkItems.map((field, i) => {
 			let provider = localStorage.getItem('provider');
 			if(provider !== null && field.activeWhile !== 'loginSettings' || provider === null) {
-				let className = field.activeWhile === this.props.formProfile ? 'active' : null;
+				let className =
+					classNames(
+						field.className,
+						{ active: field.activeWhile === this.state.currentView }
+					);
+				let onClick = field.onClick ? field.onClick.bind(this, this.props) : this.changeView.bind(this, i);
+
 				return (
-					<li id={field.name} className={className}>
-						<p  onClick={field.onClick}>
+					<li id={field.name} key={i} className={className}>
+						<p  onClick={onClick}>
 						<span className={`fa fa-${field.icon}`}></span>
 						{this.locale(field.name)}
 						</p>
@@ -135,39 +143,39 @@ export default React.createClass({
 		});
 	},
 
-	renderForm(formType){
-		return (
-			<div className="view-settings">
-				<Navigation showHelp={false} title="Contriboard" />
-				<Broadcaster />
-				<div className="content-settings">
-					<div className="settings-nav">
-						<div className="menu-div" onClick={this.toggleNav}>
-							<span className="menu-link fa fa-bars" />
-						</div>
-						<nav id="menu" className="navigation">
-							<ul>
-								{this.renderSidelinks()}
-							</ul>
-						</nav>
-					</div>
-					<div className="form-container">
-						<form className="login-info"
-							onSubmit={this.submitPrimary(formType)}>
-							<h3>{this.locale(formType.title)}</h3>
-							{this.renderFields(formType.fields)}
-							<article className="help">{formType.help}</article>
-							<section className="secondary-content">
-								{this.checkPasswords()}
-							</section>
-						</form>
-					</div>
-				</div>
-			</div>
-		);
+	renderForm(){
+		return [ 'profileSettings', 'loginSettings' ].map((type) => {
+
+			let profileFormType = ProfileForms[type];
+			let className =
+				classNames(
+					'login-info',
+					{ hidden: type !== this.state.currentView }
+				);
+
+			return (
+				<form className={className}
+						onSubmit={this.submitPrimary(profileFormType)}>
+					{this.renderFields(profileFormType.fields)}
+					<section className="secondary-content">
+						{this.checkPasswords()}
+					</section>
+					<input name="submitPassword" type="submit" className="btn-primary" value={this.locale('PROFILE_SAVECHANGES')} />
+				</form>
+			);
+
+		});
 	},
 
 	render() {
-		return this.renderForm(ProfileForms[this.props.formProfile])
+		return (
+			<Dialog viewProfile="profile" onDismiss={this.props.onDismiss}>
+				<Broadcaster />
+				<div className="form-container dialog">
+					{this.renderSidelinks()}
+					{this.renderForm()}
+				</div>
+			</Dialog>
+			);
 	}
 });
