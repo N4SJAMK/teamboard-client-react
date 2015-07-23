@@ -39,10 +39,7 @@ export default {
 					required: true
 				},
 				{
-					name:     'submitPassword',
-					type:     'submit',
-					className: 'btn-primary',
-					action:    'PROFILE_SAVECHANGES'
+					view: 'profileSettings'
 				}
 			],
 			submit: (state) => {
@@ -59,25 +56,18 @@ export default {
 			title: 'PROFILE_INFO',
 			fields: [
 				{
-					name:     'avatar',
-					type:     'avatar',
-					title:    'PROFILE_YOURAVATAR',
-					label:    'PROFILE_ENTERURL'
+					name:     'avatarImage',
+					type:     'avatar'
 				},
 				{
-					type:     'email',
-					title:    'PROFILE_YOURNAME'
+					name:     'avatar',
+					type:     'text',
+					label:    'PROFILE_ENTERURL'
 				},
 				{
 					name:     'name',
 					type:     'text',
 					label:    'PROFILE_ENTERUSER'
-				},
-				{
-					name:     'submitProfile',
-					type:     'submit',
-					className: 'btn-primary',
-					action:    'PROFILE_SAVECHANGES'
 				}
 			],
 			submit: (state) => {
@@ -92,26 +82,21 @@ export default {
 		},
 	linkItems: [
 			{
-				activeWhile: '',
-				icon: 'arrow-left',
-				name: 'PROFILE_WORKSPACE',
-				onClick: () => {
-					return page.show('/boards');
-				}
-			},
-			{
 				activeWhile: 'profileSettings',
 				name: 'PROFILE_SETTINGS',
-				onClick: () => {
-					return page.show('/profile');
-				}
+				className:  'link-profile'
 			},
 			{
 				activeWhile: 'loginSettings',
 				name: 'PROFILE_CHANGEPASSWORD',
-				onClick: () => {
-					return page.show('/profile/login');
-				}
+				className:  'link-password'
+			},
+			{
+				onClick: (props)=> {
+					return props.onDismiss();
+				},
+				icon: 		'times',
+				className:  'link-exit'
 			}
 	]
 }

@@ -19,7 +19,6 @@ import UserAction     from './actions/user';
 
 import qs          from 'query-string';
 import FormView    from './views/form/';
-import ProfileView from './views/profile';
 
 // This should fix some of the issues with clicking and touch enabled devices.
 fastclick(document.body);
@@ -153,26 +152,6 @@ page('/register',
 	() => {
 		return React.render(
 			<FormView formProfile="registerForm" />,
-			document.getElementById('application')
-		);
-	});
-
-page('/profile',
-	middleware.user.is(User.Type.User, User.Type.Guest),
-	middleware.socket.connect,
-	() => {
-		return React.render(
-			<ProfileView formProfile="profileSettings" />,
-			document.getElementById('application')
-		);
-	});
-
-page('/profile/login',
-	middleware.user.is(User.Type.User, User.Type.Guest),
-	middleware.socket.connect,
-	() => {
-		return React.render(
-			<ProfileView formProfile="loginSettings" />,
 			document.getElementById('application')
 		);
 	});
