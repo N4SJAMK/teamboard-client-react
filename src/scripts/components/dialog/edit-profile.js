@@ -1,12 +1,12 @@
 import React           from 'react';
-import classNames	   from 'classnames';
+import classNames      from 'classnames';
 import UserStore       from '../../stores/user';
 import Avatar          from '../avatar';
 import Broadcaster     from '../broadcaster';
 import ProfileForms    from '../../views/form/profile-forms';
 import BroadcastAction from '../../actions/broadcast';
 import localeMixin     from '../../mixins/locale';
-import Dialog	       from '../../components/dialog';
+import Dialog          from '../../components/dialog';
 /**
  *
  */
@@ -144,14 +144,15 @@ export default React.createClass({
 	},
 
 	renderForm(){
-		return ['profileSettings', 'loginSettings'].map((type) => {
+		return [ 'profileSettings', 'loginSettings' ].map((type) => {
 
 			let profileFormType = ProfileForms[type];
 			let className =
 				classNames(
-					"login-info",
-					{ hidden: type != this.state.currentView }
+					'login-info',
+					{ hidden: type !== this.state.currentView }
 				);
+
 			return (
 				<form className={className}
 						onSubmit={this.submitPrimary(profileFormType)}>

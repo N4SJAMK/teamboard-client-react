@@ -242,7 +242,7 @@ export default React.createClass({
 					</section>
 				</section>
 			);
-		};
+		}
 	},
 	getHeaderArea() {
 		return this.state.isEditing || this.state.content === '' ?
