@@ -126,6 +126,7 @@ export default React.createClass({
 				boardID, ticketID, this.state.newComment);
 
 			this.setState({ newComment: '' });
+			React.findDOMNode(this.refs.save).focus();
 		}
 		return event.stopPropagation();
 	},
@@ -162,6 +163,13 @@ export default React.createClass({
 		suffix = this.locale('TIME_SUFFIX');
 
 		return `${value} ${unit} ${suffix}`;
+	},
+
+	handleKeyDown(e) {
+		let enter = 13;
+		if(e.keyCode == enter) {
+            return this.onSubmitComment(event);
+		}
 	},
 
 	getComment(comment) {
@@ -291,7 +299,8 @@ export default React.createClass({
 						maxLength={140}
 						valueLink={this.linkState('newComment')}
 						placeholder={this.locale('EDITTICKET_YOURCOMMENT')}
-						tabIndex={2}/>
+						tabIndex={2}
+						onKeyDown={this.handleKeyDown}/>
 					<button className="btn-primary" onClick={this.onSubmitComment}>
 						{this.locale('EDITTICKET_ADDCOMMENT')}
 					</button>
@@ -324,6 +333,7 @@ export default React.createClass({
 						</button>
 						<button className="btn-primary"
 								id={"ticket-dialog-save"}
+								ref={"save"}
 								onClick={this.update}
 								tabIndex={4}>
 							{this.locale('SAVEBUTTON')}
