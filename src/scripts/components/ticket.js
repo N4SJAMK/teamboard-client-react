@@ -47,6 +47,9 @@ export default React.createClass({
 	},
 
 	getEditors(users) {
+		let icon = users.size > 0 ?
+			<img style={{float: 'left'}} src="/dist/assets/img/pen.svg"/>
+			: null;
 		let avatars = users.map((user) => {
 			return (
 				<Avatar key={user.id} size={16} name={user.username}
@@ -58,6 +61,7 @@ export default React.createClass({
 		});
 		return (
 			<section className="ticket-avatars">
+				{icon}
 				{avatars}
 			</section>
 		);
