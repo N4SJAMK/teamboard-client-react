@@ -68,7 +68,7 @@ export default React.createClass({
 		let classForm = this.props.viewProfile === 'info' ?
 				'info ' : `dialog ${this.props.className}`
 
-		if(this.props.viewProfile){
+		if(this.props.viewProfile === 'profile'){
 			return (
 				<div className={classDialog}>
 						{this.props.children}

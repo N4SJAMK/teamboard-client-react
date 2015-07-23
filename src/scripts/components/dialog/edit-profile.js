@@ -152,7 +152,6 @@ export default React.createClass({
 					"login-info",
 					{ hidden: type != this.state.currentView }
 				);
-			console.log(type + ' ' + this.state.currentView);
 			return (
 				<form className={className}
 						onSubmit={this.submitPrimary(profileFormType)}>
