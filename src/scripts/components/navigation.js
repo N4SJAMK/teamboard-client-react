@@ -53,8 +53,11 @@ export default React.createClass({
 				event.target.parentElement.parentElement !==
 				React.findDOMNode(this.refs.dropdown)    &&
 				this.state.dropdown
-			)
-				this.setState({dropdown: !this.state.dropdown})
+			)	
+			{
+				this.toggleDropdown();
+				window.UserVoice.push([ 'hide' ]);
+			}
 		})
 	},
 
