@@ -25,7 +25,6 @@ import ExportBoardDialog from '../components/dialog/export-board.js';
 import ShareBoardDialog  from '../components/dialog/share-board';
 import ReviewView        from '../components/dialog/review-view';
 
-import ActivityStore  from '../stores/activity';
 import ActivityAction from '../actions/activity';
 
 import localeMixin from '../mixins/locale';
@@ -49,7 +48,7 @@ export default React.createClass({
 	},
 
 	mixins: [
-		listener(UserStore, BoardStore, ActivityStore),
+		listener(UserStore, BoardStore),
 		localeMixin()
 	],
 
