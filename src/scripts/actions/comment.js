@@ -21,15 +21,15 @@ export default flux.actionCreator({
 		api.getComments(options)
 			.then(comments => {
 				this.dispatch(Action.Comment.Add, {
-					ticket: { id: ticketID }, comment: comments
+					board: { id: boardID }, ticket: { id: ticketID }, comment: comments
 				});
 			})
 			.catch(err => BroadcastAction.add(err, Action.Comment.Load));
 	},
 
-	addComment(ticketID, comment) {
+	addComment(boardID, ticketID, comment) {
 		this.dispatch(Action.Comment.Add, {
-			ticket: { id: ticketID }, comment: comment });
+			board: { id: boardID }, ticket: { id: ticketID }, comment: comment });
 	},
 
 	createComment(boardID, ticketID, message) {
@@ -45,7 +45,7 @@ export default flux.actionCreator({
 		// dispatch an action, which will optimistically add the comment to the
 		// specified ticket
 		this.dispatch(Action.Comment.Add, {
-			ticket: { id: ticketID }, comment: dirtyComment });
+			board: { id: boardID }, ticket: { id: ticketID }, comment: dirtyComment });
 
 		// define the parameters etc. sent to the api
 		let options = {
@@ -65,7 +65,7 @@ export default flux.actionCreator({
 			.then(comment => {
 				// remove the dirty comment silently
 				this.dispatch(Action.Comment.Remove, {
-					ticket: { id: ticketID }, comment: { id: dirtyComment.id }
+					board: { id: boardID }, ticket: { id: ticketID }, comment: { id: dirtyComment.id }
 				}, {
 					// make sure the store does not emit change for this
 					// operation, since it's tied to the one below
@@ -73,7 +73,7 @@ export default flux.actionCreator({
 				});
 				// add the server approved comment
 				this.dispatch(Action.Comment.Add, {
-					ticket: { id: ticketID }, comment: comment });
+					board: { id: boardID }, ticket: { id: ticketID }, comment: comment });
 			})
 			.catch(err => BroadcastAction.add(err, Action.Comment.Add));
 	}
