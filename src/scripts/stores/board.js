@@ -119,8 +119,6 @@ export default flux.store({
 		},
 
 		[Action.Comment.Add](payload) {
-			console.log('...add', payload);
-
 			if(!has(boards, payload.board)) {
 				throw new Error('Board not found!');
 			}
@@ -137,8 +135,6 @@ export default flux.store({
 		},
 
 		[Action.Comment.Remove](payload) {
-			console.log('...remove', payload);
-
 			if(!has(boards, payload.board)) {
 				throw new Error('Board not found!');
 			}
