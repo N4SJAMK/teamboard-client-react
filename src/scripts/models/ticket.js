@@ -18,6 +18,7 @@ const Ticket = immutable.Record({
 	color:    Color.VIOLET,
 	content:  '',
 	heading:  '',
+	comments:  0,
 	createdBy: new User(),
 	lastEditedBy: null,
 	position: new Position()

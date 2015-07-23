@@ -1204,5 +1204,5 @@ export default {
 		dk: '',
 		jp: '',
 		ru: ''
-	},
+	}
 }

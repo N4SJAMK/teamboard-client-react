@@ -12,23 +12,17 @@ import Ticket       from '../models/ticket';
 import Board        from '../models/board';
 import TicketAction from '../actions/ticket';
 
-import listener      from '../mixins/listener';
-import CommentStore  from '../stores/comment';
-import CommentAction from '../actions/comment';
-
-import ActivityStore  from '../stores/activity';
+import Avatar         from './avatar';
 import ActivityAction from '../actions/activity';
 
 import DraggableMixin   from '../mixins/draggable';
 import EditTicketDialog from '../components/dialog/edit-ticket';
-import Avatar      from './avatar';
 
 /**
  *
  */
 export default React.createClass({
-	mixins: [ DraggableMixin,
-		TweenState.Mixin, listener(CommentStore, ActivityStore) ],
+	mixins: [ DraggableMixin, TweenState.Mixin ],
 
 	propTypes: {
 		ticket: (props) => {
@@ -40,46 +34,33 @@ export default React.createClass({
 		snap: React.PropTypes.bool
 	},
 
-	onChange() {
-		this.setState({
-			activity: ActivityStore.getActivity(this.props.ticket.id),
-			comments: CommentStore.getComments(this.props.ticket.id)
-		});
-	},
-
 	getDefaultProps() {
-		return { snap: false }
+		return { snap: false, activity: immutable.List() }
 	},
 
 	getInitialState() {
 		return {
 			x: this.props.ticket.position.x,
 			y: this.props.ticket.position.y,
-			activity: ActivityStore.getActivity(this.props.ticket.id),
-			comments: CommentStore.getComments(this.props.ticket.id),
 			showEditDialog: false
 		}
 	},
 
-	getEditors() {
-		let editIcon = this.state.activity.size === 0 ? null
-			: <span className="fa fa-pencil-square-o edit-icon" />
-		let avatars = this.state.activity.toJS().map((item) => {
-			let user = item.user;
+	getEditors(users) {
+		let avatars = users.map((user) => {
 			return (
-				<Avatar size={16} name={user.username}
+				<Avatar key={user.id} size={16} name={user.username}
 					imageurl={user.avatar}
 					usertype={user.type}
 					isOnline={true}>
 				</Avatar>
 			);
 		});
-			return (
-				<section className="ticket-avatars">
-					{editIcon}
-					{avatars}
-				</section>
-			);
+		return (
+			<section className="ticket-avatars">
+				{avatars}
+			</section>
+		);
 	},
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -87,17 +68,16 @@ export default React.createClass({
 		let prevState = this.state;
 
 		let hasStateChanged = (
-			prevState.x              !== nextState.x              ||
-			prevState.y              !== nextState.y              ||
-			prevState.showEditDialog !== nextState.showEditDialog ||
-			!immutable.is(prevState.comments, nextState.comments) ||
-			!immutable.is(prevState.activity, nextState.activity)
+			prevState.x              !== nextState.x ||
+			prevState.y              !== nextState.y ||
+			prevState.showEditDialog !== nextState.showEditDialog
 		);
 
 		let havePropsChanged = (
-			prevProps.snap  !== nextProps.snap                ||
-			prevProps.board.id !== nextProps.board.id               ||
-			!immutable.is(prevProps.ticket, nextProps.ticket)
+			prevProps.snap  !== nextProps.snap                  ||
+			prevProps.board.id !== nextProps.board.id           ||
+			!immutable.is(prevProps.ticket,   nextProps.ticket) ||
+			!immutable.is(prevProps.activity, nextProps.activity)
 		);
 
 		let isTweening = nextState.tweenQueue.length > 0;
@@ -140,12 +120,6 @@ export default React.createClass({
 		});
 	},
 
-	componentWillMount() {
-		if(!this.props.ticket.id.startsWith('dirty')) {
-			CommentAction.loadComments(this.props.board.id, this.props.ticket.id);
-		}
-	},
-
 	componentWillUnmount() {
 		this.hammer.destroy();
 		this.hammer = null;
@@ -180,6 +154,9 @@ export default React.createClass({
 	},
 
 	render() {
+		let users = this.props.activity.map(a => a.get('user'))
+			.reduce((c, u) => c.find((i => i.id === u.id)) ? c : c.push(u), immutable.List())
+
 		let style = {
 			ticket: {
 				top:    this.getTweeningValue('y'),
@@ -193,7 +170,7 @@ export default React.createClass({
 		let editTicketDialog = !this.state.showEditDialog ? null : (
 			<EditTicketDialog board={this.props.board}
 				ticket={this.props.ticket}
-				comments={this.state.comments}
+				editors={users}
 				onDismiss={this.toggleEditDialog} />
 		);
 
@@ -203,8 +180,7 @@ export default React.createClass({
 		if (markupContent.includes('<a href=')) {
 			markupContent = markupContent.replace(/<a href="/g, '<a target="_blank" href="');
 		}
-		let numComments = this.state.comments.size > 99
-			? '99+' : `${this.state.comments.size}`;
+
 		return (
 			<div className="ticket" style={style.ticket}>
 				<div className="color" style={style.color}></div>
@@ -216,11 +192,11 @@ export default React.createClass({
 				</div>
 					<section className="ticket-footer">
 					<span className="count">
-						{numComments}
+						{this.props.ticket.comments}
 					</span>
 						<section style={{marginRight: 3}}>
 							<span className="fa fa-2x fa-comment comment"/>
-							{this.getEditors()}
+							{this.getEditors(users)}
 						</section>
 					</section>
 				{editTicketDialog}
