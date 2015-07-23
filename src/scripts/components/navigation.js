@@ -20,7 +20,7 @@ import ProfileView from './dialog/edit-profile';
 
 import Board from '../models/board';
 
-import ActivityStore from '../stores/activity';
+import ActivityStore from '../stores/user-activity';
 
 import listener    from '../mixins/listener';
 import localeMixin from '../mixins/locale';
@@ -47,7 +47,7 @@ export default React.createClass({
 	onChange() {
 		this.setState({
 			members: this.props.board
-				? ActivityStore.getActiveMembers(this.props.board.id)
+				? ActivityStore.getMembers(this.props.board.id)
 				: Immutable.List()
 		});
 	},
@@ -55,7 +55,7 @@ export default React.createClass({
 	getInitialState() {
 		return {
 			members: this.props.board
-				? ActivityStore.getActiveMembers(this.props.board.id)
+				? ActivityStore.getMembers(this.props.board.id)
 				: Immutable.List(),
 			dropdown: false, localesDropdown: false,
 			feedback: false, infoActive: false,

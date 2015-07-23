@@ -10,14 +10,20 @@ import Ticket       from '../models/ticket';
 import TicketAction from '../actions/ticket';
 
 import TicketComponent from '../components/ticket';
-import localeMixin     from '../mixins/locale';
+
+import listener    from '../mixins/listener';
+import localeMixin from '../mixins/locale';
+
+import CommentStore  from '../stores/comment';
+import ActivityStore from '../stores/ticket-activity';
 
 /**
  * TODO Can Scrollable be made into a mixin, and mixed here?
  */
 export default React.createClass({
 	mixins: [
-		localeMixin()
+		localeMixin(),
+		listener(ActivityStore)
 	],
 
 	propTypes: {
@@ -25,6 +31,16 @@ export default React.createClass({
 			if(!props.board instanceof Board) throw new Error();
 		},
 		snap: React.PropTypes.bool
+	},
+
+	getInitialState() {
+		return {
+			activity: ActivityStore.getActivity()
+		}
+	},
+
+	onChange() {
+		this.setState({ activity: ActivityStore.getActivity() });
 	},
 
 	getDefaultProps() {
@@ -106,9 +122,13 @@ export default React.createClass({
 			);
 		}
 		return this.props.board.tickets.map((ticket) => {
+
+			let activity = this.state.activity.get(ticket.id, immutable.List())
+				.filter(a => a.get('ticket') === ticket.id);
+
 			return (
 				<TicketComponent key={ticket.id} snap={this.props.snap}
-					board={this.props.board} ticket={ticket} />
+					board={this.props.board} ticket={ticket} activity={activity} />
 			);
 		});
 	}
