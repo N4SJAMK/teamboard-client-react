@@ -21,6 +21,7 @@ import ActivityAction from '../actions/activity';
 
 import DraggableMixin   from '../mixins/draggable';
 import EditTicketDialog from '../components/dialog/edit-ticket';
+import Avatar      from './avatar';
 
 /**
  *
@@ -60,6 +61,27 @@ export default React.createClass({
 		}
 	},
 
+	getEditors() {
+		let editIcon = this.state.activity.size === 0 ? null
+			: <span className="fa fa-pencil-square-o edit-icon" />
+		let avatars = this.state.activity.toJS().map((item) => {
+			let user = item.user;
+			return (
+				<Avatar size={16} name={user.username}
+					imageurl={user.avatar}
+					usertype={user.type}
+					isOnline={true}>
+				</Avatar>
+			);
+		});
+			return (
+				<section className="ticket-avatars">
+					{editIcon}
+					{avatars}
+				</section>
+			);
+	},
+
 	shouldComponentUpdate(nextProps, nextState) {
 		let prevProps = this.props;
 		let prevState = this.state;
@@ -68,7 +90,8 @@ export default React.createClass({
 			prevState.x              !== nextState.x              ||
 			prevState.y              !== nextState.y              ||
 			prevState.showEditDialog !== nextState.showEditDialog ||
-			!immutable.is(prevState.comments, nextState.comments)
+			!immutable.is(prevState.comments, nextState.comments) ||
+			!immutable.is(prevState.activity, nextState.activity)
 		);
 
 		let havePropsChanged = (
@@ -87,9 +110,9 @@ export default React.createClass({
 		this.hammer.on('doubletap', this.toggleEditDialog);
 
 		// dragging the ticket will continuously send activity notifications
-		this.draggable.on('dragMove', throttle(() => {
+		this.draggable.on('dragMove', () => {
 			ActivityAction.createTicketActivity(this.props.board.id, this.props.ticket.id);
-		}, 500));
+		});
 
 		this.draggable.on('dragEnd', () => {
 			if(this.draggable && !this.props.ticket.id.startsWith('dirty_')) {
@@ -141,10 +164,6 @@ export default React.createClass({
 
 	toggleEditDialog() {
 		if(!this.props.ticket.id.startsWith('dirty_')) {
-			if(!this.state.showEditDialog) {
-				ActivityAction.createTicketActivity(
-					this.props.board.id, this.props.ticket.id);
-			}
 			this.setState({ showEditDialog: !this.state.showEditDialog });
 		}
 	},
@@ -194,12 +213,16 @@ export default React.createClass({
 				</div>
 				<div className="content">
 					<span dangerouslySetInnerHTML={{__html: markupContent}} />
-					<span className="count-icon">
-						<span className="fa fa-2x fa-comment comment">
-							<span className="count">{numComments}</span>
-						</span>
-					</span>
 				</div>
+					<section className="ticket-footer">
+					<span className="count">
+						{numComments}
+					</span>
+						<section style={{marginRight: 3}}>
+							<span className="fa fa-2x fa-comment comment"/>
+							{this.getEditors()}
+						</section>
+					</section>
 				{editTicketDialog}
 			</div>
 		);

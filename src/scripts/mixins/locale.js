@@ -1,7 +1,5 @@
-import Settings from '../stores/settings';
-
-import Translations from '../translations';
-
+import Settings      from '../stores/settings';
+import Translations  from '../translations';
 /**
  *
  */
@@ -14,16 +12,16 @@ export default function() {
 			}
 		},
 
+		onLocaleChange() {
+			this.setState({ locale: Settings.getLocale() });
+		},
+
 		componentDidMount() {
-			Settings.addChangeListener(() => {
-				this.setState({ locale: Settings.getLocale() })
-			});
+			Settings.addChangeListener(this.onLocaleChange);
 		},
 
 		componentWillUnmount() {
-			Settings.removeChangeListener(() => {
-				this.setState({ locale: Settings.getLocale() })
-			});
+			Settings.removeChangeListener(this.onLocaleChange);
 		},
 
 		locale(id) {
@@ -31,7 +29,13 @@ export default function() {
 				return id;
 			}
 
-			return this.state.translations[id][this.state.locale]
+			// If text is not translated to that language then return ID
+			// to more easily notice missing translation
+			if(this.state.translations[id][this.state.locale] === '') {
+				return id;
+			}
+
+			return this.state.translations[id][this.state.locale];
 		}
 	}
 }

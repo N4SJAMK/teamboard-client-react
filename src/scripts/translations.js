@@ -99,11 +99,11 @@ export default {
 		ru: ''
 	},
 	COPYBUTTON: {
-		en: 'Copy',
-		fi: 'Kopioi',
-		se: 'Kopiera',
-		dk: 'Kopiere',
-		jp: 'コピー',
+		en: 'Duplicate ticket',
+		fi: 'Kopioi lappu',
+		se: '',
+		dk: '',
+		jp: '',
 		ru: ''
 	},
 	OWNEDBY: {
@@ -112,6 +112,74 @@ export default {
 		se: 'ägare',
 		dk: 'ejer',
 		jp: 'オーナー',
+		ru: ''
+	},
+
+	/********************************
+	/   BROADCAST                   *
+	********************************/
+	BROADCAST_INVALID_CREDENTIALS: {
+		en: 'Wrong username and/or password!',
+		fi: 'Väärä käyttäjä nimi ja/tai salasana!',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	BROADCAST_LOGIN_FAILED: {
+		en: 'Login failed!',
+		fi: 'Väärä käyttäjä nimi ja/tai salasana!',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	BROADCAST_BAD_CREDENTIALS: {
+		en: 'Bad email and/or password!',
+		fi: 'Virheellinen sähköposti ja/tai salasana!',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	BROADCAST_USER_EXISTS: {
+		en: 'User already exists!',
+		fi: 'Käyttäjä on jo olemassa!',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	BROADCAST_REGISTER_FAILED: {
+		en: 'Register failed!',
+		fi: 'Rekisteröinti epäonnistui!',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	BROADCAST_NO_TICKETS: {
+		en: 'No tickets for review!',
+		fi: 'Ei lappuja näytettäväksi!',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	BROADCAST_BOARD_NOTFOUND: {
+		en: 'Board not found! Admin may have deleted it!',
+		fi: 'Lankkua ei löydetty! Admin on saattanut poistaa sen!',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	BROADCAST_BOARD_ERROR: {
+		en: 'Board error!',
+		fi: 'Lankku virhe!',
+		se: '',
+		dk: '',
+		jp: '',
 		ru: ''
 	},
 
@@ -885,6 +953,22 @@ export default {
 		jp:  'コメントの追加',
 		ru: ''
 	},
+	EDITTICKET_CREATEDBY: {
+		en: 'Created by',
+		fi: 'Luonut',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	EDITTICKET_MODIFIEDBY: {
+		en: 'Last modified by',
+		fi: 'Viimeksi muokannut',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
 
 	/********************************
 	/   EXPORT BOARD                *
@@ -925,7 +1009,7 @@ export default {
 		jp: 'Contriboardについて',
 		ru: ''
 	},
-	ABOUT_ABOUT: {
+	ABOUT_DESCRIPTION: {
 		en: 'Contriboard is a fast, open-sourced brainstorming tool for everyone',
 		fi: 'Contriboard on nopea, avoimen lähdekoodin brainstorm-työkalu kaikille',
 		se: 'Contriboard är en snabb, öppen källkod brainstorming verktyg för alla',
@@ -1059,7 +1143,7 @@ export default {
 	},
 	TIME_MINUTES: {
 		en: 'minutes',
-		fi: 'minuutteja',
+		fi: 'minuuttia',
 		se: 'minuter',
 		dk: 'minuter',
 		jp: '分',
@@ -1112,5 +1196,13 @@ export default {
 		dk: 'siden',
 		jp: '前に',
 		ru: ''
-	}
+	},
+	TIME_NOW: {
+		en: 'Just now',
+		fi: 'Juuri nyt',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
 }

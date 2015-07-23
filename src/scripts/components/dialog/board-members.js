@@ -10,7 +10,7 @@ import Avatar     from '../avatar';
 import Scrollable from './scrollable';
 
 function formatTime(value, unit, suffix) {
-	if(unit === 'second') return 'Just now';
+	if(unit === 'second') return this.locale('TIME_NOW');
 
 	if(value !== 1) unit = `${unit}s`;
 
