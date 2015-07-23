@@ -53,7 +53,10 @@ Ticket.fromJS = function fromJS(ticket) {
 		delete ticket.lastEditedBy;
 	}
 
-	if(ticket.lastEditedBy) ticket.lastEditedBy = new User(ticket.lastEditedBy);
+	if(ticket.lastEditedBy) {
+		ticket.lastEditedBy = new User(ticket.lastEditedBy);
+	}
+
 	return new Ticket(ticket);
 }
 

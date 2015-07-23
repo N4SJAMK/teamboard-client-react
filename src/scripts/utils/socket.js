@@ -2,6 +2,7 @@ import io   from 'socket.io-client';
 import page from 'page';
 
 import Action          from '../actions';
+import UserStore       from '../stores/user';
 import BoardStore      from '../stores/board';
 import BoardAction     from '../actions/board';
 import TicketAction    from '../actions/ticket';
@@ -188,13 +189,16 @@ const PayloadHandler = {
 		return TicketAction.edit(board, ticket);
 	},
 	[Event.Ticket.Comment](payload) {
+		// avoid adding duplicate tickets to stores... hax
+		if(payload.user.id === UserStore.getUser().id) return null;
+
 		let comment = {
 			id:        payload.id,
 			message:   payload.data.message,
 			createdAt: payload.createdAt,
 			createdBy: payload.user
 		}
-		return CommentAction.addComment(payload.data.ticket_id, comment);
+		return CommentAction.addComment(payload.board, payload.data.ticket_id, comment);
 	},
 	[Event.Ticket.Delete](payload) {
 		let board = {
