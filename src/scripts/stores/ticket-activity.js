@@ -13,11 +13,6 @@ export default flux.store({
 
 	getActivity() {
 		return activity;
-
-		let activities = activity.get(ticketID, Immutable.List());
-		activities = activities.groupBy(act => act.get('user').id).toList()
-			.map((act) => act.first());
-		return activities;
 	},
 
 	handlers: {

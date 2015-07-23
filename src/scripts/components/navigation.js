@@ -44,6 +44,20 @@ export default React.createClass({
 		}
 	},
 
+	componentDidMount() {
+		//this is not good... but what is!
+		document.body.addEventListener("click", () => {
+			if(
+				event.target.parentElement               !==
+				React.findDOMNode(this.refs.dropdown)    &&
+				event.target.parentElement.parentElement !==
+				React.findDOMNode(this.refs.dropdown)    &&
+				this.state.dropdown
+			)
+				this.setState({dropdown: !this.state.dropdown})
+		})
+	},
+
 	onChange() {
 		this.setState({
 			members: this.props.board
@@ -298,7 +312,7 @@ export default React.createClass({
 								usertype={userType}>
 						</Avatar>
 				</div>
-				<Dropdown className="options" show={this.state.dropdown} items={items} />
+				<Dropdown ref="dropdown" className="options" show={this.state.dropdown} items={items} />
 				<Dropdown className="locales" show={this.state.localesDropdown} items={locales} />
 				{infoDialog}
 				{boardMembersDialog}
