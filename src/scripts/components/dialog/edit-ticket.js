@@ -242,7 +242,7 @@ export default React.createClass({
 					</section>
 				</section>
 			);
-		};
+		}
 	},
 	getHeaderArea() {
 		return this.state.isEditing || this.state.content === '' ?
@@ -291,7 +291,7 @@ export default React.createClass({
 						valueLink={this.linkState('newComment')}
 						placeholder={this.locale('EDITTICKET_YOURCOMMENT')}
 						tabIndex={2}/>
-					<button className="btn-primary" onClick={this.onSubmitComment}>
+					<button id="addCommentButton" className="btn-primary" onClick={this.onSubmitComment}>
 						{this.locale('EDITTICKET_ADDCOMMENT')}
 					</button>
 				</section>

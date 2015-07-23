@@ -68,13 +68,21 @@ export default React.createClass({
 		let classForm = this.props.viewProfile === 'info' ?
 				'info ' : `dialog ${this.props.className}`
 
-		return (
-			<div className={classDialog}>
-				<form className={classForm}
-						onSubmit={this.onSubmit}>
-					{this.props.children}
-				</form>
-			</div>
-		);
+		if(this.props.viewProfile === 'profile'){
+			return (
+				<div className={classDialog}>
+						{this.props.children}
+				</div>
+			);
+		} else {
+			return (
+				<div className={classDialog}>
+					<form className={classForm}
+							onSubmit={this.onSubmit}>
+						{this.props.children}
+					</form>
+				</div>
+			);
+		}
 	}
 });
