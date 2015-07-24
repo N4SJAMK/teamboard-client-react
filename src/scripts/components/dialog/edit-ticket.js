@@ -164,10 +164,17 @@ export default React.createClass({
 		return `${value} ${unit} ${suffix}`;
 	},
 
-	handleKeyDown(event) {
+	commentKeyDown(event) {
 		let enter = 13;
 		if(event.keyCode == enter) {
 			return this.onSubmitComment(event);
+		}
+	},
+
+	contentKeyDown(event) {
+		let enter = 13;
+		if(event.keyCode == enter) {
+			React.findDOMNode(this.refs.save).focus();
 		}
 	},
 
@@ -258,7 +265,8 @@ export default React.createClass({
 					<input valueLink={this.createLinkWithActivity('heading')}
 						maxLength={40}
 						tabIndex={1}
-						placeholder={this.locale('EDITTICKET_HEADER')} />
+						placeholder={this.locale('EDITTICKET_HEADER')}
+						onKeyDown={this.contentKeyDown}/>
 				</section>
 			) :
 			(
@@ -275,7 +283,7 @@ export default React.createClass({
 					<Scrollable>
 						<textarea valueLink={this.createLinkWithActivity('content')}
 							tabIndex={2}
-							placeholder={this.locale('EDITTICKET_CONTENT')} />
+							placeholder={this.locale('EDITTICKET_CONTENT')}/>
 					</Scrollable>
 				</section>
 			) :
@@ -298,7 +306,7 @@ export default React.createClass({
 						valueLink={this.linkState('newComment')}
 						placeholder={this.locale('EDITTICKET_YOURCOMMENT')}
 						tabIndex={2}
-						onKeyDown={this.handleKeyDown}/>
+						onKeyDown={this.commentKeyDown}/>
 					<button id="addCommentButton" className="btn-primary" onClick={this.onSubmitComment}>
 						{this.locale('EDITTICKET_ADDCOMMENT')}
 					</button>
