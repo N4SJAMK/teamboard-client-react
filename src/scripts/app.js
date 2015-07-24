@@ -10,6 +10,7 @@ import User      from './models/user';
 
 import BoardView      from './views/board';
 import WorkspaceView  from './views/workspace';
+import Review         from './views/review';
 
 import LoginView      from './views/form';
 import RegisterView   from './views/form';
@@ -195,6 +196,16 @@ page('/boards/:id',
 	(ctx) => {
 		return React.render(
 			<BoardView id={ctx.params.id} user={ctx.user} />,
+			document.getElementById('application')
+		);
+	});
+
+page('/boards/:id/review',
+	middleware.user.is(User.Type.User, User.Type.Guest),
+	middleware.socket.connect,
+	(ctx) => {
+		return React.render(
+			<Review boardID={ctx.params.id} />,
 			document.getElementById('application')
 		);
 	});

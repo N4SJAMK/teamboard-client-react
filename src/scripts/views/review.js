@@ -2,59 +2,45 @@ import React    from 'react/addons';
 import Carousel from 'nuka-carousel';
 import markdown from 'markdown';
 
-import Dialog from '../../components/dialog';
-import Avatar from '../../components/avatar';
+import Board from '../models/board';
 
-import listener from '../../mixins/listener';
-import CommentStore from '../../stores/comment';
+import Dialog      from '../components/dialog';
+import Avatar      from '../components/avatar';
+import Navigation  from '../components/navigation';
 
-function getCommentMap(tickets) {
-	return tickets.reduce((map, ticket) => {
-		map[ticket.id] = CommentStore.getComments(ticket.id);
-		return map;
-	}, { });
-}
+import listener from '../mixins/listener';
+
+import CommentStore from '../stores/comment';
+import BoardStore   from '../stores/board';
+
+import BoardAction   from '../actions/board';
 
 /**
  *
  */
 export default React.createClass({
-	mixins: [ Carousel.ControllerMixin, listener(CommentStore) ],
+	mixins: [ Carousel.ControllerMixin, listener(CommentStore, BoardStore) ],
 
 	propTypes: {
-		tickets: React.PropTypes.object
+		boardID: React.PropTypes.string.isRequired
 	},
 
 	getInitialState() {
-		return { comments: getCommentMap(this.props.tickets) }
+		return Object.assign(this.getState());
 	},
 
-	onChange() {
-		return this.setState({ comments: getCommentMap(this.props.tickets) });
-	},
-
-	componentWillUpdate() {
-		this.currentSlide = this.state.carousels.carousel.state.currentSlide;
-		this.ticketArrayLength = this.props.tickets.toJS().length;
-	},
-
-	componentWillMount() {
-		this.ticketArrayLength = this.props.tickets.toJS().length;
-	},
-
-	onKeyDown(e) {
-		let key = e.keyCode ? e.keyCode : e.which;
-		if (key === 27) {
-			this.props.onDismiss();
+	getState() {
+		return {
+			board: BoardStore.getBoard(this.props.boardID) || new Board()
 		}
 	},
 
-	componentDidMount() {
-		document.addEventListener('keydown', this.onKeyDown);
+	onChange() {
+		return this.setState(this.getState());
 	},
 
-	componentWillUnmount() {
-		document.removeEventListener('keydown', this.onKeyDown);
+	componentDidMount() {
+		BoardAction.load(this.props.boardID);
 	},
 
 	getDecorations() {
@@ -118,37 +104,45 @@ export default React.createClass({
 		];
 	},
 
-	renderComments(ticket) {
-		if(!this.state.comments[ticket.id]) return null;
+	renderComments(ticket, index, currentSlide) {
+		if(currentSlide === index) {
+			if(!ticket.comments) return null;
 
-		return this.state.comments[ticket.id].map((comment) => {
-			let user     = comment.createdBy;
-			let content  = comment.message;
-			let username = user.username || user.name;
-			let avatar   = user.avatar;
-			let usertype = user.account_type || user.type;
+			return CommentStore.getComments(ticket.id).map((comment) => {
+				let user     = comment.createdBy;
+				let content  = comment.message;
+				let username = user.username || user.name;
+				let avatar   = user.avatar;
+				let usertype = user.account_type || user.type;
 
-			return (
-				<div className="review-comment" key={comment.id}>
-					<Avatar size={32} name={username}
-						imageurl={avatar}
-						usertype={usertype}
-						isOnline={true}>
-					</Avatar>
-					<p className="review-comment-username">{username}</p>
-					<p className="review-comment-message">{content}</p>
-				</div>
-			);
-		})
+				return (
+					<div className="review-comment" key={comment.id}>
+						<Avatar size={32} name={username}
+							imageurl={avatar}
+							usertype={usertype}
+							isOnline={true}>
+						</Avatar>
+						<p className="review-comment-username">{username}</p>
+						<p className="review-comment-message">{content}</p>
+					</div>
+				);
+			})
+		}
 	},
 
 	renderTickets() {
-		return this.props.tickets.toJS().map((ticket, index) => {
+		let currentSlide = this.state.carousels.carousel ?
+			this.state.carousels.carousel.state.currentSlide : 0;
+
+		return this.state.board.tickets.map((ticket, index) => {
 			let markupContent = markdown.markdown.toHTML(ticket.content).replace(/<a href="/g, '<a target="_blank" href="');
-			let dialogClasses = index !== this.currentSlide ? 'review-dialog' : 'review-dialog active';
+
+			let dialogClasses = index !== currentSlide ? 'review-dialog'
+					: 'review-dialog active';
+
 			let ticketColor = { backgroundColor: ticket.color };
 			let ticketNumber = <span className="ticket-number">
-					{ `${index+1} / ${this.ticketArrayLength}` }
+					{ `${index+1} / ${this.state.board.tickets.size}` }
 				</span>;
 
 			return (
@@ -167,7 +161,7 @@ export default React.createClass({
 							</span>
 							<section className="review-dialog-comments">
 								<section className="review-comment-wrapper">
-									{this.renderComments(ticket)}
+									{this.renderComments(ticket, index, currentSlide)}
 								</section>
 							</section>
 						</div>
@@ -178,12 +172,11 @@ export default React.createClass({
 	},
 
 	render() {
-		let currentTicket =
-			`${this.currentSlide + 1} / ${this.ticketArrayLength}`;
-
-		return (
-			<Dialog className="review" viewProfile="review"
-					onDismiss={this.props.onDismiss}>
+		if(this.state.board.tickets.size === 0) return <span />
+		else return (
+			<div className="view">
+				<Navigation title={this.state.board.name} />
+				<div className="dialog review">
 				<Carousel ref="carousel" className="infocarousel"
 						data={this.setCarouselData.bind(this, 'carousel')}
 						decorators={this.getDecorations()}
@@ -192,8 +185,8 @@ export default React.createClass({
 						dragging={true}>
 					{this.renderTickets()}
 				</Carousel>
-				<span className="ticket-number">{currentTicket}</span>
-			</Dialog>
+				</div>
+			</div>
 		);
 	}
 });

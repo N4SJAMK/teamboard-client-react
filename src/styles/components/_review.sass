@@ -1,27 +1,24 @@
-.review-overlay
+.dialog.review
 	width:   100%
-	z-index: 9001
 	height:  100%
-	@include position(fixed, 0px null null 0px)
-	background-color: rgba($ebony, 0.8)
-	.dialog.review
-		color: 		$white
+	color: 		$white
+	background-color: $silver-chalice
 
-		.slider.infocarousel
-			.slider-decorator-0,
-			.slider-decorator-1
-				visibility: visible
-				font-size: 3em
+	.slider.infocarousel
+		.slider-decorator-0,
+		.slider-decorator-1
+			visibility: visible
+			font-size: 3em
 
-				&:hover
-					color: #c4c4c4
-			.slider-decorator-2
-				display: none
-			.slider-frame
-				.slider-list
-					margin-top: 70px !important
-					li.slider-slide
-						height: 100% !important
+			&:hover
+				color: #c4c4c4
+		.slider-decorator-2
+			display: none
+		.slider-frame
+			.slider-list
+				margin-top: 70px !important
+				li.slider-slide
+					height: 100% !important
 
 .review-dialog-container
 	max-width: 700px

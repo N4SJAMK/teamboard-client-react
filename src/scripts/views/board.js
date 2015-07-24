@@ -99,8 +99,8 @@ export default React.createClass({
 	},
 
 	toggleReview() {
-		if(this.sendTicketsForReview().size !== 0){
-			this.setState({ reviewActive: !this.state.reviewActive });
+		if(this.state.board.tickets.size > 0){
+			return page.show(`/boards/${this.state.board.id}/review`);
 		} else {
 			BroadcastAction.add({
 				type:    'broadcast',
@@ -133,17 +133,6 @@ export default React.createClass({
 		});
 	},
 
-	setReviewClosingButton(mode) {
-		this.setState({
-			reviewActive: mode
-		})
-	},
-
-	sendTicketsForReview() {
-		// If needed we can use some checks here to filter out unneeded tickets
-		return this.state.board.tickets;
-	},
-
 	render() {
 		let boardDialog = null;
 		let reviewDialog = null;
@@ -171,7 +160,6 @@ export default React.createClass({
 			<div className="view view-board">
 				<Broadcaster />
 				<Navigation reviewActive={this.state.reviewActive}
-					killReview={this.setReviewClosingButton}
 					showHelp={true} title={this.state.board.name}
 					showBoardMembers={true} board={this.state.board} />
 				<div className="content">
@@ -220,7 +208,7 @@ export default React.createClass({
 		let userOnlyControls = [
 			{
 				onClick: () => {
-					return page.show('/boards')
+					return page.show(`/boards/${this.state.board.id}`)
 				},
 				icon: 'arrow-left'
 			}
