@@ -46,7 +46,7 @@ export default React.createClass({
 			<div className="view view-workspace">
 				<Broadcaster />
 				<Navigation showHelp={false} title="Contriboard" />
-				<div id="board" className="content">
+				<div id="content" className="content">
 					<div className="new-board board-preview"
 							onClick={this.createBoard}>
 						<span className="fa fa-fw fa-plus" />

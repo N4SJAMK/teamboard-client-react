@@ -46,7 +46,8 @@ export default React.createClass({
 
 	componentDidMount() {
 		//this is not good... but what is!
-		let contentArea = document.getElementById("board");
+		//get areas like the board component and workspace
+		let contentArea = document.getElementById("content");
 		contentArea.addEventListener("click", (event) => {
 			if(this.state.dropdown) {
 				this.toggleDropdown();
