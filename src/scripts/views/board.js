@@ -23,7 +23,6 @@ import BoardComponent  from '../components/board';
 import EditBoardDialog   from '../components/dialog/edit-board';
 import ExportBoardDialog from '../components/dialog/export-board.js';
 import ShareBoardDialog  from '../components/dialog/share-board';
-import ReviewView        from '../components/dialog/review-view';
 
 import ActivityAction from '../actions/activity';
 
@@ -149,13 +148,6 @@ export default React.createClass({
 									onDismiss={this.toggleShareBoardDialog} />
 		}
 
-		if(!this.state.reviewActive) {
-			reviewDialog = null;
-		} else {
-			reviewDialog = <ReviewView tickets = {this.sendTicketsForReview()}
-			onDismiss = { this.toggleReview } />;
-		}
-
 		return (
 			<div className="view view-board">
 				<Broadcaster />
@@ -185,7 +177,6 @@ export default React.createClass({
 		let controls = [
 			{
 				icon:    'eye',
-				active:  this.state.reviewActive,
 				onClick: this.toggleReview
 			},
 			{
@@ -208,7 +199,7 @@ export default React.createClass({
 		let userOnlyControls = [
 			{
 				onClick: () => {
-					return page.show(`/boards/${this.state.board.id}`)
+					return page.show('/boards')
 				},
 				icon: 'arrow-left'
 			}
