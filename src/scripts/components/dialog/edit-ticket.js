@@ -281,11 +281,9 @@ export default React.createClass({
 		return this.state.isEditing || this.state.content === '' ?
 			(
 				<section className="dialog-content">
-					<Scrollable>
-						<textarea valueLink={this.createLinkWithActivity('content')}
-							tabIndex={2}
-							placeholder={this.locale('EDITTICKET_CONTENT')}/>
-					</Scrollable>
+					<textarea valueLink={this.createLinkWithActivity('content')}
+						tabIndex={2}
+						placeholder={this.locale('EDITTICKET_CONTENT')}/>
 				</section>
 			) :
 			(
@@ -354,8 +352,8 @@ export default React.createClass({
 							{this.locale('COPYBUTTON')}
 						</span>
 					</div>
-					{this.getEditors()}
 					{this.getCommentArea()}
+					{this.getEditors()}
 				</section>
 			</Dialog>
 		);

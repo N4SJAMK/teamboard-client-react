@@ -20,17 +20,12 @@
 	.options
 		text-align:center
 		margin-top: 10px
+		@include display(flex)
 		@include flex-direction(row)
 		@include justify-content(space-around)
 
 		.option
-			@media (max-width: 1000px)
-				margin-left: 2.5vw
-				margin-right: 2.5vw
-			margin-left: 20px
-			margin-right: 20px
 			cursor: pointer
-			@include flex(1)
 			@include circle(45px, inline-block)
 
 		.option:hover

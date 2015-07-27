@@ -4,20 +4,19 @@
 
 .dialog-overlay
 	width:   100%
-	z-index: 9001
 	height:  100%
+	z-index: 9001
 
 	@include position(fixed, 0px null null 0px)
 
 	background-color: rgba($ebony, 0.8)
 
-	overflow-y: scroll
+	overflow-y: scroll !important
+	-webkit-overflow-scrolling: touch !important
 
 	.dialog
 		width:     80%
 		max-width: 400px
-
-		max-height: 95vh
 
 		margin:        64px auto
 		border-radius: 8px
@@ -33,7 +32,7 @@
 
 		.dialog-heading
 			font-weight: bold
-			padding:     24px 16px 8px 16px
+			padding:     8px 16px 8px 16px
 			span
 				cursor: pointer
 				cursor: hand
@@ -58,7 +57,6 @@
 
 		.dialog-ticket-additional
 			padding: 16px 18px
-			margin-bottom: 24px
 
 		.deleteicon
 			@include transition(color, 0.2s)
@@ -79,11 +77,17 @@
 				color: $burnt-sienna
 
 		.editor-area
+			border-top: 1px solid $silver-chalice
+			padding: 8px
 			margin-bottom: 0px
 
+			.edit-ticket-avatars
+				@include display(flex)
+				@include flex-direction(row)
+
 		.dialog-comments
+			border-top: 1px solid $silver-chalice
 			padding: 8px 16px 16px 16px
-			max-height: 18vh
 
 			.comment-wrapper
 				@include display(flex)
@@ -92,10 +96,12 @@
 				overflow-y:       auto
 				border-radius:    5px
 				background-color: $white
-				max-height: 13vh
+
+				max-height: 128px
 
 				.comment
-					min-height: 50px
+					min-height: 32px
+					margin-bottom: 8px
 
 					.comment-top
 						margin-top: -3px
@@ -121,13 +127,13 @@
 						color:     $dove-gray
 						float:     right
 
-				.comment:not(:last-child)
-					border-bottom: 1px solid
-					border-color:  $silver-chalice
+				// .comment:not(:last-child)
+				// 	border-bottom: 1px solid
+				// 	border-color:  $silver-chalice
 
 			.new-comment-section
-				border-bottom: 1px solid
-				border-color: $silver-chalice
+				// border-bottom: 1px solid
+				// border-color: $silver-chalice
 				margin-top: 6px
 				@include display(flex)
 				@include flex-direction(row)
@@ -142,7 +148,8 @@
 			max-height: 20vh !important
 
 			textarea
-				width:     100%
+				width:      100%
+				min-height: 128px !important
 
 			input
 				margin-bottom: 8px
