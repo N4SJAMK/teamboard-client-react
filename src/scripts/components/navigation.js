@@ -287,7 +287,6 @@ export default React.createClass({
 					SettingsAction.setSetting('locale', 'dk');
 					this.toggleDropdown();
 					this.toggleLocaleDropdown();
-
 				}
 			},
 			{
