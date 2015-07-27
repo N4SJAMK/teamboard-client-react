@@ -112,17 +112,6 @@ export default React.createClass({
 		this.setState({ profileActive: !this.state.profileActive });
 	},
 
-	CancelReview(){
-		return !this.props.reviewActive ? null : (
-			<div onClick={() => {
-				this.props.killReview(false)
-			}}
-			className="review active">
-				<span className="fa fa-fw fa-times"></span>
-			</div>
-		);
-	},
-
 	boardMembersAmount() {
 		if(!this.props.board) return null;
 
@@ -310,7 +299,6 @@ export default React.createClass({
 				<img className="logo" src="/dist/assets/img/logo.svg"
 					onClick={this.showWorkspace} />
 				<h1 className="title">{this.props.title}</h1>
-				{this.CancelReview()}
 				{showBoardMembers}
 				{showInfo}
 				<div id="avatar" onClick={this.toggleDropdown} className={userButtonClass}>
