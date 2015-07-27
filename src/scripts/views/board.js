@@ -109,7 +109,7 @@ export default React.createClass({
 		} else {
 			BroadcastAction.add({
 				type:    'broadcast',
-				content: this.locale('BROADCAST_NO_TICKETS')
+				content: 'BROADCAST_NO_TICKETS'
 			});
 		}
 	},

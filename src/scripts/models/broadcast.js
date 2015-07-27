@@ -1,9 +1,6 @@
 import immutable from 'immutable';
 import Action    from '../actions';
 
-import Translation from '../translations';
-import Settings from '../stores/settings';
-
 /**
  *
  */
@@ -18,28 +15,28 @@ const BroadcastType = {
 BroadcastType.Error.Message = {
 	[Action.Ticket.Add]: {
 		status: {
-			[404]: Translation.BROADCAST_BOARD_NOTFOUND[Settings.getLocale()]
+			[404]: 'BROADCAST_BOARD_NOTFOUND'
 		},
-		default: Translation.BROADCAST_BOARD_ERROR[Settings.getLocale()]
+		default: 'BROADCAST_BOARD_ERROR'
 	},
 	[Action.Ticket.Edit]: {
 		status: {
-			[404]: Translation.BROADCAST_BOARD_NOTFOUND[Settings.getLocale()]
+			[404]: 'BROADCAST_BOARD_NOTFOUND'
 		},
-		default: Translation.BROADCAST_BOARD_ERROR[Settings.getLocale()]
+		default: 'BROADCAST_BOARD_ERROR'
 	},
 	[Action.User.Login]: {
 		status: {
-			[401]: Translation.BROADCAST_INVALID_CREDENTIALS[Settings.getLocale()]
+			[401]: 'BROADCAST_INVALID_CREDENTIALS'
 		},
-		default: Translation.BROADCAST_LOGIN_FAILED[Settings.getLocale()]
+		default: 'BROADCAST_LOGIN_FAILED'
 	},
 	[Action.User.Register]: {
 		status: {
-			[400]: Translation.BROADCAST_BAD_CREDENTIALS[Settings.getLocale()],
-			[409]: Translation.BROADCAST_USER_EXISTS[Settings.getLocale()]
+			[400]: 'BROADCAST_BAD_CREDENTIALS',
+			[409]: 'BROADCAST_USER_EXISTS',
 		},
-		default: Translation.BROADCAST_REGISTER_FAILED[Settings.getLocale()]
+		default: 'BROADCAST_REGISTER_FAILED'
 	}
 }
 
