@@ -13,13 +13,14 @@ import Avatar       from '../components/avatar';
 import Dropdown     from '../components/dropdown';
 import MemberDialog from '../components/dialog/board-members';
 
-import UserVoice from '../components/user-voice';
-import InfoView  from './dialog/view-info';
-import AboutView from './dialog/view-about';
+import UserVoice   from '../components/user-voice';
+import InfoView    from './dialog/view-info';
+import AboutView   from './dialog/view-about';
+import ProfileView from './dialog/edit-profile';
 
 import Board from '../models/board';
 
-import ActivityStore from '../stores/activity';
+import ActivityStore from '../stores/user-activity';
 
 import listener    from '../mixins/listener';
 import localeMixin from '../mixins/locale';
@@ -43,10 +44,27 @@ export default React.createClass({
 		}
 	},
 
+	componentDidMount() {
+		//this is not good... but what is!
+		document.body.addEventListener("click", () => {
+			if(
+				event.target.parentElement               !==
+				React.findDOMNode(this.refs.dropdown)    &&
+				event.target.parentElement.parentElement !==
+				React.findDOMNode(this.refs.dropdown)    &&
+				this.state.dropdown
+			)	
+			{
+				this.toggleDropdown();
+				window.UserVoice.push([ 'hide' ]);
+			}
+		})
+	},
+
 	onChange() {
 		this.setState({
 			members: this.props.board
-				? ActivityStore.getActiveMembers(this.props.board.id)
+				? ActivityStore.getMembers(this.props.board.id)
 				: Immutable.List()
 		});
 	},
@@ -54,11 +72,12 @@ export default React.createClass({
 	getInitialState() {
 		return {
 			members: this.props.board
-				? ActivityStore.getActiveMembers(this.props.board.id)
+				? ActivityStore.getMembers(this.props.board.id)
 				: Immutable.List(),
 			dropdown: false, localesDropdown: false,
 			feedback: false, infoActive: false,
-			aboutActive: false, membersActive: false
+			aboutActive: false, membersActive: false,
+			profileActive: false
 		}
 	},
 
@@ -85,6 +104,14 @@ export default React.createClass({
 		this.setState({ aboutActive: !this.state.aboutActive });
 	},
 
+	toggleLocaleDropdown() {
+		this.setState({ localesDropdown: !this.state.localesDropdown });
+	},
+
+	toggleProfileView() {
+		this.setState({ profileActive: !this.state.profileActive });
+	},
+
 	CancelReview(){
 		return !this.props.reviewActive ? null : (
 			<div onClick={() => {
@@ -97,18 +124,17 @@ export default React.createClass({
 	},
 
 	boardMembersAmount() {
-	   if(!this.props.board) {
-		   return null;
-	   }
+		if(!this.props.board) return null;
 
-	   return this.props.board.members.filter((member) => {
-		   return member.get('isActive');
-	   }).size
+		return this.state.members.filter((member) => {
+			return member.get('date') > new Date(new Date().getTime() - (5 * 60000));
+		}).size;
    },
 
 	render() {
 		let infoDialog = null;
 		let aboutDialog = null;
+		let profileDialog = null;
 		let infoIcon = null;
 
 		if(!this.state.infoActive) {
@@ -125,23 +151,29 @@ export default React.createClass({
 			aboutDialog = <AboutView onDismiss = { this.toggleAboutView } />;
 		}
 
+		if(!this.state.profileActive) {
+			profileDialog = null;
+		} else {
+			profileDialog = <ProfileView formProfile="profileSettings" onDismiss = { this.toggleProfileView } />;
+		}
+
 		let infoButtonClass =
-			classNames({
-				infobutton: true,
-				active: this.state.infoActive
-			});
+			classNames(
+				'infobutton',
+				{ active: this.state.infoActive }
+			);
 
 		let userButtonClass =
-			classNames({
-				'avatar-wrapper': true,
-				active: this.state.dropdown
-			});
+			classNames(
+				'avatar-wrapper',
+				{ active: this.state.dropdown }
+			);
 
 		let membersButtonClass =
-			classNames({
-				members: true,
-				active: this.state.membersActive
-			});
+			classNames(
+				'members',
+				{ active: this.state.membersActive }
+			);
 
 		let boardMembersDialog = null;
 
@@ -182,16 +214,15 @@ export default React.createClass({
 				content: this.locale('DROPDOWN_PROFILE'),
 				disabled: !isProfileDisabled,
 				onClick: () => {
-					if(isProfileDisabled) {
-						return page.show('/profile');
-					}
+					this.toggleProfileView();
+					this.toggleDropdown();
 				}
 			},
 			{
 				icon: 'language',
 				content: this.locale('DROPDOWN_LOCALE'),
 				onClick: () => {
-					this.setState({ localesDropdown: !this.state.localesDropdown });
+					this.toggleLocaleDropdown()
 				}
 			},
 			{
@@ -284,11 +315,12 @@ export default React.createClass({
 								usertype={userType}>
 						</Avatar>
 				</div>
-				<Dropdown className="options" show={this.state.dropdown} items={items} />
+				<Dropdown ref="dropdown" className="options" show={this.state.dropdown} items={items} />
 				<Dropdown className="locales" show={this.state.localesDropdown} items={locales} />
 				{infoDialog}
 				{boardMembersDialog}
 				{aboutDialog}
+				{profileDialog}
 			</nav>
 		);
 	}

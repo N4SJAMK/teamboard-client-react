@@ -1,8 +1,8 @@
 import io   from 'socket.io-client';
-import utf8 from 'utf8';
 import page from 'page';
 
 import Action          from '../actions';
+import UserStore       from '../stores/user';
 import BoardStore      from '../stores/board';
 import BoardAction     from '../actions/board';
 import TicketAction    from '../actions/ticket';
@@ -167,11 +167,7 @@ const PayloadHandler = {
 	[Event.Board.Update](payload) {
 		let board = Object.assign({ id: payload.board },
 			payload.data.newAttributes);
-		board.name = utf8.decode(board.name);
 
-		board.members.map(function (member) {
-			member.user.name = utf8.decode(member.user.name);
-		});
 		return BoardAction.edit(board);
 	},
 	[Event.Ticket.Create](payload) {
@@ -180,7 +176,6 @@ const PayloadHandler = {
 		}
 		let ticket = payload.data;
 		if(!BoardStore.getTicket(board.id, ticket.id)) {
-			ticket.content = utf8.decode(ticket.content);
 			return TicketAction.add(board, ticket);
 		}
 	},
@@ -191,26 +186,19 @@ const PayloadHandler = {
 		let ticket = Object.assign({ id: payload.data.id },
 			payload.data.newAttributes);
 
-		ticket.content = utf8.decode(ticket.content);
-		ticket.heading = utf8.decode(ticket.heading);
-
-		if(ticket.comments) {
-			ticket.comments.map(function (comment) {
-				comment.content   = utf8.decode(comment.content)
-				comment.user.name = utf8.decode(comment.user.name);
-			});
-		}
 		return TicketAction.edit(board, ticket);
 	},
 	[Event.Ticket.Comment](payload) {
+		// avoid adding duplicate tickets to stores... hax
+		if(payload.user.id === UserStore.getUser().id) return null;
+
 		let comment = {
 			id:        payload.id,
-			message:   utf8.decode(payload.data.message),
+			message:   payload.data.message,
 			createdAt: payload.createdAt,
 			createdBy: payload.user
 		}
-		comment.createdBy.username = utf8.decode(comment.createdBy.username);
-		return CommentAction.addComment(payload.data.ticket_id, comment);
+		return CommentAction.addComment(payload.board, payload.data.ticket_id, comment);
 	},
 	[Event.Ticket.Delete](payload) {
 		let board = {

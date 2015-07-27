@@ -78,7 +78,6 @@ export default React.createClass({
 							onClick={this.highlight}
 							name="board-share"
 							placeholder={this.locale('SHAREBOARD_LINK')}
-							readOnly={true}
 							value={sharedURL}
 							tabIndex={-1}/>
 						{shareButton}

@@ -55,7 +55,7 @@
 					min-height: 50px
 
 					.comment-top
-						margin-top: 8px
+						margin-top: -3px
 
 					.comment-username
 						@include       margin(5 0 0 4)
@@ -73,7 +73,7 @@
 						margin-right: 6px
 
 					.comment-timestamp
-						@include margin(4 4 0 0)
+						@include margin(0 4 0 0)
 						font-size: smaller
 						color:     $dove-gray
 						float:     right
@@ -92,11 +92,11 @@
 					margin-right:  6px
 					margin-bottom: 12px
 				button
-					width: 46%
+					width: 65%
 
 		.dialog-content
 			padding:    8px 16px
-			max-height: 20vh
+			max-height: 20vh !important
 
 			textarea
 				width:     100%
@@ -147,6 +147,8 @@
 
 			@include display(flex)
 			@include flex-direction(column)
+			overflow-x: hidden
+			overflow-y: auto
 
 		.preview-container
 			height:   116px
@@ -203,7 +205,7 @@
 				color: $burnt-sienna
 
 		.dialog-footer
-			padding: 8px 16px 16px 16px
+			padding: 12px 16px 16px 16px
 
 			@include display(flex)
 			@include flex-direction(row)
@@ -223,7 +225,7 @@
 		max-height: 90vh
 
 		.dialog-content-board
-			max-height: 60vh
+			max-height: 60vh !important
 			overflow:   hidden
 
 	.dialog-board-members

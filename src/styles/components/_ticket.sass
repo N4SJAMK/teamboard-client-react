@@ -1,6 +1,16 @@
 /**
  *
  */
+.editor-area
+	padding-left: 18px
+	padding-right: 18px
+	font-size: 11px
+	color: $dove-gray
+
+	.edit-ticket-avatars
+		display: flex
+		margin: 5px 0 0 0
+
 .ticket
 	width:  192px
 	height: 108px
@@ -26,31 +36,19 @@
 
 	.color
 		height: 16px
-
 		border-top-left-radius:  2px
 		border-top-right-radius: 2px
+	.comment
+		float: right
+		font-size: 13px
 
-	.count-icon
-		float:            right
-		display:          inline-block
-		position:         absolute !important
-		@include position(75% null null 80% fixed)
-		@include transform(scale(0.8))
-
-		.comment
-			color: $silver-chalice
-			overflow: visible
-			.count
-				position: relative
-				right: 53%
-				bottom: 4px
-				overflow:    visible
-				width:       16px
-				height:      14px
-				text-align:  center
-				color:       $white
-				font-family: Lato
-				font-size:   12px
+	.count
+		margin: 0 3px 0 3px
+		float: right
+		bottom: 1px
+		overflow:    visible
+		font-family: Lato
+		font-size:   12px
 
 	.heading
 		margin:      8px
@@ -58,8 +56,8 @@
 		white-space: pre-wrap
 		font-weight: bold
 	.content
-		height:      76px
-		margin:      8px
+		height:      47px
+		margin:      6px 8px 0 8px
 		overflow:    hidden
 		white-space: pre-wrap
 		span
@@ -95,3 +93,18 @@
 			li
 				margin-left:     20px
 				list-style-type: decimal
+
+	.edit-icon
+		font-size: 15px
+		float: left
+		bottom: 3px
+
+	.ticket-avatars
+		float: left
+
+	.ticket-footer
+		position: absolute
+		bottom: 1
+		width: 100%;
+		height: 15px;
+		display: inline-block

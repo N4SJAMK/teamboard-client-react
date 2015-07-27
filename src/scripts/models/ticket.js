@@ -18,9 +18,10 @@ const Ticket = immutable.Record({
 	color:    Color.VIOLET,
 	content:  '',
 	heading:  '',
+	comments:  0,
 	createdBy: new User(),
-	lastEditedBy: new User(),
-	position: new Position(),
+	lastEditedBy: null,
+	position: new Position()
 });
 
 Ticket.Width    = 192;
@@ -39,7 +40,7 @@ Ticket.fromJS = function fromJS(ticket) {
 
 	ticket.color    = hascolor ? ticket.color : Ticket.Color.VIOLET;
 	ticket.position = new Position(ticket.position);
-	
+
 	if(ticket.createdBy instanceof String) {
 		delete ticket.createdBy;
 	}
@@ -52,7 +53,10 @@ Ticket.fromJS = function fromJS(ticket) {
 		delete ticket.lastEditedBy;
 	}
 
-	if(ticket.lastEditedBy) ticket.lastEditedBy = new User(ticket.lastEditedBy);
+	if(ticket.lastEditedBy) {
+		ticket.lastEditedBy = new User(ticket.lastEditedBy);
+	}
+
 	return new Ticket(ticket);
 }
 

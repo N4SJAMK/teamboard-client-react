@@ -1,9 +1,6 @@
 import immutable from 'immutable';
 import Action    from '../actions';
 
-import Translations from '../translations';
-import Settings from '../stores/settings';
-
 /**
  *
  */
@@ -16,18 +13,30 @@ const BroadcastType = {
  *
  */
 BroadcastType.Error.Message = {
+	[Action.Ticket.Add]: {
+		status: {
+			[404]: Translation.BROADCAST_BOARD_NOTFOUND[Settings.getLocale()]
+		},
+		default: Translation.BROADCAST_BOARD_ERROR[Settings.getLocale()]
+	},
+	[Action.Ticket.Edit]: {
+		status: {
+			[404]: Translation.BROADCAST_BOARD_NOTFOUND[Settings.getLocale()]
+		},
+		default: Translation.BROADCAST_BOARD_ERROR[Settings.getLocale()]
+	},
 	[Action.User.Login]: {
 		status: {
-			[401]: 'LOGIN_INVALID_CREDENTIALS'
+			[401]: 'BROADCAST_INVALID_CREDENTIALS'
 		},
-		default: 'LOGIN_FAILED'
+		default: 'BROADCAST_LOGIN_FAILED'
 	},
 	[Action.User.Register]: {
 		status: {
-			[400]: 'LOGIN_BAD_CREDENTIALS',
-			[409]: 'LOGIN_ALREADY_EXISTS',
+			[400]: 'BROADCAST_BAD_CREDENTIALS',
+			[409]: 'BROADCAST_USER_EXISTS',
 		},
-		default: 'LOGIN_REGISTER_FAILED'
+		default: 'BROADCAST_REGISTER_FAILED'
 	}
 }
 

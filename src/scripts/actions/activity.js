@@ -18,7 +18,7 @@ function createActivity(boardID, ticketID) {
 	ActivityActionCreator.addTicketActivity(data);
 }
 
-let throttledActivityCreate = throttle(createActivity, 2000);
+let throttledActivityCreate = throttle(createActivity, 500);
 
 /**
  *
@@ -41,11 +41,9 @@ const ActivityActionCreator = flux.actionCreator({
 		activity.id = uid();
 		this.dispatch(Action.Activity.Add, activity);
 
-		return setTimeout(
-			ActivityActionCreator.removeTicketActivity
-				.bind(this, activity.ticket, activity.id),
-			2500
-		);
+		return setTimeout(() => {
+			ActivityActionCreator.removeTicketActivity(activity.ticket, activity.id);
+		}, 1000);
 	},
 
 	removeTicketActivity(ticketID, activityID) {

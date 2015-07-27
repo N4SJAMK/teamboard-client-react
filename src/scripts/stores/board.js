@@ -118,6 +118,36 @@ export default flux.store({
 			});
 		},
 
+		[Action.Comment.Add](payload) {
+			if(!has(boards, payload.board)) {
+				throw new Error('Board not found!');
+			}
+			return boards = edit(boards, payload.board, (board) => {
+				let ticket = board.tickets
+					.find(t => t.id === payload.ticket.id);
+
+				ticket = payload.comment instanceof Array
+					? ticket.set('comments', payload.comment.length)
+					: ticket.set('comments', ticket.comments + 1);
+
+				return board.set('tickets', edit(board.tickets, ticket));
+			});
+		},
+
+		[Action.Comment.Remove](payload) {
+			if(!has(boards, payload.board)) {
+				throw new Error('Board not found!');
+			}
+			return boards = edit(boards, payload.board, (board) => {
+				let ticket = board.tickets
+					.find(t => t.id === payload.ticket.id);
+
+				ticket = ticket.set('comments', ticket.comments - 1);
+
+				return board.set('tickets', edit(board.tickets, ticket));
+			});
+		},
+
 		[Action.Ticket.Edit](payload) {
 			if(!has(boards, payload.board)) {
 				throw new Error('Board not found!');
