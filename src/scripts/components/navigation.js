@@ -53,7 +53,7 @@ export default React.createClass({
 				event.target.parentElement.parentElement !==
 				React.findDOMNode(this.refs.dropdown)    &&
 				this.state.dropdown
-			)	
+			)
 			{
 				this.toggleDropdown();
 				window.UserVoice.push([ 'hide' ]);
@@ -287,6 +287,7 @@ export default React.createClass({
 					SettingsAction.setSetting('locale', 'dk');
 					this.toggleDropdown();
 					this.toggleLocaleDropdown();
+
 				}
 			},
 			{
@@ -295,7 +296,6 @@ export default React.createClass({
 				onClick: () => {
 					SettingsAction.setSetting('locale', 'jp');
 					this.toggleDropdown();
-					this.toggleLocaleDropdown();
 				}
 			}
 		];

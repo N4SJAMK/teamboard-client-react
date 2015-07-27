@@ -25,13 +25,22 @@ export default function() {
 		},
 
 		locale(id) {
+			// If translation for text is not found return ID
+			// this fixes localization if text is localized twice for some reason
 			if(!this.state.translations[id]) {
 				return id;
 			}
 
-			// If text is not translated to that language then return ID
-			// to more easily notice missing translation
-			if(this.state.translations[id][this.state.locale] === '') {
+			// If translation is undefined or empty
+			if(!this.state.translations[id][this.state.locale] ||
+				this.state.translations[id][this.state.locale] === '') {
+
+				// In production mode return english translation
+				if(process.NODE_ENV === 'production') {
+					return this.state.translations[id]['en'];
+				}
+
+				// In development return ID
 				return id;
 			}
 

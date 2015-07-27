@@ -5,12 +5,18 @@ import Broadcast       from '../models/broadcast';
 import BroadcastStore  from '../stores/broadcast';
 import BroadcastAction from '../actions/broadcast';
 
+import localeMixin from '../mixins/locale';
+
 const FADE_TIME = 2000;
 
 /**
  *
  */
 const Item = React.createClass({
+	mixins: [
+		localeMixin()
+	],
+
 	propTypes: {
 		item: (props) => {
 			if(!props.item instanceof Broadcast) throw new Error();
@@ -36,7 +42,7 @@ const Item = React.createClass({
 	render() {
 		return (
 			<div className={`item ${this.props.item.type}`}>
-				{this.props.item.content}
+				{this.locale(this.props.item.content)}
 			</div>
 		);
 	}
