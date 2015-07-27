@@ -256,6 +256,7 @@ export default React.createClass({
 			(
 				<section className="dialog-heading">
 					<input valueLink={this.createLinkWithActivity('heading')}
+						type="text"
 						maxLength={40}
 						tabIndex={1}
 						placeholder={this.locale('EDITTICKET_HEADER')} />
