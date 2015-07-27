@@ -37,7 +37,6 @@ export default React.createClass({
 	propTypes: {
 		title: React.PropTypes.string.isRequired,
 		showHelp: React.PropTypes.bool,
-		reviewActive: React.PropTypes.bool,
 		killReview: React.PropTypes.func,
 		board: (props) => {
 			if(!props.board instanceof Board) throw new Error();
@@ -49,6 +48,7 @@ export default React.createClass({
 		//get areas like the board component and workspace
 		let contentArea = document.getElementById("content");
 		contentArea.addEventListener("click", (event) => {
+			console.log(event)
 			if(this.state.dropdown) {
 				this.toggleDropdown();
 				window.UserVoice.push([ 'hide' ]);
