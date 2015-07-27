@@ -15,15 +15,15 @@ const BroadcastType = {
 BroadcastType.Error.Message = {
 	[Action.Ticket.Add]: {
 		status: {
-			[404]: Translation.BROADCAST_BOARD_NOTFOUND[Settings.getLocale()]
+			[404]: 'BROADCAST_BOARD_NOTFOUND'
 		},
-		default: Translation.BROADCAST_BOARD_ERROR[Settings.getLocale()]
+		default: 'BROADCAST_BOARD_ERROR'
 	},
 	[Action.Ticket.Edit]: {
 		status: {
-			[404]: Translation.BROADCAST_BOARD_NOTFOUND[Settings.getLocale()]
+			[404]: 'BROADCAST_BOARD_NOTFOUND'
 		},
-		default: Translation.BROADCAST_BOARD_ERROR[Settings.getLocale()]
+		default: 'BROADCAST_BOARD_ERROR'
 	},
 	[Action.User.Login]: {
 		status: {
