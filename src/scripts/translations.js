@@ -120,7 +120,7 @@ export default {
 	********************************/
 	BROADCAST_INVALID_CREDENTIALS: {
 		en: 'Wrong username and/or password!',
-		fi: 'Väärä käyttäjä nimi ja/tai salasana!',
+		fi: 'Väärä käyttäjänimi ja/tai salasana!',
 		se: '',
 		dk: '',
 		jp: '',
@@ -128,7 +128,7 @@ export default {
 	},
 	BROADCAST_LOGIN_FAILED: {
 		en: 'Login failed!',
-		fi: 'Väärä käyttäjä nimi ja/tai salasana!',
+		fi: 'Väärä käyttäjänimi ja/tai salasana!',
 		se: '',
 		dk: '',
 		jp: '',
@@ -248,7 +248,7 @@ export default {
 	},
 	LOGIN_REGISTER: {
 		en: 'Register',
-		fi: 'Rekistöröidy',
+		fi: 'Rekisteröidy',
 		se: 'Skapa konto',
 		dk: 'Opret konto',
 		jp: '登録',
@@ -270,9 +270,9 @@ export default {
 		jp: 'パスワードの長さが8文字に',
 		ru: ''
 	},
-	LOGIN_REGISTERFAIL: {
+	LOGIN_REGISTER_FAILED: {
 		en: 'Registration failed!',
-		fi: 'Rekistöröinti epäonnistui!',
+		fi: 'Rekisteröinti epäonnistui!',
 		se: 'Registrering misslyckades!',
 		dk: 'Registreringen mislykkedes',
 		jp: '登録に失敗しました!',
@@ -292,6 +292,18 @@ export default {
 		se: 'Konto finns redan?',
 		dk: 'Allerede registreret??',
 		jp: '登録済み?',
+		ru: ''
+	},
+
+	/********************************
+	/    BROADCAST                  *
+	********************************/
+	BROADCAST_NO_REVIEWTICKETS: {
+		en: 'You do not have any tickets to review!',
+		fi: 'Sinulla ei ole yhtään tikettiä näytettäväksi!',
+		se: '',
+		dk: '',
+		jp: '',
 		ru: ''
 	},
 
@@ -775,7 +787,7 @@ export default {
 	},
 	INFO_EDITTICKET_COMMENTADD: {
 		en: 'Add a comment to the ticket',
-		fi: 'Klikkaa lisätääksesi kommentti',
+		fi: 'Klikkaa lisätäksesi kommentti',
 		se: 'Lägga till en kommentar',
 		dk: 'Tilføj en kommentar',
 		jp: 'コメントの追加',
@@ -893,7 +905,7 @@ export default {
 	},
 	INFO_REVIEW_ARROWS: {
 		en: 'Use the arrows to navigate the presentation mode ',
-		fi: 'Käytä nuolia navigoidaaksesi esitystilassa',
+		fi: 'Käytä nuolia navigoidaksesi esitystilassa',
 		se: 'Använda pilarna för att navigera i presentationsläget',
 		dk: 'Brug pilerne for at navigere i præsentationstilstandet',
 		jp: '移動するには、左右の方向キーを押してください。',
@@ -903,7 +915,7 @@ export default {
 	// Export board
 	INFO_EXPORTBOARD_FORMAT: {
 		en: 'Select a file format and download the board',
-		fi: 'Valitse tiedostonmuoto ja lataa lauta',
+		fi: 'Valitse tiedostomuoto ja lataa lauta',
 		se: 'Välj en export format och spara bordet',
 		dk: 'Valg en eksport format og gem bordet',
 		jp: 'ファイル形式の選択して, ボードファイルのダウンロード。',
@@ -964,6 +976,14 @@ export default {
 	EDITTICKET_MODIFIEDBY: {
 		en: 'Last modified by',
 		fi: 'Viimeksi muokannut',
+		se: '',
+		dk: '',
+		jp: '',
+		ru: ''
+	},
+	EDITTICKET_EDITING: {
+		en: 'People editing',
+		fi: 'Henkilöitä muokkaamassa',
 		se: '',
 		dk: '',
 		jp: '',
