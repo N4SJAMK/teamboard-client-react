@@ -75,8 +75,13 @@ export default React.createClass({
 	},
 
 	componentDidMount() {
+		// start a 'pinger', which will ping other users every n secods
 		this.pinger = setInterval(
-			() => ActivityAction.createPing(this.props.id), 2000);
+			() => ActivityAction.createPing(this.props.id), 30000);
+
+		// create an initial 'ping'
+		ActivityAction.createPing(this.props.id);
+
 		BoardAction.load(this.props.id);
 		document.addEventListener('touchmove', preventDefault);
 	},
