@@ -93,10 +93,12 @@ export default React.createClass({
 		this.hammer = doubletap(this.getDOMNode());
 		this.hammer.on('doubletap', this.toggleEditDialog);
 
-		// dragging the ticket will continuously send activity notifications
-		this.draggable.on('dragMove', () => {
+		this.dragActivityThrottle = throttle(() => {
 			ActivityAction.createTicketActivity(this.props.board.id, this.props.ticket.id);
-		});
+		}, 1000);
+
+		this.draggable.on('dragMove', this.dragActivityThrottle);
+		this.draggable.on('dragEnd',  this.dragActivityThrottle.cancel);
 
 		this.draggable.on('dragEnd', () => {
 			if(this.draggable && !this.props.ticket.id.startsWith('dirty_')) {
