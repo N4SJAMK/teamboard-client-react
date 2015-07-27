@@ -46,19 +46,14 @@ export default React.createClass({
 
 	componentDidMount() {
 		//this is not good... but what is!
-		document.body.addEventListener("click", () => {
-			if(
-				event.target.parentElement               !==
-				React.findDOMNode(this.refs.dropdown)    &&
-				event.target.parentElement.parentElement !==
-				React.findDOMNode(this.refs.dropdown)    &&
-				this.state.dropdown
-			)
-			{
+		//get areas like the board component and workspace
+		let contentArea = document.getElementById("content");
+		contentArea.addEventListener("click", (event) => {
+			if(this.state.dropdown) {
 				this.toggleDropdown();
 				window.UserVoice.push([ 'hide' ]);
 			}
-		})
+		});
 	},
 
 	onChange() {
