@@ -85,9 +85,7 @@ export default React.createClass({
 
 	toggleDropdown() {
 		this.setState({ dropdown: !this.state.dropdown });
-		if(this.state.localesDropdown) {
-			this.setState({ dropdown: !this.state.dropdown});
-		}
+		if(this.state.localesDropdown) this.toggleLocaleDropdown();
 	},
 
 	toggleInfoView() {
