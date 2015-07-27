@@ -47,6 +47,9 @@ export default React.createClass({
 	},
 
 	getEditors(users) {
+		let icon = users.size > 0 ?
+			<img style={{float: 'left'}} src="/dist/assets/img/pen.svg"/>
+			: null;
 		let avatars = users.map((user) => {
 			return (
 				<Avatar key={user.id} size={16} name={user.username}
@@ -58,6 +61,7 @@ export default React.createClass({
 		});
 		return (
 			<section className="ticket-avatars">
+				{icon}
 				{avatars}
 			</section>
 		);
@@ -89,10 +93,12 @@ export default React.createClass({
 		this.hammer = doubletap(this.getDOMNode());
 		this.hammer.on('doubletap', this.toggleEditDialog);
 
-		// dragging the ticket will continuously send activity notifications
-		this.draggable.on('dragMove', () => {
+		this.dragActivityThrottle = throttle(() => {
 			ActivityAction.createTicketActivity(this.props.board.id, this.props.ticket.id);
-		});
+		}, 1000);
+
+		this.draggable.on('dragMove', this.dragActivityThrottle);
+		this.draggable.on('dragEnd',  this.dragActivityThrottle.cancel);
 
 		this.draggable.on('dragEnd', () => {
 			if(this.draggable && !this.props.ticket.id.startsWith('dirty_')) {
