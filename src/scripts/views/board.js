@@ -79,8 +79,8 @@ export default React.createClass({
 		this.pinger = setInterval(
 			() => ActivityAction.createPing(this.props.id), 30000);
 
-		// create an initial 'ping'
-		ActivityAction.createPing(this.props.id);
+		// create an initial 'ping' like MattiJ would
+		setTimeout(() => ActivityAction.createPing(this.props.id), 1000);
 
 		BoardAction.load(this.props.id);
 		document.addEventListener('touchmove', preventDefault);
@@ -109,7 +109,7 @@ export default React.createClass({
 		} else {
 			BroadcastAction.add({
 				type:    'broadcast',
-				content: this.locale('BROADCAST_NO_TICKETS')
+				content: 'BROADCAST_NO_TICKETS'
 			});
 		}
 	},
