@@ -46,19 +46,11 @@ export default React.createClass({
 
 	componentDidMount() {
 		//this is not good... but what is!
-		document.body.addEventListener("click", () => {
-			if(
-				event.target.parentElement               !==
-				React.findDOMNode(this.refs.dropdown)    &&
-				event.target.parentElement.parentElement !==
-				React.findDOMNode(this.refs.dropdown)    &&
-				this.state.dropdown
-			)	
-			{
+		let board = document.getElementById("board");
+		board.addEventListener("click", (event) => {
 				this.toggleDropdown();
 				window.UserVoice.push([ 'hide' ]);
-			}
-		})
+		}, false)
 	},
 
 	onChange() {

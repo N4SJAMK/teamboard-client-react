@@ -105,7 +105,7 @@ export default React.createClass({
 		}
 
 		return (
-			<div className="board" style={style}>
+			<div id="board" className="board" style={style}>
 				{this.renderTickets()}
 			</div>
 		);
