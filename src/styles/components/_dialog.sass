@@ -11,6 +11,8 @@
 
 	background-color: rgba($ebony, 0.8)
 
+	overflow-y: scroll
+
 	.dialog
 		width:     80%
 		max-width: 400px
@@ -29,14 +31,55 @@
 			font-size:      18px
 			letter-spacing: 1px
 
-			//height: 2vh
-
 		.dialog-heading
 			font-weight: bold
-			padding:     8px 16px
+			padding:     24px 16px 8px 16px
 			span
 				cursor: pointer
 				cursor: hand
+
+		.dialog-footer
+			padding: 12px 16px 0px 16px
+			margin-bottom: 0px
+
+			@include display(flex)
+			@include flex-direction(row)
+
+			button
+				@include flex(2)
+
+				margin: 0px 8px
+
+				&:first-child
+					margin-left: 0px
+
+				&:last-child
+					margin-right: 0px
+
+		.dialog-ticket-additional
+			padding: 16px 18px
+			margin-bottom: 24px
+
+		.deleteicon
+			@include transition(color, 0.2s)
+
+			padding:      0px
+			margin-right: 24px
+
+			color:       $dove-gray
+			font-size:   10pt
+			cursor:      hand
+			cursor:      pointer
+			font-family: Lato
+
+			&:before
+				margin-right: 4px
+				font-family: FontAwesome
+			&:hover
+				color: $burnt-sienna
+
+		.editor-area
+			margin-bottom: 0px
 
 		.dialog-comments
 			padding: 8px 16px 16px 16px
@@ -110,6 +153,7 @@
 				overflow-wrap: break-word
 
 				p
+					margin: 0px
 					white-space: pre-wrap
 
 				h1, h2, h3, h4, h5, h6
@@ -192,37 +236,6 @@
 				text-align: center
 				font-size:  130%
 				width:      10%
-
-		.deleteicon
-			@include transition(color, 0.2s)
-			padding:     10px 16px 16px 16px
-			color:       $dove-gray
-			font-size:   10pt
-			cursor:      hand
-			cursor:      pointer
-			font-family: Lato
-
-			&:before
-				font-family: FontAwesome
-			&:hover
-				color: $burnt-sienna
-
-		.dialog-footer
-			padding: 12px 16px 16px 16px
-
-			@include display(flex)
-			@include flex-direction(row)
-
-			button
-				@include flex(2)
-
-				margin: 0px 8px
-
-				&:first-child
-					margin-left: 0px
-
-				&:last-child
-					margin-right: 0px
 
 	.dialog-edit-board
 		max-height: 90vh

@@ -220,7 +220,7 @@ export default React.createClass({
 		if(this.props.editors.size > 0) {
 			let avatars = this.props.editors.map((user) => {
 				return (
-					<Avatar size={30} name={user.username}
+					<Avatar size={24} name={user.username}
 						imageurl={user.avatar}
 						usertype={user.type}
 						isOnline={true}>
@@ -248,7 +248,7 @@ export default React.createClass({
 				<section className="editor-area">
 					<span>{person.action}</span>
 					<section className="edit-ticket-avatars">
-					<Avatar size={30} name={person.body.username}
+					<Avatar size={24} name={person.body.username}
 						imageurl={person.body.avatar}
 						usertype={person.body.account_type}
 						isOnline={true}>
@@ -346,14 +346,16 @@ export default React.createClass({
 							{this.locale('SAVEBUTTON')}
 						</button>
 					</section>
+					<div className="dialog-ticket-additional">
+						<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}>
+							{this.locale('DELETEBUTTON')}
+						</span>
+						<span className="deleteicon fa fa-copy" id={"ticket-dialog-copy"} onClick={this.copy}>
+							{this.locale('COPYBUTTON')}
+						</span>
+					</div>
 					{this.getEditors()}
 					{this.getCommentArea()}
-					<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}>
-						{this.locale('DELETEBUTTON')}
-					</span>
-					<span className="deleteicon fa fa-copy" id={"ticket-dialog-copy"} onClick={this.copy}>
-						{this.locale('COPYBUTTON')}
-					</span>
 				</section>
 			</Dialog>
 		);
