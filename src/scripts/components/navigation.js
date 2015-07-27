@@ -296,6 +296,7 @@ export default React.createClass({
 				onClick: () => {
 					SettingsAction.setSetting('locale', 'jp');
 					this.toggleDropdown();
+					this.toggleLocaleDropdown();
 				}
 			}
 		];
