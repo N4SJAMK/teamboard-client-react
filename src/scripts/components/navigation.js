@@ -46,11 +46,13 @@ export default React.createClass({
 
 	componentDidMount() {
 		//this is not good... but what is!
-		let board = document.getElementById("board");
-		board.addEventListener("click", (event) => {
+		let contentArea = document.getElementById("board");
+		contentArea.addEventListener("click", (event) => {
+			if(this.state.dropdown) {
 				this.toggleDropdown();
 				window.UserVoice.push([ 'hide' ]);
-		}, false)
+			}
+		});
 	},
 
 	onChange() {
