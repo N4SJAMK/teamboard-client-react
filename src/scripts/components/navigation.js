@@ -37,7 +37,6 @@ export default React.createClass({
 	propTypes: {
 		title: React.PropTypes.string.isRequired,
 		showHelp: React.PropTypes.bool,
-		reviewActive: React.PropTypes.bool,
 		killReview: React.PropTypes.func,
 		board: (props) => {
 			if(!props.board instanceof Board) throw new Error();
