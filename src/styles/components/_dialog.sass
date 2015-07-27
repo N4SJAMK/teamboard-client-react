@@ -4,18 +4,19 @@
 
 .dialog-overlay
 	width:   100%
-	z-index: 9001
 	height:  100%
+	z-index: 9001
 
 	@include position(fixed, 0px null null 0px)
 
 	background-color: rgba($ebony, 0.8)
 
+	overflow-y: scroll !important
+	-webkit-overflow-scrolling: touch !important
+
 	.dialog
 		width:     80%
 		max-width: 400px
-
-		max-height: 95vh
 
 		margin:        64px auto
 		border-radius: 8px
@@ -29,18 +30,64 @@
 			font-size:      18px
 			letter-spacing: 1px
 
-			//height: 2vh
-
 		.dialog-heading
 			font-weight: bold
-			padding:     8px 16px
+			padding:     8px 16px 8px 16px
 			span
 				cursor: pointer
 				cursor: hand
 
+		.dialog-footer
+			padding: 12px 16px 0px 16px
+			margin-bottom: 0px
+
+			@include display(flex)
+			@include flex-direction(row)
+
+			button
+				@include flex(2)
+
+				margin: 0px 8px
+
+				&:first-child
+					margin-left: 0px
+
+				&:last-child
+					margin-right: 0px
+
+		.dialog-ticket-additional
+			padding: 16px 18px
+
+		.deleteicon
+			@include transition(color, 0.2s)
+
+			padding:      0px
+			margin-right: 24px
+
+			color:       $dove-gray
+			font-size:   10pt
+			cursor:      hand
+			cursor:      pointer
+			font-family: Lato
+
+			&:before
+				margin-right: 4px
+				font-family: FontAwesome
+			&:hover
+				color: $burnt-sienna
+
+		.editor-area
+			border-top: 1px solid $silver-chalice
+			padding: 8px
+			margin-bottom: 0px
+
+			.edit-ticket-avatars
+				@include display(flex)
+				@include flex-direction(row)
+
 		.dialog-comments
+			border-top: 1px solid $silver-chalice
 			padding: 8px 16px 16px 16px
-			max-height: 18vh
 
 			.comment-wrapper
 				@include display(flex)
@@ -49,10 +96,12 @@
 				overflow-y:       auto
 				border-radius:    5px
 				background-color: $white
-				max-height: 13vh
+
+				max-height: 128px
 
 				.comment
-					min-height: 50px
+					min-height: 32px
+					margin-bottom: 8px
 
 					.comment-top
 						margin-top: -3px
@@ -78,13 +127,13 @@
 						color:     $dove-gray
 						float:     right
 
-				.comment:not(:last-child)
-					border-bottom: 1px solid
-					border-color:  $silver-chalice
+				// .comment:not(:last-child)
+				// 	border-bottom: 1px solid
+				// 	border-color:  $silver-chalice
 
 			.new-comment-section
-				border-bottom: 1px solid
-				border-color: $silver-chalice
+				// border-bottom: 1px solid
+				// border-color: $silver-chalice
 				margin-top: 6px
 				@include display(flex)
 				@include flex-direction(row)
@@ -99,7 +148,8 @@
 			max-height: 20vh !important
 
 			textarea
-				width:     100%
+				width:      100%
+				min-height: 128px !important
 
 			input
 				margin-bottom: 8px
@@ -110,6 +160,7 @@
 				overflow-wrap: break-word
 
 				p
+					margin: 0px
 					white-space: pre-wrap
 
 				h1, h2, h3, h4, h5, h6
@@ -192,37 +243,6 @@
 				text-align: center
 				font-size:  130%
 				width:      10%
-
-		.deleteicon
-			@include transition(color, 0.2s)
-			padding:     10px 16px 16px 16px
-			color:       $dove-gray
-			font-size:   10pt
-			cursor:      hand
-			cursor:      pointer
-			font-family: Lato
-
-			&:before
-				font-family: FontAwesome
-			&:hover
-				color: $burnt-sienna
-
-		.dialog-footer
-			padding: 12px 16px 16px 16px
-
-			@include display(flex)
-			@include flex-direction(row)
-
-			button
-				@include flex(2)
-
-				margin: 0px 8px
-
-				&:first-child
-					margin-left: 0px
-
-				&:last-child
-					margin-right: 0px
 
 	.dialog-edit-board
 		max-height: 90vh
