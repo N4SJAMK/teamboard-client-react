@@ -222,7 +222,7 @@ export default React.createClass({
 			});
 			return (
 				<section className="editor-area">
-					<span>People editing:</span>
+					<span>{this.locale('EDITTICKET_EDITING')}</span>
 					<section className="edit-ticket-avatars">
 						{avatars}
 					</section>
