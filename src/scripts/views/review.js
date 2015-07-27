@@ -2,6 +2,7 @@ import React    from 'react/addons';
 import Carousel from 'nuka-carousel';
 import markdown from 'markdown';
 import throttle from 'lodash.throttle';
+import page     from 'page';
 
 import Board from '../models/board';
 
@@ -39,6 +40,10 @@ export default React.createClass({
 
 	onChange() {
 		return this.setState(this.getState());
+	},
+
+	backToBoard() {
+		page.show(`/boards/${this.props.boardID}`);
 	},
 
 	componentWillMount() {
@@ -143,16 +148,15 @@ export default React.createClass({
 		//.length somewhere and will drown the whole view in
 		//warnings if it is given immutable data. Dunno lol
 		return this.state.board.tickets.toJS().map((ticket, index) => {
-			let markupContent = markdown.markdown.toHTML(ticket.content).replace(/<a href="/g, '<a target="_blank" href="');
+			if(!ticket.heading && !ticket.content) ticket.heading = "Empty ticket";
 
+			let markupContent = markdown.markdown.toHTML(ticket.content).replace(/<a href="/g, '<a target="_blank" href="');
 			let dialogClasses = index !== currentSlide ? 'review-dialog'
 					: 'review-dialog active';
-
 			let ticketColor = { backgroundColor: ticket.color };
 			let ticketNumber = <span className="ticket-number">
 					{ `${index+1} / ${this.state.board.tickets.size}` }
 				</span>;
-
 			return (
 				<div key={ticket.id} className="review-dialog-container">
 					<div className={dialogClasses}>
@@ -184,7 +188,11 @@ export default React.createClass({
 		else return (
 			<div className="review">
 				<Navigation title={this.state.board.name} />
-				<Carousel ref="carousel" className="infocarousel"
+				<span onClick={this.backToBoard}
+				className="fa fa-fw fa-arrow-left board-link">
+					To board
+				</span>
+				<Carousel id="content" ref="carousel" className="infocarousel"
 						data={this.setCarouselData.bind(this, 'carousel')}
 						decorators={this.getDecorations()}
 						slideWidth={0.70}
