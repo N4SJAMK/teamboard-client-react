@@ -19,6 +19,10 @@ export default React.createClass({
 		isOnline: React.PropTypes.bool.isRequired
 	},
 
+	getDefaultProps() {
+		return { name: '', imageurl: '', usertype: 'temporary' }
+	},
+
 	render() {
 		let initials        = null;
 		let backgroundColor = null;
