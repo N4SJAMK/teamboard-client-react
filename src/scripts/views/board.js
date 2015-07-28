@@ -32,7 +32,9 @@ import localeMixin from '../mixins/locale';
  * Fix issues with iOS and IScroll not working together too well...
  */
 function preventDefault(event) {
-	return event.preventDefault();
+	if(document.getElementsByClassName('dialog-overlay').length === 0) {
+		return event.preventDefault();
+	}
 }
 
 /**
