@@ -166,14 +166,14 @@ export default React.createClass({
 
 	commentKeyDown(event) {
 		let enter = 13;
-		if(event.keyCode == enter) {
+		if(event.keyCode === enter) {
 			return this.onSubmitComment(event);
 		}
 	},
 
 	contentKeyDown(event) {
 		let enter = 13;
-		if(event.keyCode == enter) {
+		if(event.keyCode === enter) {
 			React.findDOMNode(this.refs.save).focus();
 		}
 	},
@@ -282,7 +282,7 @@ export default React.createClass({
 			(
 				<section className="dialog-content">
 					<textarea valueLink={this.createLinkWithActivity('content')}
-						tabIndex={2}
+						tabIndex={2} rows="4"
 						placeholder={this.locale('EDITTICKET_CONTENT')}/>
 				</section>
 			) :

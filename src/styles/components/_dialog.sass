@@ -15,7 +15,7 @@
 	-webkit-overflow-scrolling: touch !important
 
 	.dialog
-		width:     80%
+		width:     90%
 		max-width: 400px
 
 		margin:        64px auto
@@ -38,7 +38,7 @@
 				cursor: hand
 
 		.dialog-footer
-			padding: 12px 16px 0px 16px
+			padding: 10px 16px
 			margin-bottom: 0px
 
 			@include display(flex)
@@ -102,19 +102,20 @@
 				.comment
 					min-height: 32px
 					margin-bottom: 8px
+					padding-right: 5px
 
 					.comment-top
 						margin-top: -3px
 
 					.comment-username
-						@include       margin(5 0 0 4)
+						@include       margin(2 0 0 4)
 						font-size:     smaller
 						color:         $dove-gray
 						text-overflow: ellipsis
 						overflow:      hidden
 
 					.comment-message
-						@include margin(5 0 4 4)
+						@include margin(3 0 4 4)
 						word-wrap: break-word
 						padding-left: 36px
 
@@ -127,13 +128,7 @@
 						color:     $dove-gray
 						float:     right
 
-				// .comment:not(:last-child)
-				// 	border-bottom: 1px solid
-				// 	border-color:  $silver-chalice
-
 			.new-comment-section
-				// border-bottom: 1px solid
-				// border-color: $silver-chalice
 				margin-top: 6px
 				@include display(flex)
 				@include flex-direction(row)
@@ -149,7 +144,6 @@
 
 			textarea
 				width:      100%
-				min-height: 128px !important
 
 			input
 				margin-bottom: 8px

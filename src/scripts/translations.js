@@ -1220,9 +1220,9 @@ export default {
 	TIME_NOW: {
 		en: 'Just now',
 		fi: 'Juuri nyt',
-		se: '',
-		dk: '',
-		jp: '',
+		se: 'Just nu',
+		dk: 'Lige nu',
+		jp: 'ちょうど今',
 		ru: ''
 	}
 }

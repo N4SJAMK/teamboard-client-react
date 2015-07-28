@@ -1,0 +1,92 @@
+.dialog-overlay
+	.dialog-board-members
+		.dialog-header
+			font-size: 20px
+
+		.dialog-members
+			@include padding(0)
+			@include display(flex)
+			@include flex-direction(column)
+			font-size: 15px
+			max-height: 400px
+
+			.dialog-header
+				padding-left: 0
+
+		.dialog-content
+			max-height: 60vh
+
+		.dialog-member-list
+			@include display(flex)
+			@include flex-wrap(wrap)
+			padding-left: 8px
+
+			.member-info-online
+				@include margin(null 16px null null)
+				padding-top: 8px
+				padding-bottom: 8px
+				overflow: hidden
+				height: 36px
+				width: 45%
+				border-bottom: 1px solid
+				border-color: $gallery
+				@media screen and (max-width: 450px)
+					width: 100%
+
+				.user-name
+					width: 70%
+					float: left
+					margin-top: 0%
+					margin-left: 5%
+					white-space: nowrap
+					overflow: hidden
+					text-overflow: ellipsis
+
+				.profile-picture
+					float: left
+
+				.user-last-seen
+					margin-top: 0%
+					margin-left: 5%
+					span
+						font-size: 11px
+					span:first-child
+						margin-left: 5%
+
+			.member-info-offline
+				@include margin(null 16px null null)
+				padding-top: 8px
+				padding-bottom: 8px
+				overflow: hidden
+				height: 36px
+				width: 45%
+				border-bottom: 1px solid
+				border-color: $gallery
+				color: $silver-chalice
+				@media screen and (max-width: 450px)
+					width: 100%
+					.user-last-seen
+
+				.user-name
+					width: 73%
+					float: left
+					margin-top: 0%
+					margin-left: 5%
+					white-space: nowrap
+					overflow: hidden
+					text-overflow: ellipsis
+
+				.user-last-seen
+					margin-top: 0%
+					margin-left: 5%
+					span
+						font-size: 11px
+					span:first-child
+						margin-left: 5%
+
+
+				.profile-picture
+					float: left
+					-webkit-filter: grayscale(1)
+					filter: grayscale(1)
+					opacity: 0.5
