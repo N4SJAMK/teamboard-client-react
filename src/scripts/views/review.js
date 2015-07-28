@@ -3,6 +3,7 @@ import Carousel from 'nuka-carousel';
 import markdown from 'markdown';
 import throttle from 'lodash.throttle';
 import page     from 'page';
+import immutable from 'immutable';
 
 import Board from '../models/board';
 
@@ -16,7 +17,8 @@ import CommentAction from '../actions/comment';
 import CommentStore  from '../stores/comment';
 import BoardStore    from '../stores/board';
 
-import BoardAction   from '../actions/board';
+import BoardAction      from '../actions/board';
+import BroadcastAction  from '../actions/broadcast';
 
 /**
  *
@@ -39,15 +41,30 @@ export default React.createClass({
 	},
 
 	onChange() {
-		return this.setState(this.getState());
+		this.setState(this.getState());
 	},
 
 	backToBoard() {
 		page.show(`/boards/${this.props.boardID}`);
 	},
 
-	componentWillMount() {
+	componentDidMount() {
 		BoardAction.load(this.props.boardID);
+	},
+
+	sendTicketsForReview() {
+		return this.filterTickets().size > 0 ? this.filterTickets() :
+		immutable.List([{
+			heading: 'Nothing here.',
+			content: 'Create some tickets to review them here.',
+			color: '#72BDBB'
+		}]);
+	},
+
+	filterTickets() {
+		return this.state.board.tickets.filter((ticket) => {
+			return ticket.heading || ticket.content || ticket.comments > 0
+		});
 	},
 
 	getDecorations() {
@@ -113,7 +130,7 @@ export default React.createClass({
 
 	renderComments(ticket, index, currentSlide) {
 		if(currentSlide === index && ticket.comments > 0) {
-			if(CommentStore.getComments(ticket.id).size === 0) {
+			if(CommentStore.getComments(ticket.id).count() === 0) {
 				// this is kind of anti-pattern since, we are not using any
 				// special component for the ticket ...
 				CommentAction.loadComments(this.props.boardID, ticket.id);
@@ -147,7 +164,7 @@ export default React.createClass({
 		//this has to be converted to JS... the carousel module uses the deprecated
 		//.length somewhere and will drown the whole view in
 		//warnings if it is given immutable data. Dunno lol
-		return this.state.board.tickets.toJS().map((ticket, index) => {
+		return this.sendTicketsForReview().toJS().map((ticket, index) => {
 			if(!ticket.heading && !ticket.content) ticket.heading = "Empty ticket";
 
 			let markupContent = markdown.markdown.toHTML(ticket.content).replace(/<a href="/g, '<a target="_blank" href="');
@@ -155,7 +172,7 @@ export default React.createClass({
 					: 'review-dialog active';
 			let ticketColor = { backgroundColor: ticket.color };
 			let ticketNumber = <span className="ticket-number">
-					{ `${index+1} / ${this.state.board.tickets.size}` }
+					{ `${index+1} / ${this.sendTicketsForReview().size}` }
 				</span>;
 			return (
 				<div key={ticket.id} className="review-dialog-container">
@@ -184,8 +201,7 @@ export default React.createClass({
 	},
 
 	render() {
-		if(this.state.board.tickets.size === 0) return <span />
-		else return (
+		return (
 			<div className="review">
 				<Navigation title={this.state.board.name} />
 				<div className="controls">
