@@ -166,14 +166,14 @@ export default React.createClass({
 
 	commentKeyDown(event) {
 		let enter = 13;
-		if(event.keyCode == enter) {
+		if(event.keyCode === enter) {
 			return this.onSubmitComment(event);
 		}
 	},
 
 	contentKeyDown(event) {
 		let enter = 13;
-		if(event.keyCode == enter) {
+		if(event.keyCode === enter) {
 			React.findDOMNode(this.refs.save).focus();
 		}
 	},
@@ -220,7 +220,7 @@ export default React.createClass({
 		if(this.props.editors.size > 0) {
 			let avatars = this.props.editors.map((user) => {
 				return (
-					<Avatar size={30} name={user.username}
+					<Avatar size={24} name={user.username}
 						imageurl={user.avatar}
 						usertype={user.type}
 						isOnline={true}>
@@ -250,11 +250,11 @@ export default React.createClass({
 				<section className="editor-area">
 					<span>{person.action}</span>
 					<section className="edit-ticket-avatars">
-					<Avatar size={30} name={person.body.get('username')}
-						imageurl={person.body.get('avatar')}
-						usertype={person.body.get('account_type')}
-						isOnline={true}>
-					</Avatar>
+						<Avatar size={24} name={person.body.get('username')}
+							imageurl={person.body.get('avatar')}
+							usertype={person.body.get('account_type')}
+							isOnline={true}>
+						</Avatar>
 					</section>
 				</section>
 			);
@@ -283,11 +283,9 @@ export default React.createClass({
 		return this.state.isEditing || this.state.content === '' ?
 			(
 				<section className="dialog-content">
-					<Scrollable>
-						<textarea valueLink={this.createLinkWithActivity('content')}
-							tabIndex={2}
-							placeholder={this.locale('EDITTICKET_CONTENT')}/>
-					</Scrollable>
+					<textarea valueLink={this.createLinkWithActivity('content')}
+						tabIndex={2} rows="4"
+						placeholder={this.locale('EDITTICKET_CONTENT')}/>
 				</section>
 			) :
 			(
@@ -348,14 +346,16 @@ export default React.createClass({
 							{this.locale('SAVEBUTTON')}
 						</button>
 					</section>
-					{this.getEditors()}
+					<div className="dialog-ticket-additional">
+						<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}>
+							{this.locale('DELETEBUTTON')}
+						</span>
+						<span className="deleteicon fa fa-copy" id={"ticket-dialog-copy"} onClick={this.copy}>
+							{this.locale('COPYBUTTON')}
+						</span>
+					</div>
 					{this.getCommentArea()}
-					<span className="deleteicon fa fa-trash-o" id={"ticket-dialog-delete"} onClick={this.remove}>
-						{this.locale('DELETEBUTTON')}
-					</span>
-					<span className="deleteicon fa fa-copy" id={"ticket-dialog-copy"} onClick={this.copy}>
-						{this.locale('COPYBUTTON')}
-					</span>
+					{this.getEditors()}
 				</section>
 			</Dialog>
 		);

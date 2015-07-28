@@ -11,7 +11,7 @@ export default React.createClass({
 			options: {
 				mouseWheel:     true,
 				scrollbars:     true,
-				preventDefault: false,
+				preventDefault: true,
 				bounce:         false
 			},
 			style: {

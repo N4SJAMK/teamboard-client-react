@@ -82,11 +82,11 @@ export default React.createClass({
 							</section>
 						</Scrollable>
 					</section>
-					<section className="dialog-footer">
-						<button className="btn-primary" onClick={this.submit}>
-							{this.locale('DONEBUTTON')}
-						</button>
-					</section>
+				</section>
+				<section className="dialog-footer">
+					<button className="btn-primary" onClick={this.submit}>
+						{this.locale('DONEBUTTON')}
+					</button>
 				</section>
 			</Dialog>
 		);

@@ -14,24 +14,21 @@
 	.value
 		margin-bottom: 8px
 		height: 24px
+		border-radius:4px 4px 0px 0px
 		background-color: $wedgewood
 		@include transition(all 0.3s)
 
 	.options
 		text-align:center
 		margin-top: 10px
+		@include display(flex)
 		@include flex-direction(row)
 		@include justify-content(space-around)
 
 		.option
-			@media (max-width: 1000px)
-				margin-left: 2.5vw
-				margin-right: 2.5vw
-			margin-left: 20px
-			margin-right: 20px
 			cursor: pointer
-			@include flex(1)
 			@include circle(45px, inline-block)
+			box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1)
 
 		.option:hover
 			opacity: 0.7

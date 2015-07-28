@@ -74,7 +74,7 @@ export default React.createClass({
 				<section className="dialog-header">
 					{this.locale('ABOUT_TITLE')}
 				</section>
-				<section className="dialog-content">
+				<section className="dialog-content-about">
 					<div className="description-area">
 						{this.locale('ABOUT_DESCRIPTION')}
 					</div>

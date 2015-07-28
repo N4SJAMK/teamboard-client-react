@@ -8,7 +8,7 @@ import localeMixin from '../mixins/locale';
  *
  */
 export default React.createClass({
-	mixins: [ 
+	mixins: [
 		React.addons.PureRenderMixin,
 		localeMixin()
 	],
