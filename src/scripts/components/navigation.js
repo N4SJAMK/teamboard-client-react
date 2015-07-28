@@ -85,9 +85,7 @@ export default React.createClass({
 
 	toggleDropdown() {
 		this.setState({ dropdown: !this.state.dropdown });
-		if(this.state.localesDropdown) {
-			this.setState({ dropdown: !this.state.dropdown});
-		}
+		if(this.state.localesDropdown) this.toggleLocaleDropdown();
 	},
 
 	toggleInfoView() {
@@ -242,7 +240,6 @@ export default React.createClass({
 				onClick: () => {
 					SettingsAction.setSetting('locale', 'en');
 					this.toggleDropdown();
-					this.toggleLocaleDropdown();
 				}
 			},
 			{
@@ -251,7 +248,6 @@ export default React.createClass({
 				onClick: () => {
 					SettingsAction.setSetting('locale', 'fi');
 					this.toggleDropdown();
-					this.toggleLocaleDropdown();
 				}
 			},
 			{
@@ -260,7 +256,6 @@ export default React.createClass({
 				onClick: () => {
 					SettingsAction.setSetting('locale', 'se');
 					this.toggleDropdown();
-					this.toggleLocaleDropdown();
 				}
 			},
 			{
@@ -269,7 +264,6 @@ export default React.createClass({
 				onClick: () => {
 					SettingsAction.setSetting('locale', 'dk');
 					this.toggleDropdown();
-					this.toggleLocaleDropdown();
 				}
 			},
 			{
@@ -278,7 +272,6 @@ export default React.createClass({
 				onClick: () => {
 					SettingsAction.setSetting('locale', 'jp');
 					this.toggleDropdown();
-					this.toggleLocaleDropdown();
 				}
 			}
 		];
