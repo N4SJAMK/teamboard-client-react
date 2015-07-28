@@ -27,7 +27,6 @@ export default React.createClass({
 		let avatarClass     = null;
 
 		if(!this.props.imageurl) {
-
 			// If name has a space, it's probably in the form of Firstname Lastname
 			// then we take the actual initials of the user's name.
 			if (this.props.name.includes(' ')) {
