@@ -94,10 +94,12 @@ const middleware = {
 	},
 	socket: {
 		connect: (ctx, next) => {
-			socket.connect({ token: UserStore.getToken() }).then(next);
+			socket.connect({ token: UserStore.getToken() });
+			return next();
 		},
 		disconnect: (ctx, next) => {
-			socket.disconnect().then(next);
+			socket.disconnect();
+			return next();
 		}
 	}
 }
