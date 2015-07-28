@@ -55,9 +55,9 @@ export default React.createClass({
 	sendTicketsForReview() {
 		return this.filterTickets().size > 0 ? this.filterTickets() :
 		immutable.List([{
-				heading: 'Nothing here.',
-				content: 'Create some tickets to review them here.',
-				color: '#72BDBB'
+			heading: 'Nothing here.',
+			content: 'Create some tickets to review them here.',
+			color: '#72BDBB'
 		}]);
 	},
 
@@ -129,9 +129,8 @@ export default React.createClass({
 	},
 
 	renderComments(ticket, index, currentSlide) {
-		if(currentSlide === index) {
-			if(CommentStore.getComments(ticket.id).size === 0) {
-						
+		if(currentSlide === index && ticket.comments > 0) {
+			if(CommentStore.getComments(ticket.id).count() === 0) {
 				// this is kind of anti-pattern since, we are not using any
 				// special component for the ticket ...
 				CommentAction.loadComments(this.props.boardID, ticket.id);
@@ -202,9 +201,6 @@ export default React.createClass({
 	},
 
 	render() {
-		console.log('huehu')
-		if(!this.state.board || !this.state.board.tickets.size) return null;
-
 		return (
 			<div className="review">
 				<Navigation title={this.state.board.name} />
