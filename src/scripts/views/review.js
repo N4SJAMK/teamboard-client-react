@@ -204,15 +204,18 @@ export default React.createClass({
 		return (
 			<div className="review">
 				<Navigation title={this.state.board.name} />
-				<span onClick={this.backToBoard}
-				className="fa fa-fw fa-arrow-left board-link">
-					To board
-				</span>
+				<div className="controls">
+					<div className="control">
+						<span onClick={this.backToBoard}
+						className="fa fa-fw fa-arrow-left board-link">
+						</span>
+					</div>
+				</div>
 				<div id="content">
 					<Carousel ref="carousel" className="infocarousel"
 							data={this.setCarouselData.bind(this, 'carousel')}
 							decorators={this.getDecorations()}
-							slideWidth={0.70}
+							slideWidth={0.80}
 							cellAlign="center"
 							dragging={true}>
 						{this.renderTickets()}

@@ -219,11 +219,14 @@ export default React.createClass({
 	getEditors() {
 		if(this.props.editors.size > 0) {
 			let avatars = this.props.editors.map((user) => {
+
+				let name = user.get('name') || user.get('username');
+				let type = user.get('type') || user.get('account_type');
+
 				return (
-					<Avatar size={24} name={user.username}
-						imageurl={user.avatar}
-						usertype={user.type}
-						isOnline={true}>
+					<Avatar size={24} name={name}
+						imageurl={user.get('avatar')}
+						usertype={type} isOnline={true}>
 					</Avatar>
 				);
 			});
@@ -242,17 +245,19 @@ export default React.createClass({
 					action: this.locale('EDITTICKET_CREATEDBY'), body: this.props.ticket.createdBy
 				}
 				: {
-					action: this.locale('EDITTICKET_MODIFIEDBY'), body: this.props.ticket.lastEditedBy.toJS()
+					action: this.locale('EDITTICKET_MODIFIEDBY'), body: this.props.ticket.lastEditedBy
 				}
+			// sometimes, the 'lastEditedBy' field is actually a map, not a
+			// record type as users should be... why?
 			return (
 				<section className="editor-area">
 					<span>{person.action}</span>
 					<section className="edit-ticket-avatars">
-					<Avatar size={24} name={person.body.username}
-						imageurl={person.body.avatar}
-						usertype={person.body.account_type}
-						isOnline={true}>
-					</Avatar>
+						<Avatar size={24} name={person.body.get('username')}
+							imageurl={person.body.get('avatar')}
+							usertype={person.body.get('account_type')}
+							isOnline={true}>
+						</Avatar>
 					</section>
 				</section>
 			);
