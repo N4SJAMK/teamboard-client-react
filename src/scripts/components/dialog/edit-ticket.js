@@ -219,11 +219,14 @@ export default React.createClass({
 	getEditors() {
 		if(this.props.editors.size > 0) {
 			let avatars = this.props.editors.map((user) => {
+
+				let name = user.get('name') || user.get('username');
+				let type = user.get('type') || user.get('account_type');
+
 				return (
-					<Avatar size={24} name={user.username}
-						imageurl={user.avatar}
-						usertype={user.type}
-						isOnline={true}>
+					<Avatar size={24} name={name}
+						imageurl={user.get('avatar')}
+						usertype={type} isOnline={true}>
 					</Avatar>
 				);
 			});
