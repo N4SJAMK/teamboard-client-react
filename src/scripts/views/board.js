@@ -110,14 +110,7 @@ export default React.createClass({
 	},
 
 	toggleReview() {
-		if(this.state.board.tickets.size > 0){
-			return page.show(`/boards/${this.state.board.id}/review`);
-		} else {
-			BroadcastAction.add({
-				type:    'broadcast',
-				content: 'BROADCAST_NO_TICKETS'
-			});
-		}
+		return page.show(`/boards/${this.state.board.id}/review`);
 	},
 
 	toggleShareBoardDialog() {
