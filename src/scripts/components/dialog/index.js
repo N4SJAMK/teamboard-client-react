@@ -65,21 +65,18 @@ export default React.createClass({
 	},
 
 	renderDialog() {
-		let classDialog = this.props.viewProfile !== 'review' ?
-				'dialog-overlay' : 'review-overlay';
-
 		let classForm = this.props.viewProfile === 'info' ?
-				'info ' : `dialog ${this.props.className}`
+				'info ' : `dialog ${this.props.className}`;
 
 		if(this.props.viewProfile === 'profile'){
 			return (
-				<div className={classDialog}>
+				<div className="dialog-overlay">
 						{this.props.children}
 				</div>
 			);
 		} else {
 			return (
-				<div className={classDialog}>
+				<div className="dialog-overlay">
 					<form className={classForm}
 							onSubmit={this.onSubmit}>
 						{this.props.children}

@@ -23,7 +23,6 @@ import BoardComponent  from '../components/board';
 import EditBoardDialog   from '../components/dialog/edit-board';
 import ExportBoardDialog from '../components/dialog/export-board.js';
 import ShareBoardDialog  from '../components/dialog/share-board';
-import ReviewView        from '../components/dialog/review-view';
 
 import ActivityAction from '../actions/activity';
 
@@ -109,8 +108,8 @@ export default React.createClass({
 	},
 
 	toggleReview() {
-		if(this.sendTicketsForReview().size !== 0){
-			this.setState({ reviewActive: !this.state.reviewActive });
+		if(this.state.board.tickets.size > 0){
+			return page.show(`/boards/${this.state.board.id}/review`);
 		} else {
 			BroadcastAction.add({
 				type:    'broadcast',
@@ -143,17 +142,6 @@ export default React.createClass({
 		});
 	},
 
-	setReviewClosingButton(mode) {
-		this.setState({
-			reviewActive: mode
-		})
-	},
-
-	sendTicketsForReview() {
-		// If needed we can use some checks here to filter out unneeded tickets
-		return this.state.board.tickets;
-	},
-
 	render() {
 		let boardDialog = null;
 		let reviewDialog = null;
@@ -170,18 +158,10 @@ export default React.createClass({
 									onDismiss={this.toggleShareBoardDialog} />
 		}
 
-		if(!this.state.reviewActive) {
-			reviewDialog = null;
-		} else {
-			reviewDialog = <ReviewView tickets = {this.sendTicketsForReview()}
-			onDismiss = { this.toggleReview } />;
-		}
-
 		return (
 			<div className="view view-board">
 				<Broadcaster />
 				<Navigation reviewActive={this.state.reviewActive}
-					killReview={this.setReviewClosingButton}
 					showHelp={true} title={this.state.board.name}
 					showBoardMembers={true} board={this.state.board} />
 				<div className="content">
@@ -207,7 +187,6 @@ export default React.createClass({
 		let controls = [
 			{
 				icon:    'eye',
-				active:  this.state.reviewActive,
 				onClick: this.toggleReview
 			},
 			{
