@@ -242,17 +242,19 @@ export default React.createClass({
 					action: this.locale('EDITTICKET_CREATEDBY'), body: this.props.ticket.createdBy
 				}
 				: {
-					action: this.locale('EDITTICKET_MODIFIEDBY'), body: this.props.ticket.lastEditedBy.toJS()
+					action: this.locale('EDITTICKET_MODIFIEDBY'), body: this.props.ticket.lastEditedBy
 				}
+			// sometimes, the 'lastEditedBy' field is actually a map, not a
+			// record type as users should be... why?
 			return (
 				<section className="editor-area">
 					<span>{person.action}</span>
 					<section className="edit-ticket-avatars">
-					<Avatar size={24} name={person.body.username}
-						imageurl={person.body.avatar}
-						usertype={person.body.account_type}
-						isOnline={true}>
-					</Avatar>
+						<Avatar size={24} name={person.body.get('username')}
+							imageurl={person.body.get('avatar')}
+							usertype={person.body.get('account_type')}
+							isOnline={true}>
+						</Avatar>
 					</section>
 				</section>
 			);
