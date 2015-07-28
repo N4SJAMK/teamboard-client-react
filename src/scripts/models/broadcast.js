@@ -13,6 +13,9 @@ const BroadcastType = {
  *
  */
 BroadcastType.Error.Message = {
+	[Action.Socket.ConnectFail]: {
+		default: 'BROADCAST_SOCKET_CONNECT_FAILURE'
+	},
 	[Action.Ticket.Add]: {
 		status: {
 			[404]: 'BROADCAST_BOARD_NOTFOUND'

@@ -63,10 +63,9 @@ function connect(opts = {}) {
 
 		// Way to handle invalid token and other funkyness by logging out
 		socket.on('error', (err) => {
-			UserAction.logout()
-				.then(() => {
-					return page.show('/login');
-				});
+			if(JSON.parse(err).statusCode === 401) {
+				return UserAction.logout().then(() => page.show('/login'));
+			}
 			BroadcastAction.add(err, Action.Socket.Error);
 			return reject();
 		});
@@ -76,7 +75,6 @@ function connect(opts = {}) {
 			BoardStore.addChangeListener(joinBoards);
 			socket.on(DATA_EVENT, handleIncomingEvent);
 			return resolve();
-
 		});
 
 		// This is a bit of a hack in order to make sure we get new data if we
