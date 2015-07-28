@@ -179,9 +179,9 @@ export default React.createClass({
 	},
 
 	getComment(comment) {
-		let avatar   = comment.createdBy.avatar;
-		let username = comment.createdBy.name         || comment.createdBy.username;
-		let usertype = comment.createdBy.account_type || comment.createdBy.type;
+		let avatar   = comment.get('createdBy').avatar;
+		let username = comment.get('createdBy').name         || comment.get('createdBy').username;
+		let usertype = comment.get('createdBy').account_type || comment.get('createdBy').type;
 
 		let timestamp = comment.get('created_at');
 		let msg       = comment.get('content');
@@ -219,11 +219,13 @@ export default React.createClass({
 	getEditors() {
 		if(this.props.editors.size > 0) {
 			let avatars = this.props.editors.map((user) => {
+				let name = user.get('name') || user.get('username');
+				let type = user.get('type') || user.get('account_type');
+
 				return (
-					<Avatar size={24} name={user.username}
-						imageurl={user.avatar}
-						usertype={user.type}
-						isOnline={true}>
+					<Avatar size={24} name={name}
+						imageurl={user.get('avatar')}
+						usertype={type} isOnline={true}>
 					</Avatar>
 				);
 			});
