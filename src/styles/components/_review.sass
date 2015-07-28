@@ -1,23 +1,60 @@
 .review
 	width:   100%
+	height: 100%
 	color: 		$white
-	background-color: $silver-chalice
+	background-color: f9f9f9
+	overflow: hidden
+
+	.content
+		height: 90vh
 
 	.slider.infocarousel
 		.slider-decorator-0,
 		.slider-decorator-1
 			visibility: visible
 			font-size: 3em
+			color: $bastille
 
 			&:hover
-				color: #c4c4c4
+				color: $affair
 		.slider-decorator-2
 			display: none
 		.slider-frame
+			overflow: visible !important
 			.slider-list
-				margin-top: 70px !important
+				margin-top: 75px !important
 				li.slider-slide
-					height: 100% !important
+					padding: 0px 10px
+	.controls
+		@include position(absolute, 80px null null 16px)
+		padding: 2px
+
+		border-radius:    2px
+		background-color: $neptune
+		box-shadow: 2px 2px 4px #656565
+
+		.control
+			@include transition(all, 0.2s)
+
+			width:  48px
+			height: 48px
+
+			color:            $patina
+			background-color: $neptune
+
+			cursor:        pointer
+			border-radius: 2px
+
+			span
+				width:       100%
+				line-height: 48px
+
+			&:hover
+				color:            $neptune
+				background-color: $patina
+
+			&.active
+				color: $white
 
 .review-dialog-container
 	max-width: 700px
@@ -34,6 +71,7 @@
 		background-color: $white
 		border-radius: 6px
 		padding-bottom: 8px
+		box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.24)
 		&.active
 			opacity: 1
 			z-index: 10000
@@ -50,7 +88,7 @@
 
 		.ticket-header-text
 			font-weight: bold
-			margin-left: 15px
+			@include margin(25 15 0 15)
 			font-size:      130%
 			letter-spacing: 1px
 
@@ -148,21 +186,13 @@
 				@include flex-direction(column)
 
 @media screen and (max-width: 600px)
-	.review-overlay
-		.dialog.info
-			.slider.infocarousel
-				.slider-decorator-0,
-				.slider-decorator-1
-						visibility: visible
-						font-size: 2em
+	.review
+		.slider.infocarousel
+			.slider-decorator-0,
+			.slider-decorator-1
+					visibility: visible
+					font-size: 2em
 
-		.review-dialog-container
-			font-size: 100%
-.board-link
-	position: absolute
-	margin: 13px 0 0 17px
-	z-index:  1
-	width: 84px
-	cursor: pointer
-	font-weight: bold
-	color: black
+	.review-dialog-container
+		font-size: 100%
+
