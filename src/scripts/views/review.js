@@ -212,14 +212,16 @@ export default React.createClass({
 				className="fa fa-fw fa-arrow-left board-link">
 					To board
 				</span>
-				<Carousel key="carousel" id="content" ref="carousel" className="infocarousel"
-						data={this.setCarouselData.bind(this, 'carousel')}
-						decorators={this.getDecorations()}
-						slideWidth={0.70}
-						cellAlign="center"
-						dragging={true}>
-					{this.renderTickets()}
-				</Carousel>
+				<div id="content">
+					<Carousel ref="carousel" className="infocarousel"
+							data={this.setCarouselData.bind(this, 'carousel')}
+							decorators={this.getDecorations()}
+							slideWidth={0.70}
+							cellAlign="center"
+							dragging={true}>
+						{this.renderTickets()}
+					</Carousel>
+				</div>
 			</div>
 		);
 	}
