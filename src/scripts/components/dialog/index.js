@@ -26,7 +26,10 @@ export default React.createClass({
 	componentDidMount() {
 		// Create a container for the actual modal content from 'renderDialog'
 		// and render it into the DOM tree.
-		this.target = document.body.appendChild(document.createElement('div'));
+		let container       = document.createElement('div');
+		container.className = 'dialog-container';
+
+		this.target = document.body.appendChild(container);
 		React.render(this.renderDialog(), this.target);
 
 		// Make sure any clicks, taps and whatever on the 'overlay' trigger the

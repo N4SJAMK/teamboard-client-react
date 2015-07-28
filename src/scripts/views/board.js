@@ -74,6 +74,10 @@ export default React.createClass({
 	},
 
 	componentDidMount() {
+		// attach a 'touchmove' listener that will hopefully fix some issues
+		// with various mobile browsers and iScroll
+		React.findDOMNode(this).addEventListener('touchmove', preventDefault);
+
 		// start a 'pinger', which will ping other users every n secods
 		this.pinger = setInterval(
 			() => ActivityAction.createPing(this.props.id), 30000);
@@ -81,13 +85,14 @@ export default React.createClass({
 		// create an initial 'ping' like MattiJ would
 		setTimeout(() => ActivityAction.createPing(this.props.id), 1000);
 
-		BoardAction.load(this.props.id);
-		document.addEventListener('touchmove', preventDefault);
+		// we want the dataz
+		return BoardAction.load(this.props.id);
 	},
 
 	componentWillUnmount() {
-		clearInterval(this.pinger);
-		document.removeEventListener('touchmove', preventDefault);
+		React.findDOMNode(this)
+			.removeEventListener('touchmove', preventDefault);
+		return clearInterval(this.pinger);
 	},
 
 	toggleEditBoardDialog() {
