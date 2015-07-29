@@ -13,6 +13,9 @@ import EditBoardDialog   from '../components/dialog/edit-board';
 import RemoveBoardDialog from '../components/dialog/remove-board';
 
 import localeMixin from '../mixins/locale';
+
+import normalizeUser from '../utils/normalize-user';
+
 /**
  *
  */
@@ -109,7 +112,11 @@ export default React.createClass({
 		let user  = UserStore.getUser();
 		let admin = BoardStore.getBoardAdmin(this.props.board.id);
 
-		if(admin.user && admin.user.id === user.id) {
+		if(!admin) return null;
+
+		let adminUser = normalizeUser(admin.user);
+
+		if(adminUser && adminUser.id === user.id) {
 			return (
 				<div className="controls">
 					{controls.map(function(ctrl, index) {
@@ -121,7 +128,7 @@ export default React.createClass({
 
 		return (
 			<div className="controls ownedby">
-				{`${this.locale('OWNEDBY')}: ${admin.user.name}`}
+				{`${this.locale('OWNEDBY')}: ${adminUser.name}`}
 			</div>
 		);
 	}
