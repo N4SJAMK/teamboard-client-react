@@ -22,8 +22,6 @@ export default React.createClass({
 		onDismiss: React.PropTypes.func.isRequired
 	},
 	getInitialState() {
-		console.log(UserStore.getUser());
-
 		return	ProfileForms.fieldNames.reduce((state, field) => {
 			state[field] = field === 'avatar' ?
 				UserStore.getUser().avatar : field === 'currentView' ?
