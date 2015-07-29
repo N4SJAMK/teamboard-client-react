@@ -20,7 +20,7 @@ export default React.createClass({
 	},
 
 	getDefaultProps() {
-		return { name: '', imageurl: '', usertype: 'temporary' }
+		return { name: '', imageurl: null, usertype: 'temporary' }
 	},
 
 	render() {

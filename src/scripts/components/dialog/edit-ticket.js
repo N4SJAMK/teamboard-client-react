@@ -22,6 +22,8 @@ import ColorSelect from '../color-select';
 import Scrollable  from './scrollable';
 import localeMixin from '../../mixins/locale';
 
+import normalizeUser from '../../utils/normalize-user';
+
 /**
  *
  */
@@ -179,29 +181,25 @@ export default React.createClass({
 	},
 
 	getComment(comment) {
-		let avatar   = comment.get('createdBy').avatar;
-		let username = comment.get('createdBy').name         || comment.get('createdBy').username;
-		let usertype = comment.get('createdBy').account_type || comment.get('createdBy').type;
-
-		let timestamp = comment.get('created_at');
-		let msg       = comment.get('content');
+		let user      = comment.get('createdBy');
+		let message   = comment.get('message');
+		let timestamp = comment.get('createdAt');
 
 		return (
-			<div className="comment" key={comment.id}>
+			<div className="comment" key={comment.get('id')}>
 				<section className="comment-top">
-					<Avatar size={32} name={username}
-							imageurl={avatar}
-							usertype={usertype}
+					<Avatar size={32} name={user.name}
+							imageurl={user.avatar}
+							usertype={user.type}
 							isOnline={true}>
 					</Avatar>
 					<span className="comment-timestamp">
-						<TimeAgo date={comment.createdAt}
-								live={true}
-								formatter={this.timeFormatter} />
+						<TimeAgo date={timestamp} live={true}
+							formatter={this.timeFormatter} />
 					</span>
-					<p className="comment-username">{username}</p>
+					<p className="comment-username">{user.name}</p>
 				</section>
-				<p className="comment-message">{comment.message}</p>
+				<p className="comment-message">{message}</p>
 			</div>
 		);
 	},
@@ -219,13 +217,9 @@ export default React.createClass({
 	getEditors() {
 		if(this.props.editors.size > 0) {
 			let avatars = this.props.editors.map((user) => {
-				let name = user.get('name') || user.get('username');
-				let type = user.get('type') || user.get('account_type');
-
 				return (
-					<Avatar size={24} name={name}
-						imageurl={user.get('avatar')}
-						usertype={type} isOnline={true}>
+					<Avatar size={24} name={user.name} imageurl={user.avatar}
+						usertype={user.type} isOnline={true}>
 					</Avatar>
 				);
 			});
@@ -241,20 +235,20 @@ export default React.createClass({
 		else {
 			let person = this.props.ticket.lastEditedBy === null
 				? {
-					action: this.locale('EDITTICKET_CREATEDBY'), body: this.props.ticket.createdBy
+					action: this.locale('EDITTICKET_CREATEDBY'),
+					body: normalizeUser(this.props.ticket.createdBy)
 				}
 				: {
-					action: this.locale('EDITTICKET_MODIFIEDBY'), body: this.props.ticket.lastEditedBy
+					action: this.locale('EDITTICKET_MODIFIEDBY'),
+					body: normalizeUser(this.props.ticket.lastEditedBy)
 				}
-			// sometimes, the 'lastEditedBy' field is actually a map, not a
-			// record type as users should be... why?
 			return (
 				<section className="editor-area">
 					<span>{person.action}</span>
 					<section className="edit-ticket-avatars">
-						<Avatar size={24} name={person.body.get('username')}
-							imageurl={person.body.get('avatar')}
-							usertype={person.body.get('account_type')}
+						<Avatar size={24} name={person.body.name}
+							imageurl={person.body.avatar}
+							usertype={person.body.type}
 							isOnline={true}>
 						</Avatar>
 					</section>

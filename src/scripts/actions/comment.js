@@ -38,7 +38,7 @@ export default flux.actionCreator({
 		let dirtyComment = {
 			id:        uid(),
 			message:   message,
-			createdBy: UserStore.getUser(),
+			createdBy: UserStore.getUser().toJS(),
 			createdAt: Date.now()
 		}
 

@@ -46,7 +46,7 @@ Ticket.fromJS = function fromJS(ticket) {
 	}
 
 	if(ticket.createdBy) {
-		ticket.createdBy = new User(ticket.createdBy);
+		ticket.createdBy = User.fromJS(ticket.createdBy).toJS();
 	}
 
 	if(ticket.lastEditedBy instanceof String) {
@@ -54,7 +54,7 @@ Ticket.fromJS = function fromJS(ticket) {
 	}
 
 	if(ticket.lastEditedBy) {
-		ticket.lastEditedBy = new User(ticket.lastEditedBy);
+		ticket.lastEditedBy = User.fromJS(ticket.lastEditedBy).toJS();
 	}
 
 	return new Ticket(ticket);

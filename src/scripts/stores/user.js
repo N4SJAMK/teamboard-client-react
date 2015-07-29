@@ -42,7 +42,7 @@ export default flux.store({
 				id:       storedUser.id,
 				type:     storedUser.type,
 				access:   storedUser.access,
-				username: storedUser.username || storedUser.name,
+				name:     storedUser.username || storedUser.name,
 				avatar:   storedUser.avatar
 			});
 		}
@@ -55,28 +55,19 @@ export default flux.store({
 
 	handlers: {
 		[Action.User.Load](payload) {
-			let user = {
-				id:       payload.user.id,
-				type:     payload.user.type,
-				access:   payload.user.access,
-				username: payload.user.username,
-				avatar:   payload.user.avatar
-			}
+			let user = User.fromJS(payload.user).toJS();
+
 			let provider = {
 				provider: payload.user.providers
 			}
-			localStorage.setItem('user', JSON.stringify(user));
-			localStorage.setItem('provider', provider);
+
+			localStorage.setItem('user',     JSON.stringify(user));
+			localStorage.setItem('provider', JSON.stringify(provider));
 		},
 
 		[Action.User.Login](payload) {
-			let user = {
-				id:       payload.user.id,
-				type:     payload.user.type,
-				access:   payload.user.access,
-				username: payload.user.username,
-				avatar:   payload.user.avatar
-			}
+			let user = User.fromJS(payload.user).toJS();
+
 			localStorage.setItem('user',  JSON.stringify(user));
 			localStorage.setItem('token', payload.token);
 		},

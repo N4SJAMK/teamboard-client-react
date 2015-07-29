@@ -1,6 +1,9 @@
 import io   from 'socket.io-client';
 import page from 'page';
 
+import User   from '../models/user';
+import Ticket from '../models/ticket';
+
 import Action          from '../actions';
 import UserStore       from '../stores/user';
 import BoardStore      from '../stores/board';
@@ -172,7 +175,15 @@ const PayloadHandler = {
 		let board = {
 			id: payload.board
 		}
-		let ticket = payload.data;
+
+		// sanitize a few specific fields that are nested...
+		let ticket          = payload.data;
+		ticket.createdBy    = User.fromJS(ticket.createdBy).toJS();
+		ticket.lastEditedBy = User.fromJS(ticket.createdBy).toJS();
+
+		// then the whole thing...
+		ticket = Ticket.fromJS(ticket).toJS();
+
 		if(!BoardStore.getTicket(board.id, ticket.id)) {
 			return TicketAction.add(board, ticket);
 		}
@@ -181,10 +192,22 @@ const PayloadHandler = {
 		let board = {
 			id: payload.board
 		}
+
 		let ticket = Object.assign({ id: payload.data.id },
 			payload.data.newAttributes);
 
-		return TicketAction.edit(board, ticket);
+		// quick hack because at times the 'createdBy' field can be null? this
+		// needs to be fixed in the 'teamboard-api'... currently we don't use
+		// the 'createdBy' field so this should be fine...
+		if(!ticket.createdBy) {
+			ticket.createdBy = ticket.lastEditedBy;
+		}
+
+		// sanitize a few specific fields that are nested...
+		ticket.createdBy    = User.fromJS(ticket.createdBy).toJS();
+		ticket.lastEditedBy = User.fromJS(ticket.lastEditedBy).toJS();
+
+		return TicketAction.edit(board, Ticket.fromJS(ticket).toJS());
 	},
 	[Event.Ticket.Comment](payload) {
 		// avoid adding duplicate tickets to stores... hax
@@ -194,7 +217,7 @@ const PayloadHandler = {
 			id:        payload.id,
 			message:   payload.data.message,
 			createdAt: payload.createdAt,
-			createdBy: payload.user
+			createdBy: User.fromJS(payload.user).toJS()
 		}
 		return CommentAction.addComment(payload.board, payload.data.ticket_id, comment);
 	},
