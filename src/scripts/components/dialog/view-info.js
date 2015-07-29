@@ -160,7 +160,6 @@ export default React.createClass({
 					<p className="pos pos-ticket-edit-header">{this.locale('INFO_EDITTICKET_HEADER')}</p>
 					<p className="pos pos-ticket-edit-content">{this.locale('INFO_EDITTICKET_CONTENT')}</p>
 					<p className="pos pos-ticket-edit-comment-add">{this.locale('INFO_EDITTICKET_COMMENTADD')}</p>
-					<p className="pos pos-ticket-edit-comment-area">{this.locale('INFO_EDITTICKET_COMMENTAREA')}</p>
 					<p className="pos pos-ticket-edit-cancel">{this.locale('INFO_EDITTICKET_CANCEL')}</p>
 					<p className="pos pos-ticket-edit-done">{this.locale('INFO_EDITTICKET_SAVE')}</p>
 					<p className="pos pos-ticket-edit-delete">{this.locale('INFO_EDITTICKET_DELETE')}</p>
@@ -197,7 +196,7 @@ export default React.createClass({
 			),
 			(
 				<section>
-					<img draggable="false" className="info-img review" src="/dist/assets/img/info/review-ticket.png" />
+					<img draggable="false" className="info-img review-img" src="/dist/assets/img/info/review-ticket.png" />
 					<p className="pos pos-review-content">{this.locale('INFO_REVIEW_CONTENT')}</p>
 					<p className="pos pos-review-arrows">{this.locale('INFO_REVIEW_ARROWS')}</p>
 				</section>
@@ -283,7 +282,7 @@ export default React.createClass({
 			<Dialog viewProfile="info" onDismiss={this.props.onDismiss}>
 				<Carousel ref="carousel" className="carousel-info"
 						data={this.setCarouselData.bind(this, 'carousel')}
-						dragging={true}
+						dragging={true} cellAlign="center"
 						decorators={this.getDecorator()}>
 
 					{
