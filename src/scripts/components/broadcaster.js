@@ -40,11 +40,15 @@ const Item = React.createClass({
 	},
 
 	render() {
-		return (
-			<div className={`item ${this.props.item.type}`}>
-				{this.locale(this.props.item.content)}
-			</div>
-		);
+		if(this.props.item.type !== undefined) {
+			return (
+				<div className={`item ${this.props.item.type}`}>
+					{this.locale(this.props.item.content)}
+				</div>
+			);
+		} else {
+			return (<div> </div>);
+		}
 	}
 });
 
