@@ -22,6 +22,8 @@ export default React.createClass({
 		onDismiss: React.PropTypes.func.isRequired
 	},
 	getInitialState() {
+		console.log(UserStore.getUser());
+
 		return	ProfileForms.fieldNames.reduce((state, field) => {
 			state[field] = field === 'avatar' ?
 				UserStore.getUser().avatar : field === 'currentView' ?
@@ -37,7 +39,7 @@ export default React.createClass({
 
 	getFieldType(field, index, controlattrs) {
 		let userNameContent = this.state.name === '' || !this.state.name ?
-			UserStore.getUser().username :
+			UserStore.getUser().name :
 			this.state.name;
 
 		switch(field.type){
@@ -60,6 +62,7 @@ export default React.createClass({
 				<section>
 					<div className="avatar-wrapper">
 						<Avatar size={64} name={userNameContent}
+								usertype={UserStore.getUser().type}
 								imageurl={this.state.avatar}
 								isOnline={true}>
 						</Avatar>
