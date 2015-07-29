@@ -343,11 +343,11 @@ export default {
 		ru: ''
 	},
 	LOGIN_GUEST_USERNAMELENGTH: {
-		en: 'Username must be at least 3 characters long',
-		fi: 'Käyttäjänimen täytyy olla vähintään 3 merkkiä pitkä',
-		se: 'Användernamnet måste ha åtminstone 3 tecken',
-		dk: 'Brugernavnet skal ha mindst 3 tegn',
-		jp: 'ユーザー名の長さが3文字に',
+		en: 'Username must be at least 3 characters long and cannot contain spaces',
+		fi: 'Käyttäjänimen täytyy olla vähintään 3 merkkiä pitkä eikä saa sisältää välilyöntejä',
+		se: '',
+		dk: '',
+		jp: '',
 		ru: ''
 	},
 

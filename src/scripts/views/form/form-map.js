@@ -107,7 +107,7 @@ export default
 				type:     'text',
 				label:    'LOGIN_GUEST_USERNAME',
 				title:    'LOGIN_GUEST_USERNAMELENGTH',
-				pattern:  '.{3,}',
+				pattern:  '[^-\\s]{3,}',
 				required: true
 			}
 		],
