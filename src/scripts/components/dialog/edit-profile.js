@@ -1,10 +1,14 @@
 import React           from 'react';
 import classNames      from 'classnames';
+
 import UserStore       from '../../stores/user';
+
 import Avatar          from '../avatar';
 import Broadcaster     from '../broadcaster';
 import ProfileForms    from '../../views/form/profile-forms';
+
 import BroadcastAction from '../../actions/broadcast';
+
 import localeMixin     from '../../mixins/locale';
 import Dialog          from '../../components/dialog';
 /**
@@ -123,7 +127,12 @@ export default React.createClass({
 	renderSidelinks() {
 		return ProfileForms.linkItems.map((field, i) => {
 			let provider = localStorage.getItem('provider');
-			if(provider !== null && field.activeWhile !== 'loginSettings' || provider === null) {
+			let userType = UserStore.getUser().type;
+			if(
+				(provider || userType !== 'standard') &&
+ 				field.activeWhile !== 'loginSettings' ||
+				(!provider && userType === 'standard')
+			) {
 				let className =
 					classNames(
 						field.className,
