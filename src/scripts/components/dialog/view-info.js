@@ -243,7 +243,6 @@ export default React.createClass({
 					<p className="pos pos-ticket-edit-header">{this.locale('INFO_EDITTICKET_HEADER')}</p>
 					<p className="pos pos-ticket-edit-content">{this.locale('INFO_EDITTICKET_CONTENT')}</p>
 					<p className="pos pos-ticket-edit-comment-add">{this.locale('INFO_EDITTICKET_COMMENTADD')}</p>
-					<p className="pos pos-ticket-edit-comment-area">{this.locale('INFO_EDITTICKET_COMMENTAREA')}</p>
 					<p className="pos pos-ticket-edit-cancel">{this.locale('INFO_EDITTICKET_CANCEL')}</p>
 					<p className="pos pos-ticket-edit-done">{this.locale('INFO_EDITTICKET_SAVE')}</p>
 					<p className="pos pos-ticket-edit-delete">{this.locale('INFO_EDITTICKET_DELETE')}</p>
@@ -251,18 +250,15 @@ export default React.createClass({
 			),
 			(
 				<section>
-					<p className="pos pos-control-back-admin">{this.locale('INFO_CONTROLS_WORKSPACE')}</p>
-					<p className="pos pos-control-edit-admin">{this.locale('INFO_CONTROLS_EDITBOARD')}</p>
-					<p className="pos pos-control-share-admin">{this.locale('INFO_CONTROLS_SHAREBOARD')}</p>
-					<p className="pos pos-control-review-admin">{this.locale('INFO_CONTROLS_REVIEWBOARD')}</p>
-					<p className="pos pos-control-export-admin">{this.locale('INFO_CONTROLS_EXPORTBOARD')}</p>
-					<p className="pos pos-control-magnet-admin">{this.locale('INFO_CONTROLS_SNAP')}</p>
-					<p className="pos pos-control-minimap-admin">{this.locale('INFO_CONTROLS_MINIMAP')}</p>
+					<p className="pos pos-control-review-user">{this.locale('INFO_CONTROLS_REVIEWBOARD')}</p>
+					<p className="pos pos-control-export-user">{this.locale('INFO_CONTROLS_EXPORTBOARD')}</p>
+					<p className="pos pos-control-magnet-user">{this.locale('INFO_CONTROLS_SNAP')}</p>
+					<p className="pos pos-control-minimap-user">{this.locale('INFO_CONTROLS_MINIMAP')}</p>
 				</section>
 			),
 			(
 				<section>
-					<img draggable="false" className="info-img review" src="/dist/assets/img/info/review-ticket.png" />
+					<img draggable="false" className="info-img review-img" src="/dist/assets/img/info/review-ticket.png" />
 					<p className="pos pos-review-content">{this.locale('INFO_REVIEW_CONTENT')}</p>
 					<p className="pos pos-review-arrows">{this.locale('INFO_REVIEW_ARROWS')}</p>
 				</section>

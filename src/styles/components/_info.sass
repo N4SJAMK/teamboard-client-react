@@ -76,55 +76,48 @@
 
 	// Controls
 	&.pos-control-back-admin
-		//width: 480px
 		@include position(absolute, 75px null null 80px)
 		@include tooltip-left
 
 	&.pos-control-edit-admin
-		//width: 480px
 		@include position(absolute, 125px null null 80px)
 		@include tooltip-left
 
 	&.pos-control-share-admin
-		//width: 480px
 		@include position(absolute, 175px null null 80px)
 		@include tooltip-left
 
 	&.pos-control-review-admin
-		//width: 480px
 		@include position(absolute, 225px null null 80px)
 		@include tooltip-left
 
 	&.pos-control-export-admin
-		//width: 480px
 		@include position(absolute, 275px null null 80px)
 		@include tooltip-left
 
 	&.pos-control-magnet-admin
-		//width: 480px
 		@include position(absolute, 325px null null 80px)
 		@include tooltip-left
 
 	&.pos-control-minimap-admin
-		//width: 480px
 		@include position(absolute, 375px null null 80px)
 		@include tooltip-left
 
 	&.pos-control-review-user
-		width: 480px
 		@include position(absolute, 75px null null 80px)
+		@include tooltip-left
 
 	&.pos-control-export-user
-		width: 480px
 		@include position(absolute, 125px null null 80px)
+		@include tooltip-left
 
 	&.pos-control-magnet-user
-		width: 480px
 		@include position(absolute, 175px null null 80px)
+		@include tooltip-left
 
 	&.pos-control-minimap-user
-		width: 480px
 		@include position(absolute, 225px null null 80px)
+		@include tooltip-left
 
 	// Dropdown
 	&.pos-dropdown-profile
@@ -166,29 +159,11 @@
 
 	&.pos-ticket-new-click
 		@include position(absolute, 184px null null 390px)
-		&:before
-			content: ""
-			width: 0
-			height: 0
-			position: absolute
-			bottom: -10px
-			left:  35px
-			border-left: 8px solid transparent
-			border-right: 8px solid transparent
-			border-top: 8px solid $affair
+		@include tooltip-bottom
 
 	&.pos-ticket-color
 		@include position(absolute, 337px null null 200px)
-		&:before
-			content: ""
-			width: 0
-			height: 0
-			position: absolute
-			bottom: -10px
-			left:  35px
-			border-left: 8px solid transparent
-			border-right: 8px solid transparent
-			border-top: 8px solid $affair
+		@include tooltip-bottom
 
 	&.pos-ticket-header
 		@include position(absolute, 400px null null 354px)
@@ -200,16 +175,7 @@
 
 	&.pos-ticket-comments
 		@include position(absolute, 520px null null 277px)
-		&:before
-			content: ""
-			width: 0
-			height: 0
-			position: absolute
-			top: -10px
-			left:  21px
-			border-left: 8px solid transparent
-			border-right: 8px solid transparent
-			border-bottom: 8px solid $affair
+		@include tooltip-top
 
 	// Edit ticket
 	&.pos-ticket-edit-color
@@ -233,8 +199,8 @@
 		@include tooltip-left
 
 	&.pos-ticket-edit-cancel
-		@include position(absolute, 128px null null 560px)
-		@include tooltip-left
+		@include position(absolute, 294px null null 152px)
+		@include tooltip-bottom
 
 	&.pos-ticket-edit-done
 		@include position(absolute, 345px null null 560px)
@@ -242,16 +208,7 @@
 
 	&.pos-ticket-edit-delete
 		@include position(absolute, 436px null null 130px)
-		&:before
-			content: ""
-			width: 0
-			height: 0
-			position: absolute
-			top: -10px
-			left:  25px
-			border-left: 8px solid transparent
-			border-right: 8px solid transparent
-			border-bottom: 8px solid $affair
+		@include tooltip-top
 
 	// Edit board
 	&.pos-board-name
@@ -292,18 +249,8 @@
 		@include position(absolute, 550px null null 270px)
 
 	&.pos-review-arrows
-		@include position(absolute, 370px null null 330px)
-		@include tooltip-left
-		&:before
-			content: ""
-			width: 0
-			height: 0
-			position: absolute
-			top: -18px
-			left:  21px
-			border-left: 8px solid transparent
-			border-right: 8px solid transparent
-			border-bottom: 8px solid $affair
+		@include position(absolute, 419px null null 330px)
+		@include tooltip-top
 
 	// Export
 	&.pos-export-format
@@ -350,6 +297,7 @@
 						color: #c5c5c5
 						height: 45px
 						margin: 0px 0px 10px 0px
+						font-size: 7em
 
 
 .infodrop
