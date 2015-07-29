@@ -34,6 +34,11 @@ export default React.createClass({
 		}
 	},
 
+	componentDidMount() {
+		// If userstore is empty then go back to login
+		if (!UserStore.getUser()) return page.redirect('/login');
+	},
+
 	shouldComponentUpdate(nextProps, nextState) {
 		let prevProps = this.props;
 		let prevState = this.state;
@@ -101,19 +106,10 @@ export default React.createClass({
 			}
 		];
 
-		let boardAdmin = BoardStore.getBoardAdmin(this.props.board.id);
-		let user       = UserStore.getUser();
-		if (boardAdmin === undefined) {
-			return null;
-		}
-		
-		// If userstore is empty then go back to login
-		if (!user) {
-			page.redirect('/login');
-			return null;
-		}
+		let user  = UserStore.getUser();
+		let admin = BoardStore.getBoardAdmin(this.props.board.id);
 
-		if(boardAdmin.user && boardAdmin.user.get('id') === user.get('id')) {
+		if(admin.user && admin.user.id === user.id) {
 			return (
 				<div className="controls">
 					{controls.map(function(ctrl, index) {
@@ -125,7 +121,7 @@ export default React.createClass({
 
 		return (
 			<div className="controls ownedby">
-				{`${this.locale('OWNEDBY')}: ${boardAdmin.user.get('username')}`}
+				{`${this.locale('OWNEDBY')}: ${admin.user.name}`}
 			</div>
 		);
 	}
