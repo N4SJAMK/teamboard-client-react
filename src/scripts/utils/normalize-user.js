@@ -3,6 +3,10 @@
  * of whether the given user is of type 'Map' or 'Object' or 'Record'...
  */
 export default function(user) {
+	let id = has(user, 'id')
+		? user.id
+		: user.id || user.get('id');
+
 	let name = has(user, 'name')
 		? user.name
 		: user.name || user.get('name');
@@ -15,7 +19,7 @@ export default function(user) {
 		? user.avatar
 		: user.avatar || user.get('avatar');
 
-	return { name, type, avatar }
+	return { id, name, type, avatar }
 
 	function has(obj, prop) {
 		return obj.hasOwnProperty(prop)
