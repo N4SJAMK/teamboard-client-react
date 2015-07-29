@@ -182,8 +182,6 @@ export default React.createClass({
 			);
 
 		let user              = UserStore.getUser();
-		let isProfileDisabled = user.type === 'standard';
-
 		let items = [
 			{
 				disabled: true,
