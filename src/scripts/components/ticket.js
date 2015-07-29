@@ -52,7 +52,7 @@ export default React.createClass({
 			: null;
 		let avatars = users.map((user) => {
 			return (
-				<Avatar key={user.id} size={16} name={user.username}
+				<Avatar key={user.id} size={16} name={user.name}
 					imageurl={user.avatar}
 					usertype={user.type}
 					isOnline={true}>

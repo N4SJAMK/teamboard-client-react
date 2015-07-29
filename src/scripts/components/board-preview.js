@@ -13,6 +13,9 @@ import EditBoardDialog   from '../components/dialog/edit-board';
 import RemoveBoardDialog from '../components/dialog/remove-board';
 
 import localeMixin from '../mixins/locale';
+
+import normalizeUser from '../utils/normalize-user';
+
 /**
  *
  */
@@ -32,6 +35,11 @@ export default React.createClass({
 			showEditBoardDialog:   false,
 			showRemoveBoardDialog: false
 		}
+	},
+
+	componentDidMount() {
+		// If userstore is empty then go back to login
+		if (!UserStore.getUser()) return page.redirect('/login');
 	},
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -101,19 +109,14 @@ export default React.createClass({
 			}
 		];
 
-		let boardAdmin = BoardStore.getBoardAdmin(this.props.board.id);
-		let user       = UserStore.getUser();
-		if (boardAdmin === undefined) {
-			return null;
-		}
-		
-		// If userstore is empty then go back to login
-		if (!user) {
-			page.redirect('/login');
-			return null;
-		}
+		let user  = UserStore.getUser();
+		let admin = BoardStore.getBoardAdmin(this.props.board.id);
 
-		if(boardAdmin.user && boardAdmin.user.get('id') === user.get('id')) {
+		if(!admin) return null;
+
+		let adminUser = normalizeUser(admin.user);
+
+		if(adminUser && adminUser.id === user.id) {
 			return (
 				<div className="controls">
 					{controls.map(function(ctrl, index) {
@@ -125,7 +128,7 @@ export default React.createClass({
 
 		return (
 			<div className="controls ownedby">
-				{`${this.locale('OWNEDBY')}: ${boardAdmin.user.get('username')}`}
+				{`${this.locale('OWNEDBY')}: ${adminUser.name}`}
 			</div>
 		);
 	}
