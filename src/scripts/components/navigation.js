@@ -182,8 +182,6 @@ export default React.createClass({
 			);
 
 		let user              = UserStore.getUser();
-		let isProfileDisabled = user.type === 'standard';
-
 		let items = [
 			{
 				disabled: true,
@@ -193,7 +191,6 @@ export default React.createClass({
 			{
 				icon: 'user',
 				content: this.locale('DROPDOWN_PROFILE'),
-				disabled: !isProfileDisabled,
 				onClick: () => {
 					this.toggleProfileView();
 					this.toggleDropdown();
