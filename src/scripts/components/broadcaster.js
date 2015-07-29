@@ -40,14 +40,14 @@ const Item = React.createClass({
 	},
 
 	render() {
-		if(this.props.item.type !== undefined && this.props.item.content !== "Cannot read property 'type' of null") {
+		if(this.props.item.type !== undefined) {
 			return (
 				<div className={`item ${this.props.item.type}`}>
 					{this.locale(this.props.item.content)}
 				</div>
 			);
 		} else {
-			return (<div> </div>)
+			return (<div> </div>);
 		}
 	}
 });
