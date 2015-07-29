@@ -12,14 +12,10 @@ const UserType = {
 // which is annoying to say the least...
 const User = immutable.Record({
 	id:           '',
-	_id:          null,
-	__v:          null,
-	type:         UserType.Guest,
-	account_type: UserType.Guest,
-	access:       '',
-	username:     '',
-	avatar:       null,
 	name:         '',
+	type:         UserType.Guest,
+	access:       '',
+	avatar:       null,
 	edited_at:    null,
 	created_at:   null,
 	boards:       [],
@@ -32,10 +28,19 @@ User.Type = UserType;
  * Simple factoryish function to make sure we get a properly formatted record.
  */
 User.fromJS = function fromJS(user) {
-	user.type = user.type || user.account_type;
-	user.type = user.type === UserType.User
-		? UserType.User
-		: UserType.Guest;
+	delete user._id;
+	delete user.__v;
+
+	user.name = ((user.username || '').length > 0)
+		? user.username : user.name;
+	delete user.username;
+
+	user.type = ((user.account_type || '').length > 0)
+		? user.account_type : user.type;
+	delete user.account_type;
+
+	user.avatar = (user.avatar || '').length > 0 ? user.avatar : null;
+
 	return new User(user);
 }
 

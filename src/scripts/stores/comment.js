@@ -12,7 +12,7 @@ Comment.fromJS = function fromJS(comment) {
 	return new Comment({
 		id:        comment.id,
 		message:   comment.message,
-		createdBy: new User(comment.createdBy),
+		createdBy: User.fromJS(comment.createdBy).toJS(),
 		createdAt: new Date(comment.createdAt)
 	});
 }

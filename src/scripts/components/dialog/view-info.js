@@ -103,7 +103,7 @@ export default React.createClass({
 			{
 				disabled: true,
 				customclass: 'profile-name',
-				content: `${this.locale('DROPDOWN_HELLO')}, ${UserStore.getUser().username}`
+				content: `${this.locale('DROPDOWN_HELLO')}, ${UserStore.getUser().name}`
 			},
 			{
 				icon: 'user',

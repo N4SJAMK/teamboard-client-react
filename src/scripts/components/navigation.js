@@ -44,6 +44,9 @@ export default React.createClass({
 	},
 
 	componentDidMount() {
+		// If userstore is empty then go back to login
+		if(!UserStore.getUser()) return page.redirect('/login');
+
 		//this is not good... but what is!
 		//get areas like the board component and workspace
 		let contentArea = document.getElementById("content");
@@ -178,17 +181,14 @@ export default React.createClass({
 			</div>
 			);
 
-		// If userstore is empty then go back to login
-		if(!UserStore.getUser()) {
-			page.redirect('/login');
-		}
+		let user              = UserStore.getUser();
+		let isProfileDisabled = user.type === 'standard';
 
-		let isProfileDisabled = UserStore.getUser().type === 'standard';
 		let items = [
 			{
 				disabled: true,
 				customclass: 'profile-name',
-				content: `${this.locale('DROPDOWN_HELLO')}, ${UserStore.getUser().username}`
+				content: `${this.locale('DROPDOWN_HELLO')}, ${user.name}`
 			},
 			{
 				icon: 'user',
@@ -276,11 +276,6 @@ export default React.createClass({
 			}
 		];
 
-		let user      = UserStore.getUser();
-		let name      = user.get('username');
-		let avatarURL = user.get('avatar');
-		let userType  = user.get('type');
-
 		return (
 			<nav id="nav" className="nav">
 				<img className="logo" src="/dist/assets/img/logo.svg"
@@ -289,10 +284,10 @@ export default React.createClass({
 				{showBoardMembers}
 				{showInfo}
 				<div id="avatar" onClick={this.toggleDropdown} className={userButtonClass}>
-						<Avatar size={30} name={name}
-								imageurl={avatarURL}
+						<Avatar size={30} name={user.name}
+								imageurl={user.avatar}
 								isOnline={true}
-								usertype={userType}>
+								usertype={user.type}>
 						</Avatar>
 				</div>
 				<Dropdown ref="dropdown" className="options" show={this.state.dropdown} items={items} />

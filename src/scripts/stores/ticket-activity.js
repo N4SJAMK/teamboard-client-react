@@ -21,7 +21,7 @@ export default flux.store({
 				activity.get(payload.ticket, Immutable.List())
 					.push(Immutable.Map({
 						id: payload.id,
-						user: User.fromJS(payload.user),
+						user: User.fromJS(payload.user).toJS(),
 						ticket: payload.ticket
 					})));
 		},
