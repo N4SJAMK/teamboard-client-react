@@ -20,14 +20,16 @@
 		.slider-decorator-2
 			display: none
 		.slider-frame
+			height: 100% !important
 			overflow: visible !important
 			.slider-list
-				margin-top: 75px !important
+				padding-top: 75px !important
 				li.slider-slide
 					padding: 0px 10px
 	.controls
 		@include position(absolute, 80px null null 16px)
 		padding: 2px
+		@include layer(1000)
 
 		border-radius:    2px
 		background-color: $neptune
